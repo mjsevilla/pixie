@@ -26,7 +26,7 @@ Day: <?php echo $_GET["day"]; ?>
 	$time = $_GET["time"];
 
 	$sql = "INSERT INTO Post_Table (start, end, day, driverEnum, time)
-	VALUES ('$start', '$end', '$date', '$driverEnum', '$time')";
+	VALUES ('$start', '$end', '$day', '$driverEnum', '$time')";
 	if ($conn->query($sql) === TRUE) 
 	{
 		echo "New record created successfully";
