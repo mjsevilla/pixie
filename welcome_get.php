@@ -5,7 +5,7 @@ Start Point: <?php echo $_GET["start"]; ?><br>
 End Point: <?php echo $_GET["end"]; ?><br>
 Day: <?php echo $_GET["day"]; ?><br>
 Time: <?php echo $_GET["time"]; ?><br>
-Driver/Rider: <?php echo $_GET["driverEnum"]; ?><br>
+Driver/Rider: <?php echo $_GET["driverEnum"]; ?><br><br>
 
 
 <?php
@@ -40,7 +40,8 @@ Driver/Rider: <?php echo $_GET["driverEnum"]; ?><br>
 	$conn->close();
 ?>
 
-To observe populated database...
+<br>
+To observe populated database...<br>
 hostname = aaiblrud1k2f1u.c8ktrid1mjul.us-west-2.rds.amazonaws.com<br>
 username = php<br>
 password = pixiedust<br>
