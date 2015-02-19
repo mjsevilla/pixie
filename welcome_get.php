@@ -1,8 +1,10 @@
 <html>
 <body>
 
-Welcome <?php echo $_GET["start"]; ?><br>
-Your email address is: <?php echo $_GET["end"]; ?>
+Start Point: <?php echo $_GET["start"]; ?><br>
+End Point: <?php echo $_GET["end"]; ?>
+Day: <?php echo $_GET["day"]; ?>
+
 
 <?php
 	$servername = "aaiblrud1k2f1u.c8ktrid1mjul.us-west-2.rds.amazonaws.com";
@@ -18,8 +20,13 @@ Your email address is: <?php echo $_GET["end"]; ?>
 	}
 	
 	$start = $_GET["start"];
+	$end = $_GET["end"];
+	$day = $_GET["day"];
+	$driverEnum = $_GET["driverEnum"];
+	$time = $_GET["time"];
+
 	$sql = "INSERT INTO Post_Table (start, end, day, driverEnum, time)
-	VALUES ('$start', 'Caribbean', '2015-02-17', 'DRIVER', 'MORNING')";
+	VALUES ('$start', '$end', '$date', '$driverEnum', '$time')";
 	if ($conn->query($sql) === TRUE) 
 	{
 		echo "New record created successfully";
