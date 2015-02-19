@@ -17,8 +17,9 @@ Your email address is: <?php echo $_GET["end"]; ?>
 		die("Connection failed: " . $conn->connect_error);
 	}
 	
+	$start = $_GET["start"];
 	$sql = "INSERT INTO Post_Table (start, end, day, driverEnum, time)
-	VALUES ('SLO2', 'Caribbean', '2015-02-17', 'DRIVER', 'MORNING')";
+	VALUES ($start, 'Caribbean', '2015-02-17', 'DRIVER', 'MORNING')";
 	if ($conn->query($sql) === TRUE) 
 	{
 		echo "New record created successfully";
