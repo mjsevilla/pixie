@@ -15,11 +15,9 @@ Your email address is: <?php echo $_GET["end"]; ?>
 	// Check connection
 	if ($conn->connect_error) {
 		die("Connection failed: " . $conn->connect_error);
-	} 
-	else {
-		echo "Well done";
 	}
-/*	$sql = "INSERT INTO Post_Table (start, end, day, driverEnum, time)
+	
+	$sql = "INSERT INTO Post_Table (start, end, day, driverEnum, time)
 	VALUES ($_GET["start"], 'SFO', '2015-02-17', 'DRIVER', 'MORNING')";
 	if ($conn->query($sql) === TRUE) 
 	{
@@ -28,7 +26,7 @@ Your email address is: <?php echo $_GET["end"]; ?>
 	else {
 		echo "Error: " . $sql . "<br>" . $conn->error;
 	}
-*/
+
 	$conn->close();
 ?>
 
