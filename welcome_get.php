@@ -18,7 +18,7 @@ Your email address is: <?php echo $_GET["end"]; ?>
 	}
 	
 	$sql = "INSERT INTO Post_Table (start, end, day, driverEnum, time)
-	VALUES ("$_GET["start"]", 'SFO', '2015-02-17', 'DRIVER', 'MORNING')";
+	VALUES ('SLO2', 'Caribbean', '2015-02-17', 'DRIVER', 'MORNING')";
 	if ($conn->query($sql) === TRUE) 
 	{
 		echo "New record created successfully";
