@@ -25,9 +25,6 @@ class InitialViewController: UIViewController {
         webViewBG.loadData(gif, MIMEType: "image/gif", textEncodingName: nil, baseURL: nil)
         webViewBG.userInteractionEnabled = false
         webViewBG.scalesPageToFit = true
-        
-//        signInBtn.layer.cornerRadius = 8
-//        registerBtn.layer.cornerRadius = 8
     }
     
     // exit segue from sign in view

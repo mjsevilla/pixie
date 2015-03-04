@@ -20,23 +20,26 @@ class SignInViewController: UIViewController {
         super.viewDidLoad()
         // Do any additional setup after loading the view, typically from a nib.
         
+        
+        
         inputBG.layer.shadowOpacity = 0.5
         inputBG.layer.shadowOffset = CGSize(width: 1, height: 3)
         inputBG.layer.cornerRadius = 8.0
-        
         emailField.layer.cornerRadius = 8.0
         pwField.layer.cornerRadius = 8.0
         pwHeading.layer.cornerRadius = 8.0
         emailHeading.layer.cornerRadius = 8.0
     }
     
+    // handles hiding keyboard when user touches outside of keyboard
     override func touchesBegan(touches: NSSet, withEvent event: UIEvent) {
         self.view.endEditing(true)
     }
     
     override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {
         if segue.identifier == "presentSearch" {
-            if let searchVC = segue.destinationViewController as? SearchViewController {
+            if let searchVC = segue.destinationViewController as?
+                SearchViewController {
                 
             }
         }

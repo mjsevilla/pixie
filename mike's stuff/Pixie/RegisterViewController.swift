@@ -44,6 +44,7 @@ class RegisterViewController: UIViewController, FBLoginViewDelegate {
         pwHeading.layer.cornerRadius = 8.0
     }
     
+    // handles hiding keyboard when user touches outside of keyboard
     override func touchesBegan(touches: NSSet, withEvent event: UIEvent) {
         self.view.endEditing(true)
     }
