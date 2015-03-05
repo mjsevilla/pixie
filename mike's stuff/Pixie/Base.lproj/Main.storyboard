@@ -518,11 +518,13 @@
                         </constraints>
                     </view>
                     <connections>
+                        <outlet property="cancelBtn" destination="98w-3R-XXJ" id="iyZ-R5-g8e"/>
                         <outlet property="emailField" destination="iPK-9N-RHv" id="c9d-U1-W3I"/>
                         <outlet property="emailHeading" destination="jk2-JU-Bzh" id="TFT-rk-a8D"/>
                         <outlet property="inputBG" destination="PxK-Oz-bJh" id="Fqz-tO-oF6"/>
                         <outlet property="pwField" destination="yxV-Et-qKp" id="k7w-DA-sL6"/>
                         <outlet property="pwHeading" destination="f2L-rG-xCx" id="cWl-sv-lmA"/>
+                        <outlet property="signInBtn" destination="X6t-R2-pHM" id="7K9-1B-zzo"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="9A2-My-t4E" userLabel="First Responder" sceneMemberID="firstResponder"/>
@@ -646,6 +648,6 @@
         <image name="menu" width="22" height="22"/>
     </resources>
     <inferredMetricsTieBreakers>
-        <segue reference="g2g-SF-d2k"/>
+        <segue reference="4fw-gx-Jei"/>
     </inferredMetricsTieBreakers>
 </document>

@@ -15,12 +15,15 @@ class SignInViewController: UIViewController {
     @IBOutlet weak var inputBG: UIView!
     @IBOutlet weak var emailHeading: UIView!
     @IBOutlet weak var pwHeading: UIView!
+    @IBOutlet weak var signInBtn: UIBarButtonItem!
+    @IBOutlet weak var cancelBtn: UIBarButtonItem!
     
     override func viewDidLoad() {
         super.viewDidLoad()
         // Do any additional setup after loading the view, typically from a nib.
         
-        
+        cancelBtn.setTitleTextAttributes([NSFontAttributeName: UIFont(name: "HelveticaNeue-Thin", size: 18)!], forState: UIControlState.Normal)
+        signInBtn.setTitleTextAttributes([NSFontAttributeName: UIFont(name: "HelveticaNeue-Thin", size: 18)!], forState: UIControlState.Normal)
         
         inputBG.layer.shadowOpacity = 0.5
         inputBG.layer.shadowOffset = CGSize(width: 1, height: 3)
