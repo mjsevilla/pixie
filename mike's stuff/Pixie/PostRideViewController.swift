@@ -980,4 +980,9 @@ class PostRideViewController: UIViewController, UITextFieldDelegate, UIPickerVie
    func goBack(sender: UIButton) {
       self.performSegueWithIdentifier("unwindToSearchView", sender: self)
    }
+    
+    // handles hiding keyboard when user touches outside of keyboard
+    override func touchesBegan(touches: NSSet, withEvent event: UIEvent) {
+        self.view.endEditing(true)
+    }
 }
