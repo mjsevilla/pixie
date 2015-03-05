@@ -229,7 +229,11 @@
                                         </connections>
                                     </barButtonItem>
                                     <barButtonItem style="plain" systemItem="flexibleSpace" id="4G9-1L-1xb"/>
-                                    <barButtonItem image="add" id="rgv-XM-0K1"/>
+                                    <barButtonItem image="add" id="rgv-XM-0K1">
+                                        <connections>
+                                            <action selector="presentPostRide:" destination="vXZ-lx-hvc" id="G5Y-EU-OVD"/>
+                                        </connections>
+                                    </barButtonItem>
                                 </items>
                             </toolbar>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="top" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="PIXIe" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="PE2-lx-b7n">
@@ -272,11 +276,34 @@
                         <outlet property="searchBar" destination="9oX-eL-aDD" id="YEw-nn-eIE"/>
                         <outlet property="toolBar" destination="dyh-NB-3wh" id="WVC-Rd-oUd"/>
                         <outlet property="webViewBG" destination="1dC-Jr-vGL" id="a1F-up-ji6"/>
+                        <segue destination="oOl-XQ-AIu" kind="custom" identifier="postRideSegue" id="w4w-Vg-J1K"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="x5A-6p-PRh" sceneMemberID="firstResponder"/>
             </objects>
             <point key="canvasLocation" x="814" y="-259"/>
+        </scene>
+        <!--Post Ride View Controller-->
+        <scene sceneID="T8e-yu-47L">
+            <objects>
+                <viewController id="oOl-XQ-AIu" customClass="PostRideViewController" customModule="Pixie" customModuleProvider="target" sceneMemberID="viewController">
+                    <layoutGuides>
+                        <viewControllerLayoutGuide type="top" id="fyf-uR-dLb"/>
+                        <viewControllerLayoutGuide type="bottom" id="FnV-o4-WCx"/>
+                    </layoutGuides>
+                    <view key="view" contentMode="scaleToFill" id="Qz8-Dv-QYh">
+                        <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                    </view>
+                    <connections>
+                        <segue destination="keP-pR-kfn" kind="unwind" identifier="unwindToSearchView" unwindAction="unwindToSearchView:" id="SS8-b3-mu4"/>
+                    </connections>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="bRJ-3K-3R2" userLabel="First Responder" sceneMemberID="firstResponder"/>
+                <exit id="keP-pR-kfn" userLabel="Exit" sceneMemberID="exit"/>
+            </objects>
+            <point key="canvasLocation" x="814" y="509"/>
         </scene>
         <!--InitialViewController-->
         <scene sceneID="ZLf-Wz-QDR">

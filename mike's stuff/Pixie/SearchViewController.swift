@@ -15,6 +15,7 @@ class SearchViewController: UIViewController {
     @IBOutlet weak var toolBar: UIToolbar!
     @IBOutlet weak var webViewBG: UIWebView!
     var transitionOperator = TransitionOperator()
+    var postRideTransitionOperator = PostRideTransitionOperator()
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -41,14 +42,25 @@ class SearchViewController: UIViewController {
     @IBAction func presentNavigation(sender: AnyObject?) {
         performSegueWithIdentifier("presentNav", sender: self)
     }
-    
-    override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {
-        
-        let toViewController = segue.destinationViewController as UIViewController
-        self.modalPresentationStyle = UIModalPresentationStyle.Custom
-        toViewController.transitioningDelegate = self.transitionOperator
+    @IBAction func presentPostRide(sender: AnyObject) {
+        performSegueWithIdentifier("postRideSegue", sender: self)
     }
     
+    override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {
+        if segue.identifier == "presentNav" {
+            let toViewController = segue.destinationViewController as UIViewController
+            self.modalPresentationStyle = UIModalPresentationStyle.Custom
+            toViewController.transitioningDelegate = self.transitionOperator
+        } else if segue.identifier == "postRideSegue" {
+            if let destinationVC = segue.destinationViewController as? PostRideViewController {
+                destinationVC.transitioningDelegate = self.postRideTransitionOperator
+                destinationVC.modalPresentationStyle = UIModalPresentationStyle.Custom
+            }
+        }
+    }
+   
+    @IBAction func unwindToSearchView(sender: UIStoryboardSegue) {}
+   
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
         // Dispose of any resources that can be recreated.
