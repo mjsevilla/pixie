@@ -9,13 +9,14 @@
 import Foundation
 import UIKit
 
-class SearchViewController: UIViewController {
+class SearchViewController: UIViewController, UISearchBarDelegate {
     
     @IBOutlet weak var searchBar: UISearchBar!
     @IBOutlet weak var toolBar: UIToolbar!
     @IBOutlet weak var webViewBG: UIWebView!
     var transitionOperator = TransitionOperator()
     var postRideTransitionOperator = PostRideTransitionOperator()
+    var matchesTransitionOperator = SearchToMatchesTransitionOperator()
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -32,7 +33,13 @@ class SearchViewController: UIViewController {
         toolBar.setShadowImage(UIImage(),
             forToolbarPosition: UIBarPosition.Any)
         toolBar.tintColor = UIColor.whiteColor()
+      
+        searchBar.delegate = self
     }
+   
+   func searchBarSearchButtonClicked(searchBar: UISearchBar) {
+      performSegueWithIdentifier("showMatches", sender: self)
+   }
     
     // handles hiding keyboard when user touches outside of keyboard
     override func touchesBegan(touches: NSSet, withEvent event: UIEvent) {
@@ -56,6 +63,11 @@ class SearchViewController: UIViewController {
                 destinationVC.transitioningDelegate = self.postRideTransitionOperator
                 destinationVC.modalPresentationStyle = UIModalPresentationStyle.Custom
             }
+        } else if segue.identifier == "showMatches" {
+         if let destinationVC = segue.destinationViewController as? MatchesViewController {
+            destinationVC.transitioningDelegate = self.matchesTransitionOperator
+            destinationVC.modalPresentationStyle = UIModalPresentationStyle.Custom
+         }
         }
     }
    

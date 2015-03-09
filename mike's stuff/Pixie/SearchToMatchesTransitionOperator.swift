@@ -1,14 +1,14 @@
 //
-//  HomeToPostRideTransitionManager.swift
-//  PostRide
+//  SearchToMatchesTransitionOperator.swift
+//  Pixie
 //
-//  Created by God.
-//  Copyright (c) 2015 Pixie. All rights reserved.
+//  Created by Nicole on 3/9/15.
+//  Copyright (c) 2015 Mike Sevilla. All rights reserved.
 //
 
 import UIKit
 
-class PostRideTransitionOperator: NSObject, UIViewControllerAnimatedTransitioning, UIViewControllerTransitioningDelegate  {
+class SearchToMatchesTransitionOperator: NSObject, UIViewControllerAnimatedTransitioning, UIViewControllerTransitioningDelegate  {
    
    private var presenting = true
    
@@ -20,20 +20,20 @@ class PostRideTransitionOperator: NSObject, UIViewControllerAnimatedTransitionin
       // get reference to our fromView, toView and the container view that we should perform the transition in
       let container = transitionContext.containerView()
       
-      let homeVC = (self.presenting ? transitionContext.viewControllerForKey(UITransitionContextFromViewControllerKey)! : transitionContext.viewControllerForKey(UITransitionContextToViewControllerKey)!) as UIViewController
-      let postRideVC = (self.presenting ? transitionContext.viewControllerForKey(UITransitionContextToViewControllerKey)! : transitionContext.viewControllerForKey(UITransitionContextFromViewControllerKey)!) as UIViewController
+      let searchVC = (self.presenting ? transitionContext.viewControllerForKey(UITransitionContextFromViewControllerKey)! : transitionContext.viewControllerForKey(UITransitionContextToViewControllerKey)!) as UIViewController
+      let matchesVC = (self.presenting ? transitionContext.viewControllerForKey(UITransitionContextToViewControllerKey)! : transitionContext.viewControllerForKey(UITransitionContextFromViewControllerKey)!) as UIViewController
       
-      let homeView = homeVC.view
-      let postRideView = postRideVC.view
+      let searchView = searchVC.view
+      let matchesView = matchesVC.view
       
       // add the both views to our view controller
-      container.addSubview(homeView)
-      container.addSubview(postRideView)
+      container.addSubview(searchView)
+      container.addSubview(matchesView)
       
       if self.presenting {
-         postRideView.transform = CGAffineTransformMakeTranslation(postRideView.frame.width, 0)
+         matchesView.transform = CGAffineTransformMakeTranslation(0, matchesView.frame.height)
       } else {
-         homeView.transform = CGAffineTransformMakeTranslation(-homeView.frame.width, 0)
+         searchView.transform = CGAffineTransformMakeTranslation(0, -searchView.frame.height)
       }
       
       // get the duration of the animation
@@ -42,11 +42,11 @@ class PostRideTransitionOperator: NSObject, UIViewControllerAnimatedTransitionin
       // perform the animation!
       UIView.animateWithDuration(duration, delay: 0.0, usingSpringWithDamping: 1.0, initialSpringVelocity: 0.5, options:nil, animations: {
          if self.presenting {
-            homeView.transform = CGAffineTransformMakeTranslation(-homeView.frame.width, 0)
-            postRideView.transform = CGAffineTransformIdentity
+            searchView.transform = CGAffineTransformMakeTranslation(0, -searchView.frame.height)
+            matchesView.transform = CGAffineTransformIdentity
          } else {
-            homeView.transform = CGAffineTransformIdentity
-            postRideView.transform = CGAffineTransformMakeTranslation(postRideView.frame.width, 0)
+            searchView.transform = CGAffineTransformIdentity
+            matchesView.transform = CGAffineTransformMakeTranslation(0, matchesView.frame.height)
          }
          }, completion: { finished in
             // tell our transitionContext object that we've finished animating
@@ -54,7 +54,7 @@ class PostRideTransitionOperator: NSObject, UIViewControllerAnimatedTransitionin
             transitionContext.completeTransition(true)
             if !self.presenting {
                //postRideView.removeFromSuperview()
-               UIApplication.sharedApplication().keyWindow?.addSubview(homeView)
+               UIApplication.sharedApplication().keyWindow?.addSubview(searchView)
             }
       })
       

@@ -7,6 +7,23 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		52414C6B1AADFE7100417481 /* MatchesViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 52414C6A1AADFE7100417481 /* MatchesViewController.swift */; };
+		52414C6D1AADFEBD00417481 /* MatchCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 52414C6C1AADFEBD00417481 /* MatchCollectionViewCell.swift */; };
+		52414C761AAE002200417481 /* green-car.png in Resources */ = {isa = PBXBuildFile; fileRef = 52414C6F1AAE002200417481 /* green-car.png */; };
+		52414C771AAE002200417481 /* Match.swift in Sources */ = {isa = PBXBuildFile; fileRef = 52414C701AAE002200417481 /* Match.swift */; };
+		52414C781AAE002200417481 /* Post.swift in Sources */ = {isa = PBXBuildFile; fileRef = 52414C711AAE002200417481 /* Post.swift */; };
+		52414C791AAE002200417481 /* red-car.png in Resources */ = {isa = PBXBuildFile; fileRef = 52414C721AAE002200417481 /* red-car.png */; };
+		52414C7A1AAE002200417481 /* User.swift in Sources */ = {isa = PBXBuildFile; fileRef = 52414C731AAE002200417481 /* User.swift */; };
+		52414C7B1AAE002200417481 /* yellow-car.png in Resources */ = {isa = PBXBuildFile; fileRef = 52414C741AAE002200417481 /* yellow-car.png */; };
+		52414C7D1AAE008800417481 /* MatchesToBioTransitionOperator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 52414C7C1AAE008800417481 /* MatchesToBioTransitionOperator.swift */; };
+		52414C7F1AAE00C200417481 /* BioViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 52414C7E1AAE00C200417481 /* BioViewController.swift */; };
+		52414C811AAE025E00417481 /* ReviewsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 52414C801AAE025E00417481 /* ReviewsViewController.swift */; };
+		52414C831AAE028700417481 /* ReviewTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 52414C821AAE028700417481 /* ReviewTableViewCell.swift */; };
+		52414C851AAE02B500417481 /* BioToReviewsTransitionOperator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 52414C841AAE02B500417481 /* BioToReviewsTransitionOperator.swift */; };
+		52414C871AAE037600417481 /* Review.swift in Sources */ = {isa = PBXBuildFile; fileRef = 52414C861AAE037600417481 /* Review.swift */; };
+		52414C891AAE04EF00417481 /* chat-bubble32.png in Resources */ = {isa = PBXBuildFile; fileRef = 52414C881AAE04EF00417481 /* chat-bubble32.png */; };
+		52414C8B1AAE050000417481 /* star.png in Resources */ = {isa = PBXBuildFile; fileRef = 52414C8A1AAE050000417481 /* star.png */; };
+		52414C8D1AAE061A00417481 /* SearchToMatchesTransitionOperator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 52414C8C1AAE061A00417481 /* SearchToMatchesTransitionOperator.swift */; };
 		52CB3C681AA85C1100FAE10A /* PostRideViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 52CB3C671AA85C1100FAE10A /* PostRideViewController.swift */; };
 		52CB3C6A1AA85C8B00FAE10A /* PostRideTransitionOperator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 52CB3C691AA85C8B00FAE10A /* PostRideTransitionOperator.swift */; };
 		6115B2861A9CE3590085B749 /* night.gif in Resources */ = {isa = PBXBuildFile; fileRef = 6115B2851A9CE3590085B749 /* night.gif */; };
@@ -40,6 +57,23 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		52414C6A1AADFE7100417481 /* MatchesViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MatchesViewController.swift; sourceTree = "<group>"; };
+		52414C6C1AADFEBD00417481 /* MatchCollectionViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MatchCollectionViewCell.swift; sourceTree = "<group>"; };
+		52414C6F1AAE002200417481 /* green-car.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "green-car.png"; sourceTree = "<group>"; };
+		52414C701AAE002200417481 /* Match.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Match.swift; sourceTree = "<group>"; };
+		52414C711AAE002200417481 /* Post.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Post.swift; sourceTree = "<group>"; };
+		52414C721AAE002200417481 /* red-car.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "red-car.png"; sourceTree = "<group>"; };
+		52414C731AAE002200417481 /* User.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = User.swift; sourceTree = "<group>"; };
+		52414C741AAE002200417481 /* yellow-car.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "yellow-car.png"; sourceTree = "<group>"; };
+		52414C7C1AAE008800417481 /* MatchesToBioTransitionOperator.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MatchesToBioTransitionOperator.swift; sourceTree = "<group>"; };
+		52414C7E1AAE00C200417481 /* BioViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BioViewController.swift; sourceTree = "<group>"; };
+		52414C801AAE025E00417481 /* ReviewsViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ReviewsViewController.swift; sourceTree = "<group>"; };
+		52414C821AAE028700417481 /* ReviewTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ReviewTableViewCell.swift; sourceTree = "<group>"; };
+		52414C841AAE02B500417481 /* BioToReviewsTransitionOperator.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BioToReviewsTransitionOperator.swift; sourceTree = "<group>"; };
+		52414C861AAE037600417481 /* Review.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Review.swift; sourceTree = "<group>"; };
+		52414C881AAE04EF00417481 /* chat-bubble32.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "chat-bubble32.png"; sourceTree = "<group>"; };
+		52414C8A1AAE050000417481 /* star.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = star.png; sourceTree = "<group>"; };
+		52414C8C1AAE061A00417481 /* SearchToMatchesTransitionOperator.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SearchToMatchesTransitionOperator.swift; sourceTree = "<group>"; };
 		52CB3C671AA85C1100FAE10A /* PostRideViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PostRideViewController.swift; sourceTree = "<group>"; };
 		52CB3C691AA85C8B00FAE10A /* PostRideTransitionOperator.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PostRideTransitionOperator.swift; sourceTree = "<group>"; };
 		6115B2851A9CE3590085B749 /* night.gif */ = {isa = PBXFileReference; lastKnownFileType = image.gif; path = night.gif; sourceTree = "<group>"; };
@@ -126,8 +160,25 @@
 				6115B28E1A9D06670085B749 /* SignInViewController.swift */,
 				6123E3DF1A9AF59600AB776F /* TransitionOperator.swift */,
 				6184D2E51A9302F3006DA1E4 /* Main.storyboard */,
+				52414C8C1AAE061A00417481 /* SearchToMatchesTransitionOperator.swift */,
 				52CB3C671AA85C1100FAE10A /* PostRideViewController.swift */,
 				52CB3C691AA85C8B00FAE10A /* PostRideTransitionOperator.swift */,
+				52414C7C1AAE008800417481 /* MatchesToBioTransitionOperator.swift */,
+				52414C6A1AADFE7100417481 /* MatchesViewController.swift */,
+				52414C6C1AADFEBD00417481 /* MatchCollectionViewCell.swift */,
+				52414C841AAE02B500417481 /* BioToReviewsTransitionOperator.swift */,
+				52414C7E1AAE00C200417481 /* BioViewController.swift */,
+				52414C801AAE025E00417481 /* ReviewsViewController.swift */,
+				52414C821AAE028700417481 /* ReviewTableViewCell.swift */,
+				52414C701AAE002200417481 /* Match.swift */,
+				52414C711AAE002200417481 /* Post.swift */,
+				52414C731AAE002200417481 /* User.swift */,
+				52414C861AAE037600417481 /* Review.swift */,
+				52414C6F1AAE002200417481 /* green-car.png */,
+				52414C721AAE002200417481 /* red-car.png */,
+				52414C741AAE002200417481 /* yellow-car.png */,
+				52414C8A1AAE050000417481 /* star.png */,
+				52414C881AAE04EF00417481 /* chat-bubble32.png */,
 				6184D3021A93030F006DA1E4 /* Resources */,
 				6184D2E81A9302F3006DA1E4 /* Images.xcassets */,
 				6184D2EA1A9302F3006DA1E4 /* LaunchScreen.xib */,
@@ -269,12 +320,17 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				52414C761AAE002200417481 /* green-car.png in Resources */,
 				6115B2881A9CE3910085B749 /* sunset.gif in Resources */,
 				6184D3081A930347006DA1E4 /* highway.gif in Resources */,
 				6115B2861A9CE3590085B749 /* night.gif in Resources */,
 				6184D3091A930347006DA1E4 /* drive.gif in Resources */,
 				6184D2E71A9302F3006DA1E4 /* Main.storyboard in Resources */,
+				52414C891AAE04EF00417481 /* chat-bubble32.png in Resources */,
 				61EAACCA1A9C1ABD00D84246 /* Images.xcassets in Resources */,
+				52414C7B1AAE002200417481 /* yellow-car.png in Resources */,
+				52414C8B1AAE050000417481 /* star.png in Resources */,
+				52414C791AAE002200417481 /* red-car.png in Resources */,
 				6184D2EC1A9302F3006DA1E4 /* LaunchScreen.xib in Resources */,
 				6184D3041A93032B006DA1E4 /* Syncopate-Regular.ttf in Resources */,
 			);
@@ -294,16 +350,28 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				52414C851AAE02B500417481 /* BioToReviewsTransitionOperator.swift in Sources */,
 				52CB3C681AA85C1100FAE10A /* PostRideViewController.swift in Sources */,
+				52414C871AAE037600417481 /* Review.swift in Sources */,
 				6115B28F1A9D06670085B749 /* SignInViewController.swift in Sources */,
+				52414C7F1AAE00C200417481 /* BioViewController.swift in Sources */,
 				6123E3E41A9AF84400AB776F /* NavigationViewController.swift in Sources */,
+				52414C811AAE025E00417481 /* ReviewsViewController.swift in Sources */,
 				61D83AA11A9315A80029A5F7 /* SearchViewController.swift in Sources */,
+				52414C6D1AADFEBD00417481 /* MatchCollectionViewCell.swift in Sources */,
+				52414C781AAE002200417481 /* Post.swift in Sources */,
 				61457A591A9FA109008CE64B /* RegisterViewController.swift in Sources */,
+				52414C6B1AADFE7100417481 /* MatchesViewController.swift in Sources */,
+				52414C7D1AAE008800417481 /* MatchesToBioTransitionOperator.swift in Sources */,
+				52414C7A1AAE002200417481 /* User.swift in Sources */,
 				6184D2E41A9302F3006DA1E4 /* InitialViewController.swift in Sources */,
 				6123E3E01A9AF59600AB776F /* TransitionOperator.swift in Sources */,
+				52414C771AAE002200417481 /* Match.swift in Sources */,
 				6184D2E21A9302F3006DA1E4 /* AppDelegate.swift in Sources */,
 				52CB3C6A1AA85C8B00FAE10A /* PostRideTransitionOperator.swift in Sources */,
+				52414C8D1AAE061A00417481 /* SearchToMatchesTransitionOperator.swift in Sources */,
 				6123E3E21A9AF80A00AB776F /* NavigationCell.swift in Sources */,
+				52414C831AAE028700417481 /* ReviewTableViewCell.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

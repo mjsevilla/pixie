@@ -1,14 +1,14 @@
 //
-//  HomeToPostRideTransitionManager.swift
-//  PostRide
+//  BioToReviewsTransitionManager.swift
+//  Matches
 //
-//  Created by God.
+//  Created by Nicole on 2/22/15.
 //  Copyright (c) 2015 Pixie. All rights reserved.
 //
 
 import UIKit
 
-class PostRideTransitionOperator: NSObject, UIViewControllerAnimatedTransitioning, UIViewControllerTransitioningDelegate  {
+class BioToReviewsTransitionOperator: NSObject, UIViewControllerAnimatedTransitioning, UIViewControllerTransitioningDelegate  {
    
    private var presenting = true
    
@@ -20,41 +20,43 @@ class PostRideTransitionOperator: NSObject, UIViewControllerAnimatedTransitionin
       // get reference to our fromView, toView and the container view that we should perform the transition in
       let container = transitionContext.containerView()
       
-      let homeVC = (self.presenting ? transitionContext.viewControllerForKey(UITransitionContextFromViewControllerKey)! : transitionContext.viewControllerForKey(UITransitionContextToViewControllerKey)!) as UIViewController
-      let postRideVC = (self.presenting ? transitionContext.viewControllerForKey(UITransitionContextToViewControllerKey)! : transitionContext.viewControllerForKey(UITransitionContextFromViewControllerKey)!) as UIViewController
+      // create a tuple of our screens
+      let screens : (from:UIViewController, to:UIViewController) = (transitionContext.viewControllerForKey(UITransitionContextFromViewControllerKey)!, transitionContext.viewControllerForKey(UITransitionContextToViewControllerKey)!)
       
-      let homeView = homeVC.view
-      let postRideView = postRideVC.view
+      // assign references to our menu view controller and the 'bottom' view controller from the tuple
+      // remember that our menuViewController will alternate between the from and to view controller depending if we're presenting or dismissing
+      let bioViewController = (self.presenting ? transitionContext.viewControllerForKey(UITransitionContextFromViewControllerKey)! : transitionContext.viewControllerForKey(UITransitionContextToViewControllerKey)!) as BioViewController
+      let reviewsViewController = (self.presenting ? transitionContext.viewControllerForKey(UITransitionContextToViewControllerKey)! : transitionContext.viewControllerForKey(UITransitionContextFromViewControllerKey)!) as ReviewsViewController
+      
+      let bioView = bioViewController.view
+      let reviewsView = reviewsViewController.view
       
       // add the both views to our view controller
-      container.addSubview(homeView)
-      container.addSubview(postRideView)
+      container.addSubview(bioView)
+      container.addSubview(reviewsView)
       
-      if self.presenting {
-         postRideView.transform = CGAffineTransformMakeTranslation(postRideView.frame.width, 0)
-      } else {
-         homeView.transform = CGAffineTransformMakeTranslation(-homeView.frame.width, 0)
+      if (self.presenting) {
+         reviewsView.transform = CGAffineTransformMakeTranslation(0, reviewsView.frame.height)
       }
       
       // get the duration of the animation
       let duration = self.transitionDuration(transitionContext)
       
       // perform the animation!
-      UIView.animateWithDuration(duration, delay: 0.0, usingSpringWithDamping: 1.0, initialSpringVelocity: 0.5, options:nil, animations: {
-         if self.presenting {
-            homeView.transform = CGAffineTransformMakeTranslation(-homeView.frame.width, 0)
-            postRideView.transform = CGAffineTransformIdentity
+      UIView.animateWithDuration(0.25, delay: 0.0, options: nil, animations: {
+         if (self.presenting) {
+            reviewsView.transform = CGAffineTransformIdentity
          } else {
-            homeView.transform = CGAffineTransformIdentity
-            postRideView.transform = CGAffineTransformMakeTranslation(postRideView.frame.width, 0)
+            reviewsView.transform = CGAffineTransformMakeTranslation(0, reviewsView.frame.height)
          }
          }, completion: { finished in
             // tell our transitionContext object that we've finished animating
-            
             transitionContext.completeTransition(true)
-            if !self.presenting {
-               //postRideView.removeFromSuperview()
-               UIApplication.sharedApplication().keyWindow?.addSubview(homeView)
+            
+            if (!self.presenting) {
+               UIApplication.sharedApplication().keyWindow?.addSubview(bioView)
+            } else {
+               UIApplication.sharedApplication().keyWindow?.addSubview(reviewsView)
             }
       })
       
@@ -81,6 +83,5 @@ class PostRideTransitionOperator: NSObject, UIViewControllerAnimatedTransitionin
       self.presenting = false
       return self
    }
-   
-   
 }
+
