@@ -16,6 +16,7 @@ class NavigationViewController : UIViewController, UITableViewDelegate, UITableV
     @IBOutlet var dimmerView  : UIView!
     
     var items : [NavigationModel]!
+    var presentingView: UIViewController!
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -60,7 +61,73 @@ class NavigationViewController : UIViewController, UITableViewDelegate, UITableV
     }
     
     func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
-        dismissViewControllerAnimated(true, completion: nil)
+        switch (indexPath.row) {
+        case 0:
+            if let pView = presentingView as? SearchViewController {
+                dismissViewControllerAnimated(true, completion: nil)
+            }
+            else {
+                self.performSegueWithIdentifier("presentSearch", sender: self)
+            }
+        case 1:
+            if let pView = presentingView as? ProfileViewController {
+                dismissViewControllerAnimated(true, completion: nil)
+            }
+            else {
+                self.performSegueWithIdentifier("presentProfile", sender: self)
+            }
+        case 2:
+            if let pView = presentingView as? SearchViewController {
+                dismissViewControllerAnimated(true, completion: nil)
+            }
+            else {
+                self.performSegueWithIdentifier("presentPayments", sender: self)
+            }
+        case 3:
+            if let pView = presentingView as? SearchViewController {
+                dismissViewControllerAnimated(true, completion: nil)
+            }
+            else {
+                self.performSegueWithIdentifier("presentMessages", sender: self)
+            }
+        case 4:
+            if let pView = presentingView as? SearchViewController {
+                dismissViewControllerAnimated(true, completion: nil)
+            }
+            else {
+                self.performSegueWithIdentifier("presentRides", sender: self)
+            }
+        case 5:
+            if let pView = presentingView as? SearchViewController {
+                dismissViewControllerAnimated(true, completion: nil)
+            }
+            else {
+                self.performSegueWithIdentifier("presentFavorites", sender: self)
+            }
+        case 6:
+            if let pView = presentingView as? SearchViewController {
+                dismissViewControllerAnimated(true, completion: nil)
+            }
+            else {
+                self.performSegueWithIdentifier("presentSettings", sender: self)
+            }
+        case 7:
+            if let pView = presentingView as? SearchViewController {
+                dismissViewControllerAnimated(true, completion: nil)
+            }
+            else {
+                self.performSegueWithIdentifier("presentAbout", sender: self)
+            }
+        case 8:
+            if let pView = presentingView as? SearchViewController {
+                dismissViewControllerAnimated(true, completion: nil)
+            }
+            else {
+                self.performSegueWithIdentifier("presentInitial", sender: self)
+            }
+        default:
+            print("uhhh...hai <(._.<)")
+        }
     }
     
     override func preferredStatusBarStyle() -> UIStatusBarStyle {

@@ -42,12 +42,12 @@ class InitialViewController: UIViewController {
             if let signInVC = segue.destinationViewController as? RegisterViewController {}
         }
     }
-
+    
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
         // Dispose of any resources that can be recreated.
     }
-
+    
     override func preferredStatusBarStyle() -> UIStatusBarStyle {
         return UIStatusBarStyle.LightContent
     }

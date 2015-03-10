@@ -1,5 +1,5 @@
 //
-//  TransitionOperator.swift
+//  NavigationTransitionOperator.swift
 //  Pixie
 //
 //  Created by Mike Sevilla on 2/16/15.
@@ -9,7 +9,7 @@
 import Foundation
 import UIKit
 
-class TransitionOperator: NSObject, UIViewControllerAnimatedTransitioning, UIViewControllerTransitioningDelegate {
+class NavigationTransitionOperator: NSObject, UIViewControllerAnimatedTransitioning, UIViewControllerTransitioningDelegate {
     
     var snapshot : UIView!
     var isPresenting : Bool = true

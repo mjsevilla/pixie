@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="6254" systemVersion="14C109" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" initialViewController="WGR-7L-PRe">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="6254" systemVersion="14C109" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" initialViewController="vXZ-lx-hvc">
     <dependencies>
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="6247"/>
         <capability name="Aspect ratio constraints" minToolsVersion="5.1"/>
@@ -205,7 +205,7 @@
         <!--SearchViewController-->
         <scene sceneID="ufC-wZ-h7g">
             <objects>
-                <viewController title="MainViewController" extendedLayoutIncludesOpaqueBars="YES" id="vXZ-lx-hvc" userLabel="SearchViewController" customClass="SearchViewController" customModule="Pixie" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController title="SearchViewController" extendedLayoutIncludesOpaqueBars="YES" id="vXZ-lx-hvc" customClass="SearchViewController" customModule="Pixie" customModuleProvider="target" sceneMemberID="viewController">
                     <layoutGuides>
                         <viewControllerLayoutGuide type="top" id="p9N-cV-qKr"/>
                         <viewControllerLayoutGuide type="bottom" id="fFe-FZ-SOR"/>
@@ -219,23 +219,6 @@
                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                 <dataDetectorType key="dataDetectorTypes"/>
                             </webView>
-                            <toolbar opaque="NO" clearsContextBeforeDrawing="NO" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="dyh-NB-3wh">
-                                <rect key="frame" x="0.0" y="20" width="600" height="44"/>
-                                <items>
-                                    <barButtonItem image="menu" id="P4X-1m-v4H">
-                                        <connections>
-                                            <action selector="presentNavigation:" destination="vXZ-lx-hvc" id="PWK-I9-zVg"/>
-                                            <segue destination="Sik-hd-hg0" kind="custom" identifier="presentNav" id="ndH-hG-Xoc"/>
-                                        </connections>
-                                    </barButtonItem>
-                                    <barButtonItem style="plain" systemItem="flexibleSpace" id="4G9-1L-1xb"/>
-                                    <barButtonItem image="add" id="rgv-XM-0K1">
-                                        <connections>
-                                            <action selector="presentPostRide:" destination="vXZ-lx-hvc" id="G5Y-EU-OVD"/>
-                                        </connections>
-                                    </barButtonItem>
-                                </items>
-                            </toolbar>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="top" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="PIXIe" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="PE2-lx-b7n">
                                 <rect key="frame" x="183" y="106" width="235" height="73"/>
                                 <constraints>
@@ -256,6 +239,22 @@
                                     <string>Title</string>
                                 </scopeButtonTitles>
                             </searchBar>
+                            <toolbar opaque="NO" clearsContextBeforeDrawing="NO" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="dyh-NB-3wh">
+                                <rect key="frame" x="0.0" y="20" width="600" height="44"/>
+                                <items>
+                                    <barButtonItem image="menu" id="P4X-1m-v4H">
+                                        <connections>
+                                            <segue destination="Sik-hd-hg0" kind="custom" identifier="presentNav" id="ndH-hG-Xoc"/>
+                                        </connections>
+                                    </barButtonItem>
+                                    <barButtonItem style="plain" systemItem="flexibleSpace" id="4G9-1L-1xb"/>
+                                    <barButtonItem image="add" id="rgv-XM-0K1">
+                                        <connections>
+                                            <action selector="presentPostRide:" destination="vXZ-lx-hvc" id="G5Y-EU-OVD"/>
+                                        </connections>
+                                    </barButtonItem>
+                                </items>
+                            </toolbar>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                         <constraints>
@@ -677,7 +676,6 @@
                                             <outlet property="countLabel" destination="Gaw-wr-L9E" id="rGn-Os-jP0"/>
                                             <outlet property="iconImageView" destination="SOJ-El-qIN" id="YUn-rA-4cF"/>
                                             <outlet property="titleLabel" destination="c6r-l3-3Vf" id="eZL-VP-EdU"/>
-                                            <segue destination="Fie-Z7-IVb" kind="show" identifier="presentProfile" id="jF7-NW-A5o"/>
                                         </connections>
                                     </tableViewCell>
                                 </prototypes>
@@ -706,6 +704,9 @@
                         <outlet property="bgImageView" destination="qEF-lq-srZ" id="cQz-Rv-9IB"/>
                         <outlet property="dimmerView" destination="WjK-45-ixf" id="FAt-ZR-VWj"/>
                         <outlet property="tableView" destination="Mmi-Sp-jq7" id="n5z-ge-Kdm"/>
+                        <segue destination="vXZ-lx-hvc" kind="show" identifier="presentSearch" id="QXm-KY-6G3"/>
+                        <segue destination="WGR-7L-PRe" kind="show" identifier="presentInitial" id="UmM-tB-58v"/>
+                        <segue destination="9HI-6j-g6Y" kind="show" identifier="presentProfile" id="NIe-HK-wbH"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="gBX-1g-wYc" userLabel="First Responder" sceneMemberID="firstResponder"/>
@@ -713,22 +714,62 @@
             <point key="canvasLocation" x="1590" y="-259"/>
         </scene>
         <!--ProfileViewController-->
-        <scene sceneID="ABM-nP-28l">
+        <scene sceneID="hJT-Xe-qRX">
             <objects>
-                <viewController title="ProfileViewController" id="Fie-Z7-IVb" sceneMemberID="viewController">
+                <viewController title="ProfileViewController" id="9HI-6j-g6Y" customClass="ProfileViewController" customModule="Pixie" customModuleProvider="target" sceneMemberID="viewController">
                     <layoutGuides>
-                        <viewControllerLayoutGuide type="top" id="gJE-85-EEO"/>
-                        <viewControllerLayoutGuide type="bottom" id="BQ7-51-cme"/>
+                        <viewControllerLayoutGuide type="top" id="y7q-1K-eFR"/>
+                        <viewControllerLayoutGuide type="bottom" id="cMP-Sa-ZVE"/>
                     </layoutGuides>
-                    <view key="view" contentMode="scaleToFill" id="HWq-Z8-WzN">
+                    <view key="view" contentMode="scaleToFill" id="Fs0-ky-Va8">
                         <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="Txd-yd-jno">
+                                <rect key="frame" x="0.0" y="0.0" width="600" height="20"/>
+                                <color key="backgroundColor" red="0.0" green="0.58823529409999997" blue="0.53333333329999999" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                            </view>
+                            <navigationBar opaque="NO" contentMode="scaleToFill" translucent="NO" translatesAutoresizingMaskIntoConstraints="NO" id="8LT-0M-kaw">
+                                <rect key="frame" x="0.0" y="20" width="600" height="44"/>
+                                <color key="barTintColor" red="0.0" green="0.58823529409999997" blue="0.53333333329999999" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                <textAttributes key="titleTextAttributes">
+                                    <fontDescription key="fontDescription" name="HelveticaNeue-Thin" family="Helvetica Neue" pointSize="22"/>
+                                    <color key="textColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                    <color key="textShadowColor" white="0.66666666666666663" alpha="1" colorSpace="calibratedWhite"/>
+                                </textAttributes>
+                                <items>
+                                    <navigationItem title="Edit Profile" id="Qy6-sI-lZe">
+                                        <barButtonItem key="leftBarButtonItem" image="menu" id="aEa-0O-RUZ">
+                                            <color key="tintColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                            <connections>
+                                                <segue destination="Sik-hd-hg0" kind="custom" identifier="presentNav" id="di9-G9-f6D"/>
+                                            </connections>
+                                        </barButtonItem>
+                                        <barButtonItem key="rightBarButtonItem" enabled="NO" title="Save" id="A2m-8O-S9y">
+                                            <color key="tintColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                        </barButtonItem>
+                                    </navigationItem>
+                                </items>
+                            </navigationBar>
+                        </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                        <constraints>
+                            <constraint firstItem="8LT-0M-kaw" firstAttribute="top" secondItem="y7q-1K-eFR" secondAttribute="bottom" id="3Cy-Lj-V4p"/>
+                            <constraint firstItem="8LT-0M-kaw" firstAttribute="leading" secondItem="Txd-yd-jno" secondAttribute="leading" id="SbJ-zc-oJG"/>
+                            <constraint firstItem="Txd-yd-jno" firstAttribute="top" secondItem="Fs0-ky-Va8" secondAttribute="top" id="WOX-Am-GbJ"/>
+                            <constraint firstItem="Txd-yd-jno" firstAttribute="trailing" secondItem="8LT-0M-kaw" secondAttribute="trailing" id="n3M-5h-mYb"/>
+                            <constraint firstItem="8LT-0M-kaw" firstAttribute="leading" secondItem="Fs0-ky-Va8" secondAttribute="leading" id="uQm-ga-Jnh"/>
+                            <constraint firstAttribute="trailing" secondItem="8LT-0M-kaw" secondAttribute="trailing" id="xZh-l7-NxS"/>
+                            <constraint firstItem="8LT-0M-kaw" firstAttribute="top" secondItem="Txd-yd-jno" secondAttribute="bottom" id="zm9-oe-l11"/>
+                        </constraints>
                     </view>
+                    <connections>
+                        <outlet property="saveBtn" destination="A2m-8O-S9y" id="ZNN-WS-4B3"/>
+                    </connections>
                 </viewController>
-                <placeholder placeholderIdentifier="IBFirstResponder" id="bXF-kI-0xh" userLabel="First Responder" sceneMemberID="firstResponder"/>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="uSD-ex-pPU" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="2275" y="-259"/>
+            <point key="canvasLocation" x="2341" y="-259"/>
         </scene>
     </scenes>
     <resources>
@@ -736,6 +777,7 @@
         <image name="menu" width="22" height="22"/>
     </resources>
     <inferredMetricsTieBreakers>
-        <segue reference="4fw-gx-Jei"/>
+        <segue reference="g2g-SF-d2k"/>
+        <segue reference="di9-G9-f6D"/>
     </inferredMetricsTieBreakers>
 </document>

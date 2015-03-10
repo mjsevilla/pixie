@@ -14,7 +14,7 @@ class SearchViewController: UIViewController, UISearchBarDelegate {
     @IBOutlet weak var searchBar: UISearchBar!
     @IBOutlet weak var toolBar: UIToolbar!
     @IBOutlet weak var webViewBG: UIWebView!
-    var transitionOperator = TransitionOperator()
+    var navTransitionOperator = NavigationTransitionOperator()
     var postRideTransitionOperator = PostRideTransitionOperator()
     var matchesTransitionOperator = SearchToMatchesTransitionOperator()
     
@@ -33,46 +33,45 @@ class SearchViewController: UIViewController, UISearchBarDelegate {
         toolBar.setShadowImage(UIImage(),
             forToolbarPosition: UIBarPosition.Any)
         toolBar.tintColor = UIColor.whiteColor()
-      
+        
         searchBar.delegate = self
     }
-   
-   func searchBarSearchButtonClicked(searchBar: UISearchBar) {
-      performSegueWithIdentifier("showMatches", sender: self)
-   }
+    
+    func searchBarSearchButtonClicked(searchBar: UISearchBar) {
+        performSegueWithIdentifier("showMatches", sender: self)
+    }
     
     // handles hiding keyboard when user touches outside of keyboard
     override func touchesBegan(touches: NSSet, withEvent event: UIEvent) {
         self.view.endEditing(true)
     }
     
-    @IBAction func presentNavigation(sender: AnyObject?) {
-        performSegueWithIdentifier("presentNav", sender: self)
-    }
     @IBAction func presentPostRide(sender: AnyObject) {
         performSegueWithIdentifier("postRideSegue", sender: self)
     }
     
     override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {
         if segue.identifier == "presentNav" {
-            let toViewController = segue.destinationViewController as UIViewController
+            let toViewController = segue.destinationViewController as NavigationViewController
             self.modalPresentationStyle = UIModalPresentationStyle.Custom
-            toViewController.transitioningDelegate = self.transitionOperator
+            toViewController.transitioningDelegate = self.navTransitionOperator
+            toViewController.presentingView = self
+            
         } else if segue.identifier == "postRideSegue" {
             if let destinationVC = segue.destinationViewController as? PostRideViewController {
                 destinationVC.transitioningDelegate = self.postRideTransitionOperator
                 destinationVC.modalPresentationStyle = UIModalPresentationStyle.Custom
             }
         } else if segue.identifier == "showMatches" {
-         if let destinationVC = segue.destinationViewController as? MatchesViewController {
-            destinationVC.transitioningDelegate = self.matchesTransitionOperator
-            destinationVC.modalPresentationStyle = UIModalPresentationStyle.Custom
-         }
+            if let destinationVC = segue.destinationViewController as? MatchesViewController {
+                destinationVC.transitioningDelegate = self.matchesTransitionOperator
+                destinationVC.modalPresentationStyle = UIModalPresentationStyle.Custom
+            }
         }
     }
-   
+    
     @IBAction func unwindToSearchView(sender: UIStoryboardSegue) {}
-   
+    
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
         // Dispose of any resources that can be recreated.
