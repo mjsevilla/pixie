@@ -28,17 +28,17 @@ class NavigationViewController : UIViewController, UITableViewDelegate, UITableV
         bgImageView.image = UIImage(named: "nav-bg")
         dimmerView.backgroundColor = UIColor(white: 0.0, alpha: 0.3)
         
-        let item1 = NavigationModel(title: "SeARCH", icon: "location")
-        let item2 = NavigationModel(title: "MY PROFILe", icon: "user")
-        let item3 = NavigationModel(title: "PAYMeNTS", icon: "wallet")
-        let item4 = NavigationModel(title: "MeSSAGeS", icon: "icon-chat", count: "3")
-        let item5 = NavigationModel(title: "PAST RIDeS", icon: "car")
-        let item6 = NavigationModel(title: "MY FAVORITeS", icon: "icon-star")
-        let item7 = NavigationModel(title: "SeTTINGS", icon: "icon-filter")
-        let item8 = NavigationModel(title: "ABOUT", icon: "icon-info")
-        let item9 = NavigationModel(title: "SIGN OUT", icon: "door")
+        let search = NavigationModel(title: "Search", icon: "location")
+        let myProfile = NavigationModel(title: "My Profile", icon: "user")
+        let payments = NavigationModel(title: "Payments", icon: "wallet")
+        let messages = NavigationModel(title: "Messages", icon: "icon-chat", count: "3")
+        let myRides = NavigationModel(title: "My Rides", icon: "car")
+        let myFavorites = NavigationModel(title: "My Favorites", icon: "icon-star")
+        let settings = NavigationModel(title: "Settings", icon: "icon-filter")
+        let about = NavigationModel(title: "About", icon: "icon-info")
+        let signOut = NavigationModel(title: "Sign Out", icon: "door")
         
-        items = [item1, item2, item3, item4, item5, item6, item7, item8, item9]
+        items = [search, myProfile, payments, messages, myRides, myFavorites, settings, about, signOut]
     }
     
     func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {

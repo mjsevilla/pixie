@@ -18,10 +18,10 @@ class NavigationCell: UITableViewCell {
     
     override func awakeFromNib() {
         
-        titleLabel.font = UIFont(name: "Syncopate-Regular", size: 16)
+        titleLabel.font = UIFont(name: "HelveticaNeue-Thin", size: 20)
         titleLabel.textColor = UIColor.whiteColor()
         
-        countLabel.font = UIFont(name: "Syncopate-Regular", size: 13)
+        countLabel.font = UIFont(name: "HelveticaNeue-Thin", size: 16)
         countLabel.textColor = UIColor.whiteColor()
         
         countContainer.backgroundColor = UIColor(red: 0.33, green: 0.62, blue: 0.94, alpha: 1.0)
