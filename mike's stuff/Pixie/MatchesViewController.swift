@@ -22,7 +22,12 @@ class MatchesViewController: UIViewController, UICollectionViewDelegateFlowLayou
    var transitionManager = MatchesToBioTransitionOperator()
    var viewInsets: UIEdgeInsets!
    var itemSize: CGSize!
+
+   private var matches = [Match]()
+   private var posts = [Post]()
+
    
+   /*
    private var matches = [
       Match(author: User(name: "Nicki Brower", age: 21, bio: "My name is Nicki, but you can call me Dre.", profilePic: "https://scontent.xx.fbcdn.net/hphotos-xfp1/v/t1.0-9/1896738_10205001610871877_5554224394457450129_n.jpg?oh=bd7620665a45b1a470646396a73b6e15&oe=5574CB74"), post: Post(start: "San Francisco, CA", end: "San Luis Obispo, CA", date: "Monday, February 23rd", time:"2:00pm")),
       Match(author: User(name: "Cameron Javier", age: 21, bio: "Oh lookey here, some bloak didn't finish his wine.", profilePic: "https://fbcdn-sphotos-d-a.akamaihd.net/hphotos-ak-xfp1/v/t1.0-9/10711065_910657175628707_1758789905052961848_n.jpg?oh=18a99b404cd58079374b259dd37813f0&oe=557E45C0&__gda__=1438272073_8f00d14d2680b66149753ffc73323d1c"), post: Post(start: "San Luis Obispo, CA", end: "San Francisco, CA", date: "Tuesday, February 24nd", time:"4:00pm - 8:00pm")),
@@ -33,8 +38,10 @@ class MatchesViewController: UIViewController, UICollectionViewDelegateFlowLayou
       Match(author: User(name: "Kaveh Karimiyanha", age: 21, bio: "U rage bro?", profilePic: "https://fbcdn-sphotos-g-a.akamaihd.net/hphotos-ak-xaf1/t31.0-8/175541_10151143613027852_1432017663_o.jpg"), post: Post(start: "San Luis Obispo, CA", end: "Las Vegas, NV", date: "Thursday, February 26th", time:"Anytime")),
       Match(author: User(name: "Mike Sevilla", age: 21, bio: "Honey! Where is my supersuit?!", profilePic: "https://fbcdn-sphotos-f-a.akamaihd.net/hphotos-ak-xpf1/t31.0-8/1053209_10201440172995152_2135534289_o.jpg"), post: Post(start: "Santa Barbara, CA", end: "Los Angeles, CA", date: "Sunday, February 29th", time:"11:00am"))
    ]
+   */
    
    override func loadView() {
+      
       view = UIView(frame: UIScreen.mainScreen().bounds)
       view.backgroundColor = UIColor.whiteColor()
       
@@ -64,10 +71,98 @@ class MatchesViewController: UIViewController, UICollectionViewDelegateFlowLayou
       var swipeToSearchView = UISwipeGestureRecognizer(target: self, action: "swipeToSearchView:")
       swipeToSearchView.direction = .Down
       self.view.addGestureRecognizer(swipeToSearchView)
+      
+      loadPostsFromAPI()
+      loadUsersFromAPI()
+      println("matches.count: \(matches.count)")
+      collectionView.reloadData()
    }
    
    override func viewDidLoad() {
       super.viewDidLoad()
+   }
+   
+   func loadPostsFromAPI() {
+      var urlString = "http://ec2-54-148-100-12.us-west-2.compute.amazonaws.com/pixie/posts"
+      let url = NSURL(string: urlString)
+      var request = NSURLRequest(URL: url!)
+      var response: NSURLResponse?
+      var error: NSErrorPointer = nil
+      var data =  NSURLConnection.sendSynchronousRequest(request, returningResponse: &response, error:nil)! as NSData
+      
+      if let json = NSJSONSerialization.JSONObjectWithData(data, options: NSJSONReadingOptions.MutableContainers, error: nil) as? NSDictionary {
+         if let items = json["posts"] as? NSArray {
+            for item in items {
+               if let start = item["start"] as? String {
+                  if let end = item["end"] as? String {
+                     if let day = item["day"] as? String {
+                        if let time = item["time"] as? String {
+                           if let userId = item["userId"] as? Int {
+                              self.posts.append(Post(start: start, end: end, date: day, time: time, userId: userId))
+                           } else {
+                              println("error: userId")
+                           }
+                        } else {
+                           println("error: time")
+                        }
+                     } else {
+                        println("error: day")
+                     }
+                  } else {
+                     println("error: end")
+                  }
+               } else {
+                  println("error: start")
+               }
+            }
+         } else {
+            println("error: posts")
+         }
+      } else {
+         println("error \(error)") // print the error!
+      }
+   }
+   
+   func loadUsersFromAPI() {
+      for p in posts {
+         var urlString = "http://ec2-54-148-100-12.us-west-2.compute.amazonaws.com/pixie/users/\(p.userId)"
+         let url = NSURL(string: urlString)
+         var request = NSURLRequest(URL: url!)
+         var response: NSURLResponse?
+         var error: NSErrorPointer = nil
+         var data =  NSURLConnection.sendSynchronousRequest(request, returningResponse: &response, error:nil)! as NSData
+         
+         if let json = NSJSONSerialization.JSONObjectWithData(data, options: NSJSONReadingOptions.MutableContainers, error: nil) as? NSDictionary {
+            if let id = json["id"] as? Int {
+               if id == p.userId {
+                  if let name = json["name"] as? String {
+                     if let age = json["age"] as? Int {
+                        if let bio = json["bio"] as? String {
+                           if let photoURL = json["photoURL"] as? String {
+                              var currUser = User(name: name, age: age, bio: bio, profilePic: photoURL, userId: id)
+                              self.matches.append(Match(author: currUser, post: p))
+                           } else {
+                              println("error: photoURL")
+                           }
+                        } else {
+                           println("error: bio")
+                        }
+                     } else {
+                        println("error: age")
+                     }
+                  } else {
+                     println("error: name")
+                  }
+               } else {
+                  println("error: post.userId != user.userId")
+               }
+            } else {
+               println("error: id")
+            }
+         } else {
+            println("error: json object")
+         }
+      }
    }
    
    func numberOfSectionsInCollectionView(collectionView: UICollectionView) -> Int {

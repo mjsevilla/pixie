@@ -13,13 +13,24 @@ class User {
    let age: Int
    let bio: String
    let profilePic: String
-   let profilePicData: NSData
+   let profilePicData: NSData!
+   let userId: Int
    
-   init(name: String, age: Int, bio: String, profilePic: String) {
+   init(name: String, age: Int, bio: String, profilePic: String, userId: Int) {
       self.name = name
       self.age = age
       self.bio = bio
       self.profilePic = profilePic
-      self.profilePicData = NSData(contentsOfURL: NSURL(string: profilePic)!)!
+      let url = NSURL(string: profilePic)
+      self.profilePicData = NSData(contentsOfURL: url!)
+      self.userId = userId
+   }
+   
+   func toString() {
+      println("name: \(name)")
+      println("age: \(age)")
+      println("bio: \(bio)")
+      //println("profilePic: \(profilePic)")
+      println("userId: \(userId)")
    }
 }

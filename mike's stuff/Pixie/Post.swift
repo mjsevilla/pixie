@@ -13,11 +13,21 @@ class Post {
    let endingLoc: String
    let date: String
    let time: String
+   let userId: Int
    
-   init(start: String, end: String, date: String, time: String) {
+   init(start: String, end: String, date: String, time: String, userId: Int) {
       startingLoc = start
       endingLoc = end
       self.date = date
       self.time = time
+      self.userId = userId;
+   }
+   
+   func toString() {
+      println("start: \(startingLoc)")
+      println("end: \(endingLoc)")
+      println("date: \(date)")
+      println("time: \(time)")
+      println("userId: \(userId)")
    }
 }
