@@ -105,14 +105,14 @@ class NavigationViewController : UIViewController, UITableViewDelegate, UITableV
                 self.performSegueWithIdentifier("presentFavorites", sender: self)
             }
         case 6:
-            if let pView = presentingView as? SearchViewController {
+            if let pView = presentingView as? SettingsViewController {
                 dismissViewControllerAnimated(true, completion: nil)
             }
             else {
                 self.performSegueWithIdentifier("presentSettings", sender: self)
             }
         case 7:
-            if let pView = presentingView as? SearchViewController {
+            if let pView = presentingView as? AboutViewController {
                 dismissViewControllerAnimated(true, completion: nil)
             }
             else {
