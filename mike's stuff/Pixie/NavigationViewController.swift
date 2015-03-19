@@ -81,14 +81,14 @@ class NavigationViewController : UIViewController, UITableViewDelegate, UITableV
                 dismissViewControllerAnimated(true, completion: nil)
             }
             else {
-                self.performSegueWithIdentifier("presentPayments", sender: self)
+             //   self.performSegueWithIdentifier("presentPayments", sender: self)
             }
         case 3:
             if let pView = presentingView as? SearchViewController {
                 dismissViewControllerAnimated(true, completion: nil)
             }
             else {
-                self.performSegueWithIdentifier("presentMessages", sender: self)
+               // self.performSegueWithIdentifier("presentMessages", sender: self)
             }
         case 4:
             if let pView = presentingView as? MyPostsViewController {
@@ -102,7 +102,7 @@ class NavigationViewController : UIViewController, UITableViewDelegate, UITableV
                 dismissViewControllerAnimated(true, completion: nil)
             }
             else {
-                self.performSegueWithIdentifier("presentFavorites", sender: self)
+                //self.performSegueWithIdentifier("presentFavorites", sender: self)
             }
         case 6:
             if let pView = presentingView as? SettingsViewController {
@@ -119,12 +119,8 @@ class NavigationViewController : UIViewController, UITableViewDelegate, UITableV
                 self.performSegueWithIdentifier("presentAbout", sender: self)
             }
         case 8:
-            if let pView = presentingView as? SearchViewController {
-                dismissViewControllerAnimated(true, completion: nil)
-            }
-            else {
-                self.performSegueWithIdentifier("presentInitial", sender: self)
-            }
+            NSUserDefaults.standardUserDefaults().removeObjectForKey("PixieUserId")
+            self.performSegueWithIdentifier("presentInitial", sender: self)
         default:
             print("uhhh...hai <(._.<)")
         }

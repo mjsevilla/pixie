@@ -979,7 +979,7 @@ class PostRideViewController: UIViewController, UITextFieldDelegate, UIPickerVie
       let time = timeLabel.text!
       let driverEnum = seekOfferSegment.selectedSegmentIndex == 0 ? "rider" : "driver"
       
-      let urlString = "http://ec2-54-69-253-12.us-west-2.compute.amazonaws.com/pixie/posts";
+      let urlString = "http://ec2-54-148-100-12.us-west-2.compute.amazonaws.com/pixie/posts";
       var request = NSMutableURLRequest(URL: NSURL(string: urlString)!);
       var session = NSURLSession.sharedSession();
       request.HTTPMethod = "POST"

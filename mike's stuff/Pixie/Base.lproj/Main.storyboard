@@ -509,6 +509,7 @@
                                         <barButtonItem key="rightBarButtonItem" title="Sign In" id="X6t-R2-pHM">
                                             <color key="tintColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                             <connections>
+                                                <action selector="attemptSignIn:" destination="8uD-2E-CAb" id="JGp-1U-6n6"/>
                                                 <segue destination="vXZ-lx-hvc" kind="presentation" identifier="presentSearch" id="4fw-gx-Jei"/>
                                             </connections>
                                         </barButtonItem>
@@ -1066,6 +1067,6 @@
     </resources>
     <inferredMetricsTieBreakers>
         <segue reference="g2g-SF-d2k"/>
-        <segue reference="rDY-9Y-l7X"/>
+        <segue reference="rAo-kp-Ahx"/>
     </inferredMetricsTieBreakers>
 </document>

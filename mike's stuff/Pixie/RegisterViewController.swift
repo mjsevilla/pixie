@@ -62,7 +62,7 @@ class RegisterViewController: UIViewController, FBLoginViewDelegate {
     
     func loginViewFetchedUserInfo(loginView: FBLoginView!, user: FBGraphUser!) {
         println("User Name: \(user.name)")
-        var urlString = "http://ec2-54-69-253-12.us-west-2.compute.amazonaws.com/pixie/users";
+        var urlString = "http://ec2-54-148-100-12.us-west-2.compute.amazonaws.com/pixie/users";
         var request = NSMutableURLRequest(URL: NSURL(string: urlString)!);
         var session = NSURLSession.sharedSession();
         request.HTTPMethod = "POST"
@@ -94,7 +94,6 @@ class RegisterViewController: UIViewController, FBLoginViewDelegate {
             }
         })
         task.resume()
-        profPic.profileID = user.objectID
     }
     
     func loginViewShowingLoggedOutUser(loginView: FBLoginView!) {

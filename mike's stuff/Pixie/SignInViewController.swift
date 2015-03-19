@@ -9,7 +9,7 @@
 import Foundation
 import UIKit
 
-class SignInViewController: UIViewController {
+class SignInViewController: UIViewController, UITextFieldDelegate {
     @IBOutlet weak var emailField: UITextField!
     @IBOutlet weak var pwField: UITextField!
     @IBOutlet weak var inputBG: UIView!
@@ -32,7 +32,37 @@ class SignInViewController: UIViewController {
         pwField.layer.cornerRadius = 8.0
         pwHeading.layer.cornerRadius = 8.0
         emailHeading.layer.cornerRadius = 8.0
-    }
+      
+      pwField.delegate = self
+    
+   }
+   
+   func textFieldShouldReturn(textField: UITextField) -> Bool {
+      self.attemptSignIn(self)
+      return true
+   }
+
+   
+   @IBAction func attemptSignIn(sender: AnyObject) {
+      let email = emailField.text!
+      let password = pwField.text!
+      let urlString = "http://ec2-54-69-253-12.us-west-2.compute.amazonaws.com/pixie/users?email="+email+"&password="+password
+      let url = NSURL(string: urlString)
+
+      let defaults = NSUserDefaults.standardUserDefaults();
+      var request = NSURLRequest(URL: url!)
+      var response: NSURLResponse?
+      var error: NSErrorPointer = nil
+      var data =  NSURLConnection.sendSynchronousRequest(request, returningResponse: &response, error:nil)! as NSData
+      
+      if let json = NSJSONSerialization.JSONObjectWithData(data, options: NSJSONReadingOptions.MutableContainers, error: nil) as? NSDictionary {
+         if let id = json["id"] as? Int {
+            defaults.setObject(id, forKey: "PixieUserId")
+            NSUserDefaults.standardUserDefaults().synchronize();
+            self.performSegueWithIdentifier("presentSearch", sender: self)
+         }
+      }
+   }
     
     // handles hiding keyboard when user touches outside of keyboard
     override func touchesBegan(touches: NSSet, withEvent event: UIEvent) {
@@ -41,9 +71,8 @@ class SignInViewController: UIViewController {
     
     override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {
         if segue.identifier == "presentSearch" {
-            if let searchVC = segue.destinationViewController as?
-                SearchViewController {
-                    
+            if let searchVC = segue.destinationViewController as? SearchViewController {
+               self.modalPresentationStyle = UIModalPresentationStyle.Custom
             }
         }
     }
