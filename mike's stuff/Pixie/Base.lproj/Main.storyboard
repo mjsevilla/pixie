@@ -1066,7 +1066,7 @@
         <image name="menu" width="22" height="22"/>
     </resources>
     <inferredMetricsTieBreakers>
-        <segue reference="g2g-SF-d2k"/>
         <segue reference="rAo-kp-Ahx"/>
+        <segue reference="4fw-gx-Jei"/>
     </inferredMetricsTieBreakers>
 </document>
