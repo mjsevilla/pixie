@@ -91,11 +91,11 @@ class NavigationViewController : UIViewController, UITableViewDelegate, UITableV
                 self.performSegueWithIdentifier("presentMessages", sender: self)
             }
         case 4:
-            if let pView = presentingView as? SearchViewController {
-                dismissViewControllerAnimated(true, completion: nil)
+            if let pView = presentingView as? MyPostsViewController {
+               dismissViewControllerAnimated(true, completion: nil)
             }
             else {
-                self.performSegueWithIdentifier("presentRides", sender: self)
+               self.performSegueWithIdentifier("presentMyPosts", sender: self)
             }
         case 5:
             if let pView = presentingView as? SearchViewController {

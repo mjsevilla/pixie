@@ -22,7 +22,6 @@ class MatchCollectionViewCell: UICollectionViewCell, UIGestureRecognizerDelegate
       super.init(frame: frame)
       
       self.layer.borderColor = UIColor.grayColor().CGColor
-      //self.layer.borderWidth = 0.5;
       
       // Profile picture
       profilePic = UIImageView()
@@ -91,7 +90,6 @@ class MatchCollectionViewCell: UICollectionViewCell, UIGestureRecognizerDelegate
       lineImage.setTranslatesAutoresizingMaskIntoConstraints(false)
       contentView.addSubview(lineImage)
       
-      /* need to fix layout for iphone 4 since prof pic expands wierd when going to user bio */
       
       let viewsDict = ["profilePic":profilePic, "userName":userNameLabel, "location":locationLabel, "dateTime":dateTimeLabel, "line":lineImage, "message":messageIcon, "star":starIcon]
       contentView.addConstraints(NSLayoutConstraint.constraintsWithVisualFormat("H:|[profilePic]|", options: NSLayoutFormatOptions(0), metrics: nil, views: viewsDict))
@@ -113,32 +111,4 @@ class MatchCollectionViewCell: UICollectionViewCell, UIGestureRecognizerDelegate
    required init(coder aDecoder: NSCoder) {
       super.init(coder: aDecoder)
    }
-   
-   func resizeImage(image: UIImage, newSize: CGSize) -> (UIImage) {
-      //println("old image... w: \(image.size.width), h: \(image.size.height)")
-      let newRect = CGRectIntegral(CGRectMake(0,0, newSize.width, newSize.height))
-      let imageRef = image.CGImage
-      
-      UIGraphicsBeginImageContextWithOptions(newSize, false, 0)
-      let context = UIGraphicsGetCurrentContext()
-      
-      // Set the quality level to use when rescaling
-      CGContextSetInterpolationQuality(context, kCGInterpolationHigh)
-      let flipVertical = CGAffineTransformMake(1, 0, 0, -1, 0, newSize.height)
-      
-      CGContextConcatCTM(context, flipVertical)
-      // Draw into the context; this scales the image
-      CGContextDrawImage(context, newRect, imageRef)
-      
-      let newImageRef = CGBitmapContextCreateImage(context) as CGImage
-      let newImage = UIImage(CGImage: newImageRef)
-      
-      // Get the resized image from the context and a UIImage
-      UIGraphicsEndImageContext()
-      
-      //println("new image... w: \(newImage?.size.width), h: \(newImage?.size.height)")
-      
-      return newImage!
-   }
-   
 }

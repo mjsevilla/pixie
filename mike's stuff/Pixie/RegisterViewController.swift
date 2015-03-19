@@ -10,8 +10,7 @@ import Foundation
 import UIKit
 
 class RegisterViewController: UIViewController, FBLoginViewDelegate {
-    
-    @IBOutlet weak var profPic: FBProfilePictureView!
+   
     @IBOutlet var fbLoginView: FBLoginView!
     @IBOutlet weak var cancelBtn: UIBarButtonItem!
     @IBOutlet weak var signInBtn: UIBarButtonItem!
@@ -58,7 +57,7 @@ class RegisterViewController: UIViewController, FBLoginViewDelegate {
        
         println("User Logged In")
         println("This is where you perform a segue.")
-        performSegueWithIdentifier("presentSearch", sender: self)
+//        performSegueWithIdentifier("presentSearch", sender: self)
     }
     
     func loginViewFetchedUserInfo(loginView: FBLoginView!, user: FBGraphUser!) {
