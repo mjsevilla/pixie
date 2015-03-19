@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="6254" systemVersion="14C109" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" initialViewController="vXZ-lx-hvc">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="6751" systemVersion="14C1510" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" initialViewController="WGR-7L-PRe">
     <dependencies>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="6247"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="6736"/>
         <capability name="Aspect ratio constraints" minToolsVersion="5.1"/>
         <capability name="Constraints to layout margins" minToolsVersion="6.0"/>
     </dependencies>
@@ -160,11 +160,15 @@
                                 </constraints>
                             </view>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="or" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="WHS-j4-FwO">
-                                <rect key="frame" x="291.5" y="127" width="18" height="31"/>
+                                <rect key="frame" x="291" y="127" width="18" height="31"/>
                                 <fontDescription key="fontDescription" name="HelveticaNeue-ThinItalic" family="Helvetica Neue" pointSize="22"/>
                                 <color key="textColor" white="0.33333333333333331" alpha="1" colorSpace="calibratedWhite"/>
                                 <nil key="highlightedColor"/>
                             </label>
+                            <view contentMode="scaleToFill" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="3T9-K5-X5I" customClass="FBProfilePictureView">
+                                <rect key="frame" x="150" y="341" width="300" height="195"/>
+                                <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                            </view>
                         </subviews>
                         <color key="backgroundColor" red="0.96078431372549022" green="0.96078431372549022" blue="0.96078431372549022" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                         <gestureRecognizers/>
@@ -192,6 +196,7 @@
                         <outlet property="inputBG" destination="YYp-Lu-jru" id="Bw3-rw-aAs"/>
                         <outlet property="nameField" destination="jyI-Jb-6zF" id="2JH-B7-UNe"/>
                         <outlet property="nameHeading" destination="ExF-1v-CZA" id="J5c-Z8-Al5"/>
+                        <outlet property="profPic" destination="3T9-K5-X5I" id="EeS-s5-wWF"/>
                         <outlet property="pwField" destination="qJQ-om-phK" id="HZh-0e-VSM"/>
                         <outlet property="pwHeading" destination="fZb-nK-Ez4" id="Xt4-uF-Pme"/>
                         <outlet property="signInBtn" destination="M2k-Q1-TKM" id="zbL-Jo-o89"/>
@@ -200,7 +205,7 @@
                 <placeholder placeholderIdentifier="IBFirstResponder" id="kcL-g0-2cZ" userLabel="First Responder" sceneMemberID="firstResponder"/>
                 <exit id="Ru2-Gb-nj1" userLabel="Exit" sceneMemberID="exit"/>
             </objects>
-            <point key="canvasLocation" x="-188" y="55"/>
+            <point key="canvasLocation" x="-188" y="60"/>
         </scene>
         <!--SearchViewController-->
         <scene sceneID="ufC-wZ-h7g">
