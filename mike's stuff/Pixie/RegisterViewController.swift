@@ -23,10 +23,12 @@ class RegisterViewController: UIViewController, FBLoginViewDelegate {
     @IBOutlet weak var emailHeading: UIView!
     @IBOutlet weak var pwHeading: UIView!
     
+
+    
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         // Do any additional setup after loading the view, typically from a nib.
-        
         self.fbLoginView.delegate = self
         self.fbLoginView.readPermissions = ["public_profile", "email", "user_friends"]
         
@@ -53,6 +55,7 @@ class RegisterViewController: UIViewController, FBLoginViewDelegate {
     // Facebook delegate methods
     
     func loginViewShowingLoggedInUser(loginView: FBLoginView!) {
+       
         println("User Logged In")
         println("This is where you perform a segue.")
 //        performSegueWithIdentifier("presentSearch", sender: self)
@@ -60,6 +63,38 @@ class RegisterViewController: UIViewController, FBLoginViewDelegate {
     
     func loginViewFetchedUserInfo(loginView: FBLoginView!, user: FBGraphUser!) {
         println("User Name: \(user.name)")
+        var urlString = "http://ec2-54-69-253-12.us-west-2.compute.amazonaws.com/pixie/users";
+        var request = NSMutableURLRequest(URL: NSURL(string: urlString)!);
+        var session = NSURLSession.sharedSession();
+        request.HTTPMethod = "POST"
+        var err: NSError?
+        var email = "\(user.username)@facebook.com"
+        var reqText = ["name": "\(user.name)", "email": "\(user.name)", "password": "fake_pass"]
+        request.HTTPBody = NSJSONSerialization.dataWithJSONObject(reqText, options: nil, error: &err) // This Line fills the web service with required parameters.
+        request.addValue("application/json", forHTTPHeaderField: "Content-Type")
+        request.addValue("application/json", forHTTPHeaderField: "Accept")
+        
+        var task = session.dataTaskWithRequest(request, completionHandler: {data, response, error -> Void in
+            var strData = NSString(data: data, encoding: NSUTF8StringEncoding)
+            if(err != nil) {
+                println(err!.localizedDescription)
+            }
+            else {
+                var parseError : NSError?
+                
+                // parse data
+                let unparsedArray: AnyObject? = NSJSONSerialization.JSONObjectWithData(data, options: NSJSONReadingOptions.AllowFragments, error: &parseError)
+                if let resp = unparsedArray as? NSDictionary {
+                    //ewrijnkewjrewkjrnewkjrhnewkjrnjkewjknwrjnkewwknejrnkjrewnkjrjknerjnkrnjkerwnkjrnjkwernkjnkjwerkwjen
+                    let defaults = NSUserDefaults.standardUserDefaults();
+                    print("id is ")
+                    println(resp["id"]! as Int);
+                    defaults.setObject(resp["id"]! as Int, forKey: "PixieUserId")
+                    NSUserDefaults.standardUserDefaults().synchronize();
+                }
+            }
+        })
+        task.resume()
         profPic.profileID = user.objectID
     }
     
