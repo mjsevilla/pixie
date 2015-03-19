@@ -7,6 +7,9 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		52274C601ABAE65300DB6DC3 /* MyPostsCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 52274C5D1ABAE65300DB6DC3 /* MyPostsCollectionViewCell.swift */; };
+		52274C611ABAE65300DB6DC3 /* MyPostsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 52274C5E1ABAE65300DB6DC3 /* MyPostsViewController.swift */; };
+		52274C621ABAE65300DB6DC3 /* RidePostedView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 52274C5F1ABAE65300DB6DC3 /* RidePostedView.swift */; };
 		52414C6B1AADFE7100417481 /* MatchesViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 52414C6A1AADFE7100417481 /* MatchesViewController.swift */; };
 		52414C6D1AADFEBD00417481 /* MatchCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 52414C6C1AADFEBD00417481 /* MatchCollectionViewCell.swift */; };
 		52414C761AAE002200417481 /* green-car.png in Resources */ = {isa = PBXBuildFile; fileRef = 52414C6F1AAE002200417481 /* green-car.png */; };
@@ -60,6 +63,9 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		52274C5D1ABAE65300DB6DC3 /* MyPostsCollectionViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MyPostsCollectionViewCell.swift; sourceTree = "<group>"; };
+		52274C5E1ABAE65300DB6DC3 /* MyPostsViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MyPostsViewController.swift; sourceTree = "<group>"; };
+		52274C5F1ABAE65300DB6DC3 /* RidePostedView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RidePostedView.swift; sourceTree = "<group>"; };
 		52414C6A1AADFE7100417481 /* MatchesViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MatchesViewController.swift; sourceTree = "<group>"; };
 		52414C6C1AADFEBD00417481 /* MatchCollectionViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MatchCollectionViewCell.swift; sourceTree = "<group>"; };
 		52414C6F1AAE002200417481 /* green-car.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "green-car.png"; sourceTree = "<group>"; };
@@ -183,6 +189,9 @@
 				611A1A361AAE827E00F18B3B /* SearchViewController.swift */,
 				52414C731AAE002200417481 /* User.swift */,
 				6184D2E51A9302F3006DA1E4 /* Main.storyboard */,
+				52274C5D1ABAE65300DB6DC3 /* MyPostsCollectionViewCell.swift */,
+				52274C5E1ABAE65300DB6DC3 /* MyPostsViewController.swift */,
+				52274C5F1ABAE65300DB6DC3 /* RidePostedView.swift */,
 				52414C6F1AAE002200417481 /* green-car.png */,
 				52414C721AAE002200417481 /* red-car.png */,
 				52414C741AAE002200417481 /* yellow-car.png */,
@@ -360,6 +369,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				52414C851AAE02B500417481 /* BioToReviewsTransitionOperator.swift in Sources */,
+				52274C621ABAE65300DB6DC3 /* RidePostedView.swift in Sources */,
 				52CB3C681AA85C1100FAE10A /* PostRideViewController.swift in Sources */,
 				52414C871AAE037600417481 /* Review.swift in Sources */,
 				52414C7F1AAE00C200417481 /* BioViewController.swift in Sources */,
@@ -379,6 +389,8 @@
 				6123E3E01A9AF59600AB776F /* NavigationTransitionOperator.swift in Sources */,
 				52414C771AAE002200417481 /* Match.swift in Sources */,
 				6184D2E21A9302F3006DA1E4 /* AppDelegate.swift in Sources */,
+				52274C611ABAE65300DB6DC3 /* MyPostsViewController.swift in Sources */,
+				52274C601ABAE65300DB6DC3 /* MyPostsCollectionViewCell.swift in Sources */,
 				52CB3C6A1AA85C8B00FAE10A /* PostRideTransitionOperator.swift in Sources */,
 				52414C8D1AAE061A00417481 /* SearchToMatchesTransitionOperator.swift in Sources */,
 				6123E3E21A9AF80A00AB776F /* NavigationCell.swift in Sources */,
