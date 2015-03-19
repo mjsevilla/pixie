@@ -9,7 +9,7 @@
 import Foundation
 import UIKit
 
-class RegisterViewController: UIViewController, FBLoginViewDelegate {
+class RegisterViewController: UIViewController, FBLoginViewDelegate, UITextFieldDelegate {
    
     @IBOutlet var fbLoginView: FBLoginView!
     @IBOutlet weak var cancelBtn: UIBarButtonItem!
@@ -21,6 +21,7 @@ class RegisterViewController: UIViewController, FBLoginViewDelegate {
     @IBOutlet weak var nameHeading: UIView!
     @IBOutlet weak var emailHeading: UIView!
     @IBOutlet weak var pwHeading: UIView!
+   @IBOutlet weak var wrongEmailPwLabel: UILabel!
     
 
     
@@ -44,8 +45,28 @@ class RegisterViewController: UIViewController, FBLoginViewDelegate {
         nameHeading.layer.cornerRadius = 8.0
         emailHeading.layer.cornerRadius = 8.0
         pwHeading.layer.cornerRadius = 8.0
+      
+      nameField.delegate = self
+      emailField.delegate = self
+      pwField.delegate = self
+      wrongEmailPwLabel.hidden = true
     }
-    
+   
+   func textFieldShouldReturn(textField: UITextField) -> Bool {
+      if textField == nameField && emailField.text.isEmpty {
+         self.emailField.isFirstResponder()
+         return true
+      } else if textField == emailField && pwField.text.isEmpty {
+         self.attemptRegisterUser(self)
+         self.pwField.isFirstResponder()
+         return true
+      } else if textField == pwField {
+         self.attemptRegisterUser(self)
+         return true
+      }
+      return false
+   }
+   
     // handles hiding keyboard when user touches outside of keyboard
     override func touchesBegan(touches: NSSet, withEvent event: UIEvent) {
         self.view.endEditing(true)
@@ -54,29 +75,30 @@ class RegisterViewController: UIViewController, FBLoginViewDelegate {
     // Facebook delegate methods
     
     func loginViewShowingLoggedInUser(loginView: FBLoginView!) {
-       
-        println("User Logged In")
-        println("This is where you perform a segue.")
-//        performSegueWithIdentifier("presentSearch", sender: self)
+       performSegueWithIdentifier("presentSearch", sender: self)
     }
     
     func loginViewFetchedUserInfo(loginView: FBLoginView!, user: FBGraphUser!) {
-        println("User Name: \(user.name)")
         var urlString = "http://ec2-54-148-100-12.us-west-2.compute.amazonaws.com/pixie/users";
         var request = NSMutableURLRequest(URL: NSURL(string: urlString)!);
         var session = NSURLSession.sharedSession();
         request.HTTPMethod = "POST"
         var err: NSError?
-        var email = "\(user.username)@facebook.com"
-        var reqText = ["name": "\(user.name)", "email": "\(user.name)", "password": "fake_pass"]
+      
+        var email = user.objectForKey("email") as String
+        var reqText = ["email": "\(email)", "password": "fake_pass", "name": "\(user.name)"]
         request.HTTPBody = NSJSONSerialization.dataWithJSONObject(reqText, options: nil, error: &err) // This Line fills the web service with required parameters.
         request.addValue("application/json", forHTTPHeaderField: "Content-Type")
         request.addValue("application/json", forHTTPHeaderField: "Accept")
+      
+      println("User Name: \(user.name)")
+      println("User email: \(email)")
         
         var task = session.dataTaskWithRequest(request, completionHandler: {data, response, error -> Void in
             var strData = NSString(data: data, encoding: NSUTF8StringEncoding)
             if(err != nil) {
                 println(err!.localizedDescription)
+               self.wrongEmailPwLabel.hidden = false
             }
             else {
                 var parseError : NSError?
@@ -84,17 +106,53 @@ class RegisterViewController: UIViewController, FBLoginViewDelegate {
                 // parse data
                 let unparsedArray: AnyObject? = NSJSONSerialization.JSONObjectWithData(data, options: NSJSONReadingOptions.AllowFragments, error: &parseError)
                 if let resp = unparsedArray as? NSDictionary {
-                    //ewrijnkewjrewkjrnewkjrhnewkjrnjkewjknwrjnkewwknejrnkjrewnkjrjknerjnkrnjkerwnkjrnjkwernkjnkjwerkwjen
+
                     let defaults = NSUserDefaults.standardUserDefaults();
                     print("id is ")
                     println(resp["id"]! as Int);
                     defaults.setObject(resp["id"]! as Int, forKey: "PixieUserId")
                     NSUserDefaults.standardUserDefaults().synchronize();
+                  self.wrongEmailPwLabel.hidden = true
                 }
             }
         })
         task.resume()
     }
+   
+   @IBAction func attemptRegisterUser(sender: AnyObject) {
+      let name = nameField.text!
+      let email = emailField.text!
+      let password = pwField.text!
+      
+      var urlString = "http://ec2-54-148-100-12.us-west-2.compute.amazonaws.com/pixie/users";
+      var request = NSMutableURLRequest(URL: NSURL(string: urlString)!);
+      request.HTTPMethod = "POST"
+      var err: NSError?
+      var reqText = ["email": "\(email)", "password": "\(password)", "name": "\(name)"]
+      request.HTTPBody = NSJSONSerialization.dataWithJSONObject(reqText, options: nil, error: &err) // This Line fills the web service with required parameters.
+      request.addValue("application/json", forHTTPHeaderField: "Content-Type")
+      request.addValue("application/json", forHTTPHeaderField: "Accept")
+      let defaults = NSUserDefaults.standardUserDefaults();
+      var response: NSURLResponse?
+      
+      var data =  NSURLConnection.sendSynchronousRequest(request, returningResponse: &response, error:nil)! as NSData
+      
+      if let json = NSJSONSerialization.JSONObjectWithData(data, options: NSJSONReadingOptions.MutableContainers, error: nil) as? NSDictionary {
+         if let id = json["id"] as? Int {
+            defaults.setObject(id, forKey: "PixieUserId")
+            NSUserDefaults.standardUserDefaults().synchronize();
+            println("created userId: \(id)")
+            self.wrongEmailPwLabel.hidden = true
+            self.performSegueWithIdentifier("presentSearch", sender: self)
+         } else {
+            wrongEmailPwLabel.hidden = false
+            println("error userID")
+         }
+      } else {
+         wrongEmailPwLabel.hidden = false
+         println("error json")
+      }
+   }
     
     func loginViewShowingLoggedOutUser(loginView: FBLoginView!) {
         println("User Logged Out")
