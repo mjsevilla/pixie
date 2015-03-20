@@ -25,7 +25,7 @@
                         <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <view contentMode="scaleToFill" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="SOD-hV-vIi">
+                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="SOD-hV-vIi">
                                 <rect key="frame" x="0.0" y="0.0" width="600" height="20"/>
                                 <color key="backgroundColor" red="0.0" green="0.58823529409999997" blue="0.53333333329999999" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                             </view>
@@ -48,7 +48,7 @@
                                         <barButtonItem key="rightBarButtonItem" title="Register" id="M2k-Q1-TKM">
                                             <color key="tintColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                             <connections>
-                                                <segue destination="vXZ-lx-hvc" kind="presentation" identifier="presentSearch" id="g2g-SF-d2k"/>
+                                                <action selector="attemptRegisterUser:" destination="qeE-zF-yis" id="U40-6n-vE6"/>
                                             </connections>
                                         </barButtonItem>
                                     </navigationItem>
@@ -166,19 +166,39 @@
                                 <color key="textColor" white="0.33333333333333331" alpha="1" colorSpace="calibratedWhite"/>
                                 <nil key="highlightedColor"/>
                             </label>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" usesAttributedText="YES" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="9ko-Op-Qra">
+                                <rect key="frame" x="16" y="341" width="568" height="17"/>
+                                <attributedString key="attributedText">
+                                    <fragment content="Ruh roh, wrong email and password.">
+                                        <attributes>
+                                            <color key="NSColor" red="0.83529418706893921" green="0.090196080505847931" blue="0.12941177189350128" alpha="1" colorSpace="deviceRGB"/>
+                                            <font key="NSFont" size="14" name="HelveticaNeue-Thin"/>
+                                            <paragraphStyle key="NSParagraphStyle" alignment="center" lineBreakMode="wordWrapping" baseWritingDirection="natural"/>
+                                        </attributes>
+                                    </fragment>
+                                </attributedString>
+                                <nil key="highlightedColor"/>
+                            </label>
                         </subviews>
                         <color key="backgroundColor" red="0.96078431372549022" green="0.96078431372549022" blue="0.96078431372549022" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                         <gestureRecognizers/>
                         <constraints>
                             <constraint firstAttribute="trailingMargin" secondItem="ONk-Ab-8F6" secondAttribute="trailing" constant="-16" id="09m-SQ-3DM"/>
                             <constraint firstItem="qkr-qy-mfN" firstAttribute="trailing" secondItem="YYp-Lu-jru" secondAttribute="trailing" id="1fE-b4-f27"/>
+                            <constraint firstItem="SOD-hV-vIi" firstAttribute="trailing" secondItem="ONk-Ab-8F6" secondAttribute="trailing" id="29k-iN-WHU"/>
+                            <constraint firstItem="9ko-Op-Qra" firstAttribute="trailing" secondItem="M0v-4D-W7E" secondAttribute="trailingMargin" id="3QJ-qd-QGZ"/>
                             <constraint firstItem="YYp-Lu-jru" firstAttribute="top" secondItem="qkr-qy-mfN" secondAttribute="bottom" constant="41" id="8IB-xS-8I1"/>
+                            <constraint firstItem="9ko-Op-Qra" firstAttribute="top" secondItem="YYp-Lu-jru" secondAttribute="bottom" constant="8" id="8Nn-BZ-Vfq"/>
                             <constraint firstItem="ONk-Ab-8F6" firstAttribute="top" secondItem="lJ6-kK-nHk" secondAttribute="bottom" id="CDv-ox-imY"/>
                             <constraint firstItem="qkr-qy-mfN" firstAttribute="top" secondItem="lJ6-kK-nHk" secondAttribute="bottom" constant="67" id="Jay-Jx-zva"/>
                             <constraint firstItem="YYp-Lu-jru" firstAttribute="top" secondItem="WHS-j4-FwO" secondAttribute="bottom" constant="8" id="Lnj-bO-MRe"/>
+                            <constraint firstItem="SOD-hV-vIi" firstAttribute="leading" secondItem="ONk-Ab-8F6" secondAttribute="leading" id="NIt-qq-bgl"/>
                             <constraint firstAttribute="centerX" secondItem="YYp-Lu-jru" secondAttribute="centerX" id="NX1-HV-e0t"/>
                             <constraint firstItem="ONk-Ab-8F6" firstAttribute="leading" secondItem="M0v-4D-W7E" secondAttribute="leadingMargin" constant="-16" id="QxH-4E-Idc"/>
                             <constraint firstItem="qkr-qy-mfN" firstAttribute="leading" secondItem="M0v-4D-W7E" secondAttribute="leadingMargin" id="Uil-GO-1Q3"/>
+                            <constraint firstItem="9ko-Op-Qra" firstAttribute="leading" secondItem="M0v-4D-W7E" secondAttribute="leadingMargin" id="ZWH-LL-DUb"/>
+                            <constraint firstItem="SOD-hV-vIi" firstAttribute="top" secondItem="M0v-4D-W7E" secondAttribute="top" id="dVQ-re-o5C"/>
+                            <constraint firstItem="SOD-hV-vIi" firstAttribute="bottom" secondItem="ONk-Ab-8F6" secondAttribute="top" id="fzC-3N-iEU"/>
                             <constraint firstItem="WHS-j4-FwO" firstAttribute="top" secondItem="qkr-qy-mfN" secondAttribute="bottom" constant="2" id="gII-38-PQ0"/>
                             <constraint firstItem="WHS-j4-FwO" firstAttribute="centerX" secondItem="qkr-qy-mfN" secondAttribute="centerX" id="hLo-so-cah"/>
                             <constraint firstItem="qkr-qy-mfN" firstAttribute="leading" secondItem="YYp-Lu-jru" secondAttribute="leading" id="yVc-cd-IHr"/>
@@ -196,6 +216,8 @@
                         <outlet property="pwField" destination="qJQ-om-phK" id="HZh-0e-VSM"/>
                         <outlet property="pwHeading" destination="fZb-nK-Ez4" id="Xt4-uF-Pme"/>
                         <outlet property="signInBtn" destination="M2k-Q1-TKM" id="zbL-Jo-o89"/>
+                        <outlet property="wrongEmailPwLabel" destination="9ko-Op-Qra" id="Lce-eP-Wdu"/>
+                        <segue destination="vXZ-lx-hvc" kind="presentation" identifier="presentSearch" id="dLk-Tp-hyc"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="kcL-g0-2cZ" userLabel="First Responder" sceneMemberID="firstResponder"/>
@@ -599,11 +621,27 @@
                                     <constraint firstItem="iPK-9N-RHv" firstAttribute="centerY" secondItem="jk2-JU-Bzh" secondAttribute="centerY" id="zNf-9P-yN5"/>
                                 </constraints>
                             </view>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" usesAttributedText="YES" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="BYq-Or-Ibs">
+                                <rect key="frame" x="16" y="365" width="568" height="17"/>
+                                <attributedString key="attributedText">
+                                    <fragment content="Ruh roh, wrong email and password.">
+                                        <attributes>
+                                            <color key="NSColor" red="0.83529418706893921" green="0.090196080505847931" blue="0.12941177189350128" alpha="1" colorSpace="deviceRGB"/>
+                                            <font key="NSFont" size="14" name="HelveticaNeue-Thin"/>
+                                            <paragraphStyle key="NSParagraphStyle" alignment="center" lineBreakMode="wordWrapping" baseWritingDirection="natural"/>
+                                        </attributes>
+                                    </fragment>
+                                </attributedString>
+                                <nil key="highlightedColor"/>
+                            </label>
                         </subviews>
                         <color key="backgroundColor" red="0.96078431372549022" green="0.96078431372549022" blue="0.96078431372549022" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                         <constraints>
                             <constraint firstItem="3TB-hS-lca" firstAttribute="leading" secondItem="fsg-to-QmY" secondAttribute="leading" id="0fh-bM-Tg6"/>
+                            <constraint firstItem="BYq-Or-Ibs" firstAttribute="top" secondItem="PxK-Oz-bJh" secondAttribute="bottom" constant="8" id="64K-mI-BsX"/>
                             <constraint firstItem="PxK-Oz-bJh" firstAttribute="trailing" secondItem="fsg-to-QmY" secondAttribute="trailingMargin" id="LZE-5D-i0j"/>
+                            <constraint firstItem="BYq-Or-Ibs" firstAttribute="leading" secondItem="fsg-to-QmY" secondAttribute="leadingMargin" id="Os7-Rx-e30"/>
+                            <constraint firstItem="BYq-Or-Ibs" firstAttribute="trailing" secondItem="fsg-to-QmY" secondAttribute="trailingMargin" id="PGp-ep-60z"/>
                             <constraint firstItem="3TB-hS-lca" firstAttribute="bottom" secondItem="sA9-xb-1Rt" secondAttribute="bottom" id="R1t-0I-Zuv"/>
                             <constraint firstAttribute="trailing" secondItem="3TB-hS-lca" secondAttribute="trailing" id="TmA-ae-qot"/>
                             <constraint firstAttribute="centerX" secondItem="PxK-Oz-bJh" secondAttribute="centerX" id="UZ2-vU-nOd"/>
@@ -624,6 +662,7 @@
                         <outlet property="pwField" destination="yxV-Et-qKp" id="k7w-DA-sL6"/>
                         <outlet property="pwHeading" destination="f2L-rG-xCx" id="cWl-sv-lmA"/>
                         <outlet property="signInBtn" destination="X6t-R2-pHM" id="7K9-1B-zzo"/>
+                        <outlet property="wrongEmailPwLabel" destination="BYq-Or-Ibs" id="Bv8-cw-QgN"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="9A2-My-t4E" userLabel="First Responder" sceneMemberID="firstResponder"/>
@@ -1067,6 +1106,6 @@
     </resources>
     <inferredMetricsTieBreakers>
         <segue reference="rAo-kp-Ahx"/>
-        <segue reference="4fw-gx-Jei"/>
+        <segue reference="dLk-Tp-hyc"/>
     </inferredMetricsTieBreakers>
 </document>

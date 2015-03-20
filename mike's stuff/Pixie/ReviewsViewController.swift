@@ -97,7 +97,7 @@ class ReviewsViewController: UIViewController, UITableViewDelegate, UITableViewD
       default:
          println("No color found for review.")
       }
-      cell.separatorInset = indexPath.row == reviews.count-1 ? UIEdgeInsets(top: 0, left: cell.bounds.size.width, bottom: 0, right: 0) : UIEdgeInsetsZero
+      cell.separatorInset = indexPath.row == reviews.count-1 ? UIEdgeInsets(top: 0, left: view.bounds.size.width, bottom: 0, right: 0) : UIEdgeInsetsZero
       cell.layoutMargins = UIEdgeInsetsZero
       
       return cell

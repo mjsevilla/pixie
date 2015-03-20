@@ -140,13 +140,14 @@ class MatchesViewController: UIViewController, UICollectionViewDelegateFlowLayou
                               var currUser = User(name: name, age: age, bio: bio, profilePic: photoURL, userId: id)
                               self.matches.append(Match(author: currUser, post: p))
                            } else {
-                              println("error: photoURL")
+                             println("error: photoURL")
                            }
                         } else {
                            println("error: bio")
                         }
                      } else {
-                        println("error: age")
+                        var currUser = User(name: name, age: -1, bio: "No bio :(", profilePic: "http://upload.wikimedia.org/wikipedia/commons/3/31/SlothDWA.jpg", userId: id)
+                        self.matches.append(Match(author: currUser, post: p))
                      }
                   } else {
                      println("error: name")
@@ -182,7 +183,11 @@ class MatchesViewController: UIViewController, UICollectionViewDelegateFlowLayou
       
       cell.profilePic.addGestureRecognizer(tap)
       cell.profilePic.image = UIImage(data: myMatch.author.profilePicData)
-      cell.userNameLabel.attributedText = createAttributedNameString(myMatch.author.name, age: myMatch.author.age)
+      if myMatch.author.age > 0 {
+         cell.userNameLabel.attributedText = createAttributedNameString(myMatch.author.name, age: myMatch.author.age)
+      } else {
+         cell.userNameLabel.attributedText = createAttributedNameStringNoAge(myMatch.author.name)
+      }
       cell.locationLabel.text = "\(myMatch.post.startingLoc) \u{2192} \(myMatch.post.endingLoc)"
       cell.dateTimeLabel.text = "\(myMatch.post.date), \(myMatch.post.time)"
       
@@ -194,6 +199,13 @@ class MatchesViewController: UIViewController, UICollectionViewDelegateFlowLayou
       var nameString = NSMutableAttributedString(string: name + ", \(age)")
       nameString.addAttribute(NSFontAttributeName, value: UIFont(name: "HelveticaNeue-Thin", size: 24)!, range: NSMakeRange(0, countElements(name)+1))
       nameString.addAttribute(NSFontAttributeName, value: UIFont(name: "HelveticaNeue-UltraLight", size: 24)!, range: NSMakeRange(countElements(name)+2, countElements("\(age)")))
+      return nameString
+      
+   }
+   
+   func createAttributedNameStringNoAge(name: String) -> NSMutableAttributedString {
+      var nameString = NSMutableAttributedString(string: name)
+      nameString.addAttribute(NSFontAttributeName, value: UIFont(name: "HelveticaNeue-Thin", size: 24)!, range: NSMakeRange(0, countElements(name)))
       return nameString
       
    }
@@ -223,7 +235,11 @@ class MatchesViewController: UIViewController, UICollectionViewDelegateFlowLayou
             var idxPath = self.collectionView.indexPathsForVisibleItems().first as NSIndexPath
             var current = matches[idxPath.indexAtPosition(0)].author
             
-            destinationVC.userNameLabel.attributedText = createAttributedNameString(current.name, age: current.age)
+            if current.age > 0 {
+               destinationVC.userNameLabel.attributedText = createAttributedNameString(current.name, age: current.age)
+            } else {
+               destinationVC.userNameLabel.attributedText = createAttributedNameStringNoAge(current.name)
+            }
             destinationVC.userBioLabel.text = current.bio
             destinationVC.profilePic.image = currentCell?.profilePic.image
             destinationVC.widthMargin = viewInsets.left

@@ -35,6 +35,13 @@ class SearchViewController: UIViewController, UISearchBarDelegate {
         toolBar.tintColor = UIColor.whiteColor()
         
         searchBar.delegate = self
+      
+      let defaults = NSUserDefaults.standardUserDefaults()
+      if let savedId = defaults.stringForKey("PixieUserId") {
+         println("userId found: \(savedId)")
+      } else {
+         println("userId not found")
+      }
     }
     
     func searchBarSearchButtonClicked(searchBar: UISearchBar) {

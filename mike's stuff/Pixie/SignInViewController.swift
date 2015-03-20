@@ -17,6 +17,7 @@ class SignInViewController: UIViewController, UITextFieldDelegate {
     @IBOutlet weak var pwHeading: UIView!
     @IBOutlet weak var signInBtn: UIBarButtonItem!
     @IBOutlet weak var cancelBtn: UIBarButtonItem!
+   @IBOutlet weak var wrongEmailPwLabel: UILabel!
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -34,22 +35,29 @@ class SignInViewController: UIViewController, UITextFieldDelegate {
         emailHeading.layer.cornerRadius = 8.0
       
       pwField.delegate = self
-    
+      emailField.delegate = self
+      wrongEmailPwLabel.hidden = true
    }
    
    func textFieldShouldReturn(textField: UITextField) -> Bool {
-      self.attemptSignIn(self)
-      return true
+      if textField == emailField && emailField.text.isEmpty {
+         self.pwField.isFirstResponder()
+         return true
+      } else if textField == pwField {
+         self.attemptSignIn(self)
+         return true
+      }
+      return false
    }
 
    
    @IBAction func attemptSignIn(sender: AnyObject) {
       let email = emailField.text!
       let password = pwField.text!
-      let urlString = "http://ec2-54-69-253-12.us-west-2.compute.amazonaws.com/pixie/users?email="+email+"&password="+password
-      let url = NSURL(string: urlString)
 
       let defaults = NSUserDefaults.standardUserDefaults();
+      var urlString = "http://ec2-54-148-100-12.us-west-2.compute.amazonaws.com/pixie/users?email=\(email)&password=\(password)"
+      let url = NSURL(string: urlString)
       var request = NSURLRequest(URL: url!)
       var response: NSURLResponse?
       var error: NSErrorPointer = nil
@@ -59,9 +67,18 @@ class SignInViewController: UIViewController, UITextFieldDelegate {
          if let id = json["id"] as? Int {
             defaults.setObject(id, forKey: "PixieUserId")
             NSUserDefaults.standardUserDefaults().synchronize();
+            println("signed in with id: \(id)")
+            wrongEmailPwLabel.hidden = true
             self.performSegueWithIdentifier("presentSearch", sender: self)
+         } else {
+            println("error id")
+            wrongEmailPwLabel.hidden = false
          }
+      } else {
+         println("error json")
+         wrongEmailPwLabel.hidden = false
       }
+
    }
     
     // handles hiding keyboard when user touches outside of keyboard
