@@ -75,7 +75,7 @@ class RegisterViewController: UIViewController, FBLoginViewDelegate, UITextField
     // Facebook delegate methods
     
     func loginViewShowingLoggedInUser(loginView: FBLoginView!) {
-       
+    
         println("User Logged In")
         println("This is where you perform a segue.")
         //performSegueWithIdentifier("presentSearch", sender: self)
@@ -96,12 +96,12 @@ class RegisterViewController: UIViewController, FBLoginViewDelegate, UITextField
       
       println("User Name: \(user.name)")
       println("User email: \(email)")
-        
+    
         var task = session.dataTaskWithRequest(request, completionHandler: {data, response, error -> Void in
             var strData = NSString(data: data, encoding: NSUTF8StringEncoding)
             if(err != nil) {
                 println(err!.localizedDescription)
-               self.wrongEmailPwLabel.hidden = false
+                self.wrongEmailPwLabel.hidden = false
             }
             else {
                 var parseError : NSError?
@@ -115,7 +115,7 @@ class RegisterViewController: UIViewController, FBLoginViewDelegate, UITextField
                     println(resp["id"]! as Int);
                     defaults.setObject(resp["id"]! as Int, forKey: "PixieUserId")
                     NSUserDefaults.standardUserDefaults().synchronize();
-                  self.wrongEmailPwLabel.hidden = true
+                    self.wrongEmailPwLabel.hidden = true
                 }
                 else {
                     //println("\(parseError)");
@@ -137,7 +137,8 @@ class RegisterViewController: UIViewController, FBLoginViewDelegate, UITextField
       request.HTTPMethod = "POST"
       var err: NSError?
       var reqText = ["email": "\(email)", "password": "\(password)", "name": "\(name)"]
-      request.HTTPBody = NSJSONSerialization.dataWithJSONObject(reqText, options: nil, error: &err) // This Line fills the web service with required parameters.
+      //This Line fills the web service with required parameters.
+      request.HTTPBody = NSJSONSerialization.dataWithJSONObject(reqText, options: nil, error: &err)
       request.addValue("application/json", forHTTPHeaderField: "Content-Type")
       request.addValue("application/json", forHTTPHeaderField: "Accept")
       let defaults = NSUserDefaults.standardUserDefaults();
