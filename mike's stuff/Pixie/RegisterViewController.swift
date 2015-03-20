@@ -57,18 +57,18 @@ class RegisterViewController: UIViewController, FBLoginViewDelegate {
        
         println("User Logged In")
         println("This is where you perform a segue.")
-//        performSegueWithIdentifier("presentSearch", sender: self)
+        //performSegueWithIdentifier("presentSearch", sender: self)
     }
     
     func loginViewFetchedUserInfo(loginView: FBLoginView!, user: FBGraphUser!) {
         println("User Name: \(user.name)")
-        var urlString = "http://ec2-54-148-100-12.us-west-2.compute.amazonaws.com/pixie/users";
+        var urlString = "http://ec2-54-69-253-12.us-west-2.compute.amazonaws.com/pixie/users";
         var request = NSMutableURLRequest(URL: NSURL(string: urlString)!);
         var session = NSURLSession.sharedSession();
         request.HTTPMethod = "POST"
         var err: NSError?
         var email = "\(user.username)@facebook.com"
-        var reqText = ["name": "\(user.name)", "email": "\(user.name)", "password": "fake_pass"]
+        var reqText = ["name": "\(user.name)", "email": "\(user.name)", "password": "fake_pass123", "photoURL": "https://fbcdn-sphotos-d-a.akamaihd.net/hphotos-ak-xfp1/v/t1.0-9/10711065_910657175628707_1758789905052961848_n.jpg?oh=18a99b404cd58079374b259dd37813f0&oe=557E45C0&__gda__=1438272073_8f00d14d2680b66149753ffc73323d1c", "bio": "I'm a boss :)", "age": "22", "gender": "M"]
         request.HTTPBody = NSJSONSerialization.dataWithJSONObject(reqText, options: nil, error: &err) // This Line fills the web service with required parameters.
         request.addValue("application/json", forHTTPHeaderField: "Content-Type")
         request.addValue("application/json", forHTTPHeaderField: "Accept")
@@ -90,6 +90,11 @@ class RegisterViewController: UIViewController, FBLoginViewDelegate {
                     println(resp["id"]! as Int);
                     defaults.setObject(resp["id"]! as Int, forKey: "PixieUserId")
                     NSUserDefaults.standardUserDefaults().synchronize();
+                }
+                else {
+                    //println("\(parseError)");
+                    let defaults = NSUserDefaults.standardUserDefaults();
+                    defaults.setObject(3, forKey: "PixieUserId")
                 }
             }
         })
