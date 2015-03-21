@@ -1003,7 +1003,7 @@ class PostRideViewController: UIViewController, UITextFieldDelegate, UIPickerVie
             println(err!.localizedDescription)
          }
          else {
-            //println(strData)
+            println(strData)
          }
       })
       

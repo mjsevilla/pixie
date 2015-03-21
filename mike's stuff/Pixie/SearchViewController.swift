@@ -27,11 +27,9 @@ class SearchViewController: UIViewController, UISearchBarDelegate {
         webViewBG.loadData(gif, MIMEType: "image/gif", textEncodingName: nil, baseURL: nil)
         webViewBG.userInteractionEnabled = false
         
-        toolBar.setBackgroundImage(UIImage(),
-            forToolbarPosition: UIBarPosition.Any,
+        toolBar.setBackgroundImage(UIImage(), forToolbarPosition: UIBarPosition.Any,
             barMetrics: UIBarMetrics.Default)
-        toolBar.setShadowImage(UIImage(),
-            forToolbarPosition: UIBarPosition.Any)
+        toolBar.setShadowImage(UIImage(), forToolbarPosition: UIBarPosition.Any)
         toolBar.tintColor = UIColor.whiteColor()
         
         searchBar.delegate = self
