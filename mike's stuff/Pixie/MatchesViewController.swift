@@ -137,8 +137,15 @@ class MatchesViewController: UIViewController, UICollectionViewDelegateFlowLayou
                      if let age = json["age"] as? Int {
                         if let bio = json["bio"] as? String {
                            if let photoURL = json["photoURL"] as? String {
-                              var currUser = User(name: name, age: age, bio: bio, profilePic: photoURL, userId: id)
-                              self.matches.append(Match(author: currUser, post: p))
+                              if(bio != "" && photoURL != "") {
+                                 var currUser = User(name: name, age: age, bio: bio, profilePic: photoURL, userId: id)
+                                 self.matches.append(Match(author: currUser, post: p))
+                              }
+                              else {
+                                 var currUser = User(name: name, age: -1, bio: "No bio :(", profilePic: "http://upload.wikimedia.org/wikipedia/commons/3/31/SlothDWA.jpg", userId: id)
+                                 println("yes");
+                                 self.matches.append(Match(author: currUser, post: p))
+                              }
                            } else {
                              println("error: photoURL")
                            }

@@ -1,0 +1,35 @@
+To Test Pixie App...
+
+THROUGH FACEBOOK
+1) Click Register on bottom right hand of screen
+2) Enter Facebook Credentials and give permissions
+3) Click the + on the top right hand of screen
+4) Choose Seeking/Offering
+5) Enter any string for starting/ending location
+6) Click Next
+7) Choose the date and time by clicking both
+8) Click Next
+9) Click Post!
+10) Enter any string into the text field labeled: Where do you want to go?
+11) Click "Search" or push Enter. 
+You are now viewing all posts in the database, whether they are seeking or offering. Swipe right until you find your entry. Unfortunately your profile picture will be a sloth, which we are very close to fixing! 
+
+THROUGH LOGIN
+1) Click the hamburger menu on the top left hand of screen
+2) Drag down and click "Sign Out"
+3) Click Sign In on bottom left of screen
+4) Enter your Facebook Email and password of "facebook" no capitals
+5) Follow steps 3 through 11 above to make a post as a user logged in through "Sign In" screen
+If for whatever reason Facebook Login did not work, you may sign in with credentials of username:cam@acme.com password:camspw. 
+
+TO VIEW MY POSTS
+1) Click the hamburger menu on the top left hand of screen
+2) Click "My Rides"
+
+PLAYING WITH POSTS
+There are several features of the matches feature that you should be aware of. To observe profile info, click the picture of the match. Then, to observe sample reviews, swipe up. Click the word Reviews to exit this view, then click the profile picture to exit the profile view.
+
+Important To Note
+- Right now, once you register a user in the app through Facebook, clicking "Register" will automatically login through that Facebook if you sign out. To log in with a different Facebook User, click "Reset Content and Settings" in IoS Simulator Menu.
+
+
