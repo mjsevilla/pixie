@@ -59,6 +59,12 @@ class NavigationTransitionOperator: NSObject, UIViewControllerAnimatedTransition
         
         snapshot = fromView.snapshotViewAfterScreenUpdates(true)
         
+        // tap on the snapshot to dismiss menu back to previous view
+        let aSelector : Selector = "dismissNav"
+        let tapGesture = UITapGestureRecognizer(target: self, action: aSelector)
+        tapGesture.numberOfTapsRequired = 1
+        self.snapshot.addGestureRecognizer(tapGesture)
+        
         container.addSubview(toView)
         container.addSubview(snapshot)
         
@@ -72,7 +78,11 @@ class NavigationTransitionOperator: NSObject, UIViewControllerAnimatedTransition
                 
                 transitionContext.completeTransition(true)
         })
-        
+    }
+    
+    func dismissNav() {
+        NavigationViewController().dismissViewControllerAnimated(true, completion: nil)
+        println("Touched")
     }
     
     // hide navigation menu

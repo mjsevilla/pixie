@@ -126,6 +126,10 @@ class NavigationViewController : UIViewController, UITableViewDelegate, UITableV
         }
     }
     
+    override func touchesBegan(touches: NSSet, withEvent event: UIEvent) {
+        dismissViewControllerAnimated(true, completion: nil)
+    }
+    
     override func preferredStatusBarStyle() -> UIStatusBarStyle {
         return .LightContent
     }

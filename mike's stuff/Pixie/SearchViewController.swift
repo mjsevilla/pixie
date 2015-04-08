@@ -23,7 +23,6 @@ class SearchViewController: UIViewController, UISearchBarDelegate {
         // Do any additional setup after loading the view, typically from a nib.
         var filePath = NSBundle.mainBundle().pathForResource("highway", ofType: "gif")
         var gif = NSData(contentsOfFile: filePath!)
-        
         webViewBG.loadData(gif, MIMEType: "image/gif", textEncodingName: nil, baseURL: nil)
         webViewBG.userInteractionEnabled = false
         
@@ -33,13 +32,13 @@ class SearchViewController: UIViewController, UISearchBarDelegate {
         toolBar.tintColor = UIColor.whiteColor()
         
         searchBar.delegate = self
-      
-      let defaults = NSUserDefaults.standardUserDefaults()
-      if let savedId = defaults.stringForKey("PixieUserId") {
-         println("userId found: \(savedId)")
-      } else {
-         println("userId not found")
-      }
+        
+        let defaults = NSUserDefaults.standardUserDefaults()
+        if let savedId = defaults.stringForKey("PixieUserId") {
+            println("userId found: \(savedId)")
+        } else {
+            println("userId not found")
+        }
     }
     
     func searchBarSearchButtonClicked(searchBar: UISearchBar) {
