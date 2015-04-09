@@ -56,7 +56,7 @@ class SignInViewController: UIViewController, UITextFieldDelegate {
       let password = pwField.text!
 
       let defaults = NSUserDefaults.standardUserDefaults();
-      var urlString = "http://ec2-54-148-100-12.us-west-2.compute.amazonaws.com/pixie/users?email=\(email)&password=\(password)"
+      var urlString = "http://ec2-54-69-253-12.us-west-2.compute.amazonaws.com/pixie/users?email=\(email)&password=\(password)"
       let url = NSURL(string: urlString)
       var request = NSURLRequest(URL: url!)
       var response: NSURLResponse?

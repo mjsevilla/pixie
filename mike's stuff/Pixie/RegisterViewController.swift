@@ -83,7 +83,7 @@ class RegisterViewController: UIViewController, FBLoginViewDelegate, UITextField
    }
    
    func loginViewFetchedUserInfo(loginView: FBLoginView!, user: FBGraphUser!) {
-      var urlString = "http://ec2-54-148-100-12.us-west-2.compute.amazonaws.com/pixie/users";
+      var urlString = "http://ec2-54-69-253-12.us-west-2.compute.amazonaws.com/pixie/users";
       var request = NSMutableURLRequest(URL: NSURL(string: urlString)!);
       var session = NSURLSession.sharedSession();
       request.HTTPMethod = "POST"
@@ -140,7 +140,7 @@ class RegisterViewController: UIViewController, FBLoginViewDelegate, UITextField
       let email = emailField.text!
       let password = pwField.text!
       
-      var urlString = "http://ec2-54-148-100-12.us-west-2.compute.amazonaws.com/pixie/users";
+      var urlString = "http://ec2-54-69-253-12.us-west-2.compute.amazonaws.com/pixie/users";
       var request = NSMutableURLRequest(URL: NSURL(string: urlString)!);
       request.HTTPMethod = "POST"
       var err: NSError?

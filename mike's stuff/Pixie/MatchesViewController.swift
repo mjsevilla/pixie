@@ -81,7 +81,7 @@ class MatchesViewController: UIViewController, UICollectionViewDelegateFlowLayou
    }
    
    func loadPostsFromAPI() {
-      var urlString = "http://ec2-54-148-100-12.us-west-2.compute.amazonaws.com/pixie/posts"
+      var urlString = "http://ec2-54-69-253-12.us-west-2.compute.amazonaws.com/pixie/posts"
       let url = NSURL(string: urlString)
       var request = NSURLRequest(URL: url!)
       var response: NSURLResponse?
@@ -123,7 +123,7 @@ class MatchesViewController: UIViewController, UICollectionViewDelegateFlowLayou
    
    func loadUsersFromAPI() {
       for p in posts {
-         var urlString = "http://ec2-54-148-100-12.us-west-2.compute.amazonaws.com/pixie/users/\(p.userId)"
+         var urlString = "http://ec2-54-69-253-12.us-west-2.compute.amazonaws.com/pixie/users/\(p.userId)"
          let url = NSURL(string: urlString)
          var request = NSURLRequest(URL: url!)
          var response: NSURLResponse?

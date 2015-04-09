@@ -54,7 +54,7 @@ class MyPostsViewController: UIViewController, UICollectionViewDelegateFlowLayou
       if let savedId = defaults.stringForKey("PixieUserId") {
          myUserId = savedId;
       }
-      var urlString = "http://ec2-54-148-100-12.us-west-2.compute.amazonaws.com/pixie/posts"
+      var urlString = "http://ec2-54-69-253-12.us-west-2.compute.amazonaws.com/pixie/posts"
       
       let url = NSURL(string: urlString)
       var request = NSURLRequest(URL: url!)
