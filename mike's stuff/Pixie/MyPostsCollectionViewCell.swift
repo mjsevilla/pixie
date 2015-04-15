@@ -10,8 +10,8 @@ import UIKit
 
 class MyPostsCollectionViewCell: UICollectionViewCell {
    
-   let locationLabel: UILabel!
-   let dateTimeLabel: UILabel!
+   var locationLabel: UILabel!
+   var dateTimeLabel: UILabel!
    
    override init(frame: CGRect) {
       super.init(frame: frame)

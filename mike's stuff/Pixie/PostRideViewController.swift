@@ -116,7 +116,7 @@ class PostRideViewController: UIViewController, UITextFieldDelegate, UIPickerVie
       seekOfferSegment.insertSegmentWithTitle("SEEKING", atIndex: 0, animated: false)
       seekOfferSegment.insertSegmentWithTitle("OFFERING", atIndex: 1, animated: false)
       var attr = NSDictionary(object: UIFont(name: "Syncopate-Regular", size: 16.0)!, forKey: NSFontAttributeName)
-      seekOfferSegment.setTitleTextAttributes(attr, forState: .Normal)
+      seekOfferSegment.setTitleTextAttributes(attr as [NSObject : AnyObject], forState: .Normal)
       seekOfferSegment.addTarget(self, action: "segmentValueChanged:", forControlEvents: UIControlEvents.ValueChanged)
       seekOfferSegment.setTranslatesAutoresizingMaskIntoConstraints(false)
       seekOfferSegment.tintColor = UIColor(red:0.0, green:0.74, blue:0.83, alpha:1.0)
@@ -182,7 +182,7 @@ class PostRideViewController: UIViewController, UITextFieldDelegate, UIPickerVie
       dateButton.addTarget(self, action: "selectDate:", forControlEvents: UIControlEvents.TouchUpInside)
       let currentDateArr = currentDates[0].componentsSeparatedByString(" ")
       var date = NSMutableAttributedString(attributedString: createAttributedString(currentDateArr[0], str2: currentDateArr[1]+" "+currentDateArr[2], color: UIColor.whiteColor()))
-      date.addAttributes([NSFontAttributeName: UIFont(name: "HelveticaNeue-UltraLight", size: 19.5)!, kCTSuperscriptAttributeName: 1.5], range: NSMakeRange(countElements(date.string)-2, 2))
+      date.addAttributes([NSFontAttributeName: UIFont(name: "HelveticaNeue-UltraLight", size: 19.5)!, kCTSuperscriptAttributeName: 1.5], range: NSMakeRange(count(date.string)-2, 2))
       dateButton.setAttributedTitle(date, forState: .Normal)
       dateButton.hidden = true
       dateButton.setTranslatesAutoresizingMaskIntoConstraints(false)
@@ -394,11 +394,11 @@ class PostRideViewController: UIViewController, UITextFieldDelegate, UIPickerVie
       if textField == self.startingLocation {
          var txtAfterUpdate:NSString = self.startingLocation.text as NSString
          txtAfterUpdate = txtAfterUpdate.stringByReplacingCharactersInRange(range, withString: string)
-         setTripString(txtAfterUpdate, end: endingLocation.text)
+         setTripString(txtAfterUpdate as String, end: endingLocation.text)
       } else {
          var txtAfterUpdate:NSString = self.endingLocation.text as NSString
          txtAfterUpdate = txtAfterUpdate.stringByReplacingCharactersInRange(range, withString: string)
-         setTripString(startingLocation.text, end: txtAfterUpdate)
+         setTripString(startingLocation.text, end: txtAfterUpdate as String)
       }
       
       return true
@@ -748,7 +748,7 @@ class PostRideViewController: UIViewController, UITextFieldDelegate, UIPickerVie
    func setDateTimeString() {
       let tempDate = self.dateButton.currentAttributedTitle?.string
       let tempTime = self.timeButton.currentAttributedTitle?.string
-      let range = NSMakeRange(countElements(tempDate!)-2, 2)
+      let range = NSMakeRange(count(tempDate!)-2, 2)
       
       var tripString = NSMutableAttributedString(string: tempDate! + " " + tempTime!, attributes: [NSForegroundColorAttributeName: UIColor(red: 1.0, green: 1.0, blue: 1.0, alpha: 1.0), NSFontAttributeName: UIFont(name: "HelveticaNeue-UltraLight", size: 22.0)!])
       tripString.addAttributes([NSFontAttributeName: UIFont(name: "HelveticaNeue-UltraLight", size: 14)!, kCTSuperscriptAttributeName: 1.5], range: range)
@@ -758,7 +758,7 @@ class PostRideViewController: UIViewController, UITextFieldDelegate, UIPickerVie
       let currentDateArr = tempDate!.componentsSeparatedByString(" ")
       var date = NSMutableAttributedString(attributedString: createAttributedString(currentDateArr[0], str2: currentDateArr[1]+" "+currentDateArr[2], color: UIColor.whiteColor()))
       date.addAttributes([NSFontAttributeName: UIFont(name: "HelveticaNeue-UltraLight", size: 19.5)!, kCTSuperscriptAttributeName: 1.5], range: range)
-      date.addAttribute(NSFontAttributeName, value: UIFont(name: "HelveticaNeue-UltraLight", size: 30)!, range: NSMakeRange(countElements(currentDateArr[0])-1, 1))
+      date.addAttribute(NSFontAttributeName, value: UIFont(name: "HelveticaNeue-UltraLight", size: 30)!, range: NSMakeRange(count(currentDateArr[0])-1, 1))
       dateLabel.attributedText = date
       
       let currentTimeArr = tempTime!.componentsSeparatedByString(" ")
@@ -857,8 +857,8 @@ class PostRideViewController: UIViewController, UITextFieldDelegate, UIPickerVie
             options: NSCalendarOptions(0))
          
          dateString = dateFormatter.stringFromDate(date);
-         var start = advance(dateString.startIndex, countElements(dateString) - 2)
-         var end = advance(dateString.startIndex, countElements(dateString) - 1)
+         var start = advance(dateString.startIndex, count(dateString) - 2)
+         var end = advance(dateString.startIndex, count(dateString) - 1)
          var day_of_month = dateString.substringFromIndex(start).toInt()!
          
          if day_of_month < 10 {
@@ -913,7 +913,7 @@ class PostRideViewController: UIViewController, UITextFieldDelegate, UIPickerVie
       if pickerView == datePicker {
          let currentDateArr = currentDates[row].componentsSeparatedByString(" ")
          var date = NSMutableAttributedString(attributedString: createAttributedString(currentDateArr[0], str2: currentDateArr[1]+" "+currentDateArr[2], color: UIColor.whiteColor()))
-         date.addAttributes([NSFontAttributeName: UIFont(name: "HelveticaNeue-UltraLight", size: 19.5)!, kCTSuperscriptAttributeName: 1.5], range: NSMakeRange(countElements(date.string)-2, 2))
+         date.addAttributes([NSFontAttributeName: UIFont(name: "HelveticaNeue-UltraLight", size: 19.5)!, kCTSuperscriptAttributeName: 1.5], range: NSMakeRange(count(date.string)-2, 2))
          dateButton.setAttributedTitle(date, forState: .Normal)
       } else {
          if component == 0 {
@@ -927,8 +927,8 @@ class PostRideViewController: UIViewController, UITextFieldDelegate, UIPickerVie
                timePicker.selectRow(1, inComponent: 0, animated: true)
             }
          }
-         let selectedTime = timePicker.viewForRow(timePicker.selectedRowInComponent(0), forComponent: 0) as UILabel
-         let selectedAMPM = timePicker.viewForRow(timePicker.selectedRowInComponent(1), forComponent: 1) as UILabel
+         let selectedTime = timePicker.viewForRow(timePicker.selectedRowInComponent(0), forComponent: 0) as! UILabel
+         let selectedAMPM = timePicker.viewForRow(timePicker.selectedRowInComponent(1), forComponent: 1) as! UILabel
          timeButton.setAttributedTitle(createAttributedString(selectedTime.text!, str2: selectedAMPM.text!, color: UIColor.whiteColor()), forState: .Normal)
       }
       setDateTimeString()
@@ -950,7 +950,7 @@ class PostRideViewController: UIViewController, UITextFieldDelegate, UIPickerVie
       
       if pickerView == datePicker {
          var date = NSMutableAttributedString(string: currentDates[row])
-         date.addAttributes([NSFontAttributeName: UIFont(name: "HelveticaNeue-UltraLight", size: 13)!, kCTSuperscriptAttributeName: 1.5], range: NSMakeRange(countElements(date.string)-2, 2))
+         date.addAttributes([NSFontAttributeName: UIFont(name: "HelveticaNeue-UltraLight", size: 13)!, kCTSuperscriptAttributeName: 1.5], range: NSMakeRange(count(date.string)-2, 2))
          pickerLabel.attributedText = date
       } else {
          if (component == 0) {
@@ -964,8 +964,8 @@ class PostRideViewController: UIViewController, UITextFieldDelegate, UIPickerVie
    
    func createAttributedString(str1: String, str2: String, color: UIColor) -> NSMutableAttributedString {
       var myString = NSMutableAttributedString(string: str1 + " " + str2)
-      myString.addAttribute(NSFontAttributeName, value: UIFont(name: "HelveticaNeue-Thin", size: 30)!, range: NSMakeRange(0, countElements(str1)))
-      myString.addAttribute(NSFontAttributeName, value: UIFont(name: "HelveticaNeue-UltraLight", size: 30)!, range: NSMakeRange(countElements(str1)+1, countElements(str2)))
+      myString.addAttribute(NSFontAttributeName, value: UIFont(name: "HelveticaNeue-Thin", size: 30)!, range: NSMakeRange(0, count(str1)))
+      myString.addAttribute(NSFontAttributeName, value: UIFont(name: "HelveticaNeue-UltraLight", size: 30)!, range: NSMakeRange(count(str1)+1, count(str2)))
       myString.addAttribute(NSForegroundColorAttributeName, value: color, range: NSMakeRange(0, myString.length))
       return myString
       
@@ -1034,7 +1034,7 @@ class PostRideViewController: UIViewController, UITextFieldDelegate, UIPickerVie
    }
    
    // handles hiding keyboard when user touches outside of keyboard
-   override func touchesBegan(touches: NSSet, withEvent event: UIEvent) {
+   override func touchesBegan(touches: Set<NSObject>, withEvent event: UIEvent) {
       self.view.endEditing(true)
    }
 }

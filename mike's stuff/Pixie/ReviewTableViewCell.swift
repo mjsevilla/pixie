@@ -10,7 +10,7 @@ import UIKit
 
 class ReviewTableViewCell: UITableViewCell {
    
-   let colorImage: UIImageView!
+   var colorImage: UIImageView!
    var commentLabel: UILabel!
    
    required init(coder aDecoder: NSCoder) {

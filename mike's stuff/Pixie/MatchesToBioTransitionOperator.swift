@@ -25,8 +25,8 @@ class MatchesToBioTransitionOperator: NSObject, UIViewControllerAnimatedTransiti
       
       // assign references to our menu view controller and the 'bottom' view controller from the tuple
       // remember that our menuViewController will alternate between the from and to view controller depending if we're presenting or dismissing
-      let matchesViewController = (self.presenting ? transitionContext.viewControllerForKey(UITransitionContextFromViewControllerKey)! : transitionContext.viewControllerForKey(UITransitionContextToViewControllerKey)!) as MatchesViewController
-      let bioViewController = (self.presenting ? transitionContext.viewControllerForKey(UITransitionContextToViewControllerKey)! : transitionContext.viewControllerForKey(UITransitionContextFromViewControllerKey)!) as BioViewController
+      let matchesViewController = (self.presenting ? transitionContext.viewControllerForKey(UITransitionContextFromViewControllerKey)! : transitionContext.viewControllerForKey(UITransitionContextToViewControllerKey)!) as! MatchesViewController
+      let bioViewController = (self.presenting ? transitionContext.viewControllerForKey(UITransitionContextToViewControllerKey)! : transitionContext.viewControllerForKey(UITransitionContextFromViewControllerKey)!) as! BioViewController
       
       let matchesView = matchesViewController.view
       let bioView = bioViewController.view

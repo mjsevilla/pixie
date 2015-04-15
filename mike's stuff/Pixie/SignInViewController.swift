@@ -80,12 +80,11 @@ class SignInViewController: UIViewController, UITextFieldDelegate {
       }
 
    }
-    
-    // handles hiding keyboard when user touches outside of keyboard
-    override func touchesBegan(touches: NSSet, withEvent event: UIEvent) {
-        self.view.endEditing(true)
-    }
-    
+   
+   override func touchesBegan(touches: Set<NSObject>, withEvent event: UIEvent) {
+      self.view.endEditing(true)
+   }
+   
     override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {
         if segue.identifier == "presentSearch" {
             if let searchVC = segue.destinationViewController as? SearchViewController {

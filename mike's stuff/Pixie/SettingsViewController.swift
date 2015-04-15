@@ -21,7 +21,7 @@ class SettingsViewController: UIViewController {
     
     override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {
         if segue.identifier == "presentNav" {
-            let toViewController = segue.destinationViewController as NavigationViewController
+            let toViewController = segue.destinationViewController as! NavigationViewController
             self.modalPresentationStyle = UIModalPresentationStyle.Custom
             toViewController.transitioningDelegate = self.navTransitionOperator
             toViewController.presentingView = self

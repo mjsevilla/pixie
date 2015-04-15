@@ -48,7 +48,7 @@ class NavigationViewController : UIViewController, UITableViewDelegate, UITableV
     
     func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
         
-        let cell = tableView.dequeueReusableCellWithIdentifier("NavigationCell") as NavigationCell
+        let cell = tableView.dequeueReusableCellWithIdentifier("NavigationCell") as! NavigationCell
         
         let item = items[indexPath.row]
         
@@ -126,7 +126,7 @@ class NavigationViewController : UIViewController, UITableViewDelegate, UITableV
         }
     }
     
-    override func touchesBegan(touches: NSSet, withEvent event: UIEvent) {
+    override func touchesBegan(touches: Set<NSObject>, withEvent event: UIEvent) {
         dismissViewControllerAnimated(true, completion: nil)
     }
     

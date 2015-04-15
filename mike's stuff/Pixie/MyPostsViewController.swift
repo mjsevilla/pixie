@@ -108,7 +108,7 @@ class MyPostsViewController: UIViewController, UICollectionViewDelegateFlowLayou
    }
    
    func collectionView(collectionView: UICollectionView, cellForItemAtIndexPath indexPath: NSIndexPath) -> UICollectionViewCell {
-      let cell = collectionView.dequeueReusableCellWithReuseIdentifier("Cell", forIndexPath: indexPath) as MyPostsCollectionViewCell
+      let cell = collectionView.dequeueReusableCellWithReuseIdentifier("Cell", forIndexPath: indexPath) as! MyPostsCollectionViewCell
       let myPost = posts[indexPath.indexAtPosition(0)]
       
       cell.locationLabel.text = "\(myPost.startingLoc) \u{2192} \(myPost.endingLoc)"
@@ -123,7 +123,7 @@ class MyPostsViewController: UIViewController, UICollectionViewDelegateFlowLayou
    
    override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {
       if segue.identifier == "presentNav" {
-         let toViewController = segue.destinationViewController as NavigationViewController
+         let toViewController = segue.destinationViewController as! NavigationViewController
          self.modalPresentationStyle = UIModalPresentationStyle.Custom
          toViewController.transitioningDelegate = self.navTransitionOperator
          toViewController.presentingView = self

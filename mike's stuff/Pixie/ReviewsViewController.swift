@@ -85,7 +85,7 @@ class ReviewsViewController: UIViewController, UITableViewDelegate, UITableViewD
    }
    
    func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
-      var cell = self.tableView.dequeueReusableCellWithIdentifier("cell") as ReviewTableViewCell
+      var cell = self.tableView.dequeueReusableCellWithIdentifier("cell") as! ReviewTableViewCell
       cell.commentLabel.text = self.reviews[indexPath.row].comment
       switch(self.reviews[indexPath.row].color) {
       case Review.reviewColor.green:

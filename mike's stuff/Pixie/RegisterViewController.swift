@@ -68,7 +68,7 @@ class RegisterViewController: UIViewController, FBLoginViewDelegate, UITextField
    }
    
    // handles hiding keyboard when user touches outside of keyboard
-   override func touchesBegan(touches: NSSet, withEvent event: UIEvent) {
+   override func touchesBegan(touches: Set<NSObject>, withEvent event: UIEvent) {
       self.view.endEditing(true)
    }
    
@@ -89,9 +89,9 @@ class RegisterViewController: UIViewController, FBLoginViewDelegate, UITextField
       request.HTTPMethod = "POST"
       var err: NSError?
       
-      var email = user.objectForKey("email") as String
-      var gender = user.objectForKey("gender") as String
-      var birthday = user.objectForKey("birthday") as String
+      var email = user.objectForKey("email") as! String
+      var gender = user.objectForKey("gender") as! String
+      var birthday = user.objectForKey("birthday") as! String
       var name = user.name
       
       
@@ -119,8 +119,8 @@ class RegisterViewController: UIViewController, FBLoginViewDelegate, UITextField
                
                let defaults = NSUserDefaults.standardUserDefaults();
                print("id is ")
-               println(resp["id"]! as Int);
-               defaults.setObject(resp["id"]! as Int, forKey: "PixieUserId")
+               println(resp["id"]! as! Int);
+               defaults.setObject(resp["id"]! as! Int, forKey: "PixieUserId")
                NSUserDefaults.standardUserDefaults().synchronize();
                self.wrongEmailPwLabel.hidden = true
             }

@@ -180,7 +180,7 @@ class MatchesViewController: UIViewController, UICollectionViewDelegateFlowLayou
    }
    
    func collectionView(collectionView: UICollectionView, cellForItemAtIndexPath indexPath: NSIndexPath) -> UICollectionViewCell {
-      let cell = collectionView.dequeueReusableCellWithReuseIdentifier("Cell", forIndexPath: indexPath) as MatchCollectionViewCell
+      let cell = collectionView.dequeueReusableCellWithReuseIdentifier("Cell", forIndexPath: indexPath) as! MatchCollectionViewCell
       let myMatch = matches[indexPath.indexAtPosition(0)]
       
       var tap = UITapGestureRecognizer(target: self, action: "tappedImage:")
@@ -204,15 +204,15 @@ class MatchesViewController: UIViewController, UICollectionViewDelegateFlowLayou
    
    func createAttributedNameString(name: String, age: Int) -> NSMutableAttributedString {
       var nameString = NSMutableAttributedString(string: name + ", \(age)")
-      nameString.addAttribute(NSFontAttributeName, value: UIFont(name: "HelveticaNeue-Thin", size: 24)!, range: NSMakeRange(0, countElements(name)+1))
-      nameString.addAttribute(NSFontAttributeName, value: UIFont(name: "HelveticaNeue-UltraLight", size: 24)!, range: NSMakeRange(countElements(name)+2, countElements("\(age)")))
+      nameString.addAttribute(NSFontAttributeName, value: UIFont(name: "HelveticaNeue-Thin", size: 24)!, range: NSMakeRange(0, count(name)+1))
+      nameString.addAttribute(NSFontAttributeName, value: UIFont(name: "HelveticaNeue-UltraLight", size: 24)!, range: NSMakeRange(count(name)+2, count("\(age)")))
       return nameString
       
    }
    
    func createAttributedNameStringNoAge(name: String) -> NSMutableAttributedString {
       var nameString = NSMutableAttributedString(string: name)
-      nameString.addAttribute(NSFontAttributeName, value: UIFont(name: "HelveticaNeue-Thin", size: 24)!, range: NSMakeRange(0, countElements(name)))
+      nameString.addAttribute(NSFontAttributeName, value: UIFont(name: "HelveticaNeue-Thin", size: 24)!, range: NSMakeRange(0, count(name)))
       return nameString
       
    }
@@ -239,7 +239,7 @@ class MatchesViewController: UIViewController, UICollectionViewDelegateFlowLayou
             destinationVC.transitioningDelegate = self.transitionManager
             destinationVC.modalPresentationStyle = UIModalPresentationStyle.Custom
             
-            var idxPath = self.collectionView.indexPathsForVisibleItems().first as NSIndexPath
+            var idxPath = self.collectionView.indexPathsForVisibleItems().first as! NSIndexPath
             var current = matches[idxPath.indexAtPosition(0)].author
             
             if current.age > 0 {

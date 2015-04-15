@@ -46,7 +46,7 @@ class SearchViewController: UIViewController, UISearchBarDelegate {
     }
     
     // handles hiding keyboard when user touches outside of keyboard
-    override func touchesBegan(touches: NSSet, withEvent event: UIEvent) {
+    override func touchesBegan(touches: Set<NSObject>, withEvent event: UIEvent) {
         self.view.endEditing(true)
     }
     
@@ -56,7 +56,7 @@ class SearchViewController: UIViewController, UISearchBarDelegate {
     
     override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {
         if segue.identifier == "presentNav" {
-            let toViewController = segue.destinationViewController as NavigationViewController
+            let toViewController = segue.destinationViewController as! NavigationViewController
             self.modalPresentationStyle = UIModalPresentationStyle.Custom
             toViewController.transitioningDelegate = self.navTransitionOperator
             toViewController.presentingView = self

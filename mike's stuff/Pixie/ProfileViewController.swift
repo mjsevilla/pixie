@@ -41,11 +41,11 @@ class ProfileViewController: UIViewController, UITextViewDelegate, UITextFieldDe
     
     // limit input to 300 characters
     func textView(textView: UITextView, shouldChangeTextInRange range: NSRange, replacementText text: String) -> Bool {
-        if (range.length + range.location > countElements(bioField.text)) {
+        if (range.length + range.location > count(bioField.text)) {
             return false
         }
         var newLength = NSInteger()
-        newLength = countElements(bioField.text) + countElements(text) - range.length
+        newLength = count(bioField.text) + count(text) - range.length
         
         return newLength <= 300
     }
@@ -71,19 +71,19 @@ class ProfileViewController: UIViewController, UITextViewDelegate, UITextFieldDe
     
     func textViewDidChange(textView: UITextView) {
         // update character count
-        charCount.text = NSString(format: "%d", 300 - countElements(bioField.text))
+        charCount.text = NSString(format: "%d", 300 - count(bioField.text)) as String
         
         saveBtn.enabled = true
     }
     
     // handles hiding keyboard when user touches outside of keyboard
-    override func touchesBegan(touches: NSSet, withEvent event: UIEvent) {
+    override func touchesBegan(touches: Set<NSObject>, withEvent event: UIEvent) {
         self.view.endEditing(true)
     }
     
     override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {
         if segue.identifier == "presentNav" {
-            let toViewController = segue.destinationViewController as NavigationViewController
+            let toViewController = segue.destinationViewController as! NavigationViewController
             self.modalPresentationStyle = UIModalPresentationStyle.Custom
             toViewController.transitioningDelegate = self.navTransitionOperator
             toViewController.presentingView = self

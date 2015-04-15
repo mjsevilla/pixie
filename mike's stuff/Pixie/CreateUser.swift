@@ -13,7 +13,7 @@ class CreateUser {
       var gender: String;
       var age: NSInteger = -1;
       
-      if(bday.utf16Count == 10) {
+      if(count(bday.utf16) == 10) {
          let convertToMinutes: Double = 60
          let convertToHours: Double = 60
          let convertToDays: Double = 24

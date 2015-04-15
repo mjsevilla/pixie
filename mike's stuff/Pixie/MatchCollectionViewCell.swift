@@ -10,13 +10,13 @@ import UIKit
 
 class MatchCollectionViewCell: UICollectionViewCell, UIGestureRecognizerDelegate {
    
-   let profilePic: UIImageView!
-   let userNameLabel: UILabel!
-   let locationLabel: UILabel!
-   let dateTimeLabel: UILabel!
-   let lineImage: UIImageView!
-   let messageIcon: UIButton!
-   let starIcon: UIButton!
+   var profilePic: UIImageView!
+   var userNameLabel: UILabel!
+   var locationLabel: UILabel!
+   var dateTimeLabel: UILabel!
+   var lineImage: UIImageView!
+   var messageIcon: UIButton!
+   var starIcon: UIButton!
    
    override init(frame: CGRect) {
       super.init(frame: frame)
