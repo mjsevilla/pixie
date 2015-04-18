@@ -14,15 +14,15 @@ class SearchViewController: UIViewController, UISearchBarDelegate {
     @IBOutlet weak var searchBar: UISearchBar!
     @IBOutlet weak var toolBar: UIToolbar!
     @IBOutlet weak var webViewBG: UIWebView!
-    var navTransitionOperator = NavigationTransitionOperator()
-    var postRideTransitionOperator = PostRideTransitionOperator()
-    var matchesTransitionOperator = SearchToMatchesTransitionOperator()
+    let navTransitionOperator = NavigationTransitionOperator()
+    let postRideTransitionOperator = PostRideTransitionOperator()
+    let matchesTransitionOperator = SearchToMatchesTransitionOperator()
     
     override func viewDidLoad() {
         super.viewDidLoad()
         // Do any additional setup after loading the view, typically from a nib.
         var filePath = NSBundle.mainBundle().pathForResource("highway", ofType: "gif")
-        var gif = NSData(contentsOfFile: filePath!)
+        let gif = NSData(contentsOfFile: filePath!)
         webViewBG.loadData(gif, MIMEType: "image/gif", textEncodingName: nil, baseURL: nil)
         webViewBG.userInteractionEnabled = false
         
@@ -31,6 +31,13 @@ class SearchViewController: UIViewController, UISearchBarDelegate {
         toolBar.setShadowImage(UIImage(), forToolbarPosition: UIBarPosition.Any)
         toolBar.tintColor = UIColor.whiteColor()
         
+        var rightSwipe = UISwipeGestureRecognizer(target: self, action: Selector("handleSwipes:"))
+        rightSwipe.direction = .Right
+        view.addGestureRecognizer(rightSwipe)
+        var leftSwipe = UISwipeGestureRecognizer(target: self, action: Selector("handleSwipes:"))
+        leftSwipe.direction = .Left
+        view.addGestureRecognizer(leftSwipe)
+        
         searchBar.delegate = self
         
         let defaults = NSUserDefaults.standardUserDefaults()
@@ -38,6 +45,15 @@ class SearchViewController: UIViewController, UISearchBarDelegate {
             println("userId found: \(savedId)")
         } else {
             println("userId not found")
+        }
+    }
+    
+    func handleSwipes(sender: UISwipeGestureRecognizer) {
+        if sender.direction == .Right {
+            self.performSegueWithIdentifier("presentNav", sender: self)
+        }
+        if sender.direction == .Left {
+            self.performSegueWithIdentifier("postRideSegue", sender: self)
         }
     }
     

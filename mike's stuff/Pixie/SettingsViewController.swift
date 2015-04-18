@@ -16,7 +16,15 @@ class SettingsViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         // Do any additional setup after loading the view, typically from a nib.
-        
+        var rightSwipe = UISwipeGestureRecognizer(target: self, action: Selector("handleSwipes:"))
+        rightSwipe.direction = .Right
+        view.addGestureRecognizer(rightSwipe)
+    }
+    
+    func handleSwipes(sender: UISwipeGestureRecognizer) {
+        if sender.direction == .Right {
+            self.performSegueWithIdentifier("presentNav", sender: self)
+        }
     }
     
     override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {

@@ -37,6 +37,16 @@ class ProfileViewController: UIViewController, UITextViewDelegate, UITextFieldDe
         
         profPic.layer.borderWidth = 1.25
         profPic.layer.borderColor = UIColor.lightGrayColor().CGColor
+        
+        var rightSwipe = UISwipeGestureRecognizer(target: self, action: Selector("handleSwipes:"))
+        rightSwipe.direction = .Right
+        view.addGestureRecognizer(rightSwipe)
+    }
+    
+    func handleSwipes(sender: UISwipeGestureRecognizer) {
+        if sender.direction == .Right {
+            self.performSegueWithIdentifier("presentNav", sender: self)
+        }
     }
     
     // limit input to 300 characters

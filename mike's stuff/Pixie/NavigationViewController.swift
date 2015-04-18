@@ -40,6 +40,10 @@ class NavigationViewController : UIViewController, UITableViewDelegate, UITableV
         let signOut = NavigationModel(title: "Sign Out", icon: "door")
         
         items = [search, myProfile, payments, messages, myRides, myFavorites, settings, about, signOut]
+        
+        var leftSwipe = UISwipeGestureRecognizer(target: self, action: Selector("handleSwipes:"))
+        leftSwipe.direction = .Left
+        view.addGestureRecognizer(leftSwipe)
     }
     
     func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
@@ -58,6 +62,12 @@ class NavigationViewController : UIViewController, UITableViewDelegate, UITableV
         cell.backgroundColor = UIColor.clearColor()
         
         return cell
+    }
+    
+    func handleSwipes(sender: UISwipeGestureRecognizer) {
+        if sender.direction == .Left {
+            dismissViewControllerAnimated(true, completion: nil)
+        }
     }
     
     func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
@@ -124,10 +134,6 @@ class NavigationViewController : UIViewController, UITableViewDelegate, UITableV
         default:
             print("uhhh...hai <(._.<)")
         }
-    }
-    
-    override func touchesBegan(touches: Set<NSObject>, withEvent event: UIEvent) {
-        dismissViewControllerAnimated(true, completion: nil)
     }
     
     override func preferredStatusBarStyle() -> UIStatusBarStyle {
