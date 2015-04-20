@@ -13,6 +13,7 @@ class NavigationTransitionOperator: NSObject, UIViewControllerAnimatedTransition
     
     var snapshot : UIView!
     var isPresenting : Bool = true
+    var presentingView : UIViewController!
     
     // returns the number of seconds that the animation takes
     func transitionDuration(transitionContext: UIViewControllerContextTransitioning)
@@ -33,6 +34,7 @@ class NavigationTransitionOperator: NSObject, UIViewControllerAnimatedTransition
     func animationControllerForPresentedController(presented: UIViewController, presentingController presenting: UIViewController, sourceController source: UIViewController)
         -> UIViewControllerAnimatedTransitioning? {
             
+            presentingView = presented
             self.isPresenting = true
             return self
     }
@@ -63,6 +65,7 @@ class NavigationTransitionOperator: NSObject, UIViewControllerAnimatedTransition
         let aSelector : Selector = "dismissNav"
         let tapGesture = UITapGestureRecognizer(target: self, action: aSelector)
         tapGesture.numberOfTapsRequired = 1
+        self.snapshot.userInteractionEnabled = true
         self.snapshot.addGestureRecognizer(tapGesture)
         
         container.addSubview(toView)
@@ -81,7 +84,7 @@ class NavigationTransitionOperator: NSObject, UIViewControllerAnimatedTransition
     }
     
     func dismissNav() {
-        NavigationViewController().dismissViewControllerAnimated(true, completion: nil)
+        presentingView.dismissViewControllerAnimated(true, completion: nil)
         println("Touched")
     }
     
