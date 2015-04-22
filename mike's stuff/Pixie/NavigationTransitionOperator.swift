@@ -85,7 +85,6 @@ class NavigationTransitionOperator: NSObject, UIViewControllerAnimatedTransition
     
     func dismissNav() {
         presentingView.dismissViewControllerAnimated(true, completion: nil)
-        println("Touched")
     }
     
     // hide navigation menu
