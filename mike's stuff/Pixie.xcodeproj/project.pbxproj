@@ -30,9 +30,6 @@
 		52414C8D1AAE061A00417481 /* SearchToMatchesTransitionOperator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 52414C8C1AAE061A00417481 /* SearchToMatchesTransitionOperator.swift */; };
 		52CB3C681AA85C1100FAE10A /* PostRideViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 52CB3C671AA85C1100FAE10A /* PostRideViewController.swift */; };
 		52CB3C6A1AA85C8B00FAE10A /* PostRideTransitionOperator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 52CB3C691AA85C8B00FAE10A /* PostRideTransitionOperator.swift */; };
-		6114CE831AE840B300A5FD92 /* redtruck.gif in Resources */ = {isa = PBXBuildFile; fileRef = 6114CE821AE840B300A5FD92 /* redtruck.gif */; };
-		6115B2861A9CE3590085B749 /* night.gif in Resources */ = {isa = PBXBuildFile; fileRef = 6115B2851A9CE3590085B749 /* night.gif */; };
-		6115B2881A9CE3910085B749 /* sunset.gif in Resources */ = {isa = PBXBuildFile; fileRef = 6115B2871A9CE3910085B749 /* sunset.gif */; };
 		611A1A351AAE814800F18B3B /* ProfileViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 611A1A341AAE814800F18B3B /* ProfileViewController.swift */; };
 		611A1A371AAE827E00F18B3B /* SearchViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 611A1A361AAE827E00F18B3B /* SearchViewController.swift */; };
 		611A1A3B1AAE8BBD00F18B3B /* InitialViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 611A1A3A1AAE8BBD00F18B3B /* InitialViewController.swift */; };
@@ -46,8 +43,8 @@
 		6184D2EC1A9302F3006DA1E4 /* LaunchScreen.xib in Resources */ = {isa = PBXBuildFile; fileRef = 6184D2EA1A9302F3006DA1E4 /* LaunchScreen.xib */; };
 		6184D2F81A9302F3006DA1E4 /* PixieTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6184D2F71A9302F3006DA1E4 /* PixieTests.swift */; };
 		6184D3041A93032B006DA1E4 /* Syncopate-Regular.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 6184D3031A93032B006DA1E4 /* Syncopate-Regular.ttf */; };
-		6184D3081A930347006DA1E4 /* highway.gif in Resources */ = {isa = PBXBuildFile; fileRef = 6184D3061A930347006DA1E4 /* highway.gif */; };
-		6184D3091A930347006DA1E4 /* drive.gif in Resources */ = {isa = PBXBuildFile; fileRef = 6184D3071A930347006DA1E4 /* drive.gif */; };
+		61B8AC771AED826F00AB92F7 /* pixieWelcomeVideoColor.mp4 in Resources */ = {isa = PBXBuildFile; fileRef = 61B8AC751AED826F00AB92F7 /* pixieWelcomeVideoColor.mp4 */; };
+		61B8AC781AED826F00AB92F7 /* pixieWelcomeVideoSepia.mp4 in Resources */ = {isa = PBXBuildFile; fileRef = 61B8AC761AED826F00AB92F7 /* pixieWelcomeVideoSepia.mp4 */; };
 		61DEC0391ABA48B0004314EB /* RegisterViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 61DEC0381ABA48B0004314EB /* RegisterViewController.swift */; };
 		61DEC03B1ABA830E004314EB /* AboutViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 61DEC03A1ABA830E004314EB /* AboutViewController.swift */; };
 		61DEC03D1ABA87A5004314EB /* SettingsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 61DEC03C1ABA87A5004314EB /* SettingsViewController.swift */; };
@@ -89,9 +86,6 @@
 		52414C8C1AAE061A00417481 /* SearchToMatchesTransitionOperator.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SearchToMatchesTransitionOperator.swift; sourceTree = "<group>"; };
 		52CB3C671AA85C1100FAE10A /* PostRideViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PostRideViewController.swift; sourceTree = "<group>"; };
 		52CB3C691AA85C8B00FAE10A /* PostRideTransitionOperator.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PostRideTransitionOperator.swift; sourceTree = "<group>"; };
-		6114CE821AE840B300A5FD92 /* redtruck.gif */ = {isa = PBXFileReference; lastKnownFileType = image.gif; path = redtruck.gif; sourceTree = "<group>"; };
-		6115B2851A9CE3590085B749 /* night.gif */ = {isa = PBXFileReference; lastKnownFileType = image.gif; path = night.gif; sourceTree = "<group>"; };
-		6115B2871A9CE3910085B749 /* sunset.gif */ = {isa = PBXFileReference; lastKnownFileType = image.gif; path = sunset.gif; sourceTree = "<group>"; };
 		611A1A341AAE814800F18B3B /* ProfileViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ProfileViewController.swift; sourceTree = "<group>"; };
 		611A1A361AAE827E00F18B3B /* SearchViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SearchViewController.swift; sourceTree = "<group>"; };
 		611A1A3A1AAE8BBD00F18B3B /* InitialViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = InitialViewController.swift; sourceTree = "<group>"; };
@@ -111,8 +105,8 @@
 		6184D2F61A9302F3006DA1E4 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		6184D2F71A9302F3006DA1E4 /* PixieTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PixieTests.swift; sourceTree = "<group>"; };
 		6184D3031A93032B006DA1E4 /* Syncopate-Regular.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Syncopate-Regular.ttf"; sourceTree = "<group>"; };
-		6184D3061A930347006DA1E4 /* highway.gif */ = {isa = PBXFileReference; lastKnownFileType = image.gif; path = highway.gif; sourceTree = "<group>"; };
-		6184D3071A930347006DA1E4 /* drive.gif */ = {isa = PBXFileReference; lastKnownFileType = image.gif; path = drive.gif; sourceTree = "<group>"; };
+		61B8AC751AED826F00AB92F7 /* pixieWelcomeVideoColor.mp4 */ = {isa = PBXFileReference; lastKnownFileType = file; path = pixieWelcomeVideoColor.mp4; sourceTree = "<group>"; };
+		61B8AC761AED826F00AB92F7 /* pixieWelcomeVideoSepia.mp4 */ = {isa = PBXFileReference; lastKnownFileType = file; path = pixieWelcomeVideoSepia.mp4; sourceTree = "<group>"; };
 		61DEC0381ABA48B0004314EB /* RegisterViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RegisterViewController.swift; sourceTree = "<group>"; };
 		61DEC03A1ABA830E004314EB /* AboutViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AboutViewController.swift; sourceTree = "<group>"; };
 		61DEC03C1ABA87A5004314EB /* SettingsViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SettingsViewController.swift; sourceTree = "<group>"; };
@@ -257,22 +251,19 @@
 		6184D3021A93030F006DA1E4 /* Resources */ = {
 			isa = PBXGroup;
 			children = (
-				6184D3051A93033A006DA1E4 /* Gifs */,
+				6184D3051A93033A006DA1E4 /* Welcome Video */,
 				6184D3011A930308006DA1E4 /* Fonts */,
 			);
 			name = Resources;
 			sourceTree = "<group>";
 		};
-		6184D3051A93033A006DA1E4 /* Gifs */ = {
+		6184D3051A93033A006DA1E4 /* Welcome Video */ = {
 			isa = PBXGroup;
 			children = (
-				6184D3071A930347006DA1E4 /* drive.gif */,
-				6184D3061A930347006DA1E4 /* highway.gif */,
-				6114CE821AE840B300A5FD92 /* redtruck.gif */,
-				6115B2851A9CE3590085B749 /* night.gif */,
-				6115B2871A9CE3910085B749 /* sunset.gif */,
+				61B8AC751AED826F00AB92F7 /* pixieWelcomeVideoColor.mp4 */,
+				61B8AC761AED826F00AB92F7 /* pixieWelcomeVideoSepia.mp4 */,
 			);
-			name = Gifs;
+			name = "Welcome Video";
 			sourceTree = "<group>";
 		};
 		8253DE2CD01318F070DD9BD1 /* Pods */ = {
@@ -370,18 +361,15 @@
 			buildActionMask = 2147483647;
 			files = (
 				52414C761AAE002200417481 /* green-car.png in Resources */,
-				6115B2881A9CE3910085B749 /* sunset.gif in Resources */,
-				6184D3081A930347006DA1E4 /* highway.gif in Resources */,
-				6115B2861A9CE3590085B749 /* night.gif in Resources */,
-				6114CE831AE840B300A5FD92 /* redtruck.gif in Resources */,
-				6184D3091A930347006DA1E4 /* drive.gif in Resources */,
 				6184D2E71A9302F3006DA1E4 /* Main.storyboard in Resources */,
 				52414C891AAE04EF00417481 /* chat-bubble32.png in Resources */,
 				61EAACCA1A9C1ABD00D84246 /* Images.xcassets in Resources */,
 				52414C7B1AAE002200417481 /* yellow-car.png in Resources */,
 				52414C8B1AAE050000417481 /* star.png in Resources */,
+				61B8AC781AED826F00AB92F7 /* pixieWelcomeVideoSepia.mp4 in Resources */,
 				52414C791AAE002200417481 /* red-car.png in Resources */,
 				6184D2EC1A9302F3006DA1E4 /* LaunchScreen.xib in Resources */,
+				61B8AC771AED826F00AB92F7 /* pixieWelcomeVideoColor.mp4 in Resources */,
 				6184D3041A93032B006DA1E4 /* Syncopate-Regular.ttf in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

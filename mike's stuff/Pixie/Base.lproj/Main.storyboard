@@ -437,16 +437,8 @@
                         <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <webView userInteractionEnabled="NO" contentMode="scaleToFill" scalesPageToFit="YES" mediaPlaybackRequiresUserAction="NO" translatesAutoresizingMaskIntoConstraints="NO" id="bz9-2j-ihA">
-                                <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
-                                <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
-                                <dataDetectorType key="dataDetectorTypes"/>
-                            </webView>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="top" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="PIXIe" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="B2k-LN-2YF">
                                 <rect key="frame" x="183" y="91" width="235" height="73"/>
-                                <constraints>
-                                    <constraint firstAttribute="width" constant="235" id="H6C-Pr-yTO"/>
-                                </constraints>
                                 <fontDescription key="fontDescription" name="Syncopate-Regular" family="Syncopate" pointSize="75"/>
                                 <color key="textColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                 <nil key="highlightedColor"/>
@@ -474,23 +466,18 @@
                         </subviews>
                         <color key="backgroundColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
                         <constraints>
-                            <constraint firstItem="bz9-2j-ihA" firstAttribute="top" secondItem="Kul-P5-94b" secondAttribute="top" id="6zB-5s-IBK"/>
-                            <constraint firstAttribute="bottom" secondItem="WYI-0U-HP2" secondAttribute="bottom" constant="20" symbolic="YES" id="8fx-qf-gRd"/>
-                            <constraint firstAttribute="trailing" secondItem="bz9-2j-ihA" secondAttribute="trailing" id="Hb8-G7-Ryu"/>
-                            <constraint firstItem="B2k-LN-2YF" firstAttribute="top" secondItem="DP7-dI-ri3" secondAttribute="bottom" constant="71" id="Rfi-1D-Vd4"/>
-                            <constraint firstItem="WYI-0U-HP2" firstAttribute="baseline" secondItem="vCD-i4-wqh" secondAttribute="baseline" id="W6P-k8-Vic"/>
-                            <constraint firstItem="bz9-2j-ihA" firstAttribute="bottom" secondItem="Qnt-Ff-L22" secondAttribute="top" id="W8R-2C-oqN"/>
-                            <constraint firstItem="WYI-0U-HP2" firstAttribute="leading" secondItem="Kul-P5-94b" secondAttribute="leadingMargin" constant="12" id="eGd-IP-ryZ"/>
-                            <constraint firstItem="B2k-LN-2YF" firstAttribute="centerX" secondItem="bz9-2j-ihA" secondAttribute="centerX" id="fba-ja-P6f"/>
-                            <constraint firstItem="bz9-2j-ihA" firstAttribute="leading" secondItem="Kul-P5-94b" secondAttribute="leading" id="luf-vf-pZF"/>
-                            <constraint firstAttribute="trailingMargin" secondItem="vCD-i4-wqh" secondAttribute="trailing" constant="12" id="uSb-r7-j5w"/>
+                            <constraint firstItem="WYI-0U-HP2" firstAttribute="leading" secondItem="Kul-P5-94b" secondAttribute="leadingMargin" constant="12" id="CCy-R9-KI8"/>
+                            <constraint firstAttribute="trailingMargin" secondItem="vCD-i4-wqh" secondAttribute="trailing" constant="12" id="Tzg-8y-bjM"/>
+                            <constraint firstItem="B2k-LN-2YF" firstAttribute="top" secondItem="DP7-dI-ri3" secondAttribute="bottom" constant="71" id="V7B-RZ-1Ki"/>
+                            <constraint firstItem="WYI-0U-HP2" firstAttribute="baseline" secondItem="vCD-i4-wqh" secondAttribute="baseline" id="gro-du-cxi"/>
+                            <constraint firstItem="B2k-LN-2YF" firstAttribute="centerX" secondItem="Kul-P5-94b" secondAttribute="centerX" id="rPh-Si-g5v"/>
+                            <constraint firstAttribute="bottom" secondItem="WYI-0U-HP2" secondAttribute="bottom" constant="20" symbolic="YES" id="ukw-2l-4Ky"/>
                         </constraints>
                     </view>
                     <simulatedStatusBarMetrics key="simulatedStatusBarMetrics" statusBarStyle="lightContent"/>
                     <connections>
-                        <outlet property="registerBtn" destination="vCD-i4-wqh" id="i0N-be-SSP"/>
+                        <outlet property="registerBtn" destination="vCD-i4-wqh" id="Fd0-tz-KDt"/>
                         <outlet property="signInBtn" destination="WYI-0U-HP2" id="DHU-UP-5OX"/>
-                        <outlet property="webViewBG" destination="bz9-2j-ihA" id="qt2-Gz-a5T"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="Rod-uQ-vPG" sceneMemberID="firstResponder"/>

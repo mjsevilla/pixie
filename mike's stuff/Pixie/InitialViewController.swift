@@ -8,23 +8,39 @@
 
 import Foundation
 import UIKit
+import MediaPlayer
 
 class InitialViewController: UIViewController {
     
-    @IBOutlet weak var webViewBG: UIWebView!
     @IBOutlet weak var registerBtn: UIButton!
     @IBOutlet weak var signInBtn: UIButton!
+    var moviePlayer: MPMoviePlayerController?
     
     
     override func viewDidLoad() {
         super.viewDidLoad()
         // Do any additional setup after loading the view, typically from a nib.
-        var filePath = NSBundle.mainBundle().pathForResource("highway", ofType: "gif")
-        var gif = NSData(contentsOfFile: filePath!)
+        playVideo()
+    }
+    
+    func playVideo() -> Bool {
+        let path = NSBundle.mainBundle().pathForResource("pixieWelcomeVideoColor", ofType: "mp4")
+        let url = NSURL.fileURLWithPath(path!)
+        moviePlayer = MPMoviePlayerController(contentURL: url)
         
-        webViewBG.loadData(gif, MIMEType: "image/gif", textEncodingName: nil, baseURL: nil)
-        webViewBG.userInteractionEnabled = false
-        webViewBG.scalesPageToFit = true
+        if let player = moviePlayer {
+            player.view.frame = self.view.bounds
+            player.controlStyle = .None
+            player.prepareToPlay()
+            player.repeatMode = .One
+            player.scalingMode = .AspectFill
+            self.view.addSubview(player.view)
+            self.view.sendSubviewToBack(player.view)
+            
+            return true
+        }
+        
+        return false
     }
     
     // exit segue from sign in view
