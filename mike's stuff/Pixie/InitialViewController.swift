@@ -16,7 +16,6 @@ class InitialViewController: UIViewController {
     @IBOutlet weak var signInBtn: UIButton!
     var moviePlayer: MPMoviePlayerController?
     
-    
     override func viewDidLoad() {
         super.viewDidLoad()
         // Do any additional setup after loading the view, typically from a nib.

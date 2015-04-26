@@ -8,6 +8,7 @@
 
 import Foundation
 import UIKit
+import MediaPlayer
 
 class SearchViewController: UIViewController, UISearchBarDelegate {
     
@@ -17,14 +18,12 @@ class SearchViewController: UIViewController, UISearchBarDelegate {
     let navTransitionOperator = NavigationTransitionOperator()
     let postRideTransitionOperator = PostRideTransitionOperator()
     let matchesTransitionOperator = SearchToMatchesTransitionOperator()
+    var moviePlayer: MPMoviePlayerController?
     
     override func viewDidLoad() {
         super.viewDidLoad()
         // Do any additional setup after loading the view, typically from a nib.
-        var filePath = NSBundle.mainBundle().pathForResource("highway", ofType: "gif")
-        let gif = NSData(contentsOfFile: filePath!)
-        webViewBG.loadData(gif, MIMEType: "image/gif", textEncodingName: nil, baseURL: nil)
-        webViewBG.userInteractionEnabled = false
+        playVideo()
         
         toolBar.setBackgroundImage(UIImage(), forToolbarPosition: UIBarPosition.Any,
             barMetrics: UIBarMetrics.Default)
@@ -46,6 +45,26 @@ class SearchViewController: UIViewController, UISearchBarDelegate {
         } else {
             println("userId not found")
         }
+    }
+    
+    func playVideo() -> Bool {
+        let path = NSBundle.mainBundle().pathForResource("pixieWelcomeVideoColor", ofType: "mp4")
+        let url = NSURL.fileURLWithPath(path!)
+        moviePlayer = MPMoviePlayerController(contentURL: url)
+        
+        if let player = moviePlayer {
+            player.view.frame = self.view.bounds
+            player.controlStyle = .None
+            player.prepareToPlay()
+            player.repeatMode = .One
+            player.scalingMode = .AspectFill
+            self.view.addSubview(player.view)
+            self.view.sendSubviewToBack(player.view)
+            
+            return true
+        }
+        
+        return false
     }
     
     func handleSwipes(sender: UISwipeGestureRecognizer) {

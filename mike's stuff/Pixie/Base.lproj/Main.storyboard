@@ -237,12 +237,6 @@
                         <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <webView opaque="NO" userInteractionEnabled="NO" contentMode="scaleToFill" scalesPageToFit="YES" mediaPlaybackRequiresUserAction="NO" translatesAutoresizingMaskIntoConstraints="NO" id="1dC-Jr-vGL">
-                                <rect key="frame" x="0.0" y="0.0" width="600" height="667"/>
-                                <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
-                                <gestureRecognizers/>
-                                <dataDetectorType key="dataDetectorTypes"/>
-                            </webView>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="top" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="PIXIe" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="PE2-lx-b7n">
                                 <rect key="frame" x="183" y="106" width="235" height="73"/>
                                 <constraints>
@@ -282,13 +276,9 @@
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                         <constraints>
-                            <constraint firstItem="dyh-NB-3wh" firstAttribute="trailing" secondItem="1dC-Jr-vGL" secondAttribute="trailing" id="2sM-nm-LYl"/>
                             <constraint firstAttribute="trailing" secondItem="dyh-NB-3wh" secondAttribute="trailing" id="3pd-mI-keX"/>
                             <constraint firstItem="PE2-lx-b7n" firstAttribute="top" secondItem="dyh-NB-3wh" secondAttribute="bottom" constant="42" id="4tL-Z1-9bj"/>
                             <constraint firstItem="PE2-lx-b7n" firstAttribute="centerX" secondItem="9oX-eL-aDD" secondAttribute="centerX" id="Hyj-Nv-shI"/>
-                            <constraint firstItem="1dC-Jr-vGL" firstAttribute="top" secondItem="TrL-na-hN8" secondAttribute="top" id="XNy-4B-Zji"/>
-                            <constraint firstItem="dyh-NB-3wh" firstAttribute="leading" secondItem="1dC-Jr-vGL" secondAttribute="leading" id="gIF-ei-fmj"/>
-                            <constraint firstAttribute="bottomMargin" secondItem="1dC-Jr-vGL" secondAttribute="bottom" constant="-67" id="ghm-bL-DpJ"/>
                             <constraint firstItem="dyh-NB-3wh" firstAttribute="leading" secondItem="TrL-na-hN8" secondAttribute="leading" id="i5V-DD-lFG"/>
                             <constraint firstItem="PE2-lx-b7n" firstAttribute="centerX" secondItem="dyh-NB-3wh" secondAttribute="centerX" id="rDx-bJ-89j"/>
                             <constraint firstItem="fFe-FZ-SOR" firstAttribute="top" secondItem="9oX-eL-aDD" secondAttribute="bottom" constant="244" id="wmy-8o-932"/>
@@ -299,7 +289,6 @@
                     <connections>
                         <outlet property="searchBar" destination="9oX-eL-aDD" id="YEw-nn-eIE"/>
                         <outlet property="toolBar" destination="dyh-NB-3wh" id="WVC-Rd-oUd"/>
-                        <outlet property="webViewBG" destination="1dC-Jr-vGL" id="a1F-up-ji6"/>
                         <segue destination="oOl-XQ-AIu" kind="custom" identifier="postRideSegue" id="w4w-Vg-J1K"/>
                         <segue destination="2PL-Nj-2SE" kind="custom" identifier="showMatches" id="Gap-73-MpG"/>
                     </connections>
@@ -1093,7 +1082,7 @@
         <image name="menu" width="22" height="22"/>
     </resources>
     <inferredMetricsTieBreakers>
-        <segue reference="rDY-9Y-l7X"/>
         <segue reference="QXm-KY-6G3"/>
+        <segue reference="ndH-hG-Xoc"/>
     </inferredMetricsTieBreakers>
 </document>
