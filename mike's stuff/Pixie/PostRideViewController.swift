@@ -98,6 +98,10 @@ class PostRideViewController: UIViewController, UITextFieldDelegate, UIPickerVie
         loadTripSectionContraints()
         loadDateTimeSectionContraints()
         loadReviewSectionConstraints()
+      
+      var swipeToSearchView = UISwipeGestureRecognizer(target: self, action: "goBack:")
+      swipeToSearchView.direction = .Right
+      self.view.addGestureRecognizer(swipeToSearchView)
     }
     
     func loadTripSectionView() {
