@@ -137,6 +137,7 @@ class MyPostsViewController: UIViewController, UITableViewDelegate, UITableViewD
       var editAction = UITableViewRowAction(style: UITableViewRowActionStyle.Normal, title: "Edit" , handler: { (action:UITableViewRowAction!, indexPath:NSIndexPath!) -> Void in
          //         To-do add edit post functionality
       })
+      editAction.backgroundColor = UIColor(red:0.68, green:0.91, blue:0.98, alpha:1.0)
       
       
       return [deleteAction, editAction]

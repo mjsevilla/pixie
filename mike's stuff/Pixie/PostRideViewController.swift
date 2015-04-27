@@ -70,7 +70,7 @@ class PostRideViewController: UIViewController, UITextFieldDelegate, UIPickerVie
         loadReviewSectionView()
         
         nextButton = UIButton()
-        let nextString = NSAttributedString(string: "NEXT", attributes: [NSForegroundColorAttributeName: UIColor(red:0.0, green:0.74, blue:0.83, alpha:1.0), NSFontAttributeName: UIFont(name: "Syncopate-Regular", size: 20.0)!])
+        let nextString = NSAttributedString(string: "NEXT", attributes: [NSForegroundColorAttributeName: UIColor(red:0.0, green:0.74, blue:0.82, alpha:1.0), NSFontAttributeName: UIFont(name: "Syncopate-Regular", size: 20.0)!])
         nextButton.setAttributedTitle(nextString, forState: .Normal)
         nextButton.sizeToFit()
         nextButton.hidden = true
@@ -81,7 +81,7 @@ class PostRideViewController: UIViewController, UITextFieldDelegate, UIPickerVie
         backButton = UIButton(frame: CGRectMake(10, 28, 22, 22))
         UIGraphicsBeginImageContext(backButton.frame.size)
         let cntx = UIGraphicsGetCurrentContext()
-        CGContextSetStrokeColorWithColor(cntx, UIColor(red:0.0, green:0.74, blue:0.83, alpha:1.0).CGColor)
+        CGContextSetStrokeColorWithColor(cntx, UIColor(red:0.0, green:0.74, blue:0.82, alpha:1.0).CGColor)
         CGContextSetLineWidth(cntx, 1.0)
         CGContextMoveToPoint(cntx, backButton.frame.width/2.0, 0)
         CGContextAddLineToPoint(cntx, 0, backButton.frame.height/2.0)
@@ -106,7 +106,7 @@ class PostRideViewController: UIViewController, UITextFieldDelegate, UIPickerVie
     
     func loadTripSectionView() {
         tripSectionButton = UIButton()
-        tripSectionButton.backgroundColor = UIColor(red:0.0, green:0.74, blue:0.83, alpha: 0.8)
+        tripSectionButton.backgroundColor = UIColor(red:0.0, green:0.74, blue:0.82, alpha:1.0)
         tripSectionButton.addTarget(self, action: "reviewLocations:", forControlEvents: .TouchUpInside)
         tripSectionButton.hidden = true
         tripSectionButton.titleLabel?.textAlignment = .Center
@@ -123,7 +123,7 @@ class PostRideViewController: UIViewController, UITextFieldDelegate, UIPickerVie
         seekOfferSegment.setTitleTextAttributes(attr as [NSObject : AnyObject], forState: .Normal)
         seekOfferSegment.addTarget(self, action: "segmentValueChanged:", forControlEvents: UIControlEvents.ValueChanged)
         seekOfferSegment.setTranslatesAutoresizingMaskIntoConstraints(false)
-        seekOfferSegment.tintColor = UIColor(red:0.0, green:0.74, blue:0.83, alpha:1.0)
+        seekOfferSegment.tintColor = UIColor(red:0.0, green:0.74, blue:0.82, alpha:1.0)
         
         view.addSubview(seekOfferSegment)
         
@@ -142,7 +142,7 @@ class PostRideViewController: UIViewController, UITextFieldDelegate, UIPickerVie
             attributes:[NSForegroundColorAttributeName: UIColor(red: 1.0, green: 1.0, blue: 1.0, alpha: 0.8), NSFontAttributeName: UIFont(name: "HelveticaNeue-Thin", size: 16.0)!])
         startingLocation.layer.cornerRadius = 8.0
         startingLocation.layer.masksToBounds = true
-        startingLocation.layer.borderColor = UIColor(red:0.0, green:0.74, blue:0.83, alpha:1.0).CGColor
+        startingLocation.layer.borderColor = UIColor(red:0.0, green:0.74, blue:0.82, alpha:1.0).CGColor
         startingLocation.layer.borderWidth = 1.0
         startingLocation.delegate = self
         startingLocation.hidden = true
@@ -159,7 +159,7 @@ class PostRideViewController: UIViewController, UITextFieldDelegate, UIPickerVie
             attributes:[NSForegroundColorAttributeName: UIColor(red: 1.0, green: 1.0, blue: 1.0, alpha: 0.8), NSFontAttributeName: UIFont(name: "HelveticaNeue-Thin", size: 16.0)!])
         endingLocation.layer.cornerRadius = 8.0
         endingLocation.layer.masksToBounds = true
-        endingLocation.layer.borderColor = UIColor(red:0.0, green:0.74, blue:0.83, alpha:1.0).CGColor
+        endingLocation.layer.borderColor = UIColor(red:0.0, green:0.74, blue:0.82, alpha:1.0).CGColor
         endingLocation.layer.borderWidth = 1.0
         endingLocation.delegate = self
         endingLocation.hidden = true
