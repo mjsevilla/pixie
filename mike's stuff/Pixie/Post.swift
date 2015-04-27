@@ -9,21 +9,24 @@
 import Foundation
 
 class Post {
+   let isDriver: Bool
    let startingLoc: String
    let endingLoc: String
    let date: String
    let time: String
    let userId: Int
    
-   init(start: String, end: String, date: String, time: String, userId: Int) {
-      startingLoc = start
-      endingLoc = end
+   init(isDriver: Bool, start: String, end: String, date: String, time: String, userId: Int) {
+      self.isDriver = isDriver
+      self.startingLoc = start
+      self.endingLoc = end
       self.date = date
       self.time = time
       self.userId = userId;
    }
    
    func toString() {
+      println("isDriver: \(isDriver)")
       println("start: \(startingLoc)")
       println("end: \(endingLoc)")
       println("date: \(date)")

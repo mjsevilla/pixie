@@ -1070,11 +1070,34 @@
                     <navigationItem key="navigationItem" id="NIJ-xE-niV"/>
                     <connections>
                         <outlet property="navBar" destination="wRh-Nc-jQT" id="MgC-sT-2yD"/>
+                        <segue destination="G3a-lA-nWN" kind="presentation" identifier="presentEditPostView" modalPresentationStyle="overFullScreen" modalTransitionStyle="coverVertical" id="spJ-Vj-ggt"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="Ect-cX-t0L" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="2505" y="1065"/>
+            <point key="canvasLocation" x="2505" y="1057"/>
+        </scene>
+        <!--Edit Post View Controller-->
+        <scene sceneID="N6d-DL-3mf">
+            <objects>
+                <viewController id="G3a-lA-nWN" customClass="EditPostViewController" customModule="Pixie" customModuleProvider="target" sceneMemberID="viewController">
+                    <layoutGuides>
+                        <viewControllerLayoutGuide type="top" id="R8e-95-23h"/>
+                        <viewControllerLayoutGuide type="bottom" id="KsH-Eg-2jV"/>
+                    </layoutGuides>
+                    <view key="view" contentMode="scaleToFill" id="ft7-cc-o7W">
+                        <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
+                    </view>
+                    <connections>
+                        <segue destination="yOb-7p-W5w" kind="unwind" identifier="unwindToMyPosts" unwindAction="unwindToMyPosts:" id="c9u-GN-9Fb"/>
+                    </connections>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="jX5-ZC-Haj" userLabel="First Responder" sceneMemberID="firstResponder"/>
+                <exit id="yOb-7p-W5w" userLabel="Exit" sceneMemberID="exit"/>
+            </objects>
+            <point key="canvasLocation" x="3325" y="1075"/>
         </scene>
     </scenes>
     <resources>

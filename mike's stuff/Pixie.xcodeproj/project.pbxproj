@@ -30,6 +30,7 @@
 		52414C8D1AAE061A00417481 /* SearchToMatchesTransitionOperator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 52414C8C1AAE061A00417481 /* SearchToMatchesTransitionOperator.swift */; };
 		52CB3C681AA85C1100FAE10A /* PostRideViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 52CB3C671AA85C1100FAE10A /* PostRideViewController.swift */; };
 		52CB3C6A1AA85C8B00FAE10A /* PostRideTransitionOperator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 52CB3C691AA85C8B00FAE10A /* PostRideTransitionOperator.swift */; };
+		52CF2BD91AEE591200172812 /* EditPostViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 52CF2BD81AEE591200172812 /* EditPostViewController.swift */; };
 		52FFF7D11AEDFA350054A803 /* MyPostsTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 52FFF7D01AEDFA350054A803 /* MyPostsTableViewCell.swift */; };
 		611A1A351AAE814800F18B3B /* ProfileViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 611A1A341AAE814800F18B3B /* ProfileViewController.swift */; };
 		611A1A371AAE827E00F18B3B /* SearchViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 611A1A361AAE827E00F18B3B /* SearchViewController.swift */; };
@@ -87,6 +88,7 @@
 		52414C8C1AAE061A00417481 /* SearchToMatchesTransitionOperator.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SearchToMatchesTransitionOperator.swift; sourceTree = "<group>"; };
 		52CB3C671AA85C1100FAE10A /* PostRideViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PostRideViewController.swift; sourceTree = "<group>"; };
 		52CB3C691AA85C8B00FAE10A /* PostRideTransitionOperator.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PostRideTransitionOperator.swift; sourceTree = "<group>"; };
+		52CF2BD81AEE591200172812 /* EditPostViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = EditPostViewController.swift; sourceTree = "<group>"; };
 		52FFF7D01AEDFA350054A803 /* MyPostsTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MyPostsTableViewCell.swift; sourceTree = "<group>"; };
 		611A1A341AAE814800F18B3B /* ProfileViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ProfileViewController.swift; sourceTree = "<group>"; };
 		611A1A361AAE827E00F18B3B /* SearchViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SearchViewController.swift; sourceTree = "<group>"; };
@@ -178,6 +180,7 @@
 				6184D2E11A9302F3006DA1E4 /* AppDelegate.swift */,
 				52414C841AAE02B500417481 /* BioToReviewsTransitionOperator.swift */,
 				52414C7E1AAE00C200417481 /* BioViewController.swift */,
+				52CF2BD81AEE591200172812 /* EditPostViewController.swift */,
 				611A1A3A1AAE8BBD00F18B3B /* InitialViewController.swift */,
 				52414C701AAE002200417481 /* Match.swift */,
 				52414C6C1AADFEBD00417481 /* MatchCollectionViewCell.swift */,
@@ -429,6 +432,7 @@
 				52CB3C681AA85C1100FAE10A /* PostRideViewController.swift in Sources */,
 				52414C871AAE037600417481 /* Review.swift in Sources */,
 				52414C7F1AAE00C200417481 /* BioViewController.swift in Sources */,
+				52CF2BD91AEE591200172812 /* EditPostViewController.swift in Sources */,
 				6123E3E41A9AF84400AB776F /* NavigationViewController.swift in Sources */,
 				52414C811AAE025E00417481 /* ReviewsViewController.swift in Sources */,
 				61DEC03B1ABA830E004314EB /* AboutViewController.swift in Sources */,

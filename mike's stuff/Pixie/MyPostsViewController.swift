@@ -15,8 +15,8 @@ class MyPostsViewController: UIViewController, UITableViewDelegate, UITableViewD
    
    var tableView: UITableView!
    var navTransitionOperator = NavigationTransitionOperator()
-   //var posts = [Post]()
-   var posts = [Post(start: "start test1", end: "end test1", date: "date test1", time: "test test1", userId: 1), Post(start: "start test2", end: "end test2", date: "date test2", time: "test test2", userId: 1), Post(start: "start test3", end: "end test3", date: "date test3", time: "test test3", userId: 1), Post(start: "start test4", end: "end test4", date: "date test4", time: "test test4", userId: 1), Post(start: "start test5", end: "end test5", date: "date test5", time: "test test5", userId: 1)]
+   var posts = [Post]()
+   var currentPostIndex: Int!
    
    override func loadView() {
       super.loadView()
@@ -32,21 +32,24 @@ class MyPostsViewController: UIViewController, UITableViewDelegate, UITableViewD
       tableView.estimatedRowHeight = 100.0
       tableView.tableFooterView = UIView(frame: CGRectZero)
       tableView.setTranslatesAutoresizingMaskIntoConstraints(false)
+      
       self.view.addSubview(tableView)
       
       let viewsDict = ["tableView":tableView, "navBar":navBar]
       self.view.addConstraints(NSLayoutConstraint.constraintsWithVisualFormat("V:[navBar]-0-[tableView]-|", options: NSLayoutFormatOptions(0), metrics: nil, views: viewsDict))
       self.view.addConstraints(NSLayoutConstraint.constraintsWithVisualFormat("H:|[tableView]|", options: NSLayoutFormatOptions(0), metrics: nil, views: viewsDict))
       
-      //loadPostsFromAPI()
-      //tableView.reloadData()
+      loadPostsFromAPI()
+//      tableView.reloadData()
+      
+      var rightSwipe = UISwipeGestureRecognizer(target: self, action: Selector("handleSwipes:"))
+      rightSwipe.direction = .Right
+      view.addGestureRecognizer(rightSwipe)
    }
    
    override func viewDidLoad() {
       super.viewDidLoad()
-      var rightSwipe = UISwipeGestureRecognizer(target: self, action: Selector("handleSwipes:"))
-      rightSwipe.direction = .Right
-      view.addGestureRecognizer(rightSwipe)
+      tableView.reloadData()
    }
    
    func handleSwipes(sender: UISwipeGestureRecognizer) {
@@ -61,7 +64,7 @@ class MyPostsViewController: UIViewController, UITableViewDelegate, UITableViewD
       if let savedId = defaults.stringForKey("PixieUserId") {
          myUserId = savedId;
       }
-      var urlString = "http://ec2-54-69-253-12.us-west-2.compute.amazonaws.com/pixie/posts"
+      var urlString = "http://ec2-54-148-100-12.us-west-2.compute.amazonaws.com/pixie/posts"
       
       let url = NSURL(string: urlString)
       var request = NSURLRequest(URL: url!)
@@ -73,13 +76,14 @@ class MyPostsViewController: UIViewController, UITableViewDelegate, UITableViewD
          if let items = json["posts"] as? NSArray {
             for item in items {
                if let userId = item["userId"] as? Int {
-                  if userId == myUserId.toInt() {
+                  if true /*userId == myUserId.toInt()*/ {
                      if let start = item["start"] as? String {
                         if let end = item["end"] as? String {
                            if let day = item["day"] as? String {
                               if let time = item["time"] as? String {
-                                 if let userId = item["userId"] as? Int {
-                                    self.posts.append(Post(start: start, end: end, date: day, time: time, userId: userId))
+                                 if let driverEnum = item["driverEnum"] as? String {
+                                    let isDriver = driverEnum == "driver" ? true : false
+                                    self.posts.append(Post(isDriver: isDriver, start: start, end: end, date: day, time: time, userId: userId))
                                  }
                               } else {
                                  println("error: time")
@@ -116,8 +120,9 @@ class MyPostsViewController: UIViewController, UITableViewDelegate, UITableViewD
    func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
       
       let cell = tableView.dequeueReusableCellWithIdentifier("Cell", forIndexPath: indexPath) as! MyPostsTableViewCell
-      let myPost = posts[indexPath.indexAtPosition(0)]
+      let myPost = posts[indexPath.row]
       
+      cell.seekOfferLabel.text = myPost.isDriver ? "😎 Offering" : "😊 Seeking"
       cell.locationLabel.text = "\(myPost.startingLoc) \u{2192} \(myPost.endingLoc)"
       cell.dateTimeLabel.text = "\(myPost.date), \(myPost.time)"
       
@@ -135,7 +140,9 @@ class MyPostsViewController: UIViewController, UITableViewDelegate, UITableViewD
       })
       
       var editAction = UITableViewRowAction(style: UITableViewRowActionStyle.Normal, title: "Edit" , handler: { (action:UITableViewRowAction!, indexPath:NSIndexPath!) -> Void in
-         //         To-do add edit post functionality
+         tableView.setEditing(false, animated: false)
+         self.currentPostIndex = indexPath.row
+         self.performSegueWithIdentifier("presentEditPostView", sender: self)
       })
       editAction.backgroundColor = UIColor(red:0.68, green:0.91, blue:0.98, alpha:1.0)
       
@@ -143,8 +150,8 @@ class MyPostsViewController: UIViewController, UITableViewDelegate, UITableViewD
       return [deleteAction, editAction]
    }
    
-   override func didReceiveMemoryWarning() {
-      super.didReceiveMemoryWarning()
+   func tableView(tableView: UITableView, willSelectRowAtIndexPath indexPath: NSIndexPath) -> NSIndexPath? {
+      return nil
    }
    
    override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {
@@ -154,9 +161,22 @@ class MyPostsViewController: UIViewController, UITableViewDelegate, UITableViewD
          toViewController.transitioningDelegate = self.navTransitionOperator
          toViewController.presentingView = self
       }
+      else if segue.identifier == "presentEditPostView" {
+         let toViewController = segue.destinationViewController as! EditPostViewController
+         self.modalPresentationStyle = UIModalPresentationStyle.Custom
+         
+         toViewController.currentPost = posts[currentPostIndex]
+         toViewController.currentPostIndex = currentPostIndex
+      }
    }
    
    override func preferredStatusBarStyle() -> UIStatusBarStyle {
       return UIStatusBarStyle.LightContent
+   }
+   
+   @IBAction func unwindToMyPosts(segue:UIStoryboardSegue) {}
+   
+   override func didReceiveMemoryWarning() {
+      super.didReceiveMemoryWarning()
    }
 }

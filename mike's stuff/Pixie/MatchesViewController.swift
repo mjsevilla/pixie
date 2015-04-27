@@ -96,7 +96,10 @@ class MatchesViewController: UIViewController, UICollectionViewDelegateFlowLayou
                      if let day = item["day"] as? String {
                         if let time = item["time"] as? String {
                            if let userId = item["userId"] as? Int {
-                              self.posts.append(Post(start: start, end: end, date: day, time: time, userId: userId))
+                              if let driverEnum = item["driverEnum"] as? String {
+                                 let isDriver = driverEnum == "driver" ? true : false
+                                 self.posts.append(Post(isDriver: isDriver, start: start, end: end, date: day, time: time, userId: userId))
+                              }
                            } else {
                               println("error: userId")
                            }

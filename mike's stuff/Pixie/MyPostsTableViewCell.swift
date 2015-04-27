@@ -10,6 +10,7 @@ import UIKit
 
 class MyPostsTableViewCell: UITableViewCell {
    
+   var seekOfferLabel: UILabel!
    var locationLabel: UILabel!
    var dateTimeLabel: UILabel!
    
@@ -18,9 +19,18 @@ class MyPostsTableViewCell: UITableViewCell {
       
       self.backgroundColor = UIColor.clearColor()
       
+      // Seeking/Offering
+      seekOfferLabel = UILabel()
+      seekOfferLabel.font = UIFont(name: "HelveticaNeue-Light", size: 16)
+      seekOfferLabel.textAlignment = .Left
+      seekOfferLabel.adjustsFontSizeToFitWidth = true
+      seekOfferLabel.lineBreakMode = .ByClipping
+      seekOfferLabel.setTranslatesAutoresizingMaskIntoConstraints(false)
+      contentView.addSubview(seekOfferLabel)
+      
       // Location
       locationLabel = UILabel()
-      locationLabel.font = UIFont(name: "HelveticaNeue-UltraLight", size: 20)
+      locationLabel.font = UIFont(name: "HelveticaNeue-UltraLight", size: 16)
       locationLabel.textAlignment = .Left
       locationLabel.adjustsFontSizeToFitWidth = true
       locationLabel.lineBreakMode = .ByClipping
@@ -29,7 +39,7 @@ class MyPostsTableViewCell: UITableViewCell {
       
       // Date and time
       dateTimeLabel = UILabel()
-      dateTimeLabel.font = UIFont(name: "HelveticaNeue-UltraLight", size: 20)
+      dateTimeLabel.font = UIFont(name: "HelveticaNeue-UltraLight", size: 16)
       dateTimeLabel.textAlignment = .Left
       dateTimeLabel.adjustsFontSizeToFitWidth = true
       dateTimeLabel.lineBreakMode = .ByClipping
@@ -37,12 +47,13 @@ class MyPostsTableViewCell: UITableViewCell {
       contentView.addSubview(dateTimeLabel)
       
       
-      let viewsDict = ["location":locationLabel, "dateTime":dateTimeLabel]
-      
+      let viewsDict = ["seekOffer":seekOfferLabel, "location":locationLabel, "dateTime":dateTimeLabel]
+
+      contentView.addConstraints(NSLayoutConstraint.constraintsWithVisualFormat("H:|-15-[seekOffer]-5-|", options: NSLayoutFormatOptions(0), metrics: nil, views: viewsDict))
       contentView.addConstraints(NSLayoutConstraint.constraintsWithVisualFormat("H:|-15-[location]-5-|", options: NSLayoutFormatOptions(0), metrics: nil, views: viewsDict))
       contentView.addConstraints(NSLayoutConstraint.constraintsWithVisualFormat("H:|-15-[dateTime]-5-|", options: NSLayoutFormatOptions(0), metrics: nil, views: viewsDict))
       
-      contentView.addConstraints(NSLayoutConstraint.constraintsWithVisualFormat("V:|-5-[location]-5-[dateTime]-|", options: NSLayoutFormatOptions(0), metrics: nil, views: viewsDict))
+      contentView.addConstraints(NSLayoutConstraint.constraintsWithVisualFormat("V:|-[seekOffer]-5-[location]-5-[dateTime]-|", options: NSLayoutFormatOptions(0), metrics: nil, views: viewsDict))
    }
    
    required init(coder aDecoder: NSCoder) {
