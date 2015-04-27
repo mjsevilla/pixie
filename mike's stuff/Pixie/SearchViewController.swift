@@ -14,7 +14,6 @@ class SearchViewController: UIViewController, UISearchBarDelegate {
     
     @IBOutlet weak var searchBar: UISearchBar!
     @IBOutlet weak var toolBar: UIToolbar!
-    @IBOutlet weak var webViewBG: UIWebView!
     let navTransitionOperator = NavigationTransitionOperator()
     let postRideTransitionOperator = PostRideTransitionOperator()
     let matchesTransitionOperator = SearchToMatchesTransitionOperator()
