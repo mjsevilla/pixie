@@ -179,7 +179,7 @@ class EditPostViewController: UIViewController, UITextFieldDelegate, UIPickerVie
    
    func setValues() {
       if let current = currentPost {
-         let time = current.time
+         let time = current.time.uppercaseString
          
          seekOfferSegment.selectedSegmentIndex = current.isDriver ? 1 : 0
          startingLocation.text = current.startingLoc
@@ -197,22 +197,19 @@ class EditPostViewController: UIViewController, UITextFieldDelegate, UIPickerVie
             timePicker.selectRow(0, inComponent: 0, animated: false)
          }
          else {
-            let timeStr = time.substringWithRange(Range<String.Index>(start: time.startIndex, end: advance(time.endIndex, -2)))
-            let ampmStr = time.substringWithRange(Range<String.Index>(start: advance(time.endIndex, -2), end: time.endIndex)).lowercaseString
-            
-            println("timeStr: \(timeStr), ampmStr: \(ampmStr)")
+            let timeStr = time.substringWithRange(Range<String.Index>(start: time.startIndex, end: advance(time.endIndex, -2))).stringByTrimmingCharactersInSet(NSCharacterSet.whitespaceCharacterSet())
+            let ampmStr = time.substringWithRange(Range<String.Index>(start: advance(time.endIndex, -2), end: time.endIndex))
             
             if let timeStrIdx = find(times, timeStr) {
-               datePicker.selectRow(timeStrIdx, inComponent: 0, animated: false)
-            }
-            
-            if ampmStr == "am" {
-               datePicker.selectRow(0, inComponent: 1, animated: false)
-            } else if ampmStr == "pm" {
-               datePicker.selectRow(1, inComponent: 1, animated: false)
+               timePicker.selectRow(timeStrIdx, inComponent: 0, animated: false)
+               
+               if ampmStr == "AM" {
+                  timePicker.selectRow(1, inComponent: 1, animated: false)
+               } else if ampmStr == "PM" {
+                  timePicker.selectRow(2, inComponent: 1, animated: false)
+               }
             }
          }
-
             
          let selectedTime = timePicker.viewForRow(timePicker.selectedRowInComponent(0), forComponent: 0) as! UILabel
          let selectedAMPM = timePicker.viewForRow(timePicker.selectedRowInComponent(1), forComponent: 1) as! UILabel
