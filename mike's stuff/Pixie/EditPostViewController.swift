@@ -24,33 +24,24 @@ class EditPostViewController: UIViewController, UITextFieldDelegate, UIPickerVie
    var times: [String] = []
    var ampm: [String] = ["", "AM", "PM"]
    
-   var postRideButton: UIButton!
+   var cancelButton: UIButton!
+   var saveButton: UIButton!
    
-   var seekOfferSegmentConstraints = [String: NSLayoutConstraint]()
-   var startingLocationConstraints = [String: NSLayoutConstraint]()
-   var endingLocationConstraints = [String: NSLayoutConstraint]()
-   
-   var dateButtonConstraints = [String: NSLayoutConstraint]()
-   var datePickerConstraints = [String: NSLayoutConstraint]()
    var timeButtonConstraints = [String: NSLayoutConstraint]()
-   var timePickerConstraints = [String: NSLayoutConstraint]()
-   
-   var postRideButtonConstraints = [String: NSLayoutConstraint]()
    
    var currentPost: Post!
    var currentPostIndex: Int!
+   var hasSmallHeight: Bool!
+   var shouldSavePost: Bool!
    
    override func loadView() {
       view = UIView(frame: UIScreen.mainScreen().bounds)
+      hasSmallHeight = view.frame.height <= 480.0 ? true : false
+      shouldSavePost = false
       
       loadViews()
       loadConstraints()
       setValues()
-      
-      let viewsDict = ["blurEffectView":blurEffectView]
-      
-      view.addConstraints(NSLayoutConstraint.constraintsWithVisualFormat("V:|[blurEffectView]|", options: NSLayoutFormatOptions(0), metrics: nil, views: viewsDict))
-      view.addConstraints(NSLayoutConstraint.constraintsWithVisualFormat("H:|[blurEffectView]|", options: NSLayoutFormatOptions(0), metrics: nil, views: viewsDict))
       
       view.layoutIfNeeded()
       
@@ -82,6 +73,7 @@ class EditPostViewController: UIViewController, UITextFieldDelegate, UIPickerVie
       startingLocation.leftView = leftPaddingViewStart
       startingLocation.leftViewMode = .Always
       startingLocation.backgroundColor = UIColor.clearColor()
+      startingLocation.font = UIFont(name: "HelveticaNeue-Thin", size: 16.0)
       startingLocation.textColor = UIColor.whiteColor()
       startingLocation.layer.cornerRadius = 8.0
       startingLocation.layer.masksToBounds = true
@@ -96,6 +88,7 @@ class EditPostViewController: UIViewController, UITextFieldDelegate, UIPickerVie
       endingLocation.leftView = leftPaddingViewEnd
       endingLocation.leftViewMode = .Always
       endingLocation.backgroundColor = UIColor.clearColor()
+      endingLocation.font = UIFont(name: "HelveticaNeue-Thin", size: 16.0)
       endingLocation.textColor = UIColor.whiteColor()
       endingLocation.layer.cornerRadius = 8.0
       endingLocation.layer.masksToBounds = true
@@ -108,12 +101,11 @@ class EditPostViewController: UIViewController, UITextFieldDelegate, UIPickerVie
       
       getCurrentDates()
       getTimes()
-
+      
       dateButton = UIButton()
       dateButton.addTarget(self, action: "selectDate:", forControlEvents: UIControlEvents.TouchUpInside)
       let currentDateArr = currentDates[0].componentsSeparatedByString(" ")
       var date = NSMutableAttributedString(attributedString: createAttributedString(currentDateArr[0], str2: currentDateArr[1]+" "+currentDateArr[2], color: UIColor.whiteColor()))
-      date.addAttributes([NSFontAttributeName: UIFont(name: "HelveticaNeue-UltraLight", size: 19.5)!, kCTSuperscriptAttributeName: 1.5], range: NSMakeRange(count(date.string)-2, 2))
       dateButton.setAttributedTitle(date, forState: .Normal)
       dateButton.setTranslatesAutoresizingMaskIntoConstraints(false)
       view.addSubview(dateButton)
@@ -140,18 +132,33 @@ class EditPostViewController: UIViewController, UITextFieldDelegate, UIPickerVie
       timePicker.setTranslatesAutoresizingMaskIntoConstraints(false)
       view.addSubview(timePicker)
       
+      cancelButton = UIButton()
+      cancelButton.backgroundColor = UIColor(red:0.0, green:0.74, blue:0.82, alpha:1.0)
+      cancelButton.setAttributedTitle(NSAttributedString(string: "CaNCeL", attributes: [NSForegroundColorAttributeName: UIColor(red: 1.0, green: 1.0, blue: 1.0, alpha: 1.0), NSFontAttributeName: UIFont(name: "Syncopate-Regular", size: 18.0)!]), forState: .Normal)
+      cancelButton.contentHorizontalAlignment = UIControlContentHorizontalAlignment.Center
+      cancelButton.addTarget(self, action: "cancel:", forControlEvents: .TouchUpInside)
+      cancelButton.setTranslatesAutoresizingMaskIntoConstraints(false)
+      self.view.addSubview(cancelButton)
+      
+      saveButton = UIButton()
+      saveButton.backgroundColor = UIColor(red:0.0, green:0.74, blue:0.82, alpha:1.0)
+      saveButton.setAttributedTitle(NSAttributedString(string: "SaVe", attributes: [NSForegroundColorAttributeName: UIColor(red: 1.0, green: 1.0, blue: 1.0, alpha: 1.0), NSFontAttributeName: UIFont(name: "Syncopate-Regular", size: 18.0)!]), forState: .Normal)
+      saveButton.contentHorizontalAlignment = UIControlContentHorizontalAlignment.Center
+      saveButton.addTarget(self, action: "save:", forControlEvents: .TouchUpInside)
+      saveButton.setTranslatesAutoresizingMaskIntoConstraints(false)
+      self.view.addSubview(saveButton)
+      
    }
    
    func loadConstraints() {
-      let viewsDict = ["blurEffectView":blurEffectView, "seekOfferSegment":seekOfferSegment, "startingLocation":startingLocation, "endingLocation":endingLocation, "dateButton":dateButton, "datePicker":datePicker, "timeButton":timeButton, "timePicker":timePicker]
+      let viewsDict = ["blurEffectView":blurEffectView, "seekOfferSegment":seekOfferSegment, "startingLocation":startingLocation, "endingLocation":endingLocation, "dateButton":dateButton, "datePicker":datePicker, "timeButton":timeButton, "timePicker":timePicker, "cancelButton":cancelButton, "saveButton":saveButton]
       
       self.view.addConstraints(NSLayoutConstraint.constraintsWithVisualFormat("V:|[blurEffectView]|", options: NSLayoutFormatOptions(0), metrics: nil, views: viewsDict))
-      self.view.addConstraints(NSLayoutConstraint.constraintsWithVisualFormat("V:[seekOfferSegment(40)]", options: NSLayoutFormatOptions(0), metrics: nil, views: viewsDict))
-      self.view.addConstraints(NSLayoutConstraint.constraintsWithVisualFormat("V:[startingLocation(30)]", options: NSLayoutFormatOptions(0), metrics: nil, views: viewsDict))
-      self.view.addConstraints(NSLayoutConstraint.constraintsWithVisualFormat("V:[endingLocation(30)]", options: NSLayoutFormatOptions(0), metrics: nil, views: viewsDict))
       self.view.addConstraints(NSLayoutConstraint.constraintsWithVisualFormat("V:[datePicker(162)]", options: NSLayoutFormatOptions(0), metrics: nil, views: viewsDict))
       self.view.addConstraints(NSLayoutConstraint.constraintsWithVisualFormat("V:[timePicker(162)]", options: NSLayoutFormatOptions(0), metrics: nil, views: viewsDict))
-      self.view.addConstraints(NSLayoutConstraint.constraintsWithVisualFormat("V:[seekOfferSegment]-20-[startingLocation]-10-[endingLocation]-10-[dateButton]", options: NSLayoutFormatOptions(0), metrics: nil, views: viewsDict))
+      self.view.addConstraints(NSLayoutConstraint.constraintsWithVisualFormat("V:[seekOfferSegment(40)]-20-[startingLocation(30)]-10-[endingLocation(30)]-10-[dateButton]", options: NSLayoutFormatOptions(0), metrics: nil, views: viewsDict))
+      self.view.addConstraints(NSLayoutConstraint.constraintsWithVisualFormat("V:[cancelButton(40)]|", options: NSLayoutFormatOptions(0), metrics: nil, views: viewsDict))
+      self.view.addConstraints(NSLayoutConstraint.constraintsWithVisualFormat("V:[saveButton(40)]|", options: NSLayoutFormatOptions(0), metrics: nil, views: viewsDict))
       
       self.view.addConstraints(NSLayoutConstraint.constraintsWithVisualFormat("H:|[blurEffectView]|", options: NSLayoutFormatOptions(0), metrics: nil, views: viewsDict))
       self.view.addConstraints(NSLayoutConstraint.constraintsWithVisualFormat("H:|-10-[seekOfferSegment]-10-|", options: NSLayoutFormatOptions(0), metrics: nil, views: viewsDict))
@@ -161,20 +168,50 @@ class EditPostViewController: UIViewController, UITextFieldDelegate, UIPickerVie
       self.view.addConstraints(NSLayoutConstraint.constraintsWithVisualFormat("H:|[datePicker]|", options: NSLayoutFormatOptions(0), metrics: nil, views: viewsDict))
       self.view.addConstraints(NSLayoutConstraint.constraintsWithVisualFormat("H:|-10-[timeButton]-10-|", options: NSLayoutFormatOptions(0), metrics: nil, views: viewsDict))
       self.view.addConstraints(NSLayoutConstraint.constraintsWithVisualFormat("H:|[timePicker]|", options: NSLayoutFormatOptions(0), metrics: nil, views: viewsDict))
+      self.view.addConstraints(NSLayoutConstraint.constraintsWithVisualFormat("H:|[cancelButton]-0-[saveButton(==cancelButton)]|", options: NSLayoutFormatOptions(0), metrics: nil, views: viewsDict))
       
       self.view.layoutIfNeeded()
       
-      dateButtonConstraints["CenterY"] = NSLayoutConstraint(item: dateButton, attribute: .CenterY, relatedBy: .Equal, toItem: self.view, attribute: .CenterY, multiplier: 1, constant: 0)
-      datePickerConstraints["Top"] = NSLayoutConstraint(item: datePicker, attribute: .Top, relatedBy: .Equal, toItem: dateButton, attribute: .Bottom, multiplier: 1, constant: 0)
       timeButtonConstraints["Top"] = NSLayoutConstraint(item: timeButton, attribute: .Top, relatedBy: .Equal, toItem: dateButton, attribute: .Bottom, multiplier: 1, constant: 0)
       timeButtonConstraints["TopExpanded"] = NSLayoutConstraint(item: timeButton, attribute: .Top, relatedBy: .Equal, toItem: dateButton, attribute: .Bottom, multiplier: 1, constant: datePicker.frame.height)
-      timePickerConstraints["Top"] = NSLayoutConstraint(item: timePicker, attribute: .Top, relatedBy: .Equal, toItem: timeButton, attribute: .Bottom, multiplier: 1, constant: 0)
       
-      self.view.addConstraint(dateButtonConstraints["CenterY"]!)
-      self.view.addConstraint(datePickerConstraints["Top"]!)
+      self.view.addConstraint(NSLayoutConstraint(item: dateButton, attribute: .CenterY, relatedBy: .Equal, toItem: self.view, attribute: .CenterY, multiplier: 1, constant: hasSmallHeight! ? -dateButton.frame.height*0.75 : 0))
+      self.view.addConstraint(NSLayoutConstraint(item: datePicker, attribute: .Top, relatedBy: .Equal, toItem: dateButton, attribute: .Bottom, multiplier: 1, constant: 0))
       self.view.addConstraint(timeButtonConstraints["Top"]!)
-      self.view.addConstraint(timePickerConstraints["Top"]!)
+      self.view.addConstraint(NSLayoutConstraint(item: timePicker, attribute: .Top, relatedBy: .Equal, toItem: timeButton, attribute: .Bottom, multiplier: 1, constant: 0))
       self.view.layoutIfNeeded()
+      
+      //      let viewsDict = ["blurEffectView":blurEffectView, "seekOfferSegment":seekOfferSegment, "startingLocation":startingLocation, "endingLocation":endingLocation, "dateButton":dateButton, "datePicker":datePicker, "timeButton":timeButton, "timePicker":timePicker, "cancelButton":cancelButton, "saveButton":saveButton]
+      //
+      //      self.view.addConstraints(NSLayoutConstraint.constraintsWithVisualFormat("V:|[blurEffectView]|", options: NSLayoutFormatOptions(0), metrics: nil, views: viewsDict))
+      //      self.view.addConstraints(NSLayoutConstraint.constraintsWithVisualFormat("V:[datePicker(162)]", options: NSLayoutFormatOptions(0), metrics: nil, views: viewsDict))
+      //      self.view.addConstraints(NSLayoutConstraint.constraintsWithVisualFormat("V:[timePicker(162)]", options: NSLayoutFormatOptions(0), metrics: nil, views: viewsDict))
+      //      self.view.addConstraints(NSLayoutConstraint.constraintsWithVisualFormat("V:|-70-[seekOfferSegment(40)]-[startingLocation(>=20,<=40)]-[endingLocation(==startingLocation)]-[dateButton]", options: NSLayoutFormatOptions.AlignAllCenterX | NSLayoutFormatOptions.AlignAllLeading | NSLayoutFormatOptions.AlignAllTrailing, metrics: nil, views: viewsDict))
+      //      //      self.view.addConstraints(NSLayoutConstraint.constraintsWithVisualFormat("V:|-70-[seekOfferSegment(40)]-[startingLocation(>=20,<= 40)]-10-[endingLocation(==startingLocation)]-[dateButton]-[timeButton]", options: NSLayoutFormatOptions.AlignAllCenterX | NSLayoutFormatOptions.AlignAllLeading | NSLayoutFormatOptions.AlignAllTrailing, metrics: nil, views: viewsDict))
+      //
+      //
+      //      self.view.addConstraints(NSLayoutConstraint.constraintsWithVisualFormat("V:[cancelButton(>=40,<=80)]|", options: NSLayoutFormatOptions(0), metrics: nil, views: viewsDict))
+      //      self.view.addConstraints(NSLayoutConstraint.constraintsWithVisualFormat("V:[saveButton(>=40,<=80)]|", options: NSLayoutFormatOptions(0), metrics: nil, views: viewsDict))
+      //      //
+      //      self.view.addConstraints(NSLayoutConstraint.constraintsWithVisualFormat("H:|[blurEffectView]|", options: NSLayoutFormatOptions(0), metrics: nil, views: viewsDict))
+      //      self.view.addConstraints(NSLayoutConstraint.constraintsWithVisualFormat("H:|-10-[seekOfferSegment]-10-|", options: NSLayoutFormatOptions(0), metrics: nil, views: viewsDict))
+      //      //      self.view.addConstraints(NSLayoutConstraint.constraintsWithVisualFormat("H:|-10-[startingLocation]-10-|", options: NSLayoutFormatOptions(0), metrics: nil, views: viewsDict))
+      //      //      self.view.addConstraints(NSLayoutConstraint.constraintsWithVisualFormat("H:|-10-[endingLocation]-10-|", options: NSLayoutFormatOptions(0), metrics: nil, views: viewsDict))
+      //      //      self.view.addConstraints(NSLayoutConstraint.constraintsWithVisualFormat("H:|-10-[dateButton]-10-|", options: NSLayoutFormatOptions(0), metrics: nil, views: viewsDict))
+      //      //      self.view.addConstraints(NSLayoutConstraint.constraintsWithVisualFormat("H:|[datePicker]|", options: NSLayoutFormatOptions(0), metrics: nil, views: viewsDict))
+      //      //      self.view.addConstraints(NSLayoutConstraint.constraintsWithVisualFormat("H:|-10-[timeButton]-10-|", options: NSLayoutFormatOptions(0), metrics: nil, views: viewsDict))
+      //      //      self.view.addConstraints(NSLayoutConstraint.constraintsWithVisualFormat("H:|[timePicker]|", options: NSLayoutFormatOptions(0), metrics: nil, views: viewsDict))
+      //      self.view.addConstraints(NSLayoutConstraint.constraintsWithVisualFormat("H:|[cancelButton]-0-[saveButton(==cancelButton)]|", options: NSLayoutFormatOptions(0), metrics: nil, views: viewsDict))
+      //      //
+      //      //      self.view.layoutIfNeeded()
+      //      //
+      //      //      timeButtonConstraints["Top"] = NSLayoutConstraint(item: timeButton, attribute: .Top, relatedBy: .Equal, toItem: dateButton, attribute: .Bottom, multiplier: 1, constant: 0)
+      //      //      timeButtonConstraints["TopExpanded"] = NSLayoutConstraint(item: timeButton, attribute: .Top, relatedBy: .Equal, toItem: dateButton, attribute: .Bottom, multiplier: 1, constant: datePicker.frame.height)
+      //      //
+      //      self.view.addConstraint(NSLayoutConstraint(item: dateButton, attribute: .CenterY, relatedBy: .Equal, toItem: self.view, attribute: .CenterY, multiplier: 1, constant: /*hasSmallHeight! ? -dateButton.frame.height*0.75 :*/ 0))
+      //      //      self.view.addConstraint(NSLayoutConstraint(item: datePicker, attribute: .Top, relatedBy: .Equal, toItem: dateButton, attribute: .Bottom, multiplier: 1, constant: 0))
+      //      //      self.view.addConstraint(timeButtonConstraints["Top"]!)
+      //      //      self.view.addConstraint(NSLayoutConstraint(item: timePicker, attribute: .Top, relatedBy: .Equal, toItem: timeButton, attribute: .Bottom, multiplier: 1, constant: 0))
    }
    
    func setValues() {
@@ -188,11 +225,10 @@ class EditPostViewController: UIViewController, UITextFieldDelegate, UIPickerVie
          if let dateIdx = find(currentDates, current.date) {
             let currentDateArr = currentDates[dateIdx].componentsSeparatedByString(" ")
             var date = NSMutableAttributedString(attributedString: createAttributedString(currentDateArr[0], str2: currentDateArr[1]+" "+currentDateArr[2], color: UIColor.whiteColor()))
-            date.addAttributes([NSFontAttributeName: UIFont(name: "HelveticaNeue-UltraLight", size: 19.5)!, kCTSuperscriptAttributeName: 1.5], range: NSMakeRange(count(date.string)-2, 2))
             dateButton.setAttributedTitle(date, forState: .Normal)
             datePicker.selectRow(dateIdx, inComponent: 0, animated: false)
          }
-
+         
          if time == "ANYTIME" {
             timePicker.selectRow(0, inComponent: 0, animated: false)
          }
@@ -210,7 +246,7 @@ class EditPostViewController: UIViewController, UITextFieldDelegate, UIPickerVie
                }
             }
          }
-            
+         
          let selectedTime = timePicker.viewForRow(timePicker.selectedRowInComponent(0), forComponent: 0) as! UILabel
          let selectedAMPM = timePicker.viewForRow(timePicker.selectedRowInComponent(1), forComponent: 1) as! UILabel
          timeButton.setAttributedTitle(createAttributedString(selectedTime.text!, str2: selectedAMPM.text!, color: UIColor.whiteColor()), forState: .Normal)
@@ -239,12 +275,15 @@ class EditPostViewController: UIViewController, UITextFieldDelegate, UIPickerVie
       }
    }
    
+   func pickerView(pickerView: UIPickerView, rowHeightForComponent component: Int) -> CGFloat {
+      return 26.0
+   }
+   
    //MARK: Delegates
    func pickerView(pickerView: UIPickerView, didSelectRow row: Int, inComponent component: Int) {
       if pickerView == datePicker {
          let currentDateArr = currentDates[row].componentsSeparatedByString(" ")
          var date = NSMutableAttributedString(attributedString: createAttributedString(currentDateArr[0], str2: currentDateArr[1]+" "+currentDateArr[2], color: UIColor.whiteColor()))
-         date.addAttributes([NSFontAttributeName: UIFont(name: "HelveticaNeue-UltraLight", size: 19.5)!, kCTSuperscriptAttributeName: 1.5], range: NSMakeRange(count(date.string)-2, 2))
          dateButton.setAttributedTitle(date, forState: .Normal)
       } else {
          if component == 0 {
@@ -279,9 +318,7 @@ class EditPostViewController: UIViewController, UITextFieldDelegate, UIPickerVie
       pickerLabel.textAlignment = NSTextAlignment.Center
       
       if pickerView == datePicker {
-         var date = NSMutableAttributedString(string: currentDates[row])
-         date.addAttributes([NSFontAttributeName: UIFont(name: "HelveticaNeue-UltraLight", size: 13)!, kCTSuperscriptAttributeName: 1.5], range: NSMakeRange(count(date.string)-2, 2))
-         pickerLabel.attributedText = date
+         pickerLabel.attributedText = NSMutableAttributedString(string: currentDates[row])
       } else {
          if (component == 0) {
             pickerLabel.text = times[row]
@@ -387,17 +424,6 @@ class EditPostViewController: UIViewController, UITextFieldDelegate, UIPickerVie
             dateString = dateString.stringByReplacingCharactersInRange(Range<String.Index>(start: start,end: end), withString: "")
          }
          
-         switch (day_of_month) {
-         case 1 : dateString += "st"
-         case 21: dateString += "st"
-         case 31: dateString += "st"
-         case 2: dateString += "nd"
-         case 22: dateString += "nd"
-         case 3: dateString += "rd"
-         case 23: dateString += "rd"
-         default: dateString += "th"
-         }
-         
          currentDates.append(dateString)
       }
    }
@@ -408,20 +434,46 @@ class EditPostViewController: UIViewController, UITextFieldDelegate, UIPickerVie
          times.append("\(i%12):00")
       }
    }
-
-    override func viewDidLoad() {
-        super.viewDidLoad()
-    }
-
-    override func didReceiveMemoryWarning() {
-        super.didReceiveMemoryWarning()
-        // Dispose of any resources that can be recreated.
-    }
-    
-
+   
+   func cancel(sender: UIButton) {
+      self.performSegueWithIdentifier("unwindToMyPosts", sender: self)
+      self.dismissViewControllerAnimated(true, completion: nil)
+   }
+   
+   func save(sender: UIButton) {
+      let driverEnum = !(seekOfferSegment.selectedSegmentIndex == 0)
+      let start = startingLocation.text!
+      let end = endingLocation.text!
+      let day = dateButton.titleLabel?.text
+      let time = timeButton.titleLabel?.text
+      
+      currentPost = Post(isDriver: driverEnum, start: start, end: end, date: day!, time: time!, userId: currentPost.userId)
+      shouldSavePost = true
+      self.performSegueWithIdentifier("unwindToMyPosts", sender: self)
+   }
+   
+   override func viewDidLoad() {
+      super.viewDidLoad()
+   }
+   
+   override func didReceiveMemoryWarning() {
+      super.didReceiveMemoryWarning()
+      // Dispose of any resources that can be recreated.
+   }
+   
+   
    func swipeAway(recognizer: UISwipeGestureRecognizer) {
       self.performSegueWithIdentifier("unwindToMyPosts", sender: self)
       self.dismissViewControllerAnimated(true, completion: nil)
    }
-
+   
+   override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {
+      if (segue.identifier == "unwindToMyPosts" && shouldSavePost!) {
+         if let toViewController = segue.destinationViewController as? MyPostsViewController {
+            toViewController.posts[toViewController.currentPostIndex!] = currentPost
+            toViewController.tableView.reloadData()
+         }
+      }
+   }
+   
 }

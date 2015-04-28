@@ -40,7 +40,6 @@ class MyPostsViewController: UIViewController, UITableViewDelegate, UITableViewD
       self.view.addConstraints(NSLayoutConstraint.constraintsWithVisualFormat("H:|[tableView]|", options: NSLayoutFormatOptions(0), metrics: nil, views: viewsDict))
       
       loadPostsFromAPI()
-//      tableView.reloadData()
       
       var rightSwipe = UISwipeGestureRecognizer(target: self, action: Selector("handleSwipes:"))
       rightSwipe.direction = .Right
@@ -49,7 +48,8 @@ class MyPostsViewController: UIViewController, UITableViewDelegate, UITableViewD
    
    override func viewDidLoad() {
       super.viewDidLoad()
-      tableView.reloadData()
+      
+      println("navBar... y: \(navBar.frame.origin.y), h: \(navBar.frame.height)")
    }
    
    func handleSwipes(sender: UISwipeGestureRecognizer) {
@@ -64,6 +64,8 @@ class MyPostsViewController: UIViewController, UITableViewDelegate, UITableViewD
       if let savedId = defaults.stringForKey("PixieUserId") {
          myUserId = savedId;
       }
+      
+      //      var urlString = "http://ec2-54-69-253-12.us-west-2.compute.amazonaws.com/pixie/posts"
       var urlString = "http://ec2-54-148-100-12.us-west-2.compute.amazonaws.com/pixie/posts"
       
       let url = NSURL(string: urlString)
@@ -163,7 +165,6 @@ class MyPostsViewController: UIViewController, UITableViewDelegate, UITableViewD
       }
       else if segue.identifier == "presentEditPostView" {
          let toViewController = segue.destinationViewController as! EditPostViewController
-         self.modalPresentationStyle = UIModalPresentationStyle.Custom
          
          toViewController.currentPost = posts[currentPostIndex]
          toViewController.currentPostIndex = currentPostIndex
