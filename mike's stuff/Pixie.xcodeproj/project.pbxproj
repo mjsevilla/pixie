@@ -38,7 +38,8 @@
 		6123E3E01A9AF59600AB776F /* NavigationTransitionOperator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6123E3DF1A9AF59600AB776F /* NavigationTransitionOperator.swift */; };
 		6123E3E21A9AF80A00AB776F /* NavigationCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6123E3E11A9AF80A00AB776F /* NavigationCell.swift */; };
 		6123E3E41A9AF84400AB776F /* NavigationViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6123E3E31A9AF84400AB776F /* NavigationViewController.swift */; };
-		61457A5D1AA01CB9008CE64B /* FacebookSDK.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 61457A5C1AA01CB9008CE64B /* FacebookSDK.framework */; };
+		612ECAD31AF01122006C2D13 /* Social.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 612ECAD21AF01122006C2D13 /* Social.framework */; };
+		612ECAD51AF0112C006C2D13 /* Accounts.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 612ECAD41AF0112C006C2D13 /* Accounts.framework */; settings = {ATTRIBUTES = (Required, ); }; };
 		6184D2E21A9302F3006DA1E4 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6184D2E11A9302F3006DA1E4 /* AppDelegate.swift */; };
 		6184D2E71A9302F3006DA1E4 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 6184D2E51A9302F3006DA1E4 /* Main.storyboard */; };
 		6184D2EC1A9302F3006DA1E4 /* LaunchScreen.xib in Resources */ = {isa = PBXBuildFile; fileRef = 6184D2EA1A9302F3006DA1E4 /* LaunchScreen.xib */; };
@@ -46,12 +47,13 @@
 		6184D3041A93032B006DA1E4 /* Syncopate-Regular.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 6184D3031A93032B006DA1E4 /* Syncopate-Regular.ttf */; };
 		61B8AC771AED826F00AB92F7 /* pixieWelcomeVideoColor.mp4 in Resources */ = {isa = PBXBuildFile; fileRef = 61B8AC751AED826F00AB92F7 /* pixieWelcomeVideoColor.mp4 */; };
 		61B8AC781AED826F00AB92F7 /* pixieWelcomeVideoSepia.mp4 in Resources */ = {isa = PBXBuildFile; fileRef = 61B8AC761AED826F00AB92F7 /* pixieWelcomeVideoSepia.mp4 */; };
+		61D3399C1AF01F4A0084D716 /* FacebookSDK.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 61D3399B1AF01F4A0084D716 /* FacebookSDK.framework */; };
+		61D339A01AF01F610084D716 /* Parse.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 61D3399F1AF01F610084D716 /* Parse.framework */; };
+		61D339A21AF021EC0084D716 /* Bolts.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 61D339A11AF021EC0084D716 /* Bolts.framework */; };
 		61DEC0391ABA48B0004314EB /* RegisterViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 61DEC0381ABA48B0004314EB /* RegisterViewController.swift */; };
 		61DEC03B1ABA830E004314EB /* AboutViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 61DEC03A1ABA830E004314EB /* AboutViewController.swift */; };
 		61DEC03D1ABA87A5004314EB /* SettingsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 61DEC03C1ABA87A5004314EB /* SettingsViewController.swift */; };
 		61EAACCA1A9C1ABD00D84246 /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 6184D2E81A9302F3006DA1E4 /* Images.xcassets */; };
-		61EB1B971AEF48B800939E60 /* Bolts.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 61EB1B951AEF48B800939E60 /* Bolts.framework */; };
-		61EB1B981AEF48B800939E60 /* Parse.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 61EB1B961AEF48B800939E60 /* Parse.framework */; };
 		61EB1B9A1AEF4B6B00939E60 /* AudioToolbox.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 61EB1B991AEF4B6B00939E60 /* AudioToolbox.framework */; };
 		61EB1B9C1AEF4B7200939E60 /* CFNetwork.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 61EB1B9B1AEF4B7200939E60 /* CFNetwork.framework */; };
 		61EB1B9E1AEF4B7A00939E60 /* CoreGraphics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 61EB1B9D1AEF4B7A00939E60 /* CoreGraphics.framework */; };
@@ -63,8 +65,6 @@
 		61EB1BAA1AEF4BA800939E60 /* SystemConfiguration.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 61EB1BA91AEF4BA800939E60 /* SystemConfiguration.framework */; };
 		61EB1BAC1AEF4BAF00939E60 /* libz.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 61EB1BAB1AEF4BAF00939E60 /* libz.dylib */; };
 		61EB1BAE1AEF4BB700939E60 /* libsqlite3.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 61EB1BAD1AEF4BB700939E60 /* libsqlite3.dylib */; };
-		61EB1BB01AEF4BC100939E60 /* Accounts.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 61EB1BAF1AEF4BC100939E60 /* Accounts.framework */; };
-		61EB1BB21AEF4BC600939E60 /* Social.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 61EB1BB11AEF4BC600939E60 /* Social.framework */; };
 		A7EFA9CD1ABD06DA00047024 /* CreateUser.swift in Sources */ = {isa = PBXBuildFile; fileRef = A7EFA9CC1ABD06DA00047024 /* CreateUser.swift */; };
 /* End PBXBuildFile section */
 
@@ -110,7 +110,8 @@
 		6123E3DF1A9AF59600AB776F /* NavigationTransitionOperator.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NavigationTransitionOperator.swift; sourceTree = "<group>"; };
 		6123E3E11A9AF80A00AB776F /* NavigationCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NavigationCell.swift; sourceTree = "<group>"; };
 		6123E3E31A9AF84400AB776F /* NavigationViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NavigationViewController.swift; sourceTree = "<group>"; };
-		61457A5C1AA01CB9008CE64B /* FacebookSDK.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = FacebookSDK.framework; sourceTree = "<group>"; };
+		612ECAD21AF01122006C2D13 /* Social.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Social.framework; path = System/Library/Frameworks/Social.framework; sourceTree = SDKROOT; };
+		612ECAD41AF0112C006C2D13 /* Accounts.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Accounts.framework; path = System/Library/Frameworks/Accounts.framework; sourceTree = SDKROOT; };
 		61457A5F1AA02183008CE64B /* Bridge-Header.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "Bridge-Header.h"; sourceTree = "<group>"; };
 		6184D2DC1A9302F3006DA1E4 /* Pixie.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Pixie.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		6184D2E01A9302F3006DA1E4 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
@@ -124,11 +125,12 @@
 		6184D3031A93032B006DA1E4 /* Syncopate-Regular.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Syncopate-Regular.ttf"; sourceTree = "<group>"; };
 		61B8AC751AED826F00AB92F7 /* pixieWelcomeVideoColor.mp4 */ = {isa = PBXFileReference; lastKnownFileType = file; path = pixieWelcomeVideoColor.mp4; sourceTree = "<group>"; };
 		61B8AC761AED826F00AB92F7 /* pixieWelcomeVideoSepia.mp4 */ = {isa = PBXFileReference; lastKnownFileType = file; path = pixieWelcomeVideoSepia.mp4; sourceTree = "<group>"; };
+		61D3399B1AF01F4A0084D716 /* FacebookSDK.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = FacebookSDK.framework; path = FacebookSDK/FacebookSDK.framework; sourceTree = "<group>"; };
+		61D3399F1AF01F610084D716 /* Parse.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Parse.framework; path = ParseSDK/Parse.framework; sourceTree = "<group>"; };
+		61D339A11AF021EC0084D716 /* Bolts.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Bolts.framework; path = ParseSDK/Bolts.framework; sourceTree = "<group>"; };
 		61DEC0381ABA48B0004314EB /* RegisterViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RegisterViewController.swift; sourceTree = "<group>"; };
 		61DEC03A1ABA830E004314EB /* AboutViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AboutViewController.swift; sourceTree = "<group>"; };
 		61DEC03C1ABA87A5004314EB /* SettingsViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SettingsViewController.swift; sourceTree = "<group>"; };
-		61EB1B951AEF48B800939E60 /* Bolts.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = Bolts.framework; sourceTree = "<group>"; };
-		61EB1B961AEF48B800939E60 /* Parse.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = Parse.framework; sourceTree = "<group>"; };
 		61EB1B991AEF4B6B00939E60 /* AudioToolbox.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AudioToolbox.framework; path = System/Library/Frameworks/AudioToolbox.framework; sourceTree = SDKROOT; };
 		61EB1B9B1AEF4B7200939E60 /* CFNetwork.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CFNetwork.framework; path = System/Library/Frameworks/CFNetwork.framework; sourceTree = SDKROOT; };
 		61EB1B9D1AEF4B7A00939E60 /* CoreGraphics.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreGraphics.framework; path = System/Library/Frameworks/CoreGraphics.framework; sourceTree = SDKROOT; };
@@ -140,8 +142,6 @@
 		61EB1BA91AEF4BA800939E60 /* SystemConfiguration.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SystemConfiguration.framework; path = System/Library/Frameworks/SystemConfiguration.framework; sourceTree = SDKROOT; };
 		61EB1BAB1AEF4BAF00939E60 /* libz.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libz.dylib; path = usr/lib/libz.dylib; sourceTree = SDKROOT; };
 		61EB1BAD1AEF4BB700939E60 /* libsqlite3.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libsqlite3.dylib; path = usr/lib/libsqlite3.dylib; sourceTree = SDKROOT; };
-		61EB1BAF1AEF4BC100939E60 /* Accounts.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Accounts.framework; path = System/Library/Frameworks/Accounts.framework; sourceTree = SDKROOT; };
-		61EB1BB11AEF4BC600939E60 /* Social.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Social.framework; path = System/Library/Frameworks/Social.framework; sourceTree = SDKROOT; };
 		9B56BC61C4C1923747D4C445 /* Pods-Pixie.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Pixie.debug.xcconfig"; path = "Pods/Target Support Files/Pods-Pixie/Pods-Pixie.debug.xcconfig"; sourceTree = "<group>"; };
 		A3803B6FE2BEEDB384B3A28D /* Pods.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = Pods.release.xcconfig; path = "Pods/Target Support Files/Pods/Pods.release.xcconfig"; sourceTree = "<group>"; };
 		A7EFA9CC1ABD06DA00047024 /* CreateUser.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CreateUser.swift; sourceTree = "<group>"; };
@@ -155,22 +155,22 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				61EB1BB21AEF4BC600939E60 /* Social.framework in Frameworks */,
-				61EB1BB01AEF4BC100939E60 /* Accounts.framework in Frameworks */,
+				61D339A21AF021EC0084D716 /* Bolts.framework in Frameworks */,
+				612ECAD51AF0112C006C2D13 /* Accounts.framework in Frameworks */,
+				612ECAD31AF01122006C2D13 /* Social.framework in Frameworks */,
 				61EB1BAE1AEF4BB700939E60 /* libsqlite3.dylib in Frameworks */,
 				61EB1BAC1AEF4BAF00939E60 /* libz.dylib in Frameworks */,
 				61EB1BAA1AEF4BA800939E60 /* SystemConfiguration.framework in Frameworks */,
 				61EB1BA81AEF4BA000939E60 /* StoreKit.framework in Frameworks */,
+				61D339A01AF01F610084D716 /* Parse.framework in Frameworks */,
 				61EB1BA61AEF4B9900939E60 /* Security.framework in Frameworks */,
 				61EB1BA41AEF4B9200939E60 /* QuartzCore.framework in Frameworks */,
 				61EB1BA21AEF4B8700939E60 /* MobileCoreServices.framework in Frameworks */,
 				61EB1BA01AEF4B8000939E60 /* CoreLocation.framework in Frameworks */,
 				61EB1B9E1AEF4B7A00939E60 /* CoreGraphics.framework in Frameworks */,
+				61D3399C1AF01F4A0084D716 /* FacebookSDK.framework in Frameworks */,
 				61EB1B9C1AEF4B7200939E60 /* CFNetwork.framework in Frameworks */,
 				61EB1B9A1AEF4B6B00939E60 /* AudioToolbox.framework in Frameworks */,
-				61EB1B971AEF48B800939E60 /* Bolts.framework in Frameworks */,
-				61457A5D1AA01CB9008CE64B /* FacebookSDK.framework in Frameworks */,
-				61EB1B981AEF48B800939E60 /* Parse.framework in Frameworks */,
 				1598651590C7055F21C6834B /* libPods-Pixie.a in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -188,8 +188,11 @@
 		61457A5E1AA01D83008CE64B /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
-				61EB1BB11AEF4BC600939E60 /* Social.framework */,
-				61EB1BAF1AEF4BC100939E60 /* Accounts.framework */,
+				61D339A11AF021EC0084D716 /* Bolts.framework */,
+				61D3399F1AF01F610084D716 /* Parse.framework */,
+				61D3399B1AF01F4A0084D716 /* FacebookSDK.framework */,
+				612ECAD41AF0112C006C2D13 /* Accounts.framework */,
+				612ECAD21AF01122006C2D13 /* Social.framework */,
 				61EB1BAD1AEF4BB700939E60 /* libsqlite3.dylib */,
 				61EB1BAB1AEF4BAF00939E60 /* libz.dylib */,
 				61EB1BA91AEF4BA800939E60 /* SystemConfiguration.framework */,
@@ -201,9 +204,6 @@
 				61EB1B9D1AEF4B7A00939E60 /* CoreGraphics.framework */,
 				61EB1B9B1AEF4B7200939E60 /* CFNetwork.framework */,
 				61EB1B991AEF4B6B00939E60 /* AudioToolbox.framework */,
-				61EB1B951AEF48B800939E60 /* Bolts.framework */,
-				61EB1B961AEF48B800939E60 /* Parse.framework */,
-				61457A5C1AA01CB9008CE64B /* FacebookSDK.framework */,
 				13F359DB9B49F08A313E2097 /* libPods.a */,
 				D713E8E07C24BAA249659ABB /* libPods-Pixie.a */,
 			);
@@ -590,7 +590,7 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 8.1;
+				IPHONEOS_DEPLOYMENT_TARGET = 8.3;
 				MTL_ENABLE_DEBUG_INFO = YES;
 				ONLY_ACTIVE_ARCH = YES;
 				SDKROOT = iphoneos;
@@ -627,7 +627,7 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 8.1;
+				IPHONEOS_DEPLOYMENT_TARGET = 8.3;
 				MTL_ENABLE_DEBUG_INFO = NO;
 				SDKROOT = iphoneos;
 				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
@@ -643,12 +643,35 @@
 				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
 				CODE_SIGN_IDENTITY = "iPhone Developer: Michael Sevilla (XDE8648DCZ)";
 				FRAMEWORK_SEARCH_PATHS = (
-					"$(inherited)",
-					"$(PROJECT_DIR)",
-					"/Users/mikesevilla/Downloads/parse-library-1.7.2",
+					"$(PROJECT_DIR)/ParseSDK",
+					"$(PROJECT_DIR)/FacebookSDK",
+				);
+				HEADER_SEARCH_PATHS = (
+					"\"${PODS_ROOT}/Headers/Public\"",
+					"\"${PODS_ROOT}/Headers/Public/JSQMessagesViewController\"",
+					"\"${PODS_ROOT}/Headers/Public/JSQSystemSoundPlayer\"",
 				);
 				INFOPLIST_FILE = Pixie/Info.plist;
+				IPHONEOS_DEPLOYMENT_TARGET = 8.3;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
+				OTHER_LDFLAGS = (
+					"-l\"Pods-Pixie-JSQMessagesViewController\"",
+					"-l\"Pods-Pixie-JSQSystemSoundPlayer\"",
+					"-framework",
+					"\"AudioToolbox\"",
+					"-framework",
+					"\"CoreGraphics\"",
+					"-framework",
+					"\"CoreLocation\"",
+					"-framework",
+					"\"Foundation\"",
+					"-framework",
+					"\"MapKit\"",
+					"-framework",
+					"\"QuartzCore\"",
+					"-framework",
+					"\"UIKit\"",
+				);
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_OBJC_BRIDGING_HEADER = "Pixie/Bridge-Header.h";
 			};
@@ -662,12 +685,35 @@
 				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
 				CODE_SIGN_IDENTITY = "iPhone Developer: Michael Sevilla (XDE8648DCZ)";
 				FRAMEWORK_SEARCH_PATHS = (
-					"$(inherited)",
-					"$(PROJECT_DIR)",
-					"/Users/mikesevilla/Downloads/parse-library-1.7.2",
+					"$(PROJECT_DIR)/ParseSDK",
+					"$(PROJECT_DIR)/FacebookSDK",
+				);
+				HEADER_SEARCH_PATHS = (
+					"\"${PODS_ROOT}/Headers/Public\"",
+					"\"${PODS_ROOT}/Headers/Public/JSQMessagesViewController\"",
+					"\"${PODS_ROOT}/Headers/Public/JSQSystemSoundPlayer\"",
 				);
 				INFOPLIST_FILE = Pixie/Info.plist;
+				IPHONEOS_DEPLOYMENT_TARGET = 8.3;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
+				OTHER_LDFLAGS = (
+					"-l\"Pods-Pixie-JSQMessagesViewController\"",
+					"-l\"Pods-Pixie-JSQSystemSoundPlayer\"",
+					"-framework",
+					"\"AudioToolbox\"",
+					"-framework",
+					"\"CoreGraphics\"",
+					"-framework",
+					"\"CoreLocation\"",
+					"-framework",
+					"\"Foundation\"",
+					"-framework",
+					"\"MapKit\"",
+					"-framework",
+					"\"QuartzCore\"",
+					"-framework",
+					"\"UIKit\"",
+				);
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_OBJC_BRIDGING_HEADER = "Pixie/Bridge-Header.h";
 			};

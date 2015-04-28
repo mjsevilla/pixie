@@ -10,4 +10,6 @@
 #define Pixie_Bridge_Header_h
 
 #import <FacebookSDK/FacebookSDK.h>
+#import <Bolts/Bolts.h>
+
 #endif
