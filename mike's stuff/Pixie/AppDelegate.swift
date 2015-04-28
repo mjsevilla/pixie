@@ -35,7 +35,6 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
             }
             if (preBackgroundPush || oldPushHandlerOnly || pushPayload) {
                 PFAnalytics.trackAppOpenedWithLaunchOptions(launchOptions)
-//                PFAnalytics.trackAppOpenedWithLaunchOptionsInBackground(launchOptions, block: nil)
             }
         }
         if application.respondsToSelector("registerUserNotificationSettings:") {

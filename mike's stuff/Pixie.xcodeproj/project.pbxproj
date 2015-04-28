@@ -234,8 +234,8 @@
 			isa = PBXGroup;
 			children = (
 				61457A5F1AA02183008CE64B /* Bridge-Header.h */,
-				61DEC03A1ABA830E004314EB /* AboutViewController.swift */,
 				6184D2E11A9302F3006DA1E4 /* AppDelegate.swift */,
+				61DEC03A1ABA830E004314EB /* AboutViewController.swift */,
 				52414C841AAE02B500417481 /* BioToReviewsTransitionOperator.swift */,
 				52414C7E1AAE00C200417481 /* BioViewController.swift */,
 				52CF2BD81AEE591200172812 /* EditPostViewController.swift */,
