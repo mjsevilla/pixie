@@ -322,7 +322,14 @@
                                     <color key="textShadowColor" white="0.66666666666666663" alpha="1" colorSpace="calibratedWhite"/>
                                 </textAttributes>
                                 <items>
-                                    <navigationItem title="Matches" id="xRM-ad-aWE"/>
+                                    <navigationItem title="Matches" id="xRM-ad-aWE">
+                                        <barButtonItem key="leftBarButtonItem" image="menu" id="tmh-6V-7mn">
+                                            <color key="tintColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                            <connections>
+                                                <segue destination="Sik-hd-hg0" kind="custom" identifier="presentNav" id="ELl-Ug-DNN"/>
+                                            </connections>
+                                        </barButtonItem>
+                                    </navigationItem>
                                 </items>
                             </navigationBar>
                         </subviews>
@@ -1240,6 +1247,6 @@
     </resources>
     <inferredMetricsTieBreakers>
         <segue reference="QXm-KY-6G3"/>
-        <segue reference="J36-YM-nsL"/>
+        <segue reference="ndH-hG-Xoc"/>
     </inferredMetricsTieBreakers>
 </document>

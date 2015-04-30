@@ -12,6 +12,7 @@ class MatchCollectionViewCell: UICollectionViewCell, UIGestureRecognizerDelegate
    
    var profilePic: UIImageView!
    var userNameLabel: UILabel!
+   var seekOfferLabel: UILabel!
    var locationLabel: UILabel!
    var dateTimeLabel: UILabel!
    var lineImage: UIImageView!
@@ -38,9 +39,18 @@ class MatchCollectionViewCell: UICollectionViewCell, UIGestureRecognizerDelegate
       userNameLabel.setTranslatesAutoresizingMaskIntoConstraints(false)
       contentView.addSubview(userNameLabel)
       
+      // Seeking/Offering
+      seekOfferLabel = UILabel()
+      seekOfferLabel.font = UIFont(name: "HelveticaNeue-Light", size: 14)
+      seekOfferLabel.textAlignment = .Left
+      seekOfferLabel.adjustsFontSizeToFitWidth = true
+      seekOfferLabel.lineBreakMode = .ByClipping
+      seekOfferLabel.setTranslatesAutoresizingMaskIntoConstraints(false)
+      contentView.addSubview(seekOfferLabel)
+      
       // Location
       locationLabel = UILabel()
-      locationLabel.font = UIFont(name: "HelveticaNeue-UltraLight", size: 16)
+      locationLabel.font = UIFont(name: "HelveticaNeue-UltraLight", size: 14)
       locationLabel.textAlignment = .Left
       locationLabel.adjustsFontSizeToFitWidth = true
       locationLabel.lineBreakMode = .ByClipping
@@ -49,7 +59,7 @@ class MatchCollectionViewCell: UICollectionViewCell, UIGestureRecognizerDelegate
       
       // Date and time
       dateTimeLabel = UILabel()
-      dateTimeLabel.font = UIFont(name: "HelveticaNeue-UltraLight", size: 16)
+      dateTimeLabel.font = UIFont(name: "HelveticaNeue-UltraLight", size: 14)
       dateTimeLabel.textAlignment = .Left
       dateTimeLabel.adjustsFontSizeToFitWidth = true
       dateTimeLabel.lineBreakMode = .ByClipping
@@ -71,7 +81,7 @@ class MatchCollectionViewCell: UICollectionViewCell, UIGestureRecognizerDelegate
       // Gradient background
       let gradient = CAGradientLayer()
       gradient.frame = bounds
-      gradient.colors = [UIColor.whiteColor().CGColor, UIColor(red: 0.95, green: 0.95, blue: 0.95, alpha: 1.0).CGColor, UIColor(red: 0.0, green: 0.8, blue: 0.9, alpha: 1.0).CGColor]
+      gradient.colors = [UIColor.whiteColor().CGColor, UIColor(red:0.69, green:0.97, blue:1.0, alpha:1.0).CGColor, UIColor(red:0.68, green:0.91, blue:0.98, alpha:1.0).CGColor]
       let bView = UIView()
       bView.layer.insertSublayer(gradient, atIndex: 0)
       backgroundView = bView
@@ -91,16 +101,17 @@ class MatchCollectionViewCell: UICollectionViewCell, UIGestureRecognizerDelegate
       contentView.addSubview(lineImage)
       
       
-      let viewsDict = ["profilePic":profilePic, "userName":userNameLabel, "location":locationLabel, "dateTime":dateTimeLabel, "line":lineImage, "message":messageIcon, "star":starIcon]
+      let viewsDict = ["profilePic":profilePic, "userName":userNameLabel, "seekOffer":seekOfferLabel, "location":locationLabel, "dateTime":dateTimeLabel, "line":lineImage, "message":messageIcon, "star":starIcon]
       contentView.addConstraints(NSLayoutConstraint.constraintsWithVisualFormat("H:|[profilePic]|", options: NSLayoutFormatOptions(0), metrics: nil, views: viewsDict))
       contentView.addConstraints(NSLayoutConstraint.constraintsWithVisualFormat("H:|-10-[userName]-10-|", options: NSLayoutFormatOptions(0), metrics: nil, views: viewsDict))
       contentView.addConstraints(NSLayoutConstraint.constraintsWithVisualFormat("H:|-5-[line]-5-|", options: NSLayoutFormatOptions(0), metrics: nil, views: viewsDict))
+      contentView.addConstraints(NSLayoutConstraint.constraintsWithVisualFormat("H:|-5-[seekOffer]-5-|", options: NSLayoutFormatOptions(0), metrics: nil, views: viewsDict))
       contentView.addConstraints(NSLayoutConstraint.constraintsWithVisualFormat("H:|-5-[location]-5-|", options: NSLayoutFormatOptions(0), metrics: nil, views: viewsDict))
       contentView.addConstraints(NSLayoutConstraint.constraintsWithVisualFormat("H:|-5-[dateTime]-5-|", options: NSLayoutFormatOptions(0), metrics: nil, views: viewsDict))
       contentView.addConstraints(NSLayoutConstraint.constraintsWithVisualFormat("V:[message]-1-|", options: NSLayoutFormatOptions(0), metrics: nil, views: viewsDict))
       contentView.addConstraints(NSLayoutConstraint.constraintsWithVisualFormat("V:|[profilePic]-112-|", options: NSLayoutFormatOptions(0), metrics: nil, views: viewsDict))
       contentView.addConstraints(NSLayoutConstraint.constraintsWithVisualFormat("V:[profilePic]-0-[userName]-1-[line]", options: NSLayoutFormatOptions(0), metrics: nil, views: viewsDict))
-      contentView.addConstraints(NSLayoutConstraint.constraintsWithVisualFormat("V:[userName]-5-[location]-0-[dateTime]-32-|", options: NSLayoutFormatOptions(0), metrics: nil, views: viewsDict))
+      contentView.addConstraints(NSLayoutConstraint.constraintsWithVisualFormat("V:[userName]-5-[seekOffer]-0-[location]-0-[dateTime]-32-|", options: NSLayoutFormatOptions(0), metrics: nil, views: viewsDict))
       contentView.addConstraint(NSLayoutConstraint(item: messageIcon, attribute: NSLayoutAttribute.CenterX, relatedBy: .Equal, toItem: profilePic, attribute: .CenterX, multiplier: 1.0, constant: 0))
       contentView.addConstraint(NSLayoutConstraint(item: starIcon, attribute: NSLayoutAttribute.RightMargin, relatedBy: .Equal, toItem: profilePic, attribute: .RightMargin, multiplier: 1.0, constant: -1))
       contentView.addConstraint(NSLayoutConstraint(item: starIcon, attribute: NSLayoutAttribute.TopMargin, relatedBy: .Equal, toItem: profilePic, attribute: .TopMargin, multiplier: 1.0, constant: 1))

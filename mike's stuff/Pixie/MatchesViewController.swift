@@ -20,6 +20,7 @@ class MatchesViewController: UIViewController, UICollectionViewDelegateFlowLayou
    var collectionView: UICollectionView!
    var currentCell: MatchCollectionViewCell?
    var transitionManager = MatchesToBioTransitionOperator()
+   var navTransitionOperator = NavigationTransitionOperator()
    var viewInsets: UIEdgeInsets!
    var itemSize: CGSize!
    
@@ -67,10 +68,6 @@ class MatchesViewController: UIViewController, UICollectionViewDelegateFlowLayou
       self.view.addConstraints(NSLayoutConstraint.constraintsWithVisualFormat("V:|[collectionView]|", options: NSLayoutFormatOptions(0), metrics: nil, views: viewsDict))
       self.view.addConstraints(NSLayoutConstraint.constraintsWithVisualFormat("H:|[collectionView]|", options: NSLayoutFormatOptions(0), metrics: nil, views: viewsDict))
       
-      var swipeToSearchView = UISwipeGestureRecognizer(target: self, action: "swipeToSearchView:")
-      swipeToSearchView.direction = .Down
-      self.view.addGestureRecognizer(swipeToSearchView)
-      
       loadPostsFromAPI()
       loadUsersFromAPI()
       collectionView.reloadData()
@@ -78,10 +75,18 @@ class MatchesViewController: UIViewController, UICollectionViewDelegateFlowLayou
    
    override func viewDidLoad() {
       super.viewDidLoad()
+      
+      var swipeToSearchView = UISwipeGestureRecognizer(target: self, action: "handleSwipes:")
+      swipeToSearchView.direction = .Down
+      self.view.addGestureRecognizer(swipeToSearchView)
+      
+      var rightSwipe = UISwipeGestureRecognizer(target: self, action: Selector("handleSwipes:"))
+      rightSwipe.direction = .Right
+      view.addGestureRecognizer(rightSwipe)
    }
    
    func loadPostsFromAPI() {
-      var urlString = "http://ec2-54-69-253-12.us-west-2.compute.amazonaws.com/pixie/posts"
+      var urlString = "http://ec2-54-148-100-12.us-west-2.compute.amazonaws.com/pixie/posts"
       let url = NSURL(string: urlString)
       var request = NSURLRequest(URL: url!)
       var response: NSURLResponse?
@@ -126,7 +131,7 @@ class MatchesViewController: UIViewController, UICollectionViewDelegateFlowLayou
    
    func loadUsersFromAPI() {
       for p in posts {
-         var urlString = "http://ec2-54-69-253-12.us-west-2.compute.amazonaws.com/pixie/users/\(p.userId)"
+         var urlString = "http://ec2-54-148-100-12.us-west-2.compute.amazonaws.com/pixie/users/\(p.userId)"
          let url = NSURL(string: urlString)
          var request = NSURLRequest(URL: url!)
          var response: NSURLResponse?
@@ -150,7 +155,7 @@ class MatchesViewController: UIViewController, UICollectionViewDelegateFlowLayou
                                  self.matches.append(Match(author: currUser, post: p))
                               }
                            } else {
-                             println("error: photoURL")
+                              println("error: photoURL")
                            }
                         } else {
                            println("error: bio")
@@ -198,6 +203,7 @@ class MatchesViewController: UIViewController, UICollectionViewDelegateFlowLayou
       } else {
          cell.userNameLabel.attributedText = createAttributedNameStringNoAge(myMatch.author.name)
       }
+      cell.seekOfferLabel.text = myMatch.post.isDriver ? "😎 Offering" : "😊 Seeking"
       cell.locationLabel.text = "\(myMatch.post.startingLoc) \u{2192} \(myMatch.post.endingLoc)"
       cell.dateTimeLabel.text = "\(myMatch.post.date), \(myMatch.post.time)"
       
@@ -207,15 +213,15 @@ class MatchesViewController: UIViewController, UICollectionViewDelegateFlowLayou
    
    func createAttributedNameString(name: String, age: Int) -> NSMutableAttributedString {
       var nameString = NSMutableAttributedString(string: name + ", \(age)")
-      nameString.addAttribute(NSFontAttributeName, value: UIFont(name: "HelveticaNeue-Thin", size: 24)!, range: NSMakeRange(0, count(name)+1))
-      nameString.addAttribute(NSFontAttributeName, value: UIFont(name: "HelveticaNeue-UltraLight", size: 24)!, range: NSMakeRange(count(name)+2, count("\(age)")))
+      nameString.addAttribute(NSFontAttributeName, value: UIFont(name: "HelveticaNeue-Thin", size: 20)!, range: NSMakeRange(0, count(name)+1))
+      nameString.addAttribute(NSFontAttributeName, value: UIFont(name: "HelveticaNeue-UltraLight", size: 20)!, range: NSMakeRange(count(name)+2, count("\(age)")))
       return nameString
       
    }
    
    func createAttributedNameStringNoAge(name: String) -> NSMutableAttributedString {
       var nameString = NSMutableAttributedString(string: name)
-      nameString.addAttribute(NSFontAttributeName, value: UIFont(name: "HelveticaNeue-Thin", size: 24)!, range: NSMakeRange(0, count(name)))
+      nameString.addAttribute(NSFontAttributeName, value: UIFont(name: "HelveticaNeue-Thin", size: 20)!, range: NSMakeRange(0, count(name)))
       return nameString
       
    }
@@ -229,11 +235,14 @@ class MatchesViewController: UIViewController, UICollectionViewDelegateFlowLayou
       self.performSegueWithIdentifier("showUserBio", sender: self)
    }
    
-   func swipeToSearchView(recognizer: UITapGestureRecognizer) {
-      self.performSegueWithIdentifier("unwindToSearchView", sender: self)
+   func handleSwipes(sender: UISwipeGestureRecognizer) {
+      if sender.direction == .Down {
+         self.performSegueWithIdentifier("unwindToSearchView", sender: self)
+      } 
    }
    
    override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {
+      println("segue.identifier == \(segue.identifier)")
       
       if (segue.identifier == "showUserBio") {
          
@@ -256,6 +265,12 @@ class MatchesViewController: UIViewController, UICollectionViewDelegateFlowLayou
             destinationVC.heightMargin = currentCell?.frame.origin.y
             destinationVC.itemHeight = itemSize.height
          }
+      } else if segue.identifier == "presentNav" {
+         println("trying to presentNav :/")
+         let toViewController = segue.destinationViewController as! NavigationViewController
+         self.modalPresentationStyle = UIModalPresentationStyle.Custom
+         toViewController.transitioningDelegate = self.navTransitionOperator
+         toViewController.presentingView = self
       }
    }
    
