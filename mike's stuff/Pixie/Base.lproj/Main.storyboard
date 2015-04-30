@@ -1111,11 +1111,11 @@
                         <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="EFH-Tk-rao">
+                            <view contentMode="scaleToFill" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="EFH-Tk-rao">
                                 <rect key="frame" x="0.0" y="0.0" width="600" height="20"/>
                                 <color key="backgroundColor" red="0.0" green="0.73725490199999999" blue="0.81960784310000001" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                             </view>
-                            <navigationBar opaque="NO" contentMode="scaleToFill" translucent="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Tjg-KI-B6Q">
+                            <navigationBar opaque="NO" contentMode="scaleToFill" fixedFrame="YES" translucent="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Tjg-KI-B6Q">
                                 <rect key="frame" x="0.0" y="20" width="600" height="44"/>
                                 <color key="barTintColor" red="0.0" green="0.73725490199999999" blue="0.81960784310000001" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                 <textAttributes key="titleTextAttributes">
@@ -1134,18 +1134,48 @@
                                     </navigationItem>
                                 </items>
                             </navigationBar>
+                            <tableView clipsSubviews="YES" contentMode="scaleToFill" fixedFrame="YES" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="44" sectionHeaderHeight="22" sectionFooterHeight="22" translatesAutoresizingMaskIntoConstraints="NO" id="gnV-Oj-yQg">
+                                <rect key="frame" x="0.0" y="64" width="600" height="536"/>
+                                <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                <prototypes>
+                                    <tableViewCell contentMode="scaleToFill" selectionStyle="blue" hidesAccessoryWhenEditing="NO" indentationLevel="1" indentationWidth="0.0" reuseIdentifier="Message Cell" rowHeight="68" id="QYX-Vt-bO5" customClass="MessageCell" customModule="Pixie" customModuleProvider="target">
+                                        <autoresizingMask key="autoresizingMask"/>
+                                        <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="QYX-Vt-bO5" id="AHZ-6T-d26">
+                                            <autoresizingMask key="autoresizingMask"/>
+                                            <subviews>
+                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="Name" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Sir-O3-4Ih">
+                                                    <rect key="frame" x="8" y="8" width="51" height="21"/>
+                                                    <fontDescription key="fontDescription" name="HelveticaNeue-Thin" family="Helvetica Neue" pointSize="20"/>
+                                                    <nil key="highlightedColor"/>
+                                                </label>
+                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="Timestamp" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Abj-JW-P4B">
+                                                    <rect key="frame" x="497" y="23" width="95" height="21"/>
+                                                    <fontDescription key="fontDescription" name="HelveticaNeue-Thin" family="Helvetica Neue" pointSize="20"/>
+                                                    <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
+                                                    <nil key="highlightedColor"/>
+                                                </label>
+                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="Last Message" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="qHQ-ao-S03">
+                                                    <rect key="frame" x="8" y="38" width="107" height="21"/>
+                                                    <fontDescription key="fontDescription" name="HelveticaNeue-ThinItalic" family="Helvetica Neue" pointSize="14"/>
+                                                    <color key="textColor" red="0.5533065025252526" green="0.5533065025252526" blue="0.5533065025252526" alpha="1" colorSpace="calibratedRGB"/>
+                                                    <nil key="highlightedColor"/>
+                                                </label>
+                                            </subviews>
+                                        </tableViewCellContentView>
+                                        <connections>
+                                            <outlet property="lastMessageLabel" destination="qHQ-ao-S03" id="5qj-Mb-F3Z"/>
+                                            <outlet property="nameLabel" destination="Sir-O3-4Ih" id="cVd-rs-Gqe"/>
+                                            <outlet property="timestampLabel" destination="Abj-JW-P4B" id="1KQ-3Z-pOH"/>
+                                        </connections>
+                                    </tableViewCell>
+                                </prototypes>
+                            </tableView>
                         </subviews>
                         <color key="backgroundColor" red="0.98039215690000003" green="0.98039215690000003" blue="0.98039215690000003" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
-                        <constraints>
-                            <constraint firstItem="EFH-Tk-rao" firstAttribute="trailing" secondItem="Tjg-KI-B6Q" secondAttribute="trailing" id="0x0-MH-pqQ"/>
-                            <constraint firstItem="EFH-Tk-rao" firstAttribute="top" secondItem="4ih-CK-VE3" secondAttribute="top" id="DOG-ca-B6Q"/>
-                            <constraint firstItem="Tjg-KI-B6Q" firstAttribute="leading" secondItem="4ih-CK-VE3" secondAttribute="leading" id="Fbv-Ap-CPi"/>
-                            <constraint firstItem="Tjg-KI-B6Q" firstAttribute="top" secondItem="EFH-Tk-rao" secondAttribute="bottom" id="Iff-fi-bOR"/>
-                            <constraint firstAttribute="trailing" secondItem="Tjg-KI-B6Q" secondAttribute="trailing" id="aut-Sy-6V8"/>
-                            <constraint firstItem="Tjg-KI-B6Q" firstAttribute="top" secondItem="vAQ-OA-ORg" secondAttribute="bottom" id="cYI-Px-ZeW"/>
-                            <constraint firstItem="Tjg-KI-B6Q" firstAttribute="leading" secondItem="EFH-Tk-rao" secondAttribute="leading" id="uIL-0W-ke8"/>
-                        </constraints>
                     </view>
+                    <connections>
+                        <outlet property="messagesTable" destination="gnV-Oj-yQg" id="Pd6-HH-1Eg"/>
+                    </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="9pS-6g-R4l" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
