@@ -8,6 +8,8 @@
 
 /* Begin PBXBuildFile section */
 		1598651590C7055F21C6834B /* libPods-Pixie.a in Frameworks */ = {isa = PBXBuildFile; fileRef = D713E8E07C24BAA249659ABB /* libPods-Pixie.a */; };
+		520DB44C1AF20EB300986846 /* MyProfileViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 520DB44B1AF20EB300986846 /* MyProfileViewController.swift */; };
+		520DB4651AF210FA00986846 /* GPUImage.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 520DB4621AF210A600986846 /* GPUImage.framework */; };
 		52274C611ABAE65300DB6DC3 /* MyPostsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 52274C5E1ABAE65300DB6DC3 /* MyPostsViewController.swift */; };
 		52274C621ABAE65300DB6DC3 /* RidePostedView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 52274C5F1ABAE65300DB6DC3 /* RidePostedView.swift */; };
 		52414C6B1AADFE7100417481 /* MatchesViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 52414C6A1AADFE7100417481 /* MatchesViewController.swift */; };
@@ -71,6 +73,27 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
+		520DB45F1AF210A600986846 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 520DB4591AF210A500986846 /* GPUImage.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = BCF1A33414DDB1EC00852800;
+			remoteInfo = GPUImage;
+		};
+		520DB4611AF210A600986846 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 520DB4591AF210A500986846 /* GPUImage.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = BCE209E51943F20C002FEED8;
+			remoteInfo = GPUImageFramework;
+		};
+		520DB4631AF210E500986846 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 520DB4591AF210A500986846 /* GPUImage.xcodeproj */;
+			proxyType = 1;
+			remoteGlobalIDString = BCE209E41943F20C002FEED8;
+			remoteInfo = GPUImageFramework;
+		};
 		6184D2F21A9302F3006DA1E4 /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
 			containerPortal = 6184D2D41A9302F3006DA1E4 /* Project object */;
@@ -82,6 +105,9 @@
 
 /* Begin PBXFileReference section */
 		13F359DB9B49F08A313E2097 /* libPods.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = libPods.a; sourceTree = BUILT_PRODUCTS_DIR; };
+		520DB44B1AF20EB300986846 /* MyProfileViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MyProfileViewController.swift; sourceTree = "<group>"; };
+		520DB44D1AF20F4300986846 /* GPUImage.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = GPUImage.framework; path = GPUImageSDK/GPUImage.framework; sourceTree = "<group>"; };
+		520DB4591AF210A500986846 /* GPUImage.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = GPUImage.xcodeproj; path = GPUImageSDK/framework/GPUImage.xcodeproj; sourceTree = "<group>"; };
 		52274C5E1ABAE65300DB6DC3 /* MyPostsViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MyPostsViewController.swift; sourceTree = "<group>"; };
 		52274C5F1ABAE65300DB6DC3 /* RidePostedView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RidePostedView.swift; sourceTree = "<group>"; };
 		52414C6A1AADFE7100417481 /* MatchesViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MatchesViewController.swift; sourceTree = "<group>"; };
@@ -159,6 +185,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				520DB4651AF210FA00986846 /* GPUImage.framework in Frameworks */,
 				61D339A21AF021EC0084D716 /* Bolts.framework in Frameworks */,
 				612ECAD51AF0112C006C2D13 /* Accounts.framework in Frameworks */,
 				612ECAD31AF01122006C2D13 /* Social.framework in Frameworks */,
@@ -189,9 +216,19 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		520DB45A1AF210A500986846 /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				520DB4601AF210A600986846 /* libGPUImage.a */,
+				520DB4621AF210A600986846 /* GPUImage.framework */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
 		61457A5E1AA01D83008CE64B /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				520DB44D1AF20F4300986846 /* GPUImage.framework */,
 				61D339A11AF021EC0084D716 /* Bolts.framework */,
 				61D3399F1AF01F610084D716 /* Parse.framework */,
 				61D3399B1AF01F4A0084D716 /* FacebookSDK.framework */,
@@ -217,6 +254,7 @@
 		6184D2D31A9302F3006DA1E4 = {
 			isa = PBXGroup;
 			children = (
+				520DB4591AF210A500986846 /* GPUImage.xcodeproj */,
 				6184D2DE1A9302F3006DA1E4 /* Pixie */,
 				61457A5E1AA01D83008CE64B /* Frameworks */,
 				6184D2F41A9302F3006DA1E4 /* PixieTests */,
@@ -259,6 +297,7 @@
 				52CB3C691AA85C8B00FAE10A /* PostRideTransitionOperator.swift */,
 				52CB3C671AA85C1100FAE10A /* PostRideViewController.swift */,
 				611A1A341AAE814800F18B3B /* ProfileViewController.swift */,
+				520DB44B1AF20EB300986846 /* MyProfileViewController.swift */,
 				61DEC0381ABA48B0004314EB /* RegisterViewController.swift */,
 				A7EFA9CC1ABD06DA00047024 /* CreateUser.swift */,
 				52414C861AAE037600417481 /* Review.swift */,
@@ -362,6 +401,7 @@
 			buildRules = (
 			);
 			dependencies = (
+				520DB4641AF210E500986846 /* PBXTargetDependency */,
 			);
 			name = Pixie;
 			productName = Pixie;
@@ -416,6 +456,12 @@
 			mainGroup = 6184D2D31A9302F3006DA1E4;
 			productRefGroup = 6184D2DD1A9302F3006DA1E4 /* Products */;
 			projectDirPath = "";
+			projectReferences = (
+				{
+					ProductGroup = 520DB45A1AF210A500986846 /* Products */;
+					ProjectRef = 520DB4591AF210A500986846 /* GPUImage.xcodeproj */;
+				},
+			);
 			projectRoot = "";
 			targets = (
 				6184D2DB1A9302F3006DA1E4 /* Pixie */,
@@ -423,6 +469,23 @@
 			);
 		};
 /* End PBXProject section */
+
+/* Begin PBXReferenceProxy section */
+		520DB4601AF210A600986846 /* libGPUImage.a */ = {
+			isa = PBXReferenceProxy;
+			fileType = archive.ar;
+			path = libGPUImage.a;
+			remoteRef = 520DB45F1AF210A600986846 /* PBXContainerItemProxy */;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
+		520DB4621AF210A600986846 /* GPUImage.framework */ = {
+			isa = PBXReferenceProxy;
+			fileType = wrapper.framework;
+			path = GPUImage.framework;
+			remoteRef = 520DB4611AF210A600986846 /* PBXContainerItemProxy */;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
+/* End PBXReferenceProxy section */
 
 /* Begin PBXResourcesBuildPhase section */
 		6184D2DA1A9302F3006DA1E4 /* Resources */ = {
@@ -505,6 +568,7 @@
 				52414C6B1AADFE7100417481 /* MatchesViewController.swift in Sources */,
 				52414C7D1AAE008800417481 /* MatchesToBioTransitionOperator.swift in Sources */,
 				52414C7A1AAE002200417481 /* User.swift in Sources */,
+				520DB44C1AF20EB300986846 /* MyProfileViewController.swift in Sources */,
 				611A1A371AAE827E00F18B3B /* SearchViewController.swift in Sources */,
 				617D3D851AF19A030018900D /* MessagesViewController.swift in Sources */,
 				617D3D871AF1E1460018900D /* MessageCell.swift in Sources */,
@@ -536,6 +600,11 @@
 /* End PBXSourcesBuildPhase section */
 
 /* Begin PBXTargetDependency section */
+		520DB4641AF210E500986846 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			name = GPUImageFramework;
+			targetProxy = 520DB4631AF210E500986846 /* PBXContainerItemProxy */;
+		};
 		6184D2F31A9302F3006DA1E4 /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
 			target = 6184D2DB1A9302F3006DA1E4 /* Pixie */;
@@ -653,6 +722,7 @@
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(PROJECT_DIR)/ParseSDK",
 					"$(PROJECT_DIR)/FacebookSDK",
+					"$(PROJECT_DIR)/GPUImageSDK",
 				);
 				HEADER_SEARCH_PATHS = (
 					"\"${PODS_ROOT}/Headers/Public\"",
@@ -695,6 +765,7 @@
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(PROJECT_DIR)/ParseSDK",
 					"$(PROJECT_DIR)/FacebookSDK",
+					"$(PROJECT_DIR)/GPUImageSDK",
 				);
 				HEADER_SEARCH_PATHS = (
 					"\"${PODS_ROOT}/Headers/Public\"",

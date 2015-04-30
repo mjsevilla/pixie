@@ -1020,6 +1020,58 @@
             </objects>
             <point key="canvasLocation" x="2505" y="-1143"/>
         </scene>
+        <!--My Profile View Controller-->
+        <scene sceneID="tPL-QN-3GW">
+            <objects>
+                <viewController id="kQ1-0w-jNs" customClass="MyProfileViewController" customModule="Pixie" customModuleProvider="target" sceneMemberID="viewController">
+                    <layoutGuides>
+                        <viewControllerLayoutGuide type="top" id="7LB-fw-PcD"/>
+                        <viewControllerLayoutGuide type="bottom" id="fFa-bx-QRf"/>
+                    </layoutGuides>
+                    <view key="view" contentMode="scaleToFill" id="43L-o1-x8l">
+                        <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="YI1-62-2Vv">
+                                <rect key="frame" x="0.0" y="0.0" width="600" height="20"/>
+                                <color key="backgroundColor" red="0.0" green="0.73725490199999999" blue="0.81960784310000001" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                            </view>
+                            <navigationBar opaque="NO" contentMode="scaleToFill" translucent="NO" translatesAutoresizingMaskIntoConstraints="NO" id="ggX-DI-7Dj">
+                                <rect key="frame" x="0.0" y="20" width="600" height="44"/>
+                                <color key="barTintColor" red="0.0" green="0.73725490199999999" blue="0.81960784310000001" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                <textAttributes key="titleTextAttributes">
+                                    <fontDescription key="fontDescription" name="HelveticaNeue-Thin" family="Helvetica Neue" pointSize="22"/>
+                                    <color key="textColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                    <color key="textShadowColor" white="0.66666666666666663" alpha="1" colorSpace="calibratedWhite"/>
+                                </textAttributes>
+                                <items>
+                                    <navigationItem title="Profile" id="SbV-Nz-ega">
+                                        <barButtonItem key="leftBarButtonItem" image="menu" id="4GQ-6c-WPO">
+                                            <color key="tintColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                        </barButtonItem>
+                                        <barButtonItem key="rightBarButtonItem" enabled="NO" title="Edit" id="ZAV-Mh-IT8">
+                                            <color key="tintColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                        </barButtonItem>
+                                    </navigationItem>
+                                </items>
+                            </navigationBar>
+                        </subviews>
+                        <color key="backgroundColor" red="0.98039215686274506" green="0.98039215686274506" blue="0.98039215686274506" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                        <constraints>
+                            <constraint firstItem="ggX-DI-7Dj" firstAttribute="leading" secondItem="43L-o1-x8l" secondAttribute="leading" id="1Th-DA-aRs"/>
+                            <constraint firstAttribute="trailing" secondItem="ggX-DI-7Dj" secondAttribute="trailing" id="6TF-r9-pJe"/>
+                            <constraint firstAttribute="trailing" secondItem="YI1-62-2Vv" secondAttribute="trailing" id="Hzd-Xl-eID"/>
+                            <constraint firstItem="YI1-62-2Vv" firstAttribute="leading" secondItem="43L-o1-x8l" secondAttribute="leading" id="cxf-s8-6bB"/>
+                            <constraint firstItem="ggX-DI-7Dj" firstAttribute="top" secondItem="7LB-fw-PcD" secondAttribute="bottom" id="gMF-ba-k28"/>
+                            <constraint firstItem="7LB-fw-PcD" firstAttribute="top" secondItem="YI1-62-2Vv" secondAttribute="bottom" id="hrv-Rz-Q48"/>
+                            <constraint firstItem="YI1-62-2Vv" firstAttribute="top" secondItem="43L-o1-x8l" secondAttribute="top" id="q0p-E4-nsd"/>
+                        </constraints>
+                    </view>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="omF-rJ-Tt1" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="3387" y="-1143"/>
+        </scene>
         <!--MyPostsViewController-->
         <scene sceneID="5FF-jg-HLQ">
             <objects>
