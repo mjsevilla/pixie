@@ -137,7 +137,7 @@
                                         <textInputTraits key="textInputTraits" autocapitalizationType="words" autocorrectionType="no" spellCheckingType="no" returnKeyType="go" enablesReturnKeyAutomatically="YES" secureTextEntry="YES"/>
                                     </textField>
                                 </subviews>
-                                <color key="backgroundColor" red="0.9137254901960784" green="0.89803921568627454" blue="0.85098039215686272" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                <color key="backgroundColor" red="0.81960784313725488" green="0.81960784313725488" blue="0.81960784313725488" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                 <constraints>
                                     <constraint firstItem="HU2-oR-xgn" firstAttribute="leading" secondItem="YYp-Lu-jru" secondAttribute="leading" constant="8" id="6dJ-PS-Vkb"/>
                                     <constraint firstAttribute="trailing" secondItem="qJQ-om-phK" secondAttribute="trailing" constant="8" id="GJl-rE-fsN"/>
@@ -555,7 +555,7 @@
                                         <textInputTraits key="textInputTraits" autocapitalizationType="words" autocorrectionType="no" spellCheckingType="no" returnKeyType="next" enablesReturnKeyAutomatically="YES"/>
                                     </textField>
                                 </subviews>
-                                <color key="backgroundColor" red="0.9137254901960784" green="0.89803921568627454" blue="0.85098039215686272" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                <color key="backgroundColor" red="0.81983957266566732" green="0.81983957266566732" blue="0.81983957266566732" alpha="1" colorSpace="calibratedRGB"/>
                                 <constraints>
                                     <constraint firstItem="f2L-rG-xCx" firstAttribute="leading" secondItem="PxK-Oz-bJh" secondAttribute="leadingMargin" id="0EE-bC-CHf"/>
                                     <constraint firstAttribute="bottom" secondItem="f2L-rG-xCx" secondAttribute="bottom" constant="8" id="1Cc-eB-CxI"/>
@@ -757,6 +757,7 @@
                         <segue destination="GCW-6Z-dMB" kind="show" identifier="presentAbout" id="YDc-Zs-ygh"/>
                         <segue destination="WNj-zI-suc" kind="show" identifier="presentSettings" id="ipi-lh-Ijg"/>
                         <segue destination="dzH-Kb-FUl" kind="show" identifier="presentMyPosts" id="hQN-2J-Iwr"/>
+                        <segue destination="y4w-w6-mUl" kind="show" identifier="presentMessages" id="EFJ-1I-JhH"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="gBX-1g-wYc" userLabel="First Responder" sceneMemberID="firstResponder"/>
@@ -1019,10 +1020,10 @@
             </objects>
             <point key="canvasLocation" x="2505" y="-1143"/>
         </scene>
-        <!--My Posts View Controller-->
+        <!--MyPostsViewController-->
         <scene sceneID="5FF-jg-HLQ">
             <objects>
-                <viewController id="dzH-Kb-FUl" customClass="MyPostsViewController" customModule="Pixie" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController title="MyPostsViewController" id="dzH-Kb-FUl" customClass="MyPostsViewController" customModule="Pixie" customModuleProvider="target" sceneMemberID="viewController">
                     <layoutGuides>
                         <viewControllerLayoutGuide type="top" id="H2c-QX-JyI"/>
                         <viewControllerLayoutGuide type="bottom" id="GcV-Wu-Smo"/>
@@ -1061,13 +1062,12 @@
                             <constraint firstItem="wRh-Nc-jQT" firstAttribute="top" secondItem="D68-aP-isN" secondAttribute="bottom" id="KS4-qa-cXm"/>
                             <constraint firstItem="wRh-Nc-jQT" firstAttribute="leading" secondItem="A1S-DU-sqI" secondAttribute="leading" id="NYy-MG-haE"/>
                             <constraint firstItem="wRh-Nc-jQT" firstAttribute="top" secondItem="D68-aP-isN" secondAttribute="bottom" id="Vv6-kp-H5c"/>
+                            <constraint firstItem="wRh-Nc-jQT" firstAttribute="top" secondItem="H2c-QX-JyI" secondAttribute="bottom" id="Ymo-j4-2x2"/>
                             <constraint firstAttribute="trailing" secondItem="wRh-Nc-jQT" secondAttribute="trailing" id="cAs-Jk-hhF"/>
                             <constraint firstItem="D68-aP-isN" firstAttribute="trailing" secondItem="wRh-Nc-jQT" secondAttribute="trailing" id="cQx-36-15i"/>
                             <constraint firstItem="D68-aP-isN" firstAttribute="top" secondItem="A1S-DU-sqI" secondAttribute="top" id="iZo-BY-7tl"/>
-                            <constraint firstItem="wRh-Nc-jQT" firstAttribute="top" secondItem="H2c-QX-JyI" secondAttribute="bottom" id="oIs-tC-sxQ"/>
                         </constraints>
                     </view>
-                    <navigationItem key="navigationItem" id="NIJ-xE-niV"/>
                     <connections>
                         <outlet property="navBar" destination="wRh-Nc-jQT" id="MgC-sT-2yD"/>
                         <segue destination="G3a-lA-nWN" kind="presentation" identifier="presentEditPostView" modalPresentationStyle="overFullScreen" modalTransitionStyle="coverVertical" id="spJ-Vj-ggt"/>
@@ -1099,13 +1099,65 @@
             </objects>
             <point key="canvasLocation" x="3325" y="1075"/>
         </scene>
+        <!--MessagesViewController-->
+        <scene sceneID="97Z-jU-HBy">
+            <objects>
+                <viewController title="MessagesViewController" id="y4w-w6-mUl" customClass="MessagesViewContoller" customModule="Pixie" customModuleProvider="target" sceneMemberID="viewController">
+                    <layoutGuides>
+                        <viewControllerLayoutGuide type="top" id="vAQ-OA-ORg"/>
+                        <viewControllerLayoutGuide type="bottom" id="61p-XL-o6z"/>
+                    </layoutGuides>
+                    <view key="view" contentMode="scaleToFill" id="4ih-CK-VE3">
+                        <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="EFH-Tk-rao">
+                                <rect key="frame" x="0.0" y="0.0" width="600" height="20"/>
+                                <color key="backgroundColor" red="0.0" green="0.73725490199999999" blue="0.81960784310000001" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                            </view>
+                            <navigationBar opaque="NO" contentMode="scaleToFill" translucent="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Tjg-KI-B6Q">
+                                <rect key="frame" x="0.0" y="20" width="600" height="44"/>
+                                <color key="barTintColor" red="0.0" green="0.73725490199999999" blue="0.81960784310000001" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                <textAttributes key="titleTextAttributes">
+                                    <fontDescription key="fontDescription" name="HelveticaNeue-Thin" family="Helvetica Neue" pointSize="22"/>
+                                    <color key="textColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                    <color key="textShadowColor" white="0.66666666666666663" alpha="1" colorSpace="calibratedWhite"/>
+                                </textAttributes>
+                                <items>
+                                    <navigationItem title="Messages" id="DCN-Rd-r0L">
+                                        <barButtonItem key="leftBarButtonItem" image="menu" id="EIK-WU-9e5">
+                                            <color key="tintColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                            <connections>
+                                                <segue destination="Sik-hd-hg0" kind="custom" identifier="presentNav" id="J36-YM-nsL"/>
+                                            </connections>
+                                        </barButtonItem>
+                                    </navigationItem>
+                                </items>
+                            </navigationBar>
+                        </subviews>
+                        <color key="backgroundColor" red="0.98039215690000003" green="0.98039215690000003" blue="0.98039215690000003" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                        <constraints>
+                            <constraint firstItem="EFH-Tk-rao" firstAttribute="trailing" secondItem="Tjg-KI-B6Q" secondAttribute="trailing" id="0x0-MH-pqQ"/>
+                            <constraint firstItem="EFH-Tk-rao" firstAttribute="top" secondItem="4ih-CK-VE3" secondAttribute="top" id="DOG-ca-B6Q"/>
+                            <constraint firstItem="Tjg-KI-B6Q" firstAttribute="leading" secondItem="4ih-CK-VE3" secondAttribute="leading" id="Fbv-Ap-CPi"/>
+                            <constraint firstItem="Tjg-KI-B6Q" firstAttribute="top" secondItem="EFH-Tk-rao" secondAttribute="bottom" id="Iff-fi-bOR"/>
+                            <constraint firstAttribute="trailing" secondItem="Tjg-KI-B6Q" secondAttribute="trailing" id="aut-Sy-6V8"/>
+                            <constraint firstItem="Tjg-KI-B6Q" firstAttribute="top" secondItem="vAQ-OA-ORg" secondAttribute="bottom" id="cYI-Px-ZeW"/>
+                            <constraint firstItem="Tjg-KI-B6Q" firstAttribute="leading" secondItem="EFH-Tk-rao" secondAttribute="leading" id="uIL-0W-ke8"/>
+                        </constraints>
+                    </view>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="9pS-6g-R4l" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="2505" y="1757"/>
+        </scene>
     </scenes>
     <resources>
         <image name="add" width="30" height="30"/>
         <image name="menu" width="22" height="22"/>
     </resources>
     <inferredMetricsTieBreakers>
-        <segue reference="ndH-hG-Xoc"/>
         <segue reference="QXm-KY-6G3"/>
+        <segue reference="J36-YM-nsL"/>
     </inferredMetricsTieBreakers>
 </document>

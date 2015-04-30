@@ -94,11 +94,11 @@ class NavigationViewController : UIViewController, UITableViewDelegate, UITableV
              //   self.performSegueWithIdentifier("presentPayments", sender: self)
             }
         case 3:
-            if let pView = presentingView as? SearchViewController {
+            if let pView = presentingView as? MessagesViewContoller {
                 dismissViewControllerAnimated(true, completion: nil)
             }
             else {
-               // self.performSegueWithIdentifier("presentMessages", sender: self)
+                self.performSegueWithIdentifier("presentMessages", sender: self)
             }
         case 4:
             if let pView = presentingView as? MyPostsViewController {

@@ -1,15 +1,15 @@
 //
-//  SettingsViewController.swift
+//  MessagesViewController.swift
 //  Pixie
 //
-//  Created by Mike Sevilla on 3/18/15.
+//  Created by Mike Sevilla on 4/29/15.
 //  Copyright (c) 2015 Mike Sevilla. All rights reserved.
 //
 
 import Foundation
 import UIKit
 
-class SettingsViewController: UIViewController {
+class MessagesViewContoller: UIViewController {
     var navTransitionOperator = NavigationTransitionOperator()
     
     override func viewDidLoad() {

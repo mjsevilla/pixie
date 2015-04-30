@@ -40,6 +40,7 @@
 		6123E3E41A9AF84400AB776F /* NavigationViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6123E3E31A9AF84400AB776F /* NavigationViewController.swift */; };
 		612ECAD31AF01122006C2D13 /* Social.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 612ECAD21AF01122006C2D13 /* Social.framework */; };
 		612ECAD51AF0112C006C2D13 /* Accounts.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 612ECAD41AF0112C006C2D13 /* Accounts.framework */; settings = {ATTRIBUTES = (Required, ); }; };
+		617D3D851AF19A030018900D /* MessagesViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 617D3D841AF19A030018900D /* MessagesViewController.swift */; };
 		6184D2E21A9302F3006DA1E4 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6184D2E11A9302F3006DA1E4 /* AppDelegate.swift */; };
 		6184D2E71A9302F3006DA1E4 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 6184D2E51A9302F3006DA1E4 /* Main.storyboard */; };
 		6184D2EC1A9302F3006DA1E4 /* LaunchScreen.xib in Resources */ = {isa = PBXBuildFile; fileRef = 6184D2EA1A9302F3006DA1E4 /* LaunchScreen.xib */; };
@@ -113,6 +114,7 @@
 		612ECAD21AF01122006C2D13 /* Social.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Social.framework; path = System/Library/Frameworks/Social.framework; sourceTree = SDKROOT; };
 		612ECAD41AF0112C006C2D13 /* Accounts.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Accounts.framework; path = System/Library/Frameworks/Accounts.framework; sourceTree = SDKROOT; };
 		61457A5F1AA02183008CE64B /* Bridge-Header.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "Bridge-Header.h"; sourceTree = "<group>"; };
+		617D3D841AF19A030018900D /* MessagesViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MessagesViewController.swift; sourceTree = "<group>"; };
 		6184D2DC1A9302F3006DA1E4 /* Pixie.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Pixie.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		6184D2E01A9302F3006DA1E4 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		6184D2E11A9302F3006DA1E4 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
@@ -244,6 +246,7 @@
 				52414C6C1AADFEBD00417481 /* MatchCollectionViewCell.swift */,
 				52414C7C1AAE008800417481 /* MatchesToBioTransitionOperator.swift */,
 				52414C6A1AADFE7100417481 /* MatchesViewController.swift */,
+				617D3D841AF19A030018900D /* MessagesViewController.swift */,
 				52274C5E1ABAE65300DB6DC3 /* MyPostsViewController.swift */,
 				52FFF7D01AEDFA350054A803 /* MyPostsTableViewCell.swift */,
 				6123E3E11A9AF80A00AB776F /* NavigationCell.swift */,
@@ -500,6 +503,7 @@
 				52414C7D1AAE008800417481 /* MatchesToBioTransitionOperator.swift in Sources */,
 				52414C7A1AAE002200417481 /* User.swift in Sources */,
 				611A1A371AAE827E00F18B3B /* SearchViewController.swift in Sources */,
+				617D3D851AF19A030018900D /* MessagesViewController.swift in Sources */,
 				611A1A3B1AAE8BBD00F18B3B /* InitialViewController.swift in Sources */,
 				A7EFA9CD1ABD06DA00047024 /* CreateUser.swift in Sources */,
 				611A1A351AAE814800F18B3B /* ProfileViewController.swift in Sources */,
