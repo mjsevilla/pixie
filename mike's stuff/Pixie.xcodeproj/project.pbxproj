@@ -42,6 +42,7 @@
 		6123E3E41A9AF84400AB776F /* NavigationViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6123E3E31A9AF84400AB776F /* NavigationViewController.swift */; };
 		612ECAD31AF01122006C2D13 /* Social.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 612ECAD21AF01122006C2D13 /* Social.framework */; };
 		612ECAD51AF0112C006C2D13 /* Accounts.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 612ECAD41AF0112C006C2D13 /* Accounts.framework */; settings = {ATTRIBUTES = (Required, ); }; };
+		61345B281AF57DB900DCCE42 /* ConversationViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 61345B271AF57DB900DCCE42 /* ConversationViewController.swift */; };
 		617D3D851AF19A030018900D /* MessagesViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 617D3D841AF19A030018900D /* MessagesViewController.swift */; };
 		617D3D871AF1E1460018900D /* MessageCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 617D3D861AF1E1460018900D /* MessageCell.swift */; };
 		6184D2E21A9302F3006DA1E4 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6184D2E11A9302F3006DA1E4 /* AppDelegate.swift */; };
@@ -140,6 +141,7 @@
 		6123E3E31A9AF84400AB776F /* NavigationViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NavigationViewController.swift; sourceTree = "<group>"; };
 		612ECAD21AF01122006C2D13 /* Social.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Social.framework; path = System/Library/Frameworks/Social.framework; sourceTree = SDKROOT; };
 		612ECAD41AF0112C006C2D13 /* Accounts.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Accounts.framework; path = System/Library/Frameworks/Accounts.framework; sourceTree = SDKROOT; };
+		61345B271AF57DB900DCCE42 /* ConversationViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ConversationViewController.swift; sourceTree = "<group>"; };
 		61457A5F1AA02183008CE64B /* Bridge-Header.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "Bridge-Header.h"; sourceTree = "<group>"; };
 		617D3D841AF19A030018900D /* MessagesViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MessagesViewController.swift; sourceTree = "<group>"; };
 		617D3D861AF1E1460018900D /* MessageCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MessageCell.swift; sourceTree = "<group>"; };
@@ -277,38 +279,9 @@
 			children = (
 				61457A5F1AA02183008CE64B /* Bridge-Header.h */,
 				6184D2E11A9302F3006DA1E4 /* AppDelegate.swift */,
-				61DEC03A1ABA830E004314EB /* AboutViewController.swift */,
-				52414C841AAE02B500417481 /* BioToReviewsTransitionOperator.swift */,
-				52414C7E1AAE00C200417481 /* BioViewController.swift */,
-				52CF2BD81AEE591200172812 /* EditPostViewController.swift */,
-				611A1A3A1AAE8BBD00F18B3B /* InitialViewController.swift */,
-				52414C701AAE002200417481 /* Match.swift */,
-				52414C6C1AADFEBD00417481 /* MatchCollectionViewCell.swift */,
-				52414C7C1AAE008800417481 /* MatchesToBioTransitionOperator.swift */,
-				52414C6A1AADFE7100417481 /* MatchesViewController.swift */,
-				617D3D861AF1E1460018900D /* MessageCell.swift */,
-				617D3D841AF19A030018900D /* MessagesViewController.swift */,
-				52274C5E1ABAE65300DB6DC3 /* MyPostsViewController.swift */,
-				52FFF7D01AEDFA350054A803 /* MyPostsTableViewCell.swift */,
-				6123E3E11A9AF80A00AB776F /* NavigationCell.swift */,
-				6123E3DF1A9AF59600AB776F /* NavigationTransitionOperator.swift */,
-				6123E3E31A9AF84400AB776F /* NavigationViewController.swift */,
-				52414C711AAE002200417481 /* Post.swift */,
-				52CB3C691AA85C8B00FAE10A /* PostRideTransitionOperator.swift */,
-				52CB3C671AA85C1100FAE10A /* PostRideViewController.swift */,
-				611A1A341AAE814800F18B3B /* ProfileViewController.swift */,
-				520DB44B1AF20EB300986846 /* MyProfileViewController.swift */,
-				61DEC0381ABA48B0004314EB /* RegisterViewController.swift */,
-				A7EFA9CC1ABD06DA00047024 /* CreateUser.swift */,
-				52414C861AAE037600417481 /* Review.swift */,
-				52414C821AAE028700417481 /* ReviewTableViewCell.swift */,
-				52414C801AAE025E00417481 /* ReviewsViewController.swift */,
-				52274C5F1ABAE65300DB6DC3 /* RidePostedView.swift */,
-				611A1A3C1AAE8BE900F18B3B /* SignInViewController.swift */,
-				52414C8C1AAE061A00417481 /* SearchToMatchesTransitionOperator.swift */,
-				611A1A361AAE827E00F18B3B /* SearchViewController.swift */,
-				61DEC03C1ABA87A5004314EB /* SettingsViewController.swift */,
-				52414C731AAE002200417481 /* User.swift */,
+				61A6096F1AF5585900FD4854 /* View Controllers */,
+				61A609721AF5587500FD4854 /* Transition Operators */,
+				61A609731AF5588900FD4854 /* Cells */,
 				6184D2E51A9302F3006DA1E4 /* Main.storyboard */,
 				52414C6F1AAE002200417481 /* green-car.png */,
 				52414C721AAE002200417481 /* red-car.png */,
@@ -372,6 +345,60 @@
 				61B8AC761AED826F00AB92F7 /* pixieWelcomeVideoSepia.mp4 */,
 			);
 			name = "Welcome Video";
+			sourceTree = "<group>";
+		};
+		61A6096F1AF5585900FD4854 /* View Controllers */ = {
+			isa = PBXGroup;
+			children = (
+				61DEC03A1ABA830E004314EB /* AboutViewController.swift */,
+				52414C7E1AAE00C200417481 /* BioViewController.swift */,
+				61345B271AF57DB900DCCE42 /* ConversationViewController.swift */,
+				52CF2BD81AEE591200172812 /* EditPostViewController.swift */,
+				611A1A3A1AAE8BBD00F18B3B /* InitialViewController.swift */,
+				52414C6A1AADFE7100417481 /* MatchesViewController.swift */,
+				617D3D841AF19A030018900D /* MessagesViewController.swift */,
+				52274C5E1ABAE65300DB6DC3 /* MyPostsViewController.swift */,
+				52FFF7D01AEDFA350054A803 /* MyPostsTableViewCell.swift */,
+				6123E3E31A9AF84400AB776F /* NavigationViewController.swift */,
+				52CB3C671AA85C1100FAE10A /* PostRideViewController.swift */,
+				611A1A341AAE814800F18B3B /* ProfileViewController.swift */,
+				520DB44B1AF20EB300986846 /* MyProfileViewController.swift */,
+				61DEC0381ABA48B0004314EB /* RegisterViewController.swift */,
+				52414C801AAE025E00417481 /* ReviewsViewController.swift */,
+				611A1A3C1AAE8BE900F18B3B /* SignInViewController.swift */,
+				611A1A361AAE827E00F18B3B /* SearchViewController.swift */,
+				61DEC03C1ABA87A5004314EB /* SettingsViewController.swift */,
+			);
+			name = "View Controllers";
+			sourceTree = "<group>";
+		};
+		61A609721AF5587500FD4854 /* Transition Operators */ = {
+			isa = PBXGroup;
+			children = (
+				52414C841AAE02B500417481 /* BioToReviewsTransitionOperator.swift */,
+				52414C7C1AAE008800417481 /* MatchesToBioTransitionOperator.swift */,
+				6123E3DF1A9AF59600AB776F /* NavigationTransitionOperator.swift */,
+				52CB3C691AA85C8B00FAE10A /* PostRideTransitionOperator.swift */,
+				52414C8C1AAE061A00417481 /* SearchToMatchesTransitionOperator.swift */,
+			);
+			name = "Transition Operators";
+			sourceTree = "<group>";
+		};
+		61A609731AF5588900FD4854 /* Cells */ = {
+			isa = PBXGroup;
+			children = (
+				A7EFA9CC1ABD06DA00047024 /* CreateUser.swift */,
+				52414C701AAE002200417481 /* Match.swift */,
+				52414C6C1AADFEBD00417481 /* MatchCollectionViewCell.swift */,
+				617D3D861AF1E1460018900D /* MessageCell.swift */,
+				6123E3E11A9AF80A00AB776F /* NavigationCell.swift */,
+				52414C711AAE002200417481 /* Post.swift */,
+				52414C861AAE037600417481 /* Review.swift */,
+				52414C821AAE028700417481 /* ReviewTableViewCell.swift */,
+				52274C5F1ABAE65300DB6DC3 /* RidePostedView.swift */,
+				52414C731AAE002200417481 /* User.swift */,
+			);
+			name = Cells;
 			sourceTree = "<group>";
 		};
 		8253DE2CD01318F070DD9BD1 /* Pods */ = {
@@ -563,6 +590,7 @@
 				52414C811AAE025E00417481 /* ReviewsViewController.swift in Sources */,
 				61DEC03B1ABA830E004314EB /* AboutViewController.swift in Sources */,
 				52414C6D1AADFEBD00417481 /* MatchCollectionViewCell.swift in Sources */,
+				61345B281AF57DB900DCCE42 /* ConversationViewController.swift in Sources */,
 				61DEC03D1ABA87A5004314EB /* SettingsViewController.swift in Sources */,
 				52414C781AAE002200417481 /* Post.swift in Sources */,
 				52414C6B1AADFE7100417481 /* MatchesViewController.swift in Sources */,

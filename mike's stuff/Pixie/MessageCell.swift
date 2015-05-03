@@ -11,9 +11,10 @@ import UIKit
 
 class MessageCell: UITableViewCell {
     
-    @IBOutlet weak var nameLabel: UILabel!
-    @IBOutlet weak var lastMessageLabel: UILabel!
+    
     @IBOutlet weak var timestampLabel: UILabel!
+    @IBOutlet weak var lastMessageLabel: UILabel!
+    @IBOutlet weak var nameLabel: UILabel!
     
     override func awakeFromNib() {
         nameLabel.font = UIFont(name: "HelveticaNeue-Thin", size: 20)

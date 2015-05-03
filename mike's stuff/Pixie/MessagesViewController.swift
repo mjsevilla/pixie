@@ -11,6 +11,7 @@ import UIKit
 
 class MessagesViewContoller: UIViewController, UITableViewDelegate, UITableViewDataSource {
     
+
     @IBOutlet weak var messagesTable: UITableView!
     var navTransitionOperator = NavigationTransitionOperator()
     var messages: [MessageModel]!
@@ -34,6 +35,10 @@ class MessagesViewContoller: UIViewController, UITableViewDelegate, UITableViewD
         if sender.direction == .Right {
             self.performSegueWithIdentifier("presentNav", sender: self)
         }
+    }
+    
+    @IBAction func goBackToMessagesView(segue:UIStoryboardSegue) {
+        
     }
     
     override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {
