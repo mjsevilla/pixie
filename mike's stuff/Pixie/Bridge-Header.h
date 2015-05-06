@@ -13,5 +13,11 @@
 #import <Bolts/Bolts.h>
 #import <Parse/Parse.h>
 #import <JSQMessagesViewController/JSQMessages.h>
+#import "AutocompleteViewController.h"
+#import "Autocomplete.h"
+//#import "AutocompletePlace.h"
+//#import "AutocompleteQuery.h"
+//#import "AutocompleteUtilities.h"
+//#import "PlaceDetailQuery.h"
 
 #endif

@@ -8,6 +8,11 @@
 
 /* Begin PBXBuildFile section */
 		1598651590C7055F21C6834B /* libPods-Pixie.a in Frameworks */ = {isa = PBXBuildFile; fileRef = D713E8E07C24BAA249659ABB /* libPods-Pixie.a */; };
+		2C6BC88D1AFAABB100EA180D /* AutocompletePlace.m in Sources */ = {isa = PBXBuildFile; fileRef = 2C6BC8861AFAABB100EA180D /* AutocompletePlace.m */; };
+		2C6BC88E1AFAABB100EA180D /* AutocompleteQuery.m in Sources */ = {isa = PBXBuildFile; fileRef = 2C6BC8881AFAABB100EA180D /* AutocompleteQuery.m */; };
+		2C6BC88F1AFAABB100EA180D /* AutocompleteUtilities.m in Sources */ = {isa = PBXBuildFile; fileRef = 2C6BC88A1AFAABB100EA180D /* AutocompleteUtilities.m */; };
+		2C6BC8901AFAABB100EA180D /* AutocompleteViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 2C6BC88C1AFAABB100EA180D /* AutocompleteViewController.m */; };
+		2C6BC8961AFAAC7F00EA180D /* PlaceDetailQuery.m in Sources */ = {isa = PBXBuildFile; fileRef = 2C6BC8951AFAAC7F00EA180D /* PlaceDetailQuery.m */; };
 		520DB44C1AF20EB300986846 /* MyProfileViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 520DB44B1AF20EB300986846 /* MyProfileViewController.swift */; };
 		520DB4651AF210FA00986846 /* GPUImage.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 520DB4621AF210A600986846 /* GPUImage.framework */; };
 		52274C611ABAE65300DB6DC3 /* MyPostsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 52274C5E1ABAE65300DB6DC3 /* MyPostsViewController.swift */; };
@@ -106,6 +111,17 @@
 
 /* Begin PBXFileReference section */
 		13F359DB9B49F08A313E2097 /* libPods.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = libPods.a; sourceTree = BUILT_PRODUCTS_DIR; };
+		2C6BC8841AFAABB100EA180D /* Autocomplete.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = Autocomplete.h; path = "../../../../../Downloads/pixie-master/mike's stuff/Pixie/Autocomplete.h"; sourceTree = "<group>"; };
+		2C6BC8851AFAABB100EA180D /* AutocompletePlace.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = AutocompletePlace.h; path = "../../../../../Downloads/pixie-master/mike's stuff/Pixie/AutocompletePlace.h"; sourceTree = "<group>"; };
+		2C6BC8861AFAABB100EA180D /* AutocompletePlace.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = AutocompletePlace.m; path = "../../../../../Downloads/pixie-master/mike's stuff/Pixie/AutocompletePlace.m"; sourceTree = "<group>"; };
+		2C6BC8871AFAABB100EA180D /* AutocompleteQuery.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = AutocompleteQuery.h; path = "../../../../../Downloads/pixie-master/mike's stuff/Pixie/AutocompleteQuery.h"; sourceTree = "<group>"; };
+		2C6BC8881AFAABB100EA180D /* AutocompleteQuery.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = AutocompleteQuery.m; path = "../../../../../Downloads/pixie-master/mike's stuff/Pixie/AutocompleteQuery.m"; sourceTree = "<group>"; };
+		2C6BC8891AFAABB100EA180D /* AutocompleteUtilities.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = AutocompleteUtilities.h; path = "../../../../../Downloads/pixie-master/mike's stuff/Pixie/AutocompleteUtilities.h"; sourceTree = "<group>"; };
+		2C6BC88A1AFAABB100EA180D /* AutocompleteUtilities.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = AutocompleteUtilities.m; path = "../../../../../Downloads/pixie-master/mike's stuff/Pixie/AutocompleteUtilities.m"; sourceTree = "<group>"; };
+		2C6BC88B1AFAABB100EA180D /* AutocompleteViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = AutocompleteViewController.h; path = "../../../../../Downloads/pixie-master/mike's stuff/Pixie/AutocompleteViewController.h"; sourceTree = "<group>"; };
+		2C6BC88C1AFAABB100EA180D /* AutocompleteViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = AutocompleteViewController.m; path = "../../../../../Downloads/pixie-master/mike's stuff/Pixie/AutocompleteViewController.m"; sourceTree = "<group>"; };
+		2C6BC8941AFAAC7F00EA180D /* PlaceDetailQuery.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = PlaceDetailQuery.h; path = Autocomplete/PlaceDetailQuery.h; sourceTree = "<group>"; };
+		2C6BC8951AFAAC7F00EA180D /* PlaceDetailQuery.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = PlaceDetailQuery.m; path = Autocomplete/PlaceDetailQuery.m; sourceTree = "<group>"; };
 		520DB44B1AF20EB300986846 /* MyProfileViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MyProfileViewController.swift; sourceTree = "<group>"; };
 		520DB44D1AF20F4300986846 /* GPUImage.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = GPUImage.framework; path = GPUImageSDK/GPUImage.framework; sourceTree = "<group>"; };
 		520DB4591AF210A500986846 /* GPUImage.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = GPUImage.xcodeproj; path = GPUImageSDK/framework/GPUImage.xcodeproj; sourceTree = "<group>"; };
@@ -218,6 +234,24 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		2C6BC8931AFAABBB00EA180D /* Autocomplete */ = {
+			isa = PBXGroup;
+			children = (
+				2C6BC8941AFAAC7F00EA180D /* PlaceDetailQuery.h */,
+				2C6BC8951AFAAC7F00EA180D /* PlaceDetailQuery.m */,
+				2C6BC8841AFAABB100EA180D /* Autocomplete.h */,
+				2C6BC8851AFAABB100EA180D /* AutocompletePlace.h */,
+				2C6BC8861AFAABB100EA180D /* AutocompletePlace.m */,
+				2C6BC8871AFAABB100EA180D /* AutocompleteQuery.h */,
+				2C6BC8881AFAABB100EA180D /* AutocompleteQuery.m */,
+				2C6BC8891AFAABB100EA180D /* AutocompleteUtilities.h */,
+				2C6BC88A1AFAABB100EA180D /* AutocompleteUtilities.m */,
+				2C6BC88B1AFAABB100EA180D /* AutocompleteViewController.h */,
+				2C6BC88C1AFAABB100EA180D /* AutocompleteViewController.m */,
+			);
+			name = Autocomplete;
+			sourceTree = "<group>";
+		};
 		520DB45A1AF210A500986846 /* Products */ = {
 			isa = PBXGroup;
 			children = (
@@ -350,6 +384,7 @@
 		61A6096F1AF5585900FD4854 /* View Controllers */ = {
 			isa = PBXGroup;
 			children = (
+				2C6BC8931AFAABBB00EA180D /* Autocomplete */,
 				61DEC03A1ABA830E004314EB /* AboutViewController.swift */,
 				52414C7E1AAE00C200417481 /* BioViewController.swift */,
 				61345B271AF57DB900DCCE42 /* ConversationViewController.swift */,
@@ -580,22 +615,26 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				2C6BC88F1AFAABB100EA180D /* AutocompleteUtilities.m in Sources */,
 				52414C851AAE02B500417481 /* BioToReviewsTransitionOperator.swift in Sources */,
 				52274C621ABAE65300DB6DC3 /* RidePostedView.swift in Sources */,
 				52CB3C681AA85C1100FAE10A /* PostRideViewController.swift in Sources */,
 				52414C871AAE037600417481 /* Review.swift in Sources */,
 				52414C7F1AAE00C200417481 /* BioViewController.swift in Sources */,
 				52CF2BD91AEE591200172812 /* EditPostViewController.swift in Sources */,
+				2C6BC8961AFAAC7F00EA180D /* PlaceDetailQuery.m in Sources */,
 				6123E3E41A9AF84400AB776F /* NavigationViewController.swift in Sources */,
 				52414C811AAE025E00417481 /* ReviewsViewController.swift in Sources */,
 				61DEC03B1ABA830E004314EB /* AboutViewController.swift in Sources */,
 				52414C6D1AADFEBD00417481 /* MatchCollectionViewCell.swift in Sources */,
+				2C6BC88E1AFAABB100EA180D /* AutocompleteQuery.m in Sources */,
 				61345B281AF57DB900DCCE42 /* ConversationViewController.swift in Sources */,
 				61DEC03D1ABA87A5004314EB /* SettingsViewController.swift in Sources */,
 				52414C781AAE002200417481 /* Post.swift in Sources */,
 				52414C6B1AADFE7100417481 /* MatchesViewController.swift in Sources */,
 				52414C7D1AAE008800417481 /* MatchesToBioTransitionOperator.swift in Sources */,
 				52414C7A1AAE002200417481 /* User.swift in Sources */,
+				2C6BC88D1AFAABB100EA180D /* AutocompletePlace.m in Sources */,
 				520DB44C1AF20EB300986846 /* MyProfileViewController.swift in Sources */,
 				611A1A371AAE827E00F18B3B /* SearchViewController.swift in Sources */,
 				617D3D851AF19A030018900D /* MessagesViewController.swift in Sources */,
@@ -611,6 +650,7 @@
 				52CB3C6A1AA85C8B00FAE10A /* PostRideTransitionOperator.swift in Sources */,
 				52FFF7D11AEDFA350054A803 /* MyPostsTableViewCell.swift in Sources */,
 				52414C8D1AAE061A00417481 /* SearchToMatchesTransitionOperator.swift in Sources */,
+				2C6BC8901AFAABB100EA180D /* AutocompleteViewController.m in Sources */,
 				6123E3E21A9AF80A00AB776F /* NavigationCell.swift in Sources */,
 				611A1A3D1AAE8BE900F18B3B /* SignInViewController.swift in Sources */,
 				52414C831AAE028700417481 /* ReviewTableViewCell.swift in Sources */,
