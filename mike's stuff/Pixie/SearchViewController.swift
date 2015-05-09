@@ -10,7 +10,7 @@ import Foundation
 import UIKit
 import MediaPlayer
 
-class SearchViewController: UIViewController, UISearchBarDelegate {
+class SearchViewController: AutocompleteViewController {
     
     @IBOutlet weak var searchBar: UISearchBar!
     @IBOutlet weak var toolBar: UIToolbar!
@@ -36,7 +36,7 @@ class SearchViewController: UIViewController, UISearchBarDelegate {
         leftSwipe.direction = .Left
         view.addGestureRecognizer(leftSwipe)
         
-        searchBar.delegate = self
+        //searchBar.delegate = self
         
         let defaults = NSUserDefaults.standardUserDefaults()
         if let savedId = defaults.stringForKey("PixieUserId") {
@@ -74,8 +74,8 @@ class SearchViewController: UIViewController, UISearchBarDelegate {
             self.performSegueWithIdentifier("postRideSegue", sender: self)
         }
     }
-    
-    func searchBarSearchButtonClicked(searchBar: UISearchBar) {
+	
+    override func searchBarTextDidEndEditing(searchBar: UISearchBar) {
         performSegueWithIdentifier("showMatches", sender: self)
     }
     
