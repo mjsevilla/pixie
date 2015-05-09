@@ -1340,7 +1340,7 @@
         <image name="menu" width="22" height="22"/>
     </resources>
     <inferredMetricsTieBreakers>
-        <segue reference="ndH-hG-Xoc"/>
         <segue reference="3Sk-Xj-7lo"/>
+        <segue reference="ELl-Ug-DNN"/>
     </inferredMetricsTieBreakers>
 </document>

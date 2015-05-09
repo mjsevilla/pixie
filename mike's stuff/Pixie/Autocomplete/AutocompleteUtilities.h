@@ -14,8 +14,6 @@ typedef NS_ENUM(NSInteger, SPGooglePlacesAutocompletePlaceType) {
     SPPlaceTypeCities
 };
 
-
-
 typedef void (^SPGooglePlacesPlacemarkResultBlock)(CLPlacemark *placemark, NSString *addressString, NSError *error);
 typedef void (^SPGooglePlacesAutocompleteResultBlock)(NSArray *places, NSError *error);
 typedef void (^SPGooglePlacesPlaceDetailResultBlock)(NSDictionary *placeDictionary, NSError *error);
@@ -27,4 +25,5 @@ extern BOOL SPIsEmptyString(NSString *string);
 
 @interface NSArray(SPFoundationAdditions)
 - (id)onlyObject;
+
 @end
