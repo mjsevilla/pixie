@@ -34,7 +34,7 @@ class MatchesToBioTransitionOperator: NSObject, UIViewControllerAnimatedTransiti
       let profilePic = bioViewController.profilePic
       let infoView = bioViewController.userInfo
       
-      var imageScale = CGAffineTransformConcat(CGAffineTransformMakeScale(imageFrame.size.width/profilePic.frame.size.width, imageFrame.size.height/profilePic.frame.size.height), CGAffineTransformMakeTranslation(0, profilePic.frame.size.width/16.0))
+      var imageScale = CGAffineTransformConcat(CGAffineTransformMakeScale(imageFrame.width/profilePic.frame.width, imageFrame.height/profilePic.frame.height), CGAffineTransformMakeTranslation(0, matchesViewController.topMargin-profilePic.frame.width/14.0+0.5))
       var bioTranslate = CGAffineTransformMakeTranslation(0, bioView.frame.height)
       
       // add the both views to our view controller

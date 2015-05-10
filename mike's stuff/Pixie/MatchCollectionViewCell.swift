@@ -41,7 +41,7 @@ class MatchCollectionViewCell: UICollectionViewCell, UIGestureRecognizerDelegate
       
       // Seeking/Offering
       seekOfferLabel = UILabel()
-      seekOfferLabel.font = UIFont(name: "HelveticaNeue-Light", size: 14)
+      seekOfferLabel.font = UIFont(name: "HelveticaNeue-UltraLight", size: 14)
       seekOfferLabel.textAlignment = .Left
       seekOfferLabel.adjustsFontSizeToFitWidth = true
       seekOfferLabel.lineBreakMode = .ByClipping
@@ -109,14 +109,14 @@ class MatchCollectionViewCell: UICollectionViewCell, UIGestureRecognizerDelegate
       contentView.addConstraints(NSLayoutConstraint.constraintsWithVisualFormat("H:|-5-[location]-5-|", options: NSLayoutFormatOptions(0), metrics: nil, views: viewsDict))
       contentView.addConstraints(NSLayoutConstraint.constraintsWithVisualFormat("H:|-5-[dateTime]-5-|", options: NSLayoutFormatOptions(0), metrics: nil, views: viewsDict))
       contentView.addConstraints(NSLayoutConstraint.constraintsWithVisualFormat("V:[message]-1-|", options: NSLayoutFormatOptions(0), metrics: nil, views: viewsDict))
-      contentView.addConstraints(NSLayoutConstraint.constraintsWithVisualFormat("V:|[profilePic]-112-|", options: NSLayoutFormatOptions(0), metrics: nil, views: viewsDict))
-      contentView.addConstraints(NSLayoutConstraint.constraintsWithVisualFormat("V:[profilePic]-0-[userName]-1-[line]", options: NSLayoutFormatOptions(0), metrics: nil, views: viewsDict))
-      contentView.addConstraints(NSLayoutConstraint.constraintsWithVisualFormat("V:[userName]-5-[seekOffer]-0-[location]-0-[dateTime]-32-|", options: NSLayoutFormatOptions(0), metrics: nil, views: viewsDict))
+      contentView.addConstraints(NSLayoutConstraint.constraintsWithVisualFormat("V:|[profilePic]-3-[userName]-5-[seekOffer]-0-[location]-0-[dateTime]", options: NSLayoutFormatOptions(0), metrics: nil, views: viewsDict))
+      contentView.addConstraints(NSLayoutConstraint.constraintsWithVisualFormat("V:[userName]-1-[line]", options: NSLayoutFormatOptions(0), metrics: nil, views: viewsDict))
       contentView.addConstraint(NSLayoutConstraint(item: messageIcon, attribute: NSLayoutAttribute.CenterX, relatedBy: .Equal, toItem: profilePic, attribute: .CenterX, multiplier: 1.0, constant: 0))
       contentView.addConstraint(NSLayoutConstraint(item: starIcon, attribute: NSLayoutAttribute.RightMargin, relatedBy: .Equal, toItem: profilePic, attribute: .RightMargin, multiplier: 1.0, constant: -1))
       contentView.addConstraint(NSLayoutConstraint(item: starIcon, attribute: NSLayoutAttribute.TopMargin, relatedBy: .Equal, toItem: profilePic, attribute: .TopMargin, multiplier: 1.0, constant: 1))
-      self.layoutIfNeeded()
+      contentView.addConstraint(NSLayoutConstraint(item: profilePic, attribute: NSLayoutAttribute.Height, relatedBy: .Equal, toItem: profilePic, attribute: .Width, multiplier: 1.0, constant: 0))
       
+      self.layoutIfNeeded()
    }
    
    required init(coder aDecoder: NSCoder) {

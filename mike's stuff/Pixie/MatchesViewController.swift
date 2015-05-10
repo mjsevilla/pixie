@@ -19,10 +19,13 @@ class MatchesViewController: UIViewController, UICollectionViewDelegateFlowLayou
    
    var collectionView: UICollectionView!
    var currentCell: MatchCollectionViewCell?
+   var currentMatch: Match!
    var transitionManager = MatchesToBioTransitionOperator()
    var navTransitionOperator = NavigationTransitionOperator()
    var viewInsets: UIEdgeInsets!
    var itemSize: CGSize!
+   var userId: Int!
+   var topMargin: CGFloat!
    
    private var matches = [Match]()
    private var posts = [Post]()
@@ -47,11 +50,16 @@ class MatchesViewController: UIViewController, UICollectionViewDelegateFlowLayou
       
       // Do any additional setup after loading the view, typically from a nib.
       var layout: UICollectionViewFlowLayout = UICollectionViewFlowLayout()
-      itemSize = CGSize(width: view.frame.width/8.0*7.0, height: self.getHeight(view.frame.width))
+      // view.frame.width/7.0*6.0 = width & height of picture
+      // 114 = height of text area below picture
+      itemSize = CGSize(width: view.frame.width/7.0*6.0, height: view.frame.width/7.0*6.0+114.0)
       layout.itemSize = itemSize
       layout.scrollDirection = UICollectionViewScrollDirection.Horizontal
-      viewInsets = UIEdgeInsets(top: 0, left: view.frame.width/16.0, bottom: 0, right: view.frame.width/16.0 )
+      viewInsets = UIEdgeInsets(top: 0, left: view.frame.width/14.0, bottom: 0, right: view.frame.width/14.0 )
       layout.sectionInset = viewInsets
+      
+      topMargin = (view.frame.height - itemSize.height - 62.0)/2.0
+      println("topMargin: \(topMargin)")
       
       collectionView = UICollectionView(frame: CGRectZero, collectionViewLayout: layout)
       collectionView.dataSource = self
@@ -65,7 +73,7 @@ class MatchesViewController: UIViewController, UICollectionViewDelegateFlowLayou
       self.view.addSubview(collectionView)
       
       let viewsDict = ["collectionView":collectionView]
-      self.view.addConstraints(NSLayoutConstraint.constraintsWithVisualFormat("V:|[collectionView]|", options: NSLayoutFormatOptions(0), metrics: nil, views: viewsDict))
+      self.view.addConstraints(NSLayoutConstraint.constraintsWithVisualFormat("V:|-62-[collectionView]|", options: NSLayoutFormatOptions(0), metrics: nil, views: viewsDict))
       self.view.addConstraints(NSLayoutConstraint.constraintsWithVisualFormat("H:|[collectionView]|", options: NSLayoutFormatOptions(0), metrics: nil, views: viewsDict))
       
       loadPostsFromAPI()
@@ -83,6 +91,16 @@ class MatchesViewController: UIViewController, UICollectionViewDelegateFlowLayou
       var rightSwipe = UISwipeGestureRecognizer(target: self, action: Selector("handleSwipes:"))
       rightSwipe.direction = .Right
       view.addGestureRecognizer(rightSwipe)
+      
+      /* Where "userId" is set */
+      let defaults = NSUserDefaults.standardUserDefaults()
+      if let savedId = defaults.stringForKey("PixieUserId") {
+         userId = savedId.toInt()
+         println("MatchesViewController... userId found: \(savedId)")
+      } else {
+         userId = -1
+         println("MatchesViewController... userId not found")
+      }
    }
    
    func loadPostsFromAPI() {
@@ -189,23 +207,25 @@ class MatchesViewController: UIViewController, UICollectionViewDelegateFlowLayou
    
    func collectionView(collectionView: UICollectionView, cellForItemAtIndexPath indexPath: NSIndexPath) -> UICollectionViewCell {
       let cell = collectionView.dequeueReusableCellWithReuseIdentifier("Cell", forIndexPath: indexPath) as! MatchCollectionViewCell
-      let myMatch = matches[indexPath.indexAtPosition(0)]
+      currentMatch = matches[indexPath.indexAtPosition(0)]
       
       var tap = UITapGestureRecognizer(target: self, action: "tappedImage:")
       tap.numberOfTapsRequired = 1;
       tap.numberOfTouchesRequired = 1;
       tap.delegate = self
       
+      cell.messageIcon.addTarget(self, action: "sendMessage:", forControlEvents: UIControlEvents.TouchUpInside)
+      
       cell.profilePic.addGestureRecognizer(tap)
-      cell.profilePic.image = UIImage(data: myMatch.author.profilePicData)
-      if myMatch.author.age > 0 {
-         cell.userNameLabel.attributedText = createAttributedNameString(myMatch.author.name, age: myMatch.author.age)
+      cell.profilePic.image = UIImage(data: currentMatch.author.profilePicData)
+      if currentMatch.author.age > 0 {
+         cell.userNameLabel.attributedText = createAttributedNameString(currentMatch.author.name, age: currentMatch.author.age)
       } else {
-         cell.userNameLabel.attributedText = createAttributedNameStringNoAge(myMatch.author.name)
+         cell.userNameLabel.attributedText = createAttributedNameStringNoAge(currentMatch.author.name)
       }
-      cell.seekOfferLabel.text = myMatch.post.isDriver ? "😎 Offering" : "😊 Seeking"
-      cell.locationLabel.text = "\(myMatch.post.startingLoc) \u{2192} \(myMatch.post.endingLoc)"
-      cell.dateTimeLabel.text = "\(myMatch.post.date), \(myMatch.post.time)"
+      cell.seekOfferLabel.text = currentMatch.post.isDriver ? "😎 Offering" : "😊 Seeking"
+      cell.locationLabel.text = "\(currentMatch.post.startingLoc) \u{2192} \(currentMatch.post.endingLoc)"
+      cell.dateTimeLabel.text = "\(currentMatch.post.date), \(currentMatch.post.time)"
       
       currentCell = cell
       return cell
@@ -238,12 +258,29 @@ class MatchesViewController: UIViewController, UICollectionViewDelegateFlowLayou
    func handleSwipes(sender: UISwipeGestureRecognizer) {
       if sender.direction == .Down {
          self.performSegueWithIdentifier("unwindToSearchView", sender: self)
-      } 
+      }
+   }
+   
+   /*
+   *
+   * <---------------------------------------------------------------- MIKE THIS IS FO U FO MESSAGING !!!!!!!!!!
+   *
+   * You might be wondering....
+   *
+   * "Where da fuq is ma current user id stored at????"
+   * Ansewr: in "userId"-> a global variable; initialized in viewDidLoad() starting at line 90
+   *
+   * "Where da fuq is ma user name and id for da user I vant to message????"
+   * Answer: in "currentMatch.author.name" and "currentMatch.author.userId"-> also a global variable;
+   * initialized at line 204 which load the view for the current cell in view
+   *
+   */
+   func sendMessage(sender:UIButton!)
+   {
+      println("Send message from \(userId) to \(currentMatch.author.name) with id \(currentMatch.author.userId)")
    }
    
    override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {
-      println("segue.identifier == \(segue.identifier)")
-      
       if (segue.identifier == "showUserBio") {
          
          if let destinationVC = segue.destinationViewController as? BioViewController {
@@ -266,7 +303,6 @@ class MatchesViewController: UIViewController, UICollectionViewDelegateFlowLayou
             destinationVC.itemHeight = itemSize.height
          }
       } else if segue.identifier == "presentNav" {
-         println("trying to presentNav :/")
          let toViewController = segue.destinationViewController as! NavigationViewController
          self.modalPresentationStyle = UIModalPresentationStyle.Custom
          toViewController.transitioningDelegate = self.navTransitionOperator
@@ -276,14 +312,6 @@ class MatchesViewController: UIViewController, UICollectionViewDelegateFlowLayou
    
    @IBAction func unwindToMatches(segue:UIStoryboardSegue) {}
    
-   func getHeight(width: CGFloat) -> CGFloat {
-      if width == 414.0 {
-         return 465.75 + 32.0
-      } else if width == 375.0 {
-         return 421.875 + 32.0
-      } else {
-         return 360.0 + 32.0
-      }
-   }
+   
    
 }

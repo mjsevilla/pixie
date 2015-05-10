@@ -54,21 +54,20 @@ class BioViewController: UIViewController, UIGestureRecognizerDelegate {
       tap.delegate = self
       profilePic.addGestureRecognizer(tap)
       
-      var swipe = UISwipeGestureRecognizer(target: self, action: "swiped:")
-      swipe.direction = UISwipeGestureRecognizerDirection.Up
-      swipe.delegate = self
-      view.addGestureRecognizer(swipe)
+      //      var swipe = UISwipeGestureRecognizer(target: self, action: "swiped:")
+      //      swipe.direction = UISwipeGestureRecognizerDirection.Up
+      //      swipe.delegate = self
+      //      view.addGestureRecognizer(swipe)
       
-      let profPicHeight = itemHeight - 112.0 + widthMargin*2.0
-      let userInfoHeight = heightMargin + 112.0
+      let userInfoHeight = view.frame.height - 62 - view.frame.width
       let viewsDict = ["profilePic":profilePic, "userInfo":userInfo, "userName":userNameLabel, "userBio":userBioLabel]
-      let metrics = ["profPicHeight":heightMargin - widthMargin*2.0, "userInfoHeight":userInfoHeight]
+      let metrics = ["profPicHeight":view.frame.width, "userInfoHeight":userInfoHeight]
       
       view.addConstraints(NSLayoutConstraint.constraintsWithVisualFormat("H:|[profilePic]|", options: NSLayoutFormatOptions(0), metrics: nil, views: viewsDict))
       view.addConstraints(NSLayoutConstraint.constraintsWithVisualFormat("H:|[userInfo]|", options: NSLayoutFormatOptions(0), metrics: nil, views: viewsDict))
       userInfo.addConstraints(NSLayoutConstraint.constraintsWithVisualFormat("H:|-5-[userName]-5-|", options: NSLayoutFormatOptions(0), metrics: nil, views: viewsDict))
       userInfo.addConstraints(NSLayoutConstraint.constraintsWithVisualFormat("H:|-5-[userBio]-5-|", options: NSLayoutFormatOptions(0), metrics: nil, views: viewsDict))
-      view.addConstraints(NSLayoutConstraint.constraintsWithVisualFormat("V:|-profPicHeight-[profilePic]-0-[userInfo(userInfoHeight)]|", options: NSLayoutFormatOptions(0), metrics: metrics, views: viewsDict))
+      view.addConstraints(NSLayoutConstraint.constraintsWithVisualFormat("V:|-62-[profilePic(profPicHeight)]-0-[userInfo(userInfoHeight)]|", options: NSLayoutFormatOptions(0), metrics: metrics, views: viewsDict))
       userInfo.addConstraints(NSLayoutConstraint.constraintsWithVisualFormat("V:|-5-[userName]-5-[userBio]", options: NSLayoutFormatOptions(0), metrics: nil, views: viewsDict))
       
       view.layoutIfNeeded()
