@@ -91,7 +91,7 @@ class NavigationViewController : UIViewController, UITableViewDelegate, UITableV
                 dismissViewControllerAnimated(true, completion: nil)
             }
             else {
-             //   self.performSegueWithIdentifier("presentPayments", sender: self)
+                //   self.performSegueWithIdentifier("presentPayments", sender: self)
             }
         case 3:
             if let pView = presentingView as? MessagesViewContoller {
@@ -102,10 +102,10 @@ class NavigationViewController : UIViewController, UITableViewDelegate, UITableV
             }
         case 4:
             if let pView = presentingView as? MyPostsViewController {
-               dismissViewControllerAnimated(true, completion: nil)
+                dismissViewControllerAnimated(true, completion: nil)
             }
             else {
-               self.performSegueWithIdentifier("presentMyPosts", sender: self)
+                self.performSegueWithIdentifier("presentMyPosts", sender: self)
             }
         case 5:
             if let pView = presentingView as? SearchViewController {
@@ -133,6 +133,17 @@ class NavigationViewController : UIViewController, UITableViewDelegate, UITableV
             self.performSegueWithIdentifier("presentInitial", sender: self)
         default:
             print("uhhh...hai <(._.<)")
+        }
+    }
+    
+    override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {
+        if segue.identifier == "presentMessages" {
+            if let navVC = segue.destinationViewController as? UINavigationController {
+                if let destVC = navVC.topViewController as? MessagesViewContoller {
+                    destVC.userID = "123"
+                    destVC.userName = "Mike Sevilla"
+                }
+            }
         }
     }
     

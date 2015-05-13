@@ -9,22 +9,19 @@
 import Foundation
 import UIKit
 
-class MessagesViewContoller: UIViewController, UITableViewDelegate, UITableViewDataSource {
-    
-
-    @IBOutlet weak var messagesTable: UITableView!
+class MessagesViewContoller: UITableViewController {
     var navTransitionOperator = NavigationTransitionOperator()
-    var messages: [MessageModel]!
+    var userID: String?
+    var userName: String?
+    var convos: [PFObject]?
     
     override func viewDidLoad() {
         super.viewDidLoad()
         // Do any additional setup after loading the view, typically from a nib.
-        
-        messagesTable.delegate = self
-        messagesTable.dataSource = self
-        
-        let temp = MessageModel(name: "Julio Coolio", lastMsg: "hella long message that will be cut off at the end with triple dots")
-        messages = [temp]
+        tableView.allowsMultipleSelectionDuringEditing = false
+        tableView.delegate = self
+        tableView.dataSource = self
+        convos = []
         
         var rightSwipe = UISwipeGestureRecognizer(target: self, action: Selector("handleSwipes:"))
         rightSwipe.direction = .Right
@@ -34,6 +31,34 @@ class MessagesViewContoller: UIViewController, UITableViewDelegate, UITableViewD
     func handleSwipes(sender: UISwipeGestureRecognizer) {
         if sender.direction == .Right {
             self.performSegueWithIdentifier("presentNav", sender: self)
+        }
+    }
+    
+    override func viewWillAppear(animated: Bool) {
+        super.viewWillAppear(animated)
+        loadConversations()
+    }
+    
+    // load all conversations that have the user's ID
+    func loadConversations() {
+        var query1 = PFQuery(className: "Conversation")
+        query1.whereKey("user1Id", equalTo: userID!)
+        var query2 = PFQuery(className: "Conversation")
+        query2.whereKey("user2Id", equalTo: userID!)
+        
+        var query = PFQuery.orQueryWithSubqueries([query1, query2])
+        query.orderByDescending("updatedAt")
+        query.includeKey("lastMessage")
+        
+        query.findObjectsInBackgroundWithBlock {
+            [unowned self] (objects, error) -> Void in
+            if error == nil {
+                self.convos!.removeAll(keepCapacity: true)
+                for object in objects! {
+                    self.convos!.append(object as! PFObject)
+                }
+                self.tableView.reloadData()
+            }
         }
     }
     
@@ -48,66 +73,85 @@ class MessagesViewContoller: UIViewController, UITableViewDelegate, UITableViewD
             toViewController.transitioningDelegate = self.navTransitionOperator
             toViewController.presentingView = self
         }
+        if segue.identifier == "presentConvo" {
+            if let destVC = segue.destinationViewController as? ConversationViewController {
+                let cell = sender as! MessageCell
+                
+                destVC.userName = self.userName
+                destVC.userId = self.userID
+                destVC.recipientName = cell.nameLabel.text
+                destVC.convoId = cell.convoID
+                destVC.convo = cell.convo
+            }
+        }
     }
     
-    override func didReceiveMemoryWarning() {
-        super.didReceiveMemoryWarning()
-        // Dispose of any resources that can be recreated.
+    override func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
+        let cell = tableView.cellForRowAtIndexPath(indexPath) as! MessageCell
+        cell.convo = convos![indexPath.row]
+        performSegueWithIdentifier("presentConvo", sender: cell)
     }
     
     override func preferredStatusBarStyle() -> UIStatusBarStyle {
         return UIStatusBarStyle.LightContent
     }
     
-    func tableView(tableView: UITableView, commitEditingStyle editingStyle: UITableViewCellEditingStyle, forRowAtIndexPath indexPath: NSIndexPath) {
+    // swipe to remove conversations
+    override func tableView(tableView: UITableView, commitEditingStyle editingStyle: UITableViewCellEditingStyle, forRowAtIndexPath indexPath: NSIndexPath) {
         
         if editingStyle == UITableViewCellEditingStyle.Delete {
-            messages.removeAtIndex(indexPath.row)
+            convos?.removeAtIndex(indexPath.row)
             tableView.deleteRowsAtIndexPaths([indexPath], withRowAnimation: UITableViewRowAnimation.Automatic)
         }
     }
     
-    func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return messages.count
+    override func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+        return convos!.count
     }
     
-    func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
+    override func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCellWithIdentifier("MessageCell") as! MessageCell
-        let message = messages[indexPath.row]
+        let convo = convos![indexPath.row]
+        let user1 = convo["user1Id"] as! String
+        let user2 = convo["user2Id"] as! String
+        let recipientName = (self.userID == user1 ? convo["user2Name"] : convo["user1Name"]) as? String
+        let lastMsgObj = convo["lastMessage"] as? PFObject
+        let lastMsg = lastMsgObj!["message"] as! NSString
         
-        
-        cell.nameLabel.text = message.name
-        if count(message.lastMsg) > 50 {
-            let lastMsg = message.lastMsg as NSString
-            let shortMsg = lastMsg.substringWithRange(NSRange(location: 0, length: 50)) + "..."
+        // cut off last message preview if it's too long
+        if lastMsg.length > 47 {
+            let shortMsg = lastMsg.substringWithRange(NSRange(location: 0, length: 47)) + "..."
             cell.lastMessageLabel.text = shortMsg
         }
         else {
-            cell.lastMessageLabel.text = message.lastMsg
+            cell.lastMessageLabel.text = lastMsg as String
         }
+        cell.nameLabel.text = recipientName
+        cell.timestampLabel.text = getTimestamp(convo, lastMsg: lastMsgObj)
+        cell.convoID = convo.objectId
         
         return cell
     }
     
-    func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
+    func getTimestamp(convo: PFObject, lastMsg: PFObject?) -> String {
+        var date = convo.createdAt
+        var lastMsgDate = lastMsg!.createdAt
+        if lastMsgDate != nil {
+            date = lastMsgDate
+        }
+        var time = JSQMessagesTimestampFormatter.sharedFormatter().relativeDateForDate(date)
         
+        if (time == "Today") {
+            time = JSQMessagesTimestampFormatter.sharedFormatter().timeForDate(date)
+        }
+        else if (time != "Yesterday") {
+            let formatter = NSDateFormatter()
+            formatter.dateStyle = NSDateFormatterStyle.ShortStyle
+            
+            time = formatter.stringFromDate(date!)
+        }
+        
+        return time
     }
 }
 
-class MessageModel {
-    
-    var name: String!
-    var lastMsg: String!
-    var timestamp: String?
-    
-    init(name: String, lastMsg: String, timestamp: String) {
-        self.name = name
-        self.lastMsg = lastMsg
-        self.timestamp = timestamp
-    }
-    
-    init(name: String, lastMsg: String) {
-        self.name = name
-        self.lastMsg = lastMsg
-    }
-}
