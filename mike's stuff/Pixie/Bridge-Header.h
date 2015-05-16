@@ -20,4 +20,6 @@
 //#import "AutocompleteUtilities.h"
 //#import "PlaceDetailQuery.h"
 
+#import "GPUImageTwoPassTextureSamplingFilter.h"
+
 #endif

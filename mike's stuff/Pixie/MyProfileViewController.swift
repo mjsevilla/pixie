@@ -91,8 +91,6 @@ class MyProfileViewController: UIViewController {
       
       nameLabel.text = "Coolio Julio"
       bioLabel.text = "Ayeeee wassup girl! How you doinnnnn?????"
-      
-      println("profilePicBlurred... w:\(profilePicBlurred.frame.width), h:\(profilePicBlurred.frame.height)")
    }
    
    override func didReceiveMemoryWarning() {

@@ -61,7 +61,7 @@ class MatchesViewController: UIViewController, UICollectionViewDelegateFlowLayou
       layout.sectionInset = viewInsets
       
       topMargin = (view.frame.height - itemSize.height - 64.0)/2.0
-      println("topMargin: \(topMargin)")
+//      println("topMargin: \(topMargin)")
       
       collectionView = UICollectionView(frame: CGRectZero, collectionViewLayout: layout)
       collectionView.dataSource = self
@@ -98,10 +98,10 @@ class MatchesViewController: UIViewController, UICollectionViewDelegateFlowLayou
       let defaults = NSUserDefaults.standardUserDefaults()
       if let savedId = defaults.stringForKey("PixieUserId") {
          userId = savedId.toInt()
-         println("MatchesViewController... userId found: \(savedId)")
+//         println("MatchesViewController... userId found: \(savedId)")
       } else {
          userId = -1
-         println("MatchesViewController... userId not found")
+//         println("MatchesViewController... userId not found")
       }
    }
    
