@@ -56,9 +56,11 @@ class MatchesViewController: UIViewController, UICollectionViewDelegateFlowLayou
       layout.itemSize = itemSize
       layout.scrollDirection = UICollectionViewScrollDirection.Horizontal
       viewInsets = UIEdgeInsets(top: 0, left: view.frame.width/14.0, bottom: 0, right: view.frame.width/14.0 )
+      layout.headerReferenceSize = CGSizeZero
+      layout.footerReferenceSize = CGSizeZero
       layout.sectionInset = viewInsets
       
-      topMargin = (view.frame.height - itemSize.height - 62.0)/2.0
+      topMargin = (view.frame.height - itemSize.height - 64.0)/2.0
       println("topMargin: \(topMargin)")
       
       collectionView = UICollectionView(frame: CGRectZero, collectionViewLayout: layout)
@@ -73,7 +75,7 @@ class MatchesViewController: UIViewController, UICollectionViewDelegateFlowLayou
       self.view.addSubview(collectionView)
       
       let viewsDict = ["collectionView":collectionView]
-      self.view.addConstraints(NSLayoutConstraint.constraintsWithVisualFormat("V:|-62-[collectionView]|", options: NSLayoutFormatOptions(0), metrics: nil, views: viewsDict))
+      self.view.addConstraints(NSLayoutConstraint.constraintsWithVisualFormat("V:|-64-[collectionView]|", options: NSLayoutFormatOptions(0), metrics: nil, views: viewsDict))
       self.view.addConstraints(NSLayoutConstraint.constraintsWithVisualFormat("H:|[collectionView]|", options: NSLayoutFormatOptions(0), metrics: nil, views: viewsDict))
       
       loadPostsFromAPI()
@@ -296,11 +298,8 @@ class MatchesViewController: UIViewController, UICollectionViewDelegateFlowLayou
             } else {
                destinationVC.userNameLabel.attributedText = createAttributedNameStringNoAge(current.name)
             }
-            destinationVC.userBioLabel.text = current.bio
+            destinationVC.userBio.text = "This is my bio. This is my bio. This is my bio. This is my bio. This is my bio. This is my bio. This is my bio. This is my bio. This is my bio. This is my bio. This is my bio. This is my bio. This is my bio. This is my bio. This is my bio. This is my bio. This is my bio. This is my bio. This is my bio. This is my bio. This is my bio. This is my bio. This is my bio. This is my bio. This is my bio. This is my bio. This is my bio. This is my bio. This is my bio. This is my bio. This is my bio. This is my bio. This is my bio. This is my bio. This is my bio. This is my bio. This is my bio. This is my bio. This is my bio. This is my bio. This is my bio. This is my bio. This is my bio. This is my bio. This is my bio. This is my bio. This is my bio."
             destinationVC.profilePic.image = currentCell?.profilePic.image
-            destinationVC.widthMargin = viewInsets.left
-            destinationVC.heightMargin = currentCell?.frame.origin.y
-            destinationVC.itemHeight = itemSize.height
          }
       } else if segue.identifier == "presentNav" {
          let toViewController = segue.destinationViewController as! NavigationViewController
