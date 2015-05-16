@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="7702" systemVersion="14D136" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" initialViewController="kQ1-0w-jNs">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="7702" systemVersion="14D136" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" initialViewController="WGR-7L-PRe">
     <dependencies>
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="7701"/>
         <capability name="Aspect ratio constraints" minToolsVersion="5.1"/>
@@ -1126,11 +1126,11 @@
                         <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="YI1-62-2Vv">
+                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="bjf-Xl-ffu">
                                 <rect key="frame" x="0.0" y="0.0" width="600" height="20"/>
                                 <color key="backgroundColor" red="0.0" green="0.73725490199999999" blue="0.81960784310000001" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                             </view>
-                            <navigationBar opaque="NO" contentMode="scaleToFill" translucent="NO" translatesAutoresizingMaskIntoConstraints="NO" id="ggX-DI-7Dj">
+                            <navigationBar opaque="NO" contentMode="scaleToFill" translucent="NO" translatesAutoresizingMaskIntoConstraints="NO" id="vmF-8k-G1X">
                                 <rect key="frame" x="0.0" y="20" width="600" height="44"/>
                                 <color key="barTintColor" red="0.0" green="0.73725490199999999" blue="0.81960784310000001" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                 <textAttributes key="titleTextAttributes">
@@ -1139,11 +1139,8 @@
                                     <color key="textShadowColor" white="0.66666666666666663" alpha="1" colorSpace="calibratedWhite"/>
                                 </textAttributes>
                                 <items>
-                                    <navigationItem title="Profile" id="SbV-Nz-ega">
-                                        <barButtonItem key="leftBarButtonItem" image="menu" id="4GQ-6c-WPO">
-                                            <color key="tintColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
-                                        </barButtonItem>
-                                        <barButtonItem key="rightBarButtonItem" enabled="NO" title="Edit" id="ZAV-Mh-IT8">
+                                    <navigationItem title="Profile" id="ery-HD-oiV">
+                                        <barButtonItem key="leftBarButtonItem" image="menu" id="tnG-r1-Wqt">
                                             <color key="tintColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                         </barButtonItem>
                                     </navigationItem>
@@ -1152,13 +1149,13 @@
                         </subviews>
                         <color key="backgroundColor" red="0.98039215686274506" green="0.98039215686274506" blue="0.98039215686274506" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                         <constraints>
-                            <constraint firstItem="ggX-DI-7Dj" firstAttribute="leading" secondItem="43L-o1-x8l" secondAttribute="leading" id="1Th-DA-aRs"/>
-                            <constraint firstAttribute="trailing" secondItem="ggX-DI-7Dj" secondAttribute="trailing" id="6TF-r9-pJe"/>
-                            <constraint firstAttribute="trailing" secondItem="YI1-62-2Vv" secondAttribute="trailing" id="Hzd-Xl-eID"/>
-                            <constraint firstItem="YI1-62-2Vv" firstAttribute="leading" secondItem="43L-o1-x8l" secondAttribute="leading" id="cxf-s8-6bB"/>
-                            <constraint firstItem="ggX-DI-7Dj" firstAttribute="top" secondItem="7LB-fw-PcD" secondAttribute="bottom" id="gMF-ba-k28"/>
-                            <constraint firstItem="7LB-fw-PcD" firstAttribute="top" secondItem="YI1-62-2Vv" secondAttribute="bottom" id="hrv-Rz-Q48"/>
-                            <constraint firstItem="YI1-62-2Vv" firstAttribute="top" secondItem="43L-o1-x8l" secondAttribute="top" id="q0p-E4-nsd"/>
+                            <constraint firstItem="vmF-8k-G1X" firstAttribute="top" secondItem="bjf-Xl-ffu" secondAttribute="bottom" id="0qA-U5-MNJ"/>
+                            <constraint firstItem="vmF-8k-G1X" firstAttribute="top" secondItem="7LB-fw-PcD" secondAttribute="bottom" id="DIQ-OI-EOE"/>
+                            <constraint firstItem="bjf-Xl-ffu" firstAttribute="trailing" secondItem="vmF-8k-G1X" secondAttribute="trailing" id="Us9-ag-Hdr"/>
+                            <constraint firstItem="bjf-Xl-ffu" firstAttribute="top" secondItem="43L-o1-x8l" secondAttribute="top" id="buU-yL-3rl"/>
+                            <constraint firstItem="bjf-Xl-ffu" firstAttribute="leading" secondItem="43L-o1-x8l" secondAttribute="leading" id="ioB-wX-CPl"/>
+                            <constraint firstAttribute="trailing" secondItem="bjf-Xl-ffu" secondAttribute="trailing" id="oTv-vB-6y1"/>
+                            <constraint firstItem="bjf-Xl-ffu" firstAttribute="leading" secondItem="vmF-8k-G1X" secondAttribute="leading" id="ymW-PV-kh9"/>
                         </constraints>
                     </view>
                 </viewController>

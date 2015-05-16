@@ -52,7 +52,6 @@
 		611A1A3B1AAE8BBD00F18B3B /* InitialViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 611A1A3A1AAE8BBD00F18B3B /* InitialViewController.swift */; };
 		611A1A3D1AAE8BE900F18B3B /* SignInViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 611A1A3C1AAE8BE900F18B3B /* SignInViewController.swift */; };
 		612095861B02B92900336D1C /* CustomSegueClass.swift in Sources */ = {isa = PBXBuildFile; fileRef = 612095851B02B92900336D1C /* CustomSegueClass.swift */; };
-		612095911B02BCEA00336D1C /* GPUImage.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 520DB44D1AF20F4300986846 /* GPUImage.framework */; };
 		612095971B02BE2100336D1C /* JSQMessagesAssets.bundle in Resources */ = {isa = PBXBuildFile; fileRef = 612095961B02BE2100336D1C /* JSQMessagesAssets.bundle */; };
 		612095A71B02BE3C00336D1C /* JSQSystemSoundPlayer+JSQMessages.m in Sources */ = {isa = PBXBuildFile; fileRef = 6120959A1B02BE3C00336D1C /* JSQSystemSoundPlayer+JSQMessages.m */; };
 		612095A81B02BE3C00336D1C /* NSBundle+JSQMessages.m in Sources */ = {isa = PBXBuildFile; fileRef = 6120959C1B02BE3C00336D1C /* NSBundle+JSQMessages.m */; };
@@ -350,7 +349,6 @@
 				619B9AF81B006E9900AA299F /* Parse.framework in Frameworks */,
 				619B9AF51B006E9100AA299F /* FacebookSDK.framework in Frameworks */,
 				612ECAD51AF0112C006C2D13 /* Accounts.framework in Frameworks */,
-				612095911B02BCEA00336D1C /* GPUImage.framework in Frameworks */,
 				612ECAD31AF01122006C2D13 /* Social.framework in Frameworks */,
 				61EB1BAE1AEF4BB700939E60 /* libsqlite3.dylib in Frameworks */,
 				61EB1BAC1AEF4BAF00939E60 /* libz.dylib in Frameworks */,
