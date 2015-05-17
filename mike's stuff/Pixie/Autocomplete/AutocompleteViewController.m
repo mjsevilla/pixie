@@ -179,7 +179,7 @@
 
 - (void)updateSearchResultsForSearchController:(UISearchController *)searchController
 {
-	NSString *searchString = searchController.searchBar.text;
+	//NSString *searchString = searchController.searchBar.text;
 	[searchResultsController.tableView reloadData];
 }
 
