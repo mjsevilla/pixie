@@ -418,6 +418,7 @@
 				61BCE4521B0957E800F1A681 /* GPUImageTwoPassTextureSamplingFilter.m */,
 			);
 			name = GPUImage;
+			path = Pixie;
 			sourceTree = "<group>";
 		};
 		612095941B02BDFF00336D1C /* JSQMessagesViewController */ = {
@@ -589,6 +590,7 @@
 		61457A5E1AA01D83008CE64B /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				52CD95631B074AB500F356E4 /* GPUImage */,
 				6120961D1B02BEE000336D1C /* JSQSystemSoundPlayer */,
 				612095941B02BDFF00336D1C /* JSQMessagesViewController */,
 				619B9AF61B006E9100AA299F /* Bolts.framework */,
@@ -635,7 +637,6 @@
 		6184D2DE1A9302F3006DA1E4 /* Pixie */ = {
 			isa = PBXGroup;
 			children = (
-				52CD95631B074AB500F356E4 /* GPUImage */,
 				61457A5F1AA02183008CE64B /* Bridge-Header.h */,
 				6184D2E11A9302F3006DA1E4 /* AppDelegate.swift */,
 				61A6096F1AF5585900FD4854 /* View Controllers */,
