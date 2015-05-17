@@ -56,15 +56,16 @@ class RegisterViewController: UIViewController, FBLoginViewDelegate, UITextField
       if textField == nameField && emailField.text.isEmpty {
          self.emailField.isFirstResponder()
          return true
-      } else if textField == emailField && pwField.text.isEmpty {
+      }
+      else if textField == emailField && pwField.text.isEmpty {
          self.attemptRegisterUser(self)
          self.pwField.isFirstResponder()
          return true
-      } else if textField == pwField {
+      }
+      else {
          self.attemptRegisterUser(self)
          return true
       }
-      return false
    }
    
    // handles hiding keyboard when user touches outside of keyboard

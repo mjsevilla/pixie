@@ -29,7 +29,6 @@ class ConversationViewController: JSQMessagesViewController {
         
         automaticallyScrollsToMostRecentMessage = true
         messages = []
-//        self.navigationController?.navigationController?.navigationBar.titleTextAttributes = [NSFontAttributeName: UIFont(name: "HelveticaNeue-Thin", size: 20)!]
         self.navigationItem.title = recipientName!
         self.navigationController?.navigationBar.backgroundColor = UIColor(red: 0/256, green: 188/256, blue: 209/256, alpha: 1.0)
         self.collectionView.collectionViewLayout.incomingAvatarViewSize = CGSizeZero
@@ -73,11 +72,10 @@ class ConversationViewController: JSQMessagesViewController {
         
         // sort w/ newest at bottom
         query.orderByAscending("createdAt")
-        query.limit = 10
         query.findObjectsInBackgroundWithBlock {
             [unowned self] (objects, error) -> Void in
             if error == nil {
-                self.automaticallyScrollsToMostRecentMessage = false
+                self.automaticallyScrollsToMostRecentMessage = true
                 for object in objects! {
                     self.newMessage(object as! PFObject)
                 }

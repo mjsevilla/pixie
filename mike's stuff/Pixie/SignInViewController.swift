@@ -43,13 +43,12 @@ class SignInViewController: UIViewController, UITextFieldDelegate {
       if textField == emailField && emailField.text.isEmpty {
          self.pwField.isFirstResponder()
          return true
-      } else if textField == pwField {
+      }
+      else {
          self.attemptSignIn(self)
          return true
       }
-      return false
    }
-
    
    @IBAction func attemptSignIn(sender: AnyObject) {
       let email = emailField.text!
