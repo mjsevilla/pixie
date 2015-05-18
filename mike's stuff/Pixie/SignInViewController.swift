@@ -17,7 +17,7 @@ class SignInViewController: UIViewController, UITextFieldDelegate {
     @IBOutlet weak var pwHeading: UIView!
     @IBOutlet weak var signInBtn: UIBarButtonItem!
     @IBOutlet weak var cancelBtn: UIBarButtonItem!
-   @IBOutlet weak var wrongEmailPwLabel: UILabel!
+    @IBOutlet weak var wrongEmailPwLabel: UILabel!
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -33,61 +33,69 @@ class SignInViewController: UIViewController, UITextFieldDelegate {
         pwField.layer.cornerRadius = 8.0
         pwHeading.layer.cornerRadius = 8.0
         emailHeading.layer.cornerRadius = 8.0
-      
-      pwField.delegate = self
-      emailField.delegate = self
-      wrongEmailPwLabel.hidden = true
-   }
-   
-   func textFieldShouldReturn(textField: UITextField) -> Bool {
-      if textField == emailField && emailField.text.isEmpty {
-         self.pwField.isFirstResponder()
-         return true
-      }
-      else {
-         self.attemptSignIn(self)
-         return true
-      }
-   }
-   
-   @IBAction func attemptSignIn(sender: AnyObject) {
-      let email = emailField.text!
-      let password = pwField.text!
-
-      let defaults = NSUserDefaults.standardUserDefaults();
-      var urlString = "http://ec2-54-69-253-12.us-west-2.compute.amazonaws.com/pixie/users?email=\(email)&password=\(password)"
-      let url = NSURL(string: urlString)
-      var request = NSURLRequest(URL: url!)
-      var response: NSURLResponse?
-      var error: NSErrorPointer = nil
-      var data =  NSURLConnection.sendSynchronousRequest(request, returningResponse: &response, error:nil)! as NSData
-      
-      if let json = NSJSONSerialization.JSONObjectWithData(data, options: NSJSONReadingOptions.MutableContainers, error: nil) as? NSDictionary {
-         if let id = json["id"] as? Int {
-            defaults.setObject(id, forKey: "PixieUserId")
-            NSUserDefaults.standardUserDefaults().synchronize();
-            println("signed in with id: \(id)")
-            wrongEmailPwLabel.hidden = true
-            self.performSegueWithIdentifier("presentSearch", sender: self)
-         } else {
-            println("error id")
+        
+        pwField.delegate = self
+        emailField.delegate = self
+        wrongEmailPwLabel.hidden = true
+    }
+    
+    
+    @IBAction func textFieldsArePopulated(sender: AnyObject) {
+//        let textField = sender as! UITextField
+//        signInBtn.enabled = count(textField.text) > 0
+        signInBtn.enabled = count(emailField.text) > 0 && count(pwField.text) > 0
+    }
+    
+    func textFieldShouldReturn(textField: UITextField) -> Bool {
+        if textField == emailField && !emailField.text.isEmpty {
+            self.pwField.becomeFirstResponder()
+            return true
+        }
+        else if textField == pwField && !pwField.text.isEmpty {
+            self.attemptSignIn(self)
+            return true
+        }
+        return false
+    }
+    
+    @IBAction func attemptSignIn(sender: AnyObject) {
+        let email = emailField.text!
+        let password = pwField.text!
+        
+        let defaults = NSUserDefaults.standardUserDefaults();
+        var urlString = "http://ec2-54-69-253-12.us-west-2.compute.amazonaws.com/pixie/users?email=\(email)&password=\(password)"
+        let url = NSURL(string: urlString)
+        var request = NSURLRequest(URL: url!)
+        var response: NSURLResponse?
+        var error: NSErrorPointer = nil
+        var data =  NSURLConnection.sendSynchronousRequest(request, returningResponse: &response, error:nil)! as NSData
+        
+        if let json = NSJSONSerialization.JSONObjectWithData(data, options: NSJSONReadingOptions.MutableContainers, error: nil) as? NSDictionary {
+            if let id = json["id"] as? Int {
+                defaults.setObject(id, forKey: "PixieUserId")
+                NSUserDefaults.standardUserDefaults().synchronize();
+                println("signed in with id: \(id)")
+                wrongEmailPwLabel.hidden = true
+                self.performSegueWithIdentifier("presentSearch", sender: self)
+            } else {
+                println("error id")
+                wrongEmailPwLabel.hidden = false
+            }
+        } else {
+            println("error json")
             wrongEmailPwLabel.hidden = false
-         }
-      } else {
-         println("error json")
-         wrongEmailPwLabel.hidden = false
-      }
-
-   }
-   
-   override func touchesBegan(touches: Set<NSObject>, withEvent event: UIEvent) {
-      self.view.endEditing(true)
-   }
-   
+        }
+        
+    }
+    
+    override func touchesBegan(touches: Set<NSObject>, withEvent event: UIEvent) {
+        self.view.endEditing(true)
+    }
+    
     override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {
         if segue.identifier == "presentSearch" {
             if let searchVC = segue.destinationViewController as? SearchViewController {
-               self.modalPresentationStyle = UIModalPresentationStyle.Custom
+                self.modalPresentationStyle = UIModalPresentationStyle.Custom
             }
         }
     }

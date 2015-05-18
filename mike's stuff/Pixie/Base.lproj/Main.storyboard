@@ -44,7 +44,7 @@
                                                 <segue destination="Ru2-Gb-nj1" kind="unwind" unwindAction="cancelActionUnwindToIntialVC:" id="un0-Jy-52p"/>
                                             </connections>
                                         </barButtonItem>
-                                        <barButtonItem key="rightBarButtonItem" title="Register" id="M2k-Q1-TKM">
+                                        <barButtonItem key="rightBarButtonItem" enabled="NO" title="Register" id="M2k-Q1-TKM">
                                             <color key="tintColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                             <connections>
                                                 <action selector="attemptRegisterUser:" destination="qeE-zF-yis" id="U40-6n-vE6"/>
@@ -115,7 +115,7 @@
                                             <constraint firstAttribute="height" constant="45" id="IRU-nQ-Wsi"/>
                                         </constraints>
                                         <fontDescription key="fontDescription" name="HelveticaNeue-Thin" family="Helvetica Neue" pointSize="16"/>
-                                        <textInputTraits key="textInputTraits" autocapitalizationType="words" autocorrectionType="no" spellCheckingType="no" keyboardType="emailAddress" returnKeyType="next" enablesReturnKeyAutomatically="YES"/>
+                                        <textInputTraits key="textInputTraits" autocorrectionType="no" spellCheckingType="no" keyboardType="emailAddress" returnKeyType="next" enablesReturnKeyAutomatically="YES"/>
                                     </textField>
                                     <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" placeholder="Coolio Julio" minimumFontSize="17" clearButtonMode="whileEditing" translatesAutoresizingMaskIntoConstraints="NO" id="jyI-Jb-6zF">
                                         <rect key="frame" x="116" y="8" width="444" height="45"/>
@@ -133,7 +133,7 @@
                                             <constraint firstAttribute="height" constant="45" id="5VG-gH-0kr"/>
                                         </constraints>
                                         <fontDescription key="fontDescription" name="HelveticaNeue-Thin" family="Helvetica Neue" pointSize="16"/>
-                                        <textInputTraits key="textInputTraits" autocapitalizationType="words" autocorrectionType="no" spellCheckingType="no" returnKeyType="go" enablesReturnKeyAutomatically="YES" secureTextEntry="YES"/>
+                                        <textInputTraits key="textInputTraits" autocorrectionType="no" spellCheckingType="no" returnKeyType="go" enablesReturnKeyAutomatically="YES" secureTextEntry="YES"/>
                                     </textField>
                                 </subviews>
                                 <color key="backgroundColor" red="0.81960784313725488" green="0.81960784313725488" blue="0.81960784313725488" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
@@ -214,7 +214,7 @@
                         <outlet property="nameHeading" destination="ExF-1v-CZA" id="J5c-Z8-Al5"/>
                         <outlet property="pwField" destination="qJQ-om-phK" id="HZh-0e-VSM"/>
                         <outlet property="pwHeading" destination="fZb-nK-Ez4" id="Xt4-uF-Pme"/>
-                        <outlet property="signInBtn" destination="M2k-Q1-TKM" id="zbL-Jo-o89"/>
+                        <outlet property="registerBtn" destination="M2k-Q1-TKM" id="DzI-L6-Gin"/>
                         <outlet property="wrongEmailPwLabel" destination="9ko-Op-Qra" id="Lce-eP-Wdu"/>
                         <segue destination="vXZ-lx-hvc" kind="presentation" identifier="presentSearch" id="dLk-Tp-hyc"/>
                     </connections>
@@ -552,7 +552,7 @@
                                                 <segue destination="pUq-r8-9MU" kind="unwind" unwindAction="cancelActionUnwindToIntialVC:" id="KHU-Wj-OyO"/>
                                             </connections>
                                         </barButtonItem>
-                                        <barButtonItem key="rightBarButtonItem" title="Sign In" id="X6t-R2-pHM">
+                                        <barButtonItem key="rightBarButtonItem" enabled="NO" title="Sign In" id="X6t-R2-pHM">
                                             <color key="tintColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                             <connections>
                                                 <action selector="attemptSignIn:" destination="8uD-2E-CAb" id="JGp-1U-6n6"/>
@@ -593,13 +593,19 @@
                                         <rect key="frame" x="116" y="8" width="444" height="45"/>
                                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                         <fontDescription key="fontDescription" name="HelveticaNeue-Thin" family="Helvetica Neue" pointSize="16"/>
-                                        <textInputTraits key="textInputTraits" autocapitalizationType="words" autocorrectionType="no" spellCheckingType="no" keyboardType="emailAddress" returnKeyType="next" enablesReturnKeyAutomatically="YES"/>
+                                        <textInputTraits key="textInputTraits" autocorrectionType="no" spellCheckingType="no" keyboardType="emailAddress" returnKeyType="next" enablesReturnKeyAutomatically="YES"/>
+                                        <connections>
+                                            <action selector="textFieldsArePopulated:" destination="8uD-2E-CAb" eventType="editingChanged" id="YgD-iT-dV9"/>
+                                        </connections>
                                     </textField>
                                     <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" placeholder="Password" clearsOnBeginEditing="YES" minimumFontSize="17" clearButtonMode="whileEditing" translatesAutoresizingMaskIntoConstraints="NO" id="yxV-Et-qKp">
                                         <rect key="frame" x="116" y="61" width="444" height="45"/>
                                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                         <fontDescription key="fontDescription" name="HelveticaNeue-Thin" family="Helvetica Neue" pointSize="16"/>
-                                        <textInputTraits key="textInputTraits" autocapitalizationType="words" autocorrectionType="no" spellCheckingType="no" returnKeyType="go" enablesReturnKeyAutomatically="YES" secureTextEntry="YES"/>
+                                        <textInputTraits key="textInputTraits" autocorrectionType="no" spellCheckingType="no" returnKeyType="go" enablesReturnKeyAutomatically="YES" secureTextEntry="YES"/>
+                                        <connections>
+                                            <action selector="textFieldsArePopulated:" destination="8uD-2E-CAb" eventType="editingChanged" id="GMD-jS-wNC"/>
+                                        </connections>
                                     </textField>
                                 </subviews>
                                 <color key="backgroundColor" red="0.81983957266566732" green="0.81983957266566732" blue="0.81983957266566732" alpha="1" colorSpace="calibratedRGB"/>
@@ -646,7 +652,7 @@
                                 </constraints>
                             </view>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" usesAttributedText="YES" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="BYq-Or-Ibs">
-                                <rect key="frame" x="16" y="365" width="568" height="17"/>
+                                <rect key="frame" x="16" y="218" width="568" height="17"/>
                                 <attributedString key="attributedText">
                                     <fragment content="Ruh roh, wrong email and password.">
                                         <attributes>
@@ -662,7 +668,7 @@
                         <color key="backgroundColor" red="0.98039215686274506" green="0.98039215686274506" blue="0.98039215686274506" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                         <constraints>
                             <constraint firstItem="3TB-hS-lca" firstAttribute="leading" secondItem="fsg-to-QmY" secondAttribute="leading" id="0fh-bM-Tg6"/>
-                            <constraint firstItem="BYq-Or-Ibs" firstAttribute="top" secondItem="PxK-Oz-bJh" secondAttribute="bottom" constant="8" id="64K-mI-BsX"/>
+                            <constraint firstItem="BYq-Or-Ibs" firstAttribute="top" secondItem="PxK-Oz-bJh" secondAttribute="bottom" constant="-139" id="64K-mI-BsX"/>
                             <constraint firstItem="PxK-Oz-bJh" firstAttribute="trailing" secondItem="fsg-to-QmY" secondAttribute="trailingMargin" id="LZE-5D-i0j"/>
                             <constraint firstItem="BYq-Or-Ibs" firstAttribute="leading" secondItem="fsg-to-QmY" secondAttribute="leadingMargin" id="Os7-Rx-e30"/>
                             <constraint firstItem="BYq-Or-Ibs" firstAttribute="trailing" secondItem="fsg-to-QmY" secondAttribute="trailingMargin" id="PGp-ep-60z"/>
@@ -1372,6 +1378,6 @@
     </resources>
     <inferredMetricsTieBreakers>
         <segue reference="RxF-GS-MFy"/>
-        <segue reference="dLk-Tp-hyc"/>
+        <segue reference="4fw-gx-Jei"/>
     </inferredMetricsTieBreakers>
 </document>
