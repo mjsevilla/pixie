@@ -23,9 +23,6 @@ class RegisterViewController: UIViewController, FBLoginViewDelegate, UITextField
     @IBOutlet weak var pwHeading: UIView!
     @IBOutlet weak var wrongEmailPwLabel: UILabel!
     
-    
-    
-    
     override func viewDidLoad() {
         super.viewDidLoad()
         // Do any additional setup after loading the view, typically from a nib.
@@ -50,6 +47,13 @@ class RegisterViewController: UIViewController, FBLoginViewDelegate, UITextField
         emailField.delegate = self
         pwField.delegate = self
         wrongEmailPwLabel.hidden = true
+    }
+    
+    
+    @IBAction func textFieldsArePopulated(sender: AnyObject) {
+        registerBtn.enabled = count(nameField.text) > 0 &&
+            count(emailField.text) > 0 &&
+            count(pwField.text) > 0
     }
     
     func textFieldShouldReturn(textField: UITextField) -> Bool {

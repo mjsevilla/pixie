@@ -39,11 +39,9 @@ class SignInViewController: UIViewController, UITextFieldDelegate {
         wrongEmailPwLabel.hidden = true
     }
     
-    
     @IBAction func textFieldsArePopulated(sender: AnyObject) {
-//        let textField = sender as! UITextField
-//        signInBtn.enabled = count(textField.text) > 0
-        signInBtn.enabled = count(emailField.text) > 0 && count(pwField.text) > 0
+        signInBtn.enabled = count(emailField.text) > 0 &&
+            count(pwField.text) > 0
     }
     
     func textFieldShouldReturn(textField: UITextField) -> Bool {
