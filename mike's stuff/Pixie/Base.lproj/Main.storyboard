@@ -459,9 +459,29 @@
                     <view key="view" contentMode="scaleToFill" id="Qz8-Dv-QYh">
                         <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <searchBar contentMode="redraw" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="AwC-bw-W2S">
+                                <rect key="frame" x="-1" y="278" width="600" height="44"/>
+                                <color key="barTintColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
+                                <textInputTraits key="textInputTraits"/>
+                                <connections>
+                                    <outlet property="delegate" destination="oOl-XQ-AIu" id="by2-MC-bNC"/>
+                                </connections>
+                            </searchBar>
+                            <searchBar contentMode="redraw" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="mzt-oV-3Yd">
+                                <rect key="frame" x="0.0" y="322" width="600" height="44"/>
+                                <color key="barTintColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
+                                <textInputTraits key="textInputTraits"/>
+                                <connections>
+                                    <outlet property="delegate" destination="oOl-XQ-AIu" id="RYR-uM-YQP"/>
+                                </connections>
+                            </searchBar>
+                        </subviews>
                         <color key="backgroundColor" red="0.98039215686274506" green="0.98039215686274506" blue="0.98039215686274506" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                     </view>
                     <connections>
+                        <outlet property="endingLocation" destination="mzt-oV-3Yd" id="W3B-xj-UIX"/>
+                        <outlet property="startingLocation" destination="AwC-bw-W2S" id="JKJ-Iz-Iji"/>
                         <segue destination="keP-pR-kfn" kind="unwind" identifier="unwindToSearchView" unwindAction="unwindToSearchView:" id="SS8-b3-mu4"/>
                     </connections>
                 </viewController>

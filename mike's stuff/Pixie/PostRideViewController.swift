@@ -8,14 +8,23 @@
 
 import UIKit
 
-class PostRideViewController: UIViewController, UITextFieldDelegate, UIPickerViewDataSource, UIPickerViewDelegate {
+class PostRideViewController: UIViewController, UITextFieldDelegate, UIPickerViewDataSource, UIPickerViewDelegate, UITableViewDataSource, UITableViewDelegate, UISearchBarDelegate {
    
-   var blurEffectView : UIVisualEffectView!
+   var startingVC = GooglePlacesAutocompleteContainer(apiKey: "AIzaSyB6Gv8uuTNh_ZN-Hk8H3S5RARpQot_6I-k", placeType: .All)
+   var startingTableView: UITableView!
+   var endingVC = GooglePlacesAutocompleteContainer(apiKey: "AIzaSyB6Gv8uuTNh_ZN-Hk8H3S5RARpQot_6I-k", placeType: .All)
+   var endingTableView: UITableView!
+   
+   var activeSearchBar: UISearchBar!
+   
+   var blurEffectView: UIVisualEffectView!
    var backButton: UIButton!
    var tripSectionButton: UIButton!
    var seekOfferSegment: UISegmentedControl!
-   var startingLocation: UITextField!
-   var endingLocation: UITextField!
+   @IBOutlet weak var startingLocation: UISearchBar!
+   @IBOutlet weak var endingLocation: UISearchBar!
+   var startingLocTextField: UITextField!
+   var endingLocTextField: UITextField!
    
    var dateTimeSectionButton: UIButton!
    var dateButton: UIButton!
@@ -65,6 +74,9 @@ class PostRideViewController: UIViewController, UITextFieldDelegate, UIPickerVie
       blurEffectView.setTranslatesAutoresizingMaskIntoConstraints(false)
       self.view.addSubview(blurEffectView)
       
+      activeSearchBar = startingLocation
+      println("just set the fucking search bar fuck")
+      
       loadTripSectionView()
       loadDateTimeSectionView()
       loadReviewSectionView()
@@ -102,6 +114,11 @@ class PostRideViewController: UIViewController, UITextFieldDelegate, UIPickerVie
       var swipeToSearchView = UISwipeGestureRecognizer(target: self, action: "goBack:")
       swipeToSearchView.direction = .Right
       self.view.addGestureRecognizer(swipeToSearchView)
+      
+      startingVC.delegate = self
+      startingLocation.delegate = self
+      startingVC.searchBar = self.startingLocation
+      startingVC.tableView = self.startingTableView
    }
    
    func loadTripSectionView() {
@@ -109,6 +126,8 @@ class PostRideViewController: UIViewController, UITextFieldDelegate, UIPickerVie
       tripSectionButton.backgroundColor = UIColor(red:0.0, green:0.74, blue:0.82, alpha:1.0)
       tripSectionButton.addTarget(self, action: "reviewLocations:", forControlEvents: .TouchUpInside)
       tripSectionButton.hidden = true
+      tripSectionButton.titleLabel?.font = UIFont(name: "HelveticaNeue-UltraLight", size: 22.0)
+      tripSectionButton.titleLabel?.textColor = UIColor(red: 1.0, green: 1.0, blue: 1.0, alpha: 1.0)
       tripSectionButton.titleLabel?.textAlignment = .Center
       tripSectionButton.titleLabel?.numberOfLines = 1
       tripSectionButton.titleLabel?.adjustsFontSizeToFitWidth = true
@@ -124,47 +143,57 @@ class PostRideViewController: UIViewController, UITextFieldDelegate, UIPickerVie
       seekOfferSegment.addTarget(self, action: "segmentValueChanged:", forControlEvents: UIControlEvents.ValueChanged)
       seekOfferSegment.setTranslatesAutoresizingMaskIntoConstraints(false)
       seekOfferSegment.tintColor = UIColor(red:0.0, green:0.74, blue:0.82, alpha:1.0)
-      
       view.addSubview(seekOfferSegment)
       
-      let leftPaddingViewStart = UIView(frame: CGRect(x: 0, y: 0, width: 8, height: 0))
-      leftPaddingViewStart.backgroundColor = UIColor.clearColor()
-      let leftPaddingViewEnd = UIView(frame: CGRect(x: 0, y: 0, width: 8, height: 0))
-      leftPaddingViewEnd.backgroundColor = UIColor.clearColor()
-      
-      startingLocation = UITextField()
-      startingLocation.leftView = leftPaddingViewStart
-      startingLocation.leftViewMode = .Always
-      startingLocation.backgroundColor = UIColor.clearColor()
-      startingLocation.textColor = UIColor.whiteColor()
-      startingLocation.font = UIFont(name: "HelveticaNeue-Thin", size: 16.0)
-      startingLocation.attributedPlaceholder = NSAttributedString(string:" Where are you starting from?",
+      startingLocation.setBackgroundImage(UIImage(), forBarPosition: UIBarPosition.Top, barMetrics: UIBarMetrics.Default)
+      startingLocTextField = startingLocation.valueForKey("searchField") as? UITextField
+      startingLocTextField.backgroundColor = UIColor.clearColor()
+      startingLocTextField.textColor = UIColor.whiteColor()
+      startingLocTextField.font = UIFont(name: "HelveticaNeue-Thin", size: 16.0)
+      startingLocTextField.attributedPlaceholder = NSAttributedString(string:"Where are you starting from?",
          attributes:[NSForegroundColorAttributeName: UIColor(red: 1.0, green: 1.0, blue: 1.0, alpha: 0.8), NSFontAttributeName: UIFont(name: "HelveticaNeue-Thin", size: 16.0)!])
       startingLocation.layer.cornerRadius = 8.0
       startingLocation.layer.masksToBounds = true
       startingLocation.layer.borderColor = UIColor(red:0.0, green:0.74, blue:0.82, alpha:1.0).CGColor
       startingLocation.layer.borderWidth = 1.0
-      startingLocation.delegate = self
       startingLocation.hidden = true
       startingLocation.setTranslatesAutoresizingMaskIntoConstraints(false)
       view.addSubview(startingLocation)
       
-      endingLocation = UITextField()
-      endingLocation.leftView = leftPaddingViewEnd
-      endingLocation.leftViewMode = .Always
-      endingLocation.backgroundColor = UIColor.clearColor()
-      endingLocation.textColor = UIColor.whiteColor()
-      endingLocation.font = UIFont(name: "HelveticaNeue-Thin", size: 16.0)
-      endingLocation.attributedPlaceholder = NSAttributedString(string:" Where do you want to go?",
+      startingTableView = UITableView()
+      startingTableView.delegate = self
+      startingTableView.dataSource = self
+      startingTableView.setTranslatesAutoresizingMaskIntoConstraints(false)
+      startingTableView.registerClass(UITableViewCell.self, forCellReuseIdentifier: "Cell")
+      startingTableView.hidden = true
+      startingTableView.backgroundColor = UIColor.whiteColor().colorWithAlphaComponent(0.75)
+      startingTableView.layer.cornerRadius = 5
+      view.addSubview(startingTableView)
+      
+      endingLocation.setBackgroundImage(UIImage(), forBarPosition: UIBarPosition.Top, barMetrics: UIBarMetrics.Default)
+      endingLocTextField = endingLocation.valueForKey("searchField") as? UITextField
+      endingLocTextField.backgroundColor = UIColor.clearColor()
+      endingLocTextField.textColor = UIColor.whiteColor()
+      endingLocTextField.font = UIFont(name: "HelveticaNeue-Thin", size: 16.0)
+      endingLocTextField.attributedPlaceholder = NSAttributedString(string:"Where do you want to go",
          attributes:[NSForegroundColorAttributeName: UIColor(red: 1.0, green: 1.0, blue: 1.0, alpha: 0.8), NSFontAttributeName: UIFont(name: "HelveticaNeue-Thin", size: 16.0)!])
       endingLocation.layer.cornerRadius = 8.0
       endingLocation.layer.masksToBounds = true
       endingLocation.layer.borderColor = UIColor(red:0.0, green:0.74, blue:0.82, alpha:1.0).CGColor
       endingLocation.layer.borderWidth = 1.0
-      endingLocation.delegate = self
       endingLocation.hidden = true
       endingLocation.setTranslatesAutoresizingMaskIntoConstraints(false)
       view.addSubview(endingLocation)
+      
+      endingTableView = UITableView()
+      endingTableView.delegate = self
+      endingTableView.dataSource = self
+      endingTableView.setTranslatesAutoresizingMaskIntoConstraints(false)
+      endingTableView.registerClass(UITableViewCell.self, forCellReuseIdentifier: "Cell")
+      endingTableView.hidden = true
+      endingTableView.backgroundColor = UIColor.whiteColor().colorWithAlphaComponent(0.75)
+      endingTableView.layer.cornerRadius = 5
+      view.addSubview(endingTableView)
    }
    
    func loadDateTimeSectionView() {
@@ -234,6 +263,8 @@ class PostRideViewController: UIViewController, UITextFieldDelegate, UIPickerVie
       
       tripLabel = UILabel()
       tripLabel.backgroundColor = UIColor.clearColor()
+      tripLabel.textColor = UIColor(red: 1.0, green: 1.0, blue: 1.0, alpha: 1.0)
+      tripLabel.font = UIFont(name: "HelveticaNeue-UltraLight", size: 24.0)
       tripLabel.textAlignment = .Center
       tripLabel.numberOfLines = 1
       tripLabel.adjustsFontSizeToFitWidth = true
@@ -271,13 +302,14 @@ class PostRideViewController: UIViewController, UITextFieldDelegate, UIPickerVie
    }
    
    func loadTripSectionContraints() {
-      let viewsDict = ["nextButton":nextButton, "tripSectionButton":tripSectionButton, "seekOfferSegment":seekOfferSegment, "startingLocation":startingLocation, "endingLocation":endingLocation, "blurEffectView":blurEffectView]
+      let viewsDict = ["nextButton":nextButton, "tripSectionButton":tripSectionButton, "seekOfferSegment":seekOfferSegment, "startingLocation":startingLocation, "endingLocation":endingLocation, "blurEffectView":blurEffectView, "startTable":startingTableView, "endTable":endingTableView]
+      let metrics = ["tableHeight":38*5]
       
       self.view.addConstraints(NSLayoutConstraint.constraintsWithVisualFormat("V:|-0-[blurEffectView]-0-|", options: NSLayoutFormatOptions(0), metrics: nil, views: viewsDict))
       self.view.addConstraints(NSLayoutConstraint.constraintsWithVisualFormat("V:[tripSectionButton(40)]", options: NSLayoutFormatOptions(0), metrics: nil, views: viewsDict))
       self.view.addConstraints(NSLayoutConstraint.constraintsWithVisualFormat("V:[seekOfferSegment(40)]", options: NSLayoutFormatOptions(0), metrics: nil, views: viewsDict))
-      self.view.addConstraints(NSLayoutConstraint.constraintsWithVisualFormat("V:[startingLocation(30)]", options: NSLayoutFormatOptions(0), metrics: nil, views: viewsDict))
-      self.view.addConstraints(NSLayoutConstraint.constraintsWithVisualFormat("V:[endingLocation(30)]", options: NSLayoutFormatOptions(0), metrics: nil, views: viewsDict))
+      self.view.addConstraints(NSLayoutConstraint.constraintsWithVisualFormat("V:[startingLocation(30)]-1-[startTable(tableHeight)]", options: NSLayoutFormatOptions(0), metrics: metrics, views: viewsDict))
+      self.view.addConstraints(NSLayoutConstraint.constraintsWithVisualFormat("V:[endingLocation(30)]-1-[endTable(tableHeight)]", options: NSLayoutFormatOptions(0), metrics: metrics, views: viewsDict))
       
       self.view.addConstraints(NSLayoutConstraint.constraintsWithVisualFormat("H:|-0-[blurEffectView]-0-|", options: NSLayoutFormatOptions(0), metrics: nil, views: viewsDict))
       self.view.addConstraints(NSLayoutConstraint.constraintsWithVisualFormat("H:|[tripSectionButton]|", options: NSLayoutFormatOptions(0), metrics: nil, views: viewsDict))
@@ -285,13 +317,14 @@ class PostRideViewController: UIViewController, UITextFieldDelegate, UIPickerVie
       self.view.addConstraints(NSLayoutConstraint.constraintsWithVisualFormat("H:|-10-[startingLocation]-10-|", options: NSLayoutFormatOptions(0), metrics: nil, views: viewsDict))
       self.view.addConstraints(NSLayoutConstraint.constraintsWithVisualFormat("H:|-10-[endingLocation]-10-|", options: NSLayoutFormatOptions(0), metrics: nil, views: viewsDict))
       self.view.addConstraints(NSLayoutConstraint.constraintsWithVisualFormat("H:|-[nextButton]-|", options: NSLayoutFormatOptions(0), metrics: nil, views: viewsDict))
+      self.view.addConstraints(NSLayoutConstraint.constraintsWithVisualFormat("H:|-8-[startTable]-8-|", options: NSLayoutFormatOptions(0), metrics: nil, views: viewsDict))
+      self.view.addConstraints(NSLayoutConstraint.constraintsWithVisualFormat("H:|-8-[endTable]-8-|", options: NSLayoutFormatOptions(0), metrics: nil, views: viewsDict))
       
       tripSectionConstraints["Top"] = NSLayoutConstraint(item: tripSectionButton, attribute: .Top, relatedBy: .Equal, toItem: backButton, attribute: .Bottom, multiplier: 1, constant: 15.0)
       seekOfferSegmentConstraints["CenterY"] = NSLayoutConstraint(item: seekOfferSegment, attribute: .CenterY, relatedBy: .Equal, toItem: self.view, attribute: .CenterY, multiplier: 1, constant: 0)
       startingLocationConstraints["CenterY"] = NSLayoutConstraint(item: startingLocation, attribute: .CenterY, relatedBy: .Equal, toItem: self.view, attribute: .CenterY, multiplier: 1, constant: 0)
       endingLocationConstraints["CenterY"] = NSLayoutConstraint(item: endingLocation, attribute: .CenterY, relatedBy: .Equal, toItem: self.view, attribute: .CenterY, multiplier: 1, constant: 0)
       nextButtonConstraints["Top"] = NSLayoutConstraint(item: self.nextButton, attribute: .Top, relatedBy: .Equal, toItem: self.endingLocation, attribute: .Bottom, multiplier: 1.0, constant: 50)
-      
       
       self.view.addConstraint(tripSectionConstraints["Top"]!)
       self.view.addConstraint(seekOfferSegmentConstraints["CenterY"]!)
@@ -367,6 +400,7 @@ class PostRideViewController: UIViewController, UITextFieldDelegate, UIPickerVie
    
    override func viewDidLoad() {
       super.viewDidLoad()
+      self.startingVC.viewDidLoad()
    }
    
    override func didReceiveMemoryWarning() {
@@ -393,23 +427,10 @@ class PostRideViewController: UIViewController, UITextFieldDelegate, UIPickerVie
       seekOfferLabel.attributedText = NSAttributedString(string: "\u{2015} "+str+" \u{2015}", attributes: [NSFontAttributeName:UIFont(name: "HelveticaNeue-UltraLight", size: 30.0)!,NSForegroundColorAttributeName: UIColor(red: 1.0, green: 1.0, blue: 1.0, alpha: 1.0)])
    }
    
-   func textField(textField: UITextField, shouldChangeCharactersInRange range: NSRange, replacementString string: String) -> Bool {
-      if textField == self.startingLocation {
-         var txtAfterUpdate:NSString = self.startingLocation.text as NSString
-         txtAfterUpdate = txtAfterUpdate.stringByReplacingCharactersInRange(range, withString: string)
-         setTripString(txtAfterUpdate as String, end: endingLocation.text)
-      } else {
-         var txtAfterUpdate:NSString = self.endingLocation.text as NSString
-         txtAfterUpdate = txtAfterUpdate.stringByReplacingCharactersInRange(range, withString: string)
-         setTripString(startingLocation.text, end: txtAfterUpdate as String)
-      }
-      
-      return true
-   }
-   
-   func textFieldShouldReturn(textField: UITextField) -> Bool {
+   func selectedLocationInSearchBar() {
       if tripSectionButton.hidden {
-         if textField == self.startingLocation {
+         if activeSearchBar == self.startingLocation {
+            startingLocation.resignFirstResponder()
             startingLocationConstraints["Top"] = NSLayoutConstraint(item: startingLocation, attribute: .Top, relatedBy: .Equal, toItem: seekOfferSegment, attribute: .Bottom, multiplier: 1, constant: (endingLocation.frame.origin.y - tripSectionButton.frame.origin.y - tripSectionButton.frame.height - seekOfferSegment.frame.height - startingLocation.frame.height)/3.0)
             
             UIView.animateWithDuration(0.2, animations: {
@@ -420,11 +441,12 @@ class PostRideViewController: UIViewController, UITextFieldDelegate, UIPickerVie
                }, completion: {
                   (value: Bool) in
                   if self.endingLocation.hidden {
+                     self.activeSearchBar = self.endingLocation
                      self.endingLocation.hidden = false
                      self.endingLocation.isFirstResponder()
                   }
             })
-         } else if textField == self.endingLocation {
+         } else if activeSearchBar == self.endingLocation {
             UIView.animateWithDuration(0.2, animations: {
                self.tripSectionButton.hidden = false
                }, completion: {
@@ -438,7 +460,6 @@ class PostRideViewController: UIViewController, UITextFieldDelegate, UIPickerVie
             self.endingLocation.resignFirstResponder()
          }
       }
-      return true
    }
    
    func reviewLocations(sender: UIButton) {
@@ -741,13 +762,6 @@ class PostRideViewController: UIViewController, UITextFieldDelegate, UIPickerVie
       }
    }
    
-   func setTripString(start: String, end: String) {
-      var tripString = NSAttributedString(string: start + " \u{2192} " + end, attributes: [NSForegroundColorAttributeName: UIColor(red: 1.0, green: 1.0, blue: 1.0, alpha: 1.0), NSFontAttributeName: UIFont(name: "HelveticaNeue-UltraLight", size: 22.0)!])
-      tripSectionButton.setAttributedTitle(tripString, forState: .Normal)
-      
-      tripLabel.attributedText = NSAttributedString(string: start + " \u{2192} " + end, attributes: [NSForegroundColorAttributeName: UIColor(red: 1.0, green: 1.0, blue: 1.0, alpha: 1.0), NSFontAttributeName: UIFont(name: "HelveticaNeue-UltraLight", size: 24.0)!])
-   }
-   
    func setDateTimeString() {
       let tempDate = self.dateButton.currentAttributedTitle?.string
       let tempTime = self.timeButton.currentAttributedTitle?.string
@@ -1005,7 +1019,6 @@ class PostRideViewController: UIViewController, UITextFieldDelegate, UIPickerVie
                self.performSegueWithIdentifier("unwindToSearchView", sender: self)
             }
       })
-      
    }
    
    func goBack(sender: UIButton) {
@@ -1024,5 +1037,176 @@ class PostRideViewController: UIViewController, UITextFieldDelegate, UIPickerVie
    // handles hiding keyboard when user touches outside of keyboard
    override func touchesBegan(touches: Set<NSObject>, withEvent event: UIEvent) {
       self.view.endEditing(true)
+   }
+   
+   
+   // MARK: - GooglePlacesAutocompleteContainer (UITableViewDataSource / UITableViewDelegate)
+   
+   func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+      println("tableView numberOfRowsInSection: \(startingVC.places.count)")
+      return activeSearchBar == startingLocation ? startingVC.places.count : endingVC.places.count
+   }
+   
+   func numberOfSectionsInTableView(tableView: UITableView) -> Int {
+      println("numberOfSectionsInTableView: 1")
+      return 1
+   }
+   
+   func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
+      var cell: UITableViewCell
+      if (activeSearchBar == startingLocation) {
+         cell = self.startingTableView.dequeueReusableCellWithIdentifier("Cell") as! UITableViewCell
+      } else {
+         cell = self.endingTableView.dequeueReusableCellWithIdentifier("Cell") as! UITableViewCell
+      }
+      let place = activeSearchBar == startingLocation ? startingVC.places[indexPath.row] : endingVC.places[indexPath.row]
+      
+      cell.textLabel?.text = place.description
+      cell.textLabel?.adjustsFontSizeToFitWidth = true
+      cell.textLabel?.font = UIFont(name: "HelveticaNeue-Thin", size: 16.0)
+      
+      println("tableView cellForRowAtIndexPath: \(indexPath), place.description: \(place.description)")
+      
+      return cell
+   }
+   
+   func setTripInfo(searchBar: UISearchBar, city:String, state:String) {
+      searchBar.text = city + ", " + state
+      self.tripSectionButton.setTitle(self.startingLocation.text + " \u{2192} " + self.endingLocation.text, forState: .Normal)
+      self.tripLabel.text = self.startingLocation.text + " \u{2192} " + self.endingLocation.text
+   }
+   
+   func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
+      if (activeSearchBar == startingLocation) {
+         println("tableView didSelectRowAtIndexPath: \(startingVC.places[indexPath.row])")
+         startingVC.delegate?.placeSelected?(startingVC.places[indexPath.row])
+         let place = startingVC.places[indexPath.row]
+         place.getDetails { details in
+            self.setTripInfo(self.startingLocation, city: details.city, state: details.state)
+         }
+         startingTableView.hidden = true
+         if endingLocation.alpha == 0 {
+            endingLocation.alpha = 1
+         }
+      }
+      else {
+         println("tableView didSelectRowAtIndexPath: \(endingVC.places[indexPath.row])")
+         endingVC.delegate?.placeSelected?(endingVC.places[indexPath.row])
+         let place = endingVC.places[indexPath.row]
+         place.getDetails { details in
+            self.setTripInfo(self.endingLocation, city: details.city, state: details.state)
+         }
+         endingTableView.hidden = true
+      }
+      if nextButton.alpha == 0 {
+         nextButton.alpha = 1
+      }
+      
+      dispatch_async(dispatch_get_main_queue(),{
+         self.selectedLocationInSearchBar()
+      });
+   }
+   
+   func tableView(tableView: UITableView, heightForRowAtIndexPath indexPath: NSIndexPath) -> CGFloat {
+      return 38.0
+   }
+   
+   
+   // MARK: - GooglePlacesAutocompleteContainer (UISearchBarDelegate)
+   
+   func searchBar(searchBar: UISearchBar, textDidChange searchText: String) {
+      self.activeSearchBar = searchBar
+      if (searchText == "") {
+         if (self.activeSearchBar == startingLocation) {
+            startingVC.places = []
+            startingTableView.hidden = true
+         } else {
+            endingVC.places = []
+            endingTableView.hidden = true
+         }
+      } else {
+         getPlaces(searchText)
+      }
+   }
+   
+   /**
+   Call the Google Places API and update the view with results.
+   
+   :param: searchString The search query
+   */
+   func getPlaces(searchString: String) {
+      println("in getPlaces with \(searchString)")
+      
+      if (self.activeSearchBar == startingLocation) {
+         GooglePlacesRequestHelpers.doRequest(
+            "https://maps.googleapis.com/maps/api/place/autocomplete/json",
+            params: [
+               "input": searchString,
+               "types": startingVC.placeType.description,
+               "key": startingVC.apiKey ?? ""
+            ]
+            ) { json in
+               if let predictions = json["predictions"] as? Array<[String: AnyObject]> {
+                  self.startingVC.places = predictions.map { (prediction: [String: AnyObject]) -> Place in
+                     return Place(prediction: prediction, apiKey: self.startingVC.apiKey)
+                  }
+                  
+                  self.reloadInputViews()
+                  println("before refreshUI()")
+                  println("places: \(self.startingVC.places)")
+                  self.refreshUI()
+                  //               self.startingTableView.reloadSections(NSIndexSet(index: 0), withRowAnimation: UITableViewRowAnimation.None)
+                  self.endingLocation.alpha = 0
+                  self.nextButton.alpha = 0
+                  self.startingTableView.hidden = false
+                  self.startingVC.delegate?.placesFound?(self.startingVC.places)
+               }
+         }
+      } else {
+         GooglePlacesRequestHelpers.doRequest(
+            "https://maps.googleapis.com/maps/api/place/autocomplete/json",
+            params: [
+               "input": searchString,
+               "types": endingVC.placeType.description,
+               "key": endingVC.apiKey ?? ""
+            ]
+            ) { json in
+               if let predictions = json["predictions"] as? Array<[String: AnyObject]> {
+                  self.endingVC.places = predictions.map { (prediction: [String: AnyObject]) -> Place in
+                     return Place(prediction: prediction, apiKey: self.endingVC.apiKey)
+                  }
+                  
+                  self.reloadInputViews()
+                  println("before refreshUI()")
+                  println("places: \(self.endingVC.places)")
+                  self.refreshUI()
+                  //               self.startingTableView.reloadSections(NSIndexSet(index: 0), withRowAnimation: UITableViewRowAnimation.None)
+                  self.nextButton.alpha = 0
+                  self.endingTableView.hidden = false
+                  self.endingVC.delegate?.placesFound?(self.endingVC.places)
+               }
+         }
+      }
+   }
+   
+   func refreshUI() {
+      dispatch_async(dispatch_get_main_queue(),{
+         if (self.activeSearchBar == self.startingLocation) {
+            self.startingTableView.reloadSections(NSIndexSet(index: 0), withRowAnimation: UITableViewRowAnimation.None)
+         } else {
+            self.endingTableView.reloadSections(NSIndexSet(index: 0), withRowAnimation: UITableViewRowAnimation.None)
+         }
+      });
+   }
+}
+
+extension PostRideViewController: GooglePlacesAutocompleteDelegate {
+   func placeSelected(place: Place) {
+      
+      println(place.description)
+      
+      place.getDetails { details in
+         println(details)
+      }
    }
 }
