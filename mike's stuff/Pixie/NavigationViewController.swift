@@ -9,14 +9,15 @@
 import Foundation
 import UIKit
 
-class NavigationViewController : UIViewController, UITableViewDelegate, UITableViewDataSource {
+class NavigationViewController: UIViewController, UITableViewDelegate, UITableViewDataSource {
     
-    @IBOutlet var bgImageView : UIImageView!
-    @IBOutlet var tableView   : UITableView!
-    @IBOutlet var dimmerView  : UIView!
+    @IBOutlet var bgImageView: UIImageView!
+    @IBOutlet var tableView: UITableView!
+    @IBOutlet var dimmerView: UIView!
     
-    var items : [NavigationModel]!
+    var items: [NavigationModel]!
     var presentingView: UIViewController!
+    var user = ContactObject()
     
     override func viewDidLoad() {
         super.viewDidLoad()

@@ -114,6 +114,8 @@
 		61BCE4BE1B09598600F1A681 /* GPUImagePicture.m in Sources */ = {isa = PBXBuildFile; fileRef = 61BCE4B11B09598600F1A681 /* GPUImagePicture.m */; };
 		61BCE4BF1B09598600F1A681 /* GPUImageTwoPassFilter.m in Sources */ = {isa = PBXBuildFile; fileRef = 61BCE4B31B09598600F1A681 /* GPUImageTwoPassFilter.m */; };
 		61BCE4C01B09598600F1A681 /* GPUImageTwoPassTextureSamplingFilter.m in Sources */ = {isa = PBXBuildFile; fileRef = 61BCE4B51B09598600F1A681 /* GPUImageTwoPassTextureSamplingFilter.m */; };
+		61CF5A301B0D5A70000E828F /* ContactObject.swift in Sources */ = {isa = PBXBuildFile; fileRef = 61CF5A2F1B0D5A70000E828F /* ContactObject.swift */; };
+		61CF5A321B0D6201000E828F /* GooglePlacesAutocomplete.swift in Sources */ = {isa = PBXBuildFile; fileRef = 61CF5A311B0D6201000E828F /* GooglePlacesAutocomplete.swift */; };
 		61DEC0391ABA48B0004314EB /* RegisterViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 61DEC0381ABA48B0004314EB /* RegisterViewController.swift */; };
 		61DEC03B1ABA830E004314EB /* AboutViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 61DEC03A1ABA830E004314EB /* AboutViewController.swift */; };
 		61DEC03D1ABA87A5004314EB /* SettingsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 61DEC03C1ABA87A5004314EB /* SettingsViewController.swift */; };
@@ -315,6 +317,8 @@
 		61BCE4B31B09598600F1A681 /* GPUImageTwoPassFilter.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = GPUImageTwoPassFilter.m; path = GPUImage/GPUImageTwoPassFilter.m; sourceTree = SOURCE_ROOT; };
 		61BCE4B41B09598600F1A681 /* GPUImageTwoPassTextureSamplingFilter.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = GPUImageTwoPassTextureSamplingFilter.h; path = GPUImage/GPUImageTwoPassTextureSamplingFilter.h; sourceTree = SOURCE_ROOT; };
 		61BCE4B51B09598600F1A681 /* GPUImageTwoPassTextureSamplingFilter.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = GPUImageTwoPassTextureSamplingFilter.m; path = GPUImage/GPUImageTwoPassTextureSamplingFilter.m; sourceTree = SOURCE_ROOT; };
+		61CF5A2F1B0D5A70000E828F /* ContactObject.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ContactObject.swift; sourceTree = "<group>"; };
+		61CF5A311B0D6201000E828F /* GooglePlacesAutocomplete.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = GooglePlacesAutocomplete.swift; sourceTree = "<group>"; };
 		61D3399B1AF01F4A0084D716 /* FacebookSDK.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = FacebookSDK.framework; path = FacebookSDK/FacebookSDK.framework; sourceTree = "<group>"; };
 		61D3399F1AF01F610084D716 /* Parse.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Parse.framework; path = ParseSDK/Parse.framework; sourceTree = "<group>"; };
 		61D339A11AF021EC0084D716 /* Bolts.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Bolts.framework; path = ParseSDK/Bolts.framework; sourceTree = "<group>"; };
@@ -723,6 +727,7 @@
 				52414C7E1AAE00C200417481 /* BioViewController.swift */,
 				61345B271AF57DB900DCCE42 /* ConversationViewController.swift */,
 				52CF2BD81AEE591200172812 /* EditPostViewController.swift */,
+				61CF5A311B0D6201000E828F /* GooglePlacesAutocomplete.swift */,
 				611A1A3A1AAE8BBD00F18B3B /* InitialViewController.swift */,
 				52414C6A1AADFE7100417481 /* MatchesViewController.swift */,
 				617D3D841AF19A030018900D /* MessagesViewController.swift */,
@@ -757,6 +762,7 @@
 		61A609731AF5588900FD4854 /* Cells */ = {
 			isa = PBXGroup;
 			children = (
+				61CF5A2F1B0D5A70000E828F /* ContactObject.swift */,
 				A7EFA9CC1ABD06DA00047024 /* CreateUser.swift */,
 				52414C701AAE002200417481 /* Match.swift */,
 				52414C6C1AADFEBD00417481 /* MatchCollectionViewCell.swift */,
@@ -928,6 +934,7 @@
 				612095861B02B92900336D1C /* CustomSegueClass.swift in Sources */,
 				52414C6D1AADFEBD00417481 /* MatchCollectionViewCell.swift in Sources */,
 				612095AB1B02BE3C00336D1C /* UIDevice+JSQMessages.m in Sources */,
+				61CF5A321B0D6201000E828F /* GooglePlacesAutocomplete.swift in Sources */,
 				2CC475E61AFE9D6A00864116 /* AutocompleteQuery.m in Sources */,
 				61345B281AF57DB900DCCE42 /* ConversationViewController.swift in Sources */,
 				61DEC03D1ABA87A5004314EB /* SettingsViewController.swift in Sources */,
@@ -946,6 +953,7 @@
 				52414C7A1AAE002200417481 /* User.swift in Sources */,
 				612095EC1B02BEAB00336D1C /* JSQPhotoMediaItem.m in Sources */,
 				61BCE4B71B09598600F1A681 /* GPUImageContext.m in Sources */,
+				61CF5A301B0D5A70000E828F /* ContactObject.swift in Sources */,
 				612095E81B02BEAB00336D1C /* JSQMediaItem.m in Sources */,
 				2CC475E51AFE9D6A00864116 /* AutocompletePlace.m in Sources */,
 				612095C21B02BE7100336D1C /* JSQMessagesAvatarImageFactory.m in Sources */,

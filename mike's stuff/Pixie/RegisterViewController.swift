@@ -49,7 +49,6 @@ class RegisterViewController: UIViewController, FBLoginViewDelegate, UITextField
         wrongEmailPwLabel.hidden = true
     }
     
-    
     @IBAction func textFieldsArePopulated(sender: AnyObject) {
         registerBtn.enabled = count(nameField.text) > 0 &&
             count(emailField.text) > 0 &&
@@ -82,10 +81,7 @@ class RegisterViewController: UIViewController, FBLoginViewDelegate, UITextField
     }
     
     // Facebook delegate methods
-    
-    
     func loginViewShowingLoggedInUser(loginView: FBLoginView!) {
-        
         println("User Logged In")
         println("This is where you perform a segue.")
         performSegueWithIdentifier("presentSearch", sender: self)
