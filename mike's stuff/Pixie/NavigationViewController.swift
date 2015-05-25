@@ -35,12 +35,12 @@ class NavigationViewController: UIViewController, UITableViewDelegate, UITableVi
         let payments = NavigationModel(title: "Payments", icon: "wallet")
         let messages = NavigationModel(title: "Messages", icon: "icon-chat", count: "3")
         let myRides = NavigationModel(title: "My Rides", icon: "car")
-        let myFavorites = NavigationModel(title: "My Favorites", icon: "icon-star")
+//        let myFavorites = NavigationModel(title: "My Favorites", icon: "icon-star")
         let settings = NavigationModel(title: "Settings", icon: "icon-filter")
         let about = NavigationModel(title: "About", icon: "icon-info")
         let signOut = NavigationModel(title: "Sign Out", icon: "door")
         
-        items = [search, myProfile, payments, messages, myRides, myFavorites, settings, about, signOut]
+        items = [search, myProfile, payments, messages, myRides, settings, about, signOut]
         
         var leftSwipe = UISwipeGestureRecognizer(target: self, action: Selector("handleSwipes:"))
         leftSwipe.direction = .Left
