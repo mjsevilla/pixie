@@ -17,7 +17,13 @@ class NavigationViewController: UIViewController, UITableViewDelegate, UITableVi
     
     var items: [NavigationModel]!
     var presentingView: UIViewController!
-    var user = ContactObject()
+    var user: ContactObject?
+    var defaults = NSUserDefaults.standardUserDefaults() {
+        didSet {
+            let id = defaults.stringForKey("PixieUserId")
+            user = ContactObject(_id: id!)
+        }
+    }
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -32,15 +38,12 @@ class NavigationViewController: UIViewController, UITableViewDelegate, UITableVi
         
         let search = NavigationModel(title: "Search", icon: "location")
         let myProfile = NavigationModel(title: "My Profile", icon: "user")
-        let payments = NavigationModel(title: "Payments", icon: "wallet")
         let messages = NavigationModel(title: "Messages", icon: "icon-chat", count: "3")
         let myRides = NavigationModel(title: "My Rides", icon: "car")
-//        let myFavorites = NavigationModel(title: "My Favorites", icon: "icon-star")
-        let settings = NavigationModel(title: "Settings", icon: "icon-filter")
         let about = NavigationModel(title: "About", icon: "icon-info")
         let signOut = NavigationModel(title: "Sign Out", icon: "door")
         
-        items = [search, myProfile, payments, messages, myRides, settings, about, signOut]
+        items = [search, myProfile, messages, myRides, about, signOut]
         
         var leftSwipe = UISwipeGestureRecognizer(target: self, action: Selector("handleSwipes:"))
         leftSwipe.direction = .Left
@@ -48,7 +51,7 @@ class NavigationViewController: UIViewController, UITableViewDelegate, UITableVi
     }
     
     func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return 9
+        return items.count
     }
     
     func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
@@ -88,48 +91,27 @@ class NavigationViewController: UIViewController, UITableViewDelegate, UITableVi
                 self.performSegueWithIdentifier("presentProfile", sender: self)
             }
         case 2:
-            if let pView = presentingView as? SearchViewController {
-                dismissViewControllerAnimated(true, completion: nil)
-            }
-            else {
-                //   self.performSegueWithIdentifier("presentPayments", sender: self)
-            }
-        case 3:
             if let pView = presentingView as? MessagesViewContoller {
                 dismissViewControllerAnimated(true, completion: nil)
             }
             else {
                 self.performSegueWithIdentifier("presentMessages", sender: self)
             }
-        case 4:
+        case 3:
             if let pView = presentingView as? MyPostsViewController {
                 dismissViewControllerAnimated(true, completion: nil)
             }
             else {
                 self.performSegueWithIdentifier("presentMyPosts", sender: self)
             }
-        case 5:
-            if let pView = presentingView as? SearchViewController {
-                dismissViewControllerAnimated(true, completion: nil)
-            }
-            else {
-                //self.performSegueWithIdentifier("presentFavorites", sender: self)
-            }
-        case 6:
-            if let pView = presentingView as? SettingsViewController {
-                dismissViewControllerAnimated(true, completion: nil)
-            }
-            else {
-                self.performSegueWithIdentifier("presentSettings", sender: self)
-            }
-        case 7:
+        case 4:
             if let pView = presentingView as? AboutViewController {
                 dismissViewControllerAnimated(true, completion: nil)
             }
             else {
                 self.performSegueWithIdentifier("presentAbout", sender: self)
             }
-        case 8:
+        case 5:
             NSUserDefaults.standardUserDefaults().removeObjectForKey("PixieUserId")
             self.performSegueWithIdentifier("presentInitial", sender: self)
         default:

@@ -122,17 +122,17 @@ class RegisterViewController: UIViewController, FBLoginViewDelegate, UITextField
                 let unparsedArray: AnyObject? = NSJSONSerialization.JSONObjectWithData(data, options: NSJSONReadingOptions.AllowFragments, error: &parseError)
                 if let resp = unparsedArray as? NSDictionary {
                     
-                    let defaults = NSUserDefaults.standardUserDefaults();
+                    let defaults = NSUserDefaults.standardUserDefaults()
                     print("id is ")
-                    println(resp["id"]! as! Int);
+                    println(resp["id"]! as! Int)
                     defaults.setObject(resp["id"]! as! Int, forKey: "PixieUserId")
-                    NSUserDefaults.standardUserDefaults().synchronize();
+                    NSUserDefaults.standardUserDefaults().synchronize()
                     self.wrongEmailPwLabel.hidden = true
                 }
                 else {
                     println("Probably 500")
-                    println("\(parseError)");
-                    let defaults = NSUserDefaults.standardUserDefaults();
+                    println("\(parseError)")
+                    let defaults = NSUserDefaults.standardUserDefaults()
                     defaults.setObject(3, forKey: "PixieUserId")
                 }
             }
@@ -145,8 +145,8 @@ class RegisterViewController: UIViewController, FBLoginViewDelegate, UITextField
         let email = emailField.text!
         let password = pwField.text!
         
-        var urlString = "http://ec2-54-69-253-12.us-west-2.compute.amazonaws.com/pixie/users";
-        var request = NSMutableURLRequest(URL: NSURL(string: urlString)!);
+        var urlString = "http://ec2-54-69-253-12.us-west-2.compute.amazonaws.com/pixie/users"
+        var request = NSMutableURLRequest(URL: NSURL(string: urlString)!)
         request.HTTPMethod = "POST"
         var err: NSError?
         var reqText = ["email": "\(email)", "password": "\(password)", "name": "\(name)"]
@@ -154,7 +154,7 @@ class RegisterViewController: UIViewController, FBLoginViewDelegate, UITextField
         request.HTTPBody = NSJSONSerialization.dataWithJSONObject(reqText, options: nil, error: &err)
         request.addValue("application/json", forHTTPHeaderField: "Content-Type")
         request.addValue("application/json", forHTTPHeaderField: "Accept")
-        let defaults = NSUserDefaults.standardUserDefaults();
+        let defaults = NSUserDefaults.standardUserDefaults()
         var response: NSURLResponse?
         
         var data =  NSURLConnection.sendSynchronousRequest(request, returningResponse: &response, error:nil)! as NSData
@@ -162,7 +162,7 @@ class RegisterViewController: UIViewController, FBLoginViewDelegate, UITextField
         if let json = NSJSONSerialization.JSONObjectWithData(data, options: NSJSONReadingOptions.MutableContainers, error: nil) as? NSDictionary {
             if let id = json["id"] as? Int {
                 defaults.setObject(id, forKey: "PixieUserId")
-                NSUserDefaults.standardUserDefaults().synchronize();
+                NSUserDefaults.standardUserDefaults().synchronize()
                 println("created userId: \(id)")
                 self.wrongEmailPwLabel.hidden = true
                 self.performSegueWithIdentifier("presentSearch", sender: self)
