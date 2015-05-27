@@ -16,7 +16,7 @@ class MatchCollectionViewCell: UICollectionViewCell, UIGestureRecognizerDelegate
    var locationLabel: UILabel!
    var dateTimeLabel: UILabel!
    var lineImage: UIImageView!
-   var messageIcon: UIButton!
+   var messageIcon: SenderButton!
    var starIcon: UIButton!
    
    override init(frame: CGRect) {
@@ -66,7 +66,7 @@ class MatchCollectionViewCell: UICollectionViewCell, UIGestureRecognizerDelegate
       dateTimeLabel.setTranslatesAutoresizingMaskIntoConstraints(false)
       contentView.addSubview(dateTimeLabel)
       
-      messageIcon = UIButton()
+      messageIcon = SenderButton()
       messageIcon.setImage(UIImage(named: "chat-bubble32.png")!, forState: .Normal)
       messageIcon.backgroundColor = UIColor.clearColor()
       messageIcon.setTranslatesAutoresizingMaskIntoConstraints(false)

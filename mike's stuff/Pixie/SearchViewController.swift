@@ -9,6 +9,8 @@
 import Foundation
 import UIKit
 import MediaPlayer
+import MapKit
+import CoreLocation
 
 class SearchViewController: AutocompleteViewController {
     
@@ -38,12 +40,22 @@ class SearchViewController: AutocompleteViewController {
         
         //searchBar.delegate = self
         
-        let defaults = NSUserDefaults.standardUserDefaults()
-        if let savedId = defaults.stringForKey("PixieUserId") {
-            println("userId found: \(savedId)")
-        } else {
-            println("userId not found")
-        }
+//        let defaults = NSUserDefaults.standardUserDefaults()
+//        if let savedId = defaults.stringForKey("PixieUserId") {
+//            if let savedFirstName = defaults.stringForKey("PixieUserFirstName") {
+//                if let savedLastName = defaults.stringForKey("PixieUserLastName") {
+//                    println("userId found: \(savedId)")
+//                    println("firstName found: \(savedFirstName)")
+//                    println("lastName found: \(savedLastName)")
+//                } else {
+//                    println("lastName not found")
+//                }
+//            } else {
+//                println("firstName not found")
+//            }
+//        } else {
+//            println("userId not found")
+//        }
     }
     
     func playVideo() -> Bool {
