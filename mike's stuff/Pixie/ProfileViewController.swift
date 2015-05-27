@@ -31,12 +31,48 @@ class ProfileViewController: UIViewController, UITextViewDelegate, UITextFieldDe
 		
 		bioField.delegate = self
 		bioField.text = "Tell us about yourself!"
-		bioField.textColor = UIColor.lightGrayColor()
-		bioField.layer.borderWidth = 1.25
-		bioField.layer.borderColor = UIColor.lightGrayColor().CGColor
+		bioField.layer.cornerRadius = 8.0
+		bioField.layer.masksToBounds = true
+		bioField.layer.borderColor = UIColor(red:0.0, green:0.74, blue:0.82, alpha:1.0).CGColor
+		bioField.layer.borderWidth = 1.0
 		
-		profPic.layer.borderWidth = 1.25
-		profPic.layer.borderColor = UIColor.lightGrayColor().CGColor
+		firstName.delegate = self
+		firstName.layer.cornerRadius = 8.0
+		firstName.layer.masksToBounds = true
+		firstName.layer.borderColor = UIColor(red:0.0, green:0.74, blue:0.82, alpha:1.0).CGColor
+		firstName.layer.borderWidth = 1.0
+		
+		lastName.delegate = self
+		lastName.layer.cornerRadius = 8.0
+		lastName.layer.masksToBounds = true
+		lastName.layer.borderColor = UIColor(red:0.0, green:0.74, blue:0.82, alpha:1.0).CGColor
+		lastName.layer.borderWidth = 1.0
+		
+		age.delegate = self
+		age.layer.cornerRadius = 8.0
+		age.layer.masksToBounds = true
+		age.layer.borderColor = UIColor(red:0.0, green:0.74, blue:0.82, alpha:1.0).CGColor
+		age.layer.borderWidth = 1.0
+		
+		email.delegate = self
+		email.layer.cornerRadius = 8.0
+		email.layer.masksToBounds = true
+		email.layer.borderColor = UIColor(red:0.0, green:0.74, blue:0.82, alpha:1.0).CGColor
+		email.layer.borderWidth = 1.0
+		
+		password.delegate = self
+		password.layer.cornerRadius = 8.0
+		password.layer.masksToBounds = true
+		password.layer.borderColor = UIColor(red:0.0, green:0.74, blue:0.82, alpha:1.0).CGColor
+		password.layer.borderWidth = 1.0
+		password.secureTextEntry = true
+		
+		profPic.image = UIImage(named: "default.png")
+		profPic.layer.cornerRadius = 8.0
+		profPic.layer.masksToBounds = true
+		profPic.layer.borderColor = UIColor(red:0.0, green:0.74, blue:0.82, alpha:1.0).CGColor
+		profPic.layer.borderWidth = 1.0
+		
 		imagePicker.delegate = self
 		
 		var rightSwipe = UISwipeGestureRecognizer(target: self, action: Selector("handleSwipes:"))
@@ -63,10 +99,8 @@ class ProfileViewController: UIViewController, UITextViewDelegate, UITextFieldDe
 	
 	// mimic having a placeholder for the bioField
 	func textViewDidBeginEditing(textView: UITextView) {
-		if textView.textColor == UIColor.lightGrayColor() {
-			textView.text = nil
-			textView.textColor = UIColor.blackColor()
-		}
+		textView.text = nil
+		textView.textColor = UIColor.blackColor()
 	}
 	
 	func textViewDidEndEditing(textView: UITextView) {
