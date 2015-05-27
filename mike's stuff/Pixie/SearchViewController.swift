@@ -9,10 +9,9 @@
 import Foundation
 import UIKit
 import MediaPlayer
-import MapKit
 import CoreLocation
 
-class SearchViewController: AutocompleteViewController {
+class SearchViewController: AutocompleteViewController, CLLocationManagerDelegate {
     
     @IBOutlet weak var searchBar: UISearchBar!
     @IBOutlet weak var toolBar: UIToolbar!
@@ -20,6 +19,9 @@ class SearchViewController: AutocompleteViewController {
     let postRideTransitionOperator = PostRideTransitionOperator()
     let matchesTransitionOperator = SearchToMatchesTransitionOperator()
     var moviePlayer: MPMoviePlayerController?
+    let locationManager = CLLocationManager()
+    var latitude: Double!
+    var longitude: Double!
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -37,6 +39,12 @@ class SearchViewController: AutocompleteViewController {
         var leftSwipe = UISwipeGestureRecognizer(target: self, action: Selector("handleSwipes:"))
         leftSwipe.direction = .Left
         view.addGestureRecognizer(leftSwipe)
+        
+        self.locationManager.delegate = self
+        self.locationManager.desiredAccuracy = kCLLocationAccuracyBest
+        self.locationManager.requestAlwaysAuthorization()
+        self.locationManager.requestWhenInUseAuthorization()
+        self.locationManager.startUpdatingLocation()
         
         //searchBar.delegate = self
         
@@ -116,6 +124,10 @@ class SearchViewController: AutocompleteViewController {
             if let destinationVC = segue.destinationViewController as? MatchesViewController {
                 destinationVC.transitioningDelegate = self.matchesTransitionOperator
                 destinationVC.modalPresentationStyle = UIModalPresentationStyle.Custom
+                destinationVC.latitude = self.latitude
+                destinationVC.longitude = self.longitude
+                destinationVC.searchDate = getCurrentDate()
+                destinationVC.searchTime = "25:00:00"
             }
         }
     }
@@ -129,6 +141,41 @@ class SearchViewController: AutocompleteViewController {
     
     override func preferredStatusBarStyle() -> UIStatusBarStyle {
         return UIStatusBarStyle.LightContent
+    }
+    
+    func locationManager(manager: CLLocationManager!, didUpdateLocations locations: [AnyObject]!) {
+        CLGeocoder().reverseGeocodeLocation(manager.location, completionHandler: {(placemarks, error)->Void in
+            if (error != nil) {
+                println("Error: " + error.localizedDescription)
+                return
+            }
+            
+            if placemarks.count > 0 {
+                let pm = placemarks[0] as! CLPlacemark
+                self.setLocationInfo(pm)
+            } else {
+                println("Error with the data.")
+            }
+        })
+    }
+    
+    func setLocationInfo(placemark: CLPlacemark) {
+        self.locationManager.stopUpdatingLocation()
+        self.latitude = placemark.location.coordinate.latitude
+        self.longitude = placemark.location.coordinate.longitude
+//        println("Current location: \(placemark.locality), \(placemark.administrativeArea), \(placemark.country)")
+//        println("latitude: \(latitude), longitude: \(longitude)")
+    }
+    
+    func locationManager(manager: CLLocationManager!, didFailWithError error: NSError!) {
+        println("Error: " + error.localizedDescription)
+    }
+    
+    func getCurrentDate() -> String {
+        var dateFormatter = NSDateFormatter()
+        dateFormatter.dateFormat = "yyyy-MM-dd"
+        let currDate = dateFormatter.stringFromDate(NSDate())
+        return currDate
     }
 }
 

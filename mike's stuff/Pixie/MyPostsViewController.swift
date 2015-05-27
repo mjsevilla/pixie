@@ -65,8 +65,7 @@ class MyPostsViewController: UIViewController, UITableViewDelegate, UITableViewD
          myUserId = savedId;
       }
       
-      //      var urlString = "http://ec2-54-69-253-12.us-west-2.compute.amazonaws.com/pixie/posts"
-      var urlString = "http://ec2-54-148-100-12.us-west-2.compute.amazonaws.com/pixie/posts"
+      var urlString = "http://ec2-54-69-253-12.us-west-2.compute.amazonaws.com/pixie/posts"
       
       let url = NSURL(string: urlString)
       var request = NSURLRequest(URL: url!)
@@ -75,29 +74,59 @@ class MyPostsViewController: UIViewController, UITableViewDelegate, UITableViewD
       var data =  NSURLConnection.sendSynchronousRequest(request, returningResponse: &response, error:nil)! as NSData
       
       if let json = NSJSONSerialization.JSONObjectWithData(data, options: NSJSONReadingOptions.MutableContainers, error: nil) as? NSDictionary {
+         println("json...\n\(json)")
          if let items = json["posts"] as? NSArray {
             for item in items {
-               if let userId = item["userId"] as? Int {
+               if let userIdStr = item["userId"] as? String {
+                  let userId = userIdStr.toInt()!
                   if true /*userId == myUserId.toInt()*/ {
-                     if let start = item["start"] as? String {
-                        if let end = item["end"] as? String {
-                           if let day = item["day"] as? String {
-                              if let time = item["time"] as? String {
-                                 if let driverEnum = item["driverEnum"] as? String {
-                                    let isDriver = driverEnum == "driver" ? true : false
-                                    self.posts.append(Post(isDriver: isDriver, start: start, end: end, date: day, time: time, userId: userId))
+                     if let id = item["id"] as? Int {
+                        if let start_name = item["start_name"] as? String {
+                           if let start_latStr = item["start_lat"] as? String {
+                              let start_lat = (start_latStr as NSString).doubleValue
+                              if let start_lonStr = item["start_lon"] as? String {
+                                 let start_lon = (start_lonStr as NSString).doubleValue
+                                 if let end_name = item["end_name"] as? String {
+                                    if let end_latStr = item["end_lat"] as? String {
+                                       let end_lat = (end_latStr as NSString).doubleValue
+                                       if let end_lonStr = item["end_lon"] as? String {
+                                          let end_lon = (end_lonStr as NSString).doubleValue
+                                          if let day = item["day"] as? String {
+                                             if let time = item["time"] as? String {
+                                                if let driverEnum = item["driver_enum"] as? String {
+                                                   let isDriver = driverEnum == "DRIVER" ? true : false
+                                                   let start = Location(name: start_name, lat: start_lat, long: start_lon)
+                                                   let end = Location(name: end_name, lat: end_lat, long: end_lon)
+                                                   self.posts.append(Post(isDriver: isDriver, start: start, end: end, day: day, time: time, id: id, userId: userId))
+                                                } else {
+                                                   println("error: driver_enum")
+                                                }
+                                             } else {
+                                                println("error: time")
+                                             }
+                                          } else {
+                                             println("error: day")
+                                          }
+                                       } else {
+                                          println("error: end_lon")
+                                       }
+                                    } else {
+                                       println("error: end_lat")
+                                    }
+                                 } else {
+                                    println("error: end_name")
                                  }
                               } else {
-                                 println("error: time")
+                                 println("error: start_lon")
                               }
                            } else {
-                              println("error: day")
+                              println("error: start_lat")
                            }
                         } else {
-                           println("error: end")
+                           println("error: start_name")
                         }
                      } else {
-                        println("error: start")
+                        println("error: id")
                      }
                   }
                } else {
@@ -108,7 +137,7 @@ class MyPostsViewController: UIViewController, UITableViewDelegate, UITableViewD
             println("error: posts")
          }
       } else {
-         println("error \(error)") // print the error!
+         println("error json: \(error)") // print the error!
       }
    }
    
@@ -125,8 +154,8 @@ class MyPostsViewController: UIViewController, UITableViewDelegate, UITableViewD
       let myPost = posts[indexPath.row]
       
       cell.seekOfferLabel.text = myPost.isDriver ? "😎 Offering" : "😊 Seeking"
-      cell.locationLabel.text = "\(myPost.startingLoc) \u{2192} \(myPost.endingLoc)"
-      cell.dateTimeLabel.text = "\(myPost.date), \(myPost.time)"
+      cell.locationLabel.text = "\(myPost.start.name) \u{2192} \(myPost.end.name)"
+      cell.dateTimeLabel.text = "\(myPost.day), \(myPost.time)"
       
       return cell
    }

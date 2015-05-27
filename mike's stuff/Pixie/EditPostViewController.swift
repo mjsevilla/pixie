@@ -219,10 +219,10 @@ class EditPostViewController: UIViewController, UITextFieldDelegate, UIPickerVie
          let time = current.time.uppercaseString
          
          seekOfferSegment.selectedSegmentIndex = current.isDriver ? 1 : 0
-         startingLocation.text = current.startingLoc
-         endingLocation.text = current.endingLoc
+         startingLocation.text = current.start.name
+         endingLocation.text = current.end.name
          
-         if let dateIdx = find(currentDates, current.date) {
+         if let dateIdx = find(currentDates, current.day) {
             let currentDateArr = currentDates[dateIdx].componentsSeparatedByString(" ")
             var date = NSMutableAttributedString(attributedString: createAttributedString(currentDateArr[0], str2: currentDateArr[1]+" "+currentDateArr[2], color: UIColor.whiteColor()))
             dateButton.setAttributedTitle(date, forState: .Normal)
@@ -447,7 +447,9 @@ class EditPostViewController: UIViewController, UITextFieldDelegate, UIPickerVie
       let day = dateButton.titleLabel?.text
       let time = timeButton.titleLabel?.text
       
-      currentPost = Post(isDriver: driverEnum, start: start, end: end, date: day!, time: time!, userId: currentPost.userId)
+      // TO-DO: FIX THIS API CALL SHIT
+      
+//      currentPost = Post(isDriver: driverEnum, start: start, end: end, date: day!, time: time!, userId: currentPost.userId)
       shouldSavePost = true
       self.performSegueWithIdentifier("unwindToMyPosts", sender: self)
    }

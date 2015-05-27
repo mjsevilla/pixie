@@ -24,27 +24,16 @@ class MatchesViewController: UIViewController, UICollectionViewDelegateFlowLayou
    var navTransitionOperator = NavigationTransitionOperator()
    var viewInsets: UIEdgeInsets!
    var itemSize: CGSize!
-   var userId: Int! = -1
-   var firstName: String! = "Error"
-   var lastName: String! = "Error"
    var topMargin: CGFloat!
+   var userId: Int! = -1
+   var fullName: String = "Error"
+   var latitude: Double!
+   var longitude: Double!
+   var searchDate: String!
+   var searchTime: String!
    
    private var matches = [Match]()
    private var posts = [Post]()
-   
-   
-   /*
-   private var matches = [
-   Match(author: User(name: "Nicki Brower", age: 21, bio: "My name is Nicki, but you can call me Dre.", profilePic: "https://scontent.xx.fbcdn.net/hphotos-xfp1/v/t1.0-9/1896738_10205001610871877_5554224394457450129_n.jpg?oh=bd7620665a45b1a470646396a73b6e15&oe=5574CB74"), post: Post(start: "San Francisco, CA", end: "San Luis Obispo, CA", date: "Monday, February 23rd", time:"2:00pm")),
-   Match(author: User(name: "Cameron Javier", age: 21, bio: "Oh lookey here, some bloak didn't finish his wine.", profilePic: "https://fbcdn-sphotos-d-a.akamaihd.net/hphotos-ak-xfp1/v/t1.0-9/10711065_910657175628707_1758789905052961848_n.jpg?oh=18a99b404cd58079374b259dd37813f0&oe=557E45C0&__gda__=1438272073_8f00d14d2680b66149753ffc73323d1c"), post: Post(start: "San Luis Obispo, CA", end: "San Francisco, CA", date: "Tuesday, February 24nd", time:"4:00pm - 8:00pm")),
-   Match(author: User(name: "Kaveh Karimiyanha", age: 21, bio: "Fell asleep and woke up covered in bitches.", profilePic: "https://fbcdn-sphotos-d-a.akamaihd.net/hphotos-ak-xpf1/v/t1.0-9/10460713_10152708363287852_1771250857885567270_n.jpg?oh=ca3a50ae43527203be1d50f3262df137&oe=558CE844&__gda__=1438301243_0ad8b7bd9d4b406cd07670e84f195b77"), post: Post(start: "San Luis Obispo, CA", end: "Las Vegas, NV", date: "Thursday, February 26th", time:"Anytime")),
-   Match(author: User(name: "Mike Sevilla", age: 21, bio: "Damn son where'd you find this?", profilePic: "https://scontent.xx.fbcdn.net/hphotos-xpf1/v/t1.0-9/10437688_10205981335841385_938020590659785566_n.jpg?oh=e865b2ed67fa628eb93c0e0c95b2a6f9&oe=5577647C"), post: Post(start: "Santa Barbara, CA", end: "Los Angeles, CA", date: "Sunday, February 29th", time:"11:00am")),
-   Match(author: User(name: "Nicki Brower", age: 21, bio: "Like, omg I love my dad so much #gogreek #fashion #drunk #lol #foodporn #waitwhat? #exactly.", profilePic: "https://fbcdn-sphotos-d-a.akamaihd.net/hphotos-ak-xap1/v/t1.0-9/1528487_10205441832237136_8528150063642689169_n.jpg?oh=b6315e0a5340f02b7756999e7c8970c4&oe=5576EF20&__gda__=1438495257_848246030d2f93c76536eea6cffa6852"), post: Post(start: "San Francisco, CA", end: "San Luis Obispo, CA", date: "Monday, February 23rd", time:"2:00pm")),
-   Match(author: User(name: "Cameron Javier", age: 21, bio: "To infinity, and beyond!", profilePic: "https://scontent.xx.fbcdn.net/hphotos-xpa1/v/t1.0-9/1391995_918189734875451_7461336485708203728_n.jpg?oh=cecc0373e43a5b28f868292a803d0999&oe=5587D3C6"), post: Post(start: "San Luis Obispo, CA", end: "San Francisco, CA", date: "Tuesday, February 24nd", time:"4:00pm - 8:00pm")),
-   Match(author: User(name: "Kaveh Karimiyanha", age: 21, bio: "U rage bro?", profilePic: "https://fbcdn-sphotos-g-a.akamaihd.net/hphotos-ak-xaf1/t31.0-8/175541_10151143613027852_1432017663_o.jpg"), post: Post(start: "San Luis Obispo, CA", end: "Las Vegas, NV", date: "Thursday, February 26th", time:"Anytime")),
-   Match(author: User(name: "Mike Sevilla", age: 21, bio: "Honey! Where is my supersuit?!", profilePic: "https://fbcdn-sphotos-f-a.akamaihd.net/hphotos-ak-xpf1/t31.0-8/1053209_10201440172995152_2135534289_o.jpg"), post: Post(start: "Santa Barbara, CA", end: "Los Angeles, CA", date: "Sunday, February 29th", time:"11:00am"))
-   ]
-   */
    
    override func loadView() {
       super.loadView()
@@ -83,6 +72,10 @@ class MatchesViewController: UIViewController, UICollectionViewDelegateFlowLayou
       loadPostsFromAPI()
       loadUsersFromAPI()
       collectionView.reloadData()
+      
+//      println("lat: \(latitude), long: \(longitude)")
+//      println("search date: \(searchDate)")
+//      println("search time: \(searchTime)")
    }
    
    override func viewDidLoad() {
@@ -102,17 +95,18 @@ class MatchesViewController: UIViewController, UICollectionViewDelegateFlowLayou
          userId = savedId.toInt()
       }
       if let savedFirstName = defaults.stringForKey("PixieUserFirstName") {
-         firstName = savedFirstName
-      }
-      if let savedLastName = defaults.stringForKey("PixieUserLastName") {
-         lastName = savedLastName
+         fullName = savedFirstName
+         if let savedLastName = defaults.stringForKey("PixieUserLastName") {
+            fullName += " \(savedLastName)"
+         }
       }
       
-      println("MatchesViewController found userId: \(userId), first_name: \(firstName), last_name: \(lastName)")
+      println("MatchesViewController found userId: \(userId), name: \(fullName)")
    }
    
    func loadPostsFromAPI() {
-      var urlString = "http://ec2-54-148-100-12.us-west-2.compute.amazonaws.com/pixie/posts"
+      var urlString = "http://ec2-54-69-253-12.us-west-2.compute.amazonaws.com/pixie/posts?lat=\(latitude)&lon=\(longitude)&day=\(searchDate)&time=\(searchTime)"
+      println("urlString: \(urlString)")
       let url = NSURL(string: urlString)
       var request = NSURLRequest(URL: url!)
       var response: NSURLResponse?
@@ -120,44 +114,76 @@ class MatchesViewController: UIViewController, UICollectionViewDelegateFlowLayou
       var data =  NSURLConnection.sendSynchronousRequest(request, returningResponse: &response, error:nil)! as NSData
       
       if let json = NSJSONSerialization.JSONObjectWithData(data, options: NSJSONReadingOptions.MutableContainers, error: nil) as? NSDictionary {
+//         println("loadPostsFromAPI json...\n\(json)")
          if let items = json["posts"] as? NSArray {
             for item in items {
-               if let start = item["start"] as? String {
-                  if let end = item["end"] as? String {
-                     if let day = item["day"] as? String {
-                        if let time = item["time"] as? String {
-                           if let userId = item["userId"] as? Int {
-                              if let driverEnum = item["driverEnum"] as? String {
-                                 let isDriver = driverEnum == "driver" ? true : false
-                                 self.posts.append(Post(isDriver: isDriver, start: start, end: end, date: day, time: time, userId: userId))
+               if let start_name = item["start_name"] as? String {
+                  if let start_latStr = item["start_lat"] as? String {
+                     let start_lat = (start_latStr as NSString).doubleValue
+                     if let start_lonStr = item["start_lon"] as? String {
+                        let start_lon = (start_lonStr as NSString).doubleValue
+                        if let end_name = item["end_name"] as? String {
+                           if let end_latStr = item["end_lat"] as? String {
+                              let end_lat = (end_latStr as NSString).doubleValue
+                              if let end_lonStr = item["end_lon"] as? String {
+                                 let end_lon = (end_lonStr as NSString).doubleValue
+                                 if let day = item["day"] as? String {
+                                    if let time = item["time"] as? String {
+                                       if let id = item["id"] as? Int {
+                                          if let userIdStr = item["userId"] as? String {
+                                             let userId = userIdStr.toInt()!
+                                             if let driverEnum = item["driver_enum"] as? String {
+                                                let isDriver = driverEnum == "DRIVER" ? true : false
+                                                let start = Location(name: start_name, lat: start_lat, long: start_lon)
+                                                let end = Location(name: end_name, lat: end_lat, long: end_lon)
+                                                self.posts.append(Post(isDriver: isDriver, start: start, end: end, day: day, time: time, id: id, userId: userId))
+//                                                posts[posts.count-1].toString()
+                                             } else {
+                                                println("error: driver_enum")
+                                             }
+                                          } else {
+                                             println("error: userId")
+                                          }
+                                       } else {
+                                          println("error: id")
+                                       }
+                                    } else {
+                                       println("error: time")
+                                    }
+                                 } else {
+                                    println("error: day")
+                                 }
+                              } else {
+                                 println("error: end_lon")
                               }
                            } else {
-                              println("error: userId")
+                              println("error: end_lat")
                            }
                         } else {
-                           println("error: time")
+                           println("error: end_name")
                         }
                      } else {
-                        println("error: day")
+                        println("error: start_lon")
                      }
                   } else {
-                     println("error: end")
+                     println("error: start_lat")
                   }
                } else {
-                  println("error: start")
+                  println("error: start_name")
                }
             }
          } else {
             println("error: posts")
          }
       } else {
-         println("error \(error)") // print the error!
+         println("error json: \(error)") // print the error!
       }
    }
    
    func loadUsersFromAPI() {
       for p in posts {
-         var urlString = "http://ec2-54-148-100-12.us-west-2.compute.amazonaws.com/pixie/users/\(p.userId)"
+         var user = User()
+         var urlString = "http://ec2-54-69-253-12.us-west-2.compute.amazonaws.com/pixie/users/\(p.userId)"
          let url = NSURL(string: urlString)
          var request = NSURLRequest(URL: url!)
          var response: NSURLResponse?
@@ -165,42 +191,44 @@ class MatchesViewController: UIViewController, UICollectionViewDelegateFlowLayou
          var data =  NSURLConnection.sendSynchronousRequest(request, returningResponse: &response, error:nil)! as NSData
          
          if let json = NSJSONSerialization.JSONObjectWithData(data, options: NSJSONReadingOptions.MutableContainers, error: nil) as? NSDictionary {
-            if let id = json["id"] as? Int {
-               if id == p.userId {
-                  if let name = json["name"] as? String {
-                     if let age = json["age"] as? Int {
-                        if let bio = json["bio"] as? String {
-                           if let photoURL = json["photoURL"] as? String {
-                              if(bio != "" && photoURL != "") {
-                                 var currUser = User(name: name, age: age, bio: bio, profilePic: photoURL, userId: id)
-                                 self.matches.append(Match(author: currUser, post: p))
-                              }
-                              else {
-                                 var currUser = User(name: name, age: -1, bio: "No bio :(", profilePic: "http://upload.wikimedia.org/wikipedia/commons/3/31/SlothDWA.jpg", userId: id)
-                                 println("yes");
-                                 self.matches.append(Match(author: currUser, post: p))
-                              }
-                           } else {
-                              println("error: photoURL")
-                           }
-                        } else {
-                           println("error: bio")
+//            println("json...\n\(json)\n")
+            if let userIdStr = json["userId"] as? String {
+               let userId = userIdStr.toInt()!
+               if userId == p.userId {
+                  user.userId = userId
+                  if let first_name = json["first_name"] as? String {
+                     if let last_name = json["last_name"] as? String {
+                        user.setName(first_name, lastName: last_name)
+                        if let ageStr = json["age"] as? String {
+                           let age = ageStr.toInt()!
+                           user.age = age
                         }
+                        if let bio = json["bio"] as? String {
+                           if count(bio) > 0 {
+                              user.bio = bio
+                           }
+                        }
+                        if let photoURL = json["photoURL"] as? String {
+                           if count(photoURL) > 0 {
+                              user.profilePic = photoURL
+                           }
+                        }
+                        self.matches.append(Match(author: user, post: p))
+//                        user.toString()
                      } else {
-                        var currUser = User(name: name, age: -1, bio: "No bio :(", profilePic: "http://upload.wikimedia.org/wikipedia/commons/3/31/SlothDWA.jpg", userId: id)
-                        self.matches.append(Match(author: currUser, post: p))
+                        println("error: last_name")
                      }
                   } else {
-                     println("error: name")
+                     println("error: first_name")
                   }
                } else {
                   println("error: post.userId != user.userId")
                }
             } else {
-               println("error: id")
+               println("error: userId")
             }
          } else {
-            println("error: json object")
+            println("error: json object with userId: \(p.userId)")
          }
       }
    }
@@ -227,13 +255,13 @@ class MatchesViewController: UIViewController, UICollectionViewDelegateFlowLayou
       cell.profilePic.addGestureRecognizer(tap)
       cell.profilePic.image = UIImage(data: currentMatch.author.profilePicData)
       if currentMatch.author.age > 0 {
-         cell.userNameLabel.attributedText = createAttributedNameString(currentMatch.author.name, age: currentMatch.author.age)
+         cell.userNameLabel.attributedText = createAttributedNameString(currentMatch.author.fullName, age: currentMatch.author.age)
       } else {
-         cell.userNameLabel.attributedText = createAttributedNameStringNoAge(currentMatch.author.name)
+         cell.userNameLabel.attributedText = createAttributedNameStringNoAge(currentMatch.author.fullName)
       }
       cell.seekOfferLabel.text = currentMatch.post.isDriver ? "😎 Offering" : "😊 Seeking"
-      cell.locationLabel.text = "\(currentMatch.post.startingLoc) \u{2192} \(currentMatch.post.endingLoc)"
-      cell.dateTimeLabel.text = "\(currentMatch.post.date), \(currentMatch.post.time)"
+      cell.locationLabel.text = "\(currentMatch.post.start.name) \u{2192} \(currentMatch.post.end.name)"
+      cell.dateTimeLabel.text = "\(currentMatch.post.day), \(currentMatch.post.time)"
       
       currentCell = cell
       return cell
@@ -277,7 +305,7 @@ class MatchesViewController: UIViewController, UICollectionViewDelegateFlowLayou
    *
    * Q; "Where da fuq is ma current user id and name stored at????"
    * A: - in "userId"-> a global variable; initialized in viewDidLoad() starting at line 102
-   *    - in "firstName"/"lastName" -> global variables; initialized in viewDidLoad() starting at line 105/109
+   *    - in "fullName" -> a global variable; initialized in viewDidLoad() starting at line 98/100
    *
    * Q: "Where da fuq is ma user name and id for da user I vant to message????"
    * A: - in "currentMatch.author.name" and "currentMatch.author.userId"-> also a global variable;
@@ -288,14 +316,14 @@ class MatchesViewController: UIViewController, UICollectionViewDelegateFlowLayou
       var senderBtn = sender as! SenderButton
       var newConvo = PFObject(className: "Conversation")
       newConvo["user1Id"] = String(userId)
-      newConvo["user1Name"] = "\(firstName) \(lastName)"
+      newConvo["user1Name"] = "\(fullName)"
       newConvo["user2Id"] = String(currentMatch.author.userId)
-      newConvo["user2Name"] = currentMatch.author.name
+      newConvo["user2Name"] = currentMatch.author.fullName
       newConvo["lastMessage"] = nil // <------------------- Mike for some reason this line throws an exception
       senderBtn.parseConvo = newConvo
       
       performSegueWithIdentifier("presentConvo", sender: senderBtn)
-      println("Send message from \(firstName) \(lastName) with id \(userId) to \(currentMatch.author.name) with id \(currentMatch.author.userId)")
+      println("Send message from \(fullName) with id \(userId) to \(currentMatch.author.fullName) with id \(currentMatch.author.userId)")
    }
    
    override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {
@@ -308,9 +336,9 @@ class MatchesViewController: UIViewController, UICollectionViewDelegateFlowLayou
             var current = matches[idxPath.indexAtPosition(0)].author
             
             if current.age > 0 {
-               destinationVC.userNameLabel.attributedText = createAttributedNameString(current.name, age: current.age)
+               destinationVC.userNameLabel.attributedText = createAttributedNameString(current.fullName, age: current.age)
             } else {
-               destinationVC.userNameLabel.attributedText = createAttributedNameStringNoAge(current.name)
+               destinationVC.userNameLabel.attributedText = createAttributedNameStringNoAge(current.fullName)
             }
             destinationVC.userBio.text = "This is my bio. This is my bio. This is my bio. This is my bio. This is my bio. This is my bio. This is my bio. This is my bio. This is my bio. This is my bio. This is my bio. This is my bio. This is my bio. This is my bio. This is my bio. This is my bio. This is my bio. This is my bio. This is my bio. This is my bio. This is my bio. This is my bio. This is my bio. This is my bio. This is my bio. This is my bio. This is my bio. This is my bio. This is my bio. This is my bio. This is my bio. This is my bio. This is my bio. This is my bio. This is my bio. This is my bio. This is my bio. This is my bio. This is my bio. This is my bio. This is my bio. This is my bio. This is my bio. This is my bio. This is my bio. This is my bio. This is my bio."
             destinationVC.profilePic.image = currentCell?.profilePic.image

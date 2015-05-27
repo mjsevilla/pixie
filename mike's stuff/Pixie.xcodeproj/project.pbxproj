@@ -176,6 +176,7 @@
 		52414C881AAE04EF00417481 /* chat-bubble32.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "chat-bubble32.png"; sourceTree = "<group>"; };
 		52414C8A1AAE050000417481 /* star.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = star.png; sourceTree = "<group>"; };
 		52414C8C1AAE061A00417481 /* SearchToMatchesTransitionOperator.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SearchToMatchesTransitionOperator.swift; sourceTree = "<group>"; };
+		52C9684E1B15BB6E00BE193F /* MapKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = MapKit.framework; path = System/Library/Frameworks/MapKit.framework; sourceTree = SDKROOT; };
 		52CB3C671AA85C1100FAE10A /* PostRideViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PostRideViewController.swift; sourceTree = "<group>"; };
 		52CB3C691AA85C8B00FAE10A /* PostRideTransitionOperator.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PostRideTransitionOperator.swift; sourceTree = "<group>"; };
 		52CF2BD81AEE591200172812 /* EditPostViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = EditPostViewController.swift; sourceTree = "<group>"; };
@@ -594,6 +595,7 @@
 		61457A5E1AA01D83008CE64B /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				52C9684E1B15BB6E00BE193F /* MapKit.framework */,
 				52CD95631B074AB500F356E4 /* GPUImage */,
 				6120961D1B02BEE000336D1C /* JSQSystemSoundPlayer */,
 				612095941B02BDFF00336D1C /* JSQMessagesViewController */,
@@ -841,6 +843,7 @@
 					};
 					6184D2F01A9302F3006DA1E4 = {
 						CreatedOnToolsVersion = 6.1.1;
+						DevelopmentTeam = PY9957M84G;
 						TestTargetID = 6184D2DB1A9302F3006DA1E4;
 					};
 				};
@@ -1243,6 +1246,8 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				BUNDLE_LOADER = "$(TEST_HOST)";
+				CODE_SIGN_IDENTITY = "iPhone Developer";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(SDKROOT)/Developer/Library/Frameworks",
 					"$(inherited)",
@@ -1281,6 +1286,7 @@
 					"\"UIKit\"",
 				);
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				PROVISIONING_PROFILE = "";
 				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/Pixie.app/Pixie";
 			};
 			name = Debug;
@@ -1289,6 +1295,8 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				BUNDLE_LOADER = "$(TEST_HOST)";
+				CODE_SIGN_IDENTITY = "iPhone Developer";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(SDKROOT)/Developer/Library/Frameworks",
 					"$(inherited)",
@@ -1320,6 +1328,7 @@
 					"\"UIKit\"",
 				);
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				PROVISIONING_PROFILE = "";
 				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/Pixie.app/Pixie";
 			};
 			name = Release;

@@ -20,6 +20,16 @@
 //#import "AutocompleteUtilities.h"
 //#import "PlaceDetailQuery.h"
 
+#import "GLProgram.h"
+#import "GPUImageContext.h"
+#import "GPUImageFilter.h"
+#import "GPUImageFramebuffer.h"
+#import "GPUImageFramebufferCache.h"
+#import "GPUImageGaussianBlurFilter.h"
+#import "GPUImageMovieWriter.h"
+#import "GPUImageOutput.h"
+#import "GPUImagePicture.h"
+#import "GPUImageTwoPassFilter.h"
 #import "GPUImageTwoPassTextureSamplingFilter.h"
 
 #endif
