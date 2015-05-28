@@ -171,13 +171,15 @@ class PostRideViewController: UIViewController, UITextFieldDelegate, UIPickerVie
       view.addSubview(startingSearchBar)
       
       startingTableView = UITableView()
+      startingTableView.backgroundColor = UIColor.clearColor()
       startingTableView.delegate = self
       startingTableView.dataSource = self
       startingTableView.setTranslatesAutoresizingMaskIntoConstraints(false)
-      startingTableView.registerClass(UITableViewCell.self, forCellReuseIdentifier: "Cell")
+      startingTableView.registerClass(ACTableViewCell.self, forCellReuseIdentifier: "cell")
       startingTableView.hidden = true
-      startingTableView.backgroundColor = UIColor.whiteColor().colorWithAlphaComponent(0.75)
-      startingTableView.layer.cornerRadius = 5
+      startingTableView.rowHeight = UITableViewAutomaticDimension
+      startingTableView.estimatedRowHeight = 100.0
+      startingTableView.tableFooterView = UIView(frame: CGRectZero)
       view.addSubview(startingTableView)
       
       endingSearchBar.setBackgroundImage(UIImage(), forBarPosition: UIBarPosition.Top, barMetrics: UIBarMetrics.Default)
@@ -196,13 +198,15 @@ class PostRideViewController: UIViewController, UITextFieldDelegate, UIPickerVie
       view.addSubview(endingSearchBar)
       
       endingTableView = UITableView()
+      endingTableView.backgroundColor = UIColor.clearColor()
       endingTableView.delegate = self
       endingTableView.dataSource = self
       endingTableView.setTranslatesAutoresizingMaskIntoConstraints(false)
-      endingTableView.registerClass(UITableViewCell.self, forCellReuseIdentifier: "Cell")
+      endingTableView.registerClass(ACTableViewCell.self, forCellReuseIdentifier: "cell")
       endingTableView.hidden = true
-      endingTableView.backgroundColor = UIColor.whiteColor().colorWithAlphaComponent(0.75)
-      endingTableView.layer.cornerRadius = 5
+      endingTableView.rowHeight = UITableViewAutomaticDimension
+      endingTableView.estimatedRowHeight = 100.0
+      endingTableView.tableFooterView = UIView(frame: CGRectZero)
       view.addSubview(endingTableView)
    }
    
@@ -315,22 +319,21 @@ class PostRideViewController: UIViewController, UITextFieldDelegate, UIPickerVie
    
    func loadTripSectionContraints() {
       let viewsDict = ["nextButton":nextButton, "tripSectionButton":tripSectionButton, "seekOfferSegment":seekOfferSegment, "startingSearchBar":startingSearchBar, "endingSearchBar":endingSearchBar, "blurEffectView":blurEffectView, "startTable":startingTableView, "endTable":endingTableView]
-      let metrics = ["tableHeight":38*5]
       
-      self.view.addConstraints(NSLayoutConstraint.constraintsWithVisualFormat("V:|-0-[blurEffectView]-0-|", options: NSLayoutFormatOptions(0), metrics: nil, views: viewsDict))
+      self.view.addConstraints(NSLayoutConstraint.constraintsWithVisualFormat("V:|[blurEffectView]|", options: NSLayoutFormatOptions(0), metrics: nil, views: viewsDict))
       self.view.addConstraints(NSLayoutConstraint.constraintsWithVisualFormat("V:[tripSectionButton(40)]", options: NSLayoutFormatOptions(0), metrics: nil, views: viewsDict))
       self.view.addConstraints(NSLayoutConstraint.constraintsWithVisualFormat("V:[seekOfferSegment(40)]", options: NSLayoutFormatOptions(0), metrics: nil, views: viewsDict))
-      self.view.addConstraints(NSLayoutConstraint.constraintsWithVisualFormat("V:[startingSearchBar(30)]-1-[startTable(tableHeight)]", options: NSLayoutFormatOptions(0), metrics: metrics, views: viewsDict))
-      self.view.addConstraints(NSLayoutConstraint.constraintsWithVisualFormat("V:[endingSearchBar(30)]-1-[endTable(tableHeight)]", options: NSLayoutFormatOptions(0), metrics: metrics, views: viewsDict))
+      self.view.addConstraints(NSLayoutConstraint.constraintsWithVisualFormat("V:[startingSearchBar(30)]-1-[startTable]-|", options: NSLayoutFormatOptions(0), metrics: nil, views: viewsDict))
+      self.view.addConstraints(NSLayoutConstraint.constraintsWithVisualFormat("V:[endingSearchBar(30)]-1-[endTable]-|", options: NSLayoutFormatOptions(0), metrics: nil, views: viewsDict))
       
-      self.view.addConstraints(NSLayoutConstraint.constraintsWithVisualFormat("H:|-0-[blurEffectView]-0-|", options: NSLayoutFormatOptions(0), metrics: nil, views: viewsDict))
+      self.view.addConstraints(NSLayoutConstraint.constraintsWithVisualFormat("H:|[blurEffectView]|", options: NSLayoutFormatOptions(0), metrics: nil, views: viewsDict))
       self.view.addConstraints(NSLayoutConstraint.constraintsWithVisualFormat("H:|[tripSectionButton]|", options: NSLayoutFormatOptions(0), metrics: nil, views: viewsDict))
       self.view.addConstraints(NSLayoutConstraint.constraintsWithVisualFormat("H:|-10-[seekOfferSegment]-10-|", options: NSLayoutFormatOptions(0), metrics: nil, views: viewsDict))
       self.view.addConstraints(NSLayoutConstraint.constraintsWithVisualFormat("H:|-10-[startingSearchBar]-10-|", options: NSLayoutFormatOptions(0), metrics: nil, views: viewsDict))
       self.view.addConstraints(NSLayoutConstraint.constraintsWithVisualFormat("H:|-10-[endingSearchBar]-10-|", options: NSLayoutFormatOptions(0), metrics: nil, views: viewsDict))
       self.view.addConstraints(NSLayoutConstraint.constraintsWithVisualFormat("H:|-[nextButton]-|", options: NSLayoutFormatOptions(0), metrics: nil, views: viewsDict))
-      self.view.addConstraints(NSLayoutConstraint.constraintsWithVisualFormat("H:|-8-[startTable]-8-|", options: NSLayoutFormatOptions(0), metrics: nil, views: viewsDict))
-      self.view.addConstraints(NSLayoutConstraint.constraintsWithVisualFormat("H:|-8-[endTable]-8-|", options: NSLayoutFormatOptions(0), metrics: nil, views: viewsDict))
+      self.view.addConstraints(NSLayoutConstraint.constraintsWithVisualFormat("H:|[startTable]|", options: NSLayoutFormatOptions(0), metrics: nil, views: viewsDict))
+      self.view.addConstraints(NSLayoutConstraint.constraintsWithVisualFormat("H:|[endTable]|", options: NSLayoutFormatOptions(0), metrics: nil, views: viewsDict))
       
       tripSectionConstraints["Top"] = NSLayoutConstraint(item: tripSectionButton, attribute: .Top, relatedBy: .Equal, toItem: backButton, attribute: .Bottom, multiplier: 1, constant: 15.0)
       seekOfferSegmentConstraints["CenterY"] = NSLayoutConstraint(item: seekOfferSegment, attribute: .CenterY, relatedBy: .Equal, toItem: self.view, attribute: .CenterY, multiplier: 1, constant: 0)
@@ -798,7 +801,6 @@ class PostRideViewController: UIViewController, UITextFieldDelegate, UIPickerVie
       
       let currentTimeArr = tempTime!.componentsSeparatedByString(" ")
       timeLabel.attributedText = createAttributedString(currentTimeArr[0], str2: currentTimeArr.count == 1 ? "" : currentTimeArr[1], color: UIColor.whiteColor())
-      
    }
    
    func selectDate(button: UIButton) {
@@ -1091,17 +1093,15 @@ class PostRideViewController: UIViewController, UITextFieldDelegate, UIPickerVie
    }
    
    func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
-      var cell: UITableViewCell
+      var cell: ACTableViewCell
       if (activeSearchBar == startingSearchBar) {
-         cell = self.startingTableView.dequeueReusableCellWithIdentifier("Cell") as! UITableViewCell
+         cell = self.startingTableView.dequeueReusableCellWithIdentifier("cell") as! ACTableViewCell
       } else {
-         cell = self.endingTableView.dequeueReusableCellWithIdentifier("Cell") as! UITableViewCell
+         cell = self.endingTableView.dequeueReusableCellWithIdentifier("cell") as! ACTableViewCell
       }
       let place = activeSearchBar == startingSearchBar ? startingVC.places[indexPath.row] : endingVC.places[indexPath.row]
       
-      cell.textLabel?.text = place.description
-      cell.textLabel?.adjustsFontSizeToFitWidth = true
-      cell.textLabel?.font = UIFont(name: "HelveticaNeue-Thin", size: 16.0)
+      cell.placeLabel.text = place.description
       
       return cell
    }
@@ -1141,10 +1141,6 @@ class PostRideViewController: UIViewController, UITextFieldDelegate, UIPickerVie
       dispatch_async(dispatch_get_main_queue(),{
          self.selectedLocationInSearchBar()
       });
-   }
-   
-   func tableView(tableView: UITableView, heightForRowAtIndexPath indexPath: NSIndexPath) -> CGFloat {
-      return 38.0
    }
    
    

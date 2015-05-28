@@ -39,7 +39,45 @@ class MyPostsViewController: UIViewController, UITableViewDelegate, UITableViewD
       self.view.addConstraints(NSLayoutConstraint.constraintsWithVisualFormat("V:[navBar]-0-[tableView]-|", options: NSLayoutFormatOptions(0), metrics: nil, views: viewsDict))
       self.view.addConstraints(NSLayoutConstraint.constraintsWithVisualFormat("H:|[tableView]|", options: NSLayoutFormatOptions(0), metrics: nil, views: viewsDict))
       
-      loadPostsFromAPI()
+//      loadPostsFromAPI()
+      var post1 = Post()
+      post1.setDriverEnum(0)
+      post1.start = Location(name: "San Luis Obispo, CA", lat: 35.0, long: -120.0)
+      post1.end = Location(name: "San Francisco, CA", lat: 37.0, long: -127.0)
+      post1.dayFormatStr = "2015-05-28"
+      post1.day = post1.getDay(post1.dayFormatStr)
+      post1.timeFormatStr = "25:00:00"
+      post1.time = post1.getTime(post1.timeFormatStr)
+      post1.id = 1
+      post1.userId = 10
+//      post1.toString()
+      posts.append(post1)
+      
+      var post2 = Post()
+      post2.setDriverEnum(1)
+      post2.start = Location(name: "Los Angeles, CA", lat: 34.0, long: -118.0)
+      post2.end = Location(name: "Long Beach, CA", lat: 33.0, long: -117.0)
+      post2.dayFormatStr = "2015-06-01"
+      post2.day = post2.getDay(post2.dayFormatStr)
+      post2.timeFormatStr = "13:30:00"
+      post2.time = post2.getTime(post2.timeFormatStr)
+      post2.id = 2
+      post2.userId = 20
+//      post2.toString()
+      posts.append(post2)
+      
+      var post3 = Post()
+      post3.setDriverEnum(0)
+      post3.start = Location(name: "El Dorado Hills, CA", lat: 39.0, long: -121.0)
+      post3.end = Location(name: "Cupertino, CA", lat: 37.0, long: -120.0)
+      post3.dayFormatStr = "2015-06-15"
+      post3.day = post3.getDay(post3.dayFormatStr)
+      post3.timeFormatStr = "6:45:00"
+      post3.time = post3.getTime(post3.timeFormatStr)
+      post3.id = 3
+      post3.userId = 30
+//      post3.toString()
+      posts.append(post3)
       
       var rightSwipe = UISwipeGestureRecognizer(target: self, action: Selector("handleSwipes:"))
       rightSwipe.direction = .Right
@@ -48,8 +86,6 @@ class MyPostsViewController: UIViewController, UITableViewDelegate, UITableViewD
    
    override func viewDidLoad() {
       super.viewDidLoad()
-      
-      println("navBar... y: \(navBar.frame.origin.y), h: \(navBar.frame.height)")
    }
    
    func handleSwipes(sender: UISwipeGestureRecognizer) {
@@ -59,7 +95,7 @@ class MyPostsViewController: UIViewController, UITableViewDelegate, UITableViewD
    }
    
    func loadPostsFromAPI() {
-      var myUserId = "2";
+      var myUserId = "-1";
       let defaults = NSUserDefaults.standardUserDefaults()
       if let savedId = defaults.stringForKey("PixieUserId") {
          myUserId = savedId;
@@ -194,7 +230,6 @@ class MyPostsViewController: UIViewController, UITableViewDelegate, UITableViewD
       }
       else if segue.identifier == "presentEditPostView" {
          let toViewController = segue.destinationViewController as! EditPostViewController
-         
          toViewController.currentPost = posts[currentPostIndex]
          toViewController.currentPostIndex = currentPostIndex
       }

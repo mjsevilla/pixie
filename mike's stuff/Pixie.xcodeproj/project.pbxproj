@@ -14,6 +14,7 @@
 		2CC475E91AFE9D6A00864116 /* PlaceDetailQuery.m in Sources */ = {isa = PBXBuildFile; fileRef = 2CC475E41AFE9D6A00864116 /* PlaceDetailQuery.m */; };
 		520DB44C1AF20EB300986846 /* MyProfileViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 520DB44B1AF20EB300986846 /* MyProfileViewController.swift */; };
 		520E91F21B16FE4E002FB5DE /* sloth.jpg in Resources */ = {isa = PBXBuildFile; fileRef = 520E91F11B16FE4E002FB5DE /* sloth.jpg */; };
+		520E91F61B173D59002FB5DE /* ACTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 520E91F51B173D59002FB5DE /* ACTableViewCell.swift */; };
 		52274C611ABAE65300DB6DC3 /* MyPostsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 52274C5E1ABAE65300DB6DC3 /* MyPostsViewController.swift */; };
 		52274C621ABAE65300DB6DC3 /* RidePostedView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 52274C5F1ABAE65300DB6DC3 /* RidePostedView.swift */; };
 		52414C6B1AADFE7100417481 /* MatchesViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 52414C6A1AADFE7100417481 /* MatchesViewController.swift */; };
@@ -159,6 +160,7 @@
 		2CC475E41AFE9D6A00864116 /* PlaceDetailQuery.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = PlaceDetailQuery.m; path = Autocomplete/PlaceDetailQuery.m; sourceTree = "<group>"; };
 		520DB44B1AF20EB300986846 /* MyProfileViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MyProfileViewController.swift; sourceTree = "<group>"; };
 		520E91F11B16FE4E002FB5DE /* sloth.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = sloth.jpg; sourceTree = "<group>"; };
+		520E91F51B173D59002FB5DE /* ACTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ACTableViewCell.swift; sourceTree = "<group>"; };
 		52274C5E1ABAE65300DB6DC3 /* MyPostsViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MyPostsViewController.swift; sourceTree = "<group>"; };
 		52274C5F1ABAE65300DB6DC3 /* RidePostedView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RidePostedView.swift; sourceTree = "<group>"; };
 		52414C6A1AADFE7100417481 /* MatchesViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MatchesViewController.swift; sourceTree = "<group>"; };
@@ -737,7 +739,6 @@
 				52414C6A1AADFE7100417481 /* MatchesViewController.swift */,
 				617D3D841AF19A030018900D /* MessagesViewController.swift */,
 				52274C5E1ABAE65300DB6DC3 /* MyPostsViewController.swift */,
-				52FFF7D01AEDFA350054A803 /* MyPostsTableViewCell.swift */,
 				6123E3E31A9AF84400AB776F /* NavigationViewController.swift */,
 				52CB3C671AA85C1100FAE10A /* PostRideViewController.swift */,
 				611A1A341AAE814800F18B3B /* ProfileViewController.swift */,
@@ -767,11 +768,13 @@
 		61A609731AF5588900FD4854 /* Cells */ = {
 			isa = PBXGroup;
 			children = (
+				520E91F51B173D59002FB5DE /* ACTableViewCell.swift */,
 				61CF5A2F1B0D5A70000E828F /* ContactObject.swift */,
 				A7EFA9CC1ABD06DA00047024 /* CreateUser.swift */,
 				52414C701AAE002200417481 /* Match.swift */,
 				52414C6C1AADFEBD00417481 /* MatchCollectionViewCell.swift */,
 				617D3D861AF1E1460018900D /* MessageCell.swift */,
+				52FFF7D01AEDFA350054A803 /* MyPostsTableViewCell.swift */,
 				6123E3E11A9AF80A00AB776F /* NavigationCell.swift */,
 				52414C711AAE002200417481 /* Post.swift */,
 				52414C861AAE037600417481 /* Review.swift */,
@@ -942,6 +945,7 @@
 				52414C6D1AADFEBD00417481 /* MatchCollectionViewCell.swift in Sources */,
 				612095AB1B02BE3C00336D1C /* UIDevice+JSQMessages.m in Sources */,
 				61CF5A321B0D6201000E828F /* GooglePlacesAutocomplete.swift in Sources */,
+				520E91F61B173D59002FB5DE /* ACTableViewCell.swift in Sources */,
 				2CC475E61AFE9D6A00864116 /* AutocompleteQuery.m in Sources */,
 				61345B281AF57DB900DCCE42 /* ConversationViewController.swift in Sources */,
 				61DEC03D1ABA87A5004314EB /* SettingsViewController.swift in Sources */,

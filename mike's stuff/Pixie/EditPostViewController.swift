@@ -8,20 +8,30 @@
 
 import UIKit
 
-class EditPostViewController: UIViewController, UITextFieldDelegate, UIPickerViewDataSource, UIPickerViewDelegate {
+class EditPostViewController: UIViewController, UITextFieldDelegate, UIPickerViewDataSource, UIPickerViewDelegate, UITableViewDataSource, UITableViewDelegate, UISearchBarDelegate  {
+
+   var startingVC = GooglePlacesAutocompleteContainer(apiKey: "AIzaSyB6Gv8uuTNh_ZN-Hk8H3S5RARpQot_6I-k", placeType: .All)
+   var startingTableView: UITableView!
+   var endingVC = GooglePlacesAutocompleteContainer(apiKey: "AIzaSyB6Gv8uuTNh_ZN-Hk8H3S5RARpQot_6I-k", placeType: .All)
+   var endingTableView: UITableView!
+   
+   var activeSearchBar: UISearchBar!
+   @IBOutlet weak var startingSearchBar: UISearchBar!
+   @IBOutlet weak var endingSearchBar: UISearchBar!
    
    var blurEffectView : UIVisualEffectView!
    
    var seekOfferSegment: UISegmentedControl!
-   var startingLocation: UITextField!
-   var endingLocation: UITextField!
+   var startingLocTextField: UITextField!
+   var endingLocTextField: UITextField!
    
    var dateButton: UIButton!
    var datePicker: UIPickerView!
    var timeButton: UIButton!
    var timePicker: UIPickerView!
    var currentDates: [String] = []
-   var times: [String] = []
+   var hours: [String] = ["ANYTIME", "12", "1", "2", "3", "4", "5", "6", "7", "8", "9", "10", "11"]
+   var minutes: [String] = ["", "00", "05", "10", "15", "20", "25", "30", "35", "40", "45", "50", "55"]
    var ampm: [String] = ["", "AM", "PM"]
    
    var cancelButton: UIButton!
@@ -35,6 +45,7 @@ class EditPostViewController: UIViewController, UITextFieldDelegate, UIPickerVie
    var shouldSavePost: Bool!
    
    override func loadView() {
+      super.loadView()
       view = UIView(frame: UIScreen.mainScreen().bounds)
       hasSmallHeight = view.frame.height <= 480.0 ? true : false
       shouldSavePost = false
@@ -64,43 +75,71 @@ class EditPostViewController: UIViewController, UITextFieldDelegate, UIPickerVie
       seekOfferSegment.tintColor = UIColor(red:0.0, green:0.74, blue:0.82, alpha:1.0)
       view.addSubview(seekOfferSegment)
       
-      let leftPaddingViewStart = UIView(frame: CGRect(x: 0, y: 0, width: 8, height: 0))
-      leftPaddingViewStart.backgroundColor = UIColor.clearColor()
-      let leftPaddingViewEnd = UIView(frame: CGRect(x: 0, y: 0, width: 8, height: 0))
-      leftPaddingViewEnd.backgroundColor = UIColor.clearColor()
+      activeSearchBar = startingSearchBar
+ 
+      startingSearchBar.setBackgroundImage(UIImage(), forBarPosition: UIBarPosition.Top, barMetrics: UIBarMetrics.Default)
+      startingLocTextField = startingSearchBar.valueForKey("searchField") as? UITextField
+      startingLocTextField.backgroundColor = UIColor.clearColor()
+      startingLocTextField.textColor = UIColor.whiteColor()
+      startingLocTextField.font = UIFont(name: "HelveticaNeue-Thin", size: 16.0)
+      startingLocTextField.attributedPlaceholder = NSAttributedString(string:"Where are you starting from?",
+         attributes:[NSForegroundColorAttributeName: UIColor(red: 1.0, green: 1.0, blue: 1.0, alpha: 0.8), NSFontAttributeName: UIFont(name: "HelveticaNeue-Thin", size: 16.0)!])
+      startingSearchBar.layer.cornerRadius = 8.0
+      startingSearchBar.layer.masksToBounds = true
+      startingSearchBar.layer.borderColor = UIColor(red:0.0, green:0.74, blue:0.82, alpha:1.0).CGColor
+      startingSearchBar.layer.borderWidth = 1.0
+      startingSearchBar.setTranslatesAutoresizingMaskIntoConstraints(false)
+      view.addSubview(startingSearchBar)
       
-      startingLocation = UITextField()
-      startingLocation.leftView = leftPaddingViewStart
-      startingLocation.leftViewMode = .Always
-      startingLocation.backgroundColor = UIColor.clearColor()
-      startingLocation.font = UIFont(name: "HelveticaNeue-Thin", size: 16.0)
-      startingLocation.textColor = UIColor.whiteColor()
-      startingLocation.layer.cornerRadius = 8.0
-      startingLocation.layer.masksToBounds = true
-      startingLocation.layer.borderColor = UIColor(red:0.0, green:0.74, blue:0.82, alpha:1.0).CGColor
-      startingLocation.layer.borderWidth = 1.0
-      startingLocation.delegate = self
-      startingLocation.hidden = false
-      startingLocation.setTranslatesAutoresizingMaskIntoConstraints(false)
-      view.addSubview(startingLocation)
+      startingTableView = UITableView()
+      startingTableView.backgroundColor = UIColor.clearColor()
+      startingTableView.delegate = self
+      startingTableView.dataSource = self
+      startingTableView.setTranslatesAutoresizingMaskIntoConstraints(false)
+      startingTableView.registerClass(ACTableViewCell.self, forCellReuseIdentifier: "cell")
+      startingTableView.hidden = true
+      startingTableView.rowHeight = UITableViewAutomaticDimension
+      startingTableView.estimatedRowHeight = 100.0
+      startingTableView.tableFooterView = UIView(frame: CGRectZero)
+      view.addSubview(startingTableView)
       
-      endingLocation = UITextField()
-      endingLocation.leftView = leftPaddingViewEnd
-      endingLocation.leftViewMode = .Always
-      endingLocation.backgroundColor = UIColor.clearColor()
-      endingLocation.font = UIFont(name: "HelveticaNeue-Thin", size: 16.0)
-      endingLocation.textColor = UIColor.whiteColor()
-      endingLocation.layer.cornerRadius = 8.0
-      endingLocation.layer.masksToBounds = true
-      endingLocation.layer.borderColor = UIColor(red:0.0, green:0.74, blue:0.82, alpha:1.0).CGColor
-      endingLocation.layer.borderWidth = 1.0
-      endingLocation.delegate = self
-      endingLocation.hidden = false
-      endingLocation.setTranslatesAutoresizingMaskIntoConstraints(false)
-      view.addSubview(endingLocation)
+      startingVC.delegate = self
+      startingSearchBar.delegate = self
+      startingVC.searchBar = self.startingSearchBar
+      startingVC.tableView = self.startingTableView
+      
+      endingSearchBar.setBackgroundImage(UIImage(), forBarPosition: UIBarPosition.Top, barMetrics: UIBarMetrics.Default)
+      endingLocTextField = endingSearchBar.valueForKey("searchField") as? UITextField
+      endingLocTextField.backgroundColor = UIColor.clearColor()
+      endingLocTextField.textColor = UIColor.whiteColor()
+      endingLocTextField.font = UIFont(name: "HelveticaNeue-Thin", size: 16.0)
+      endingLocTextField.attributedPlaceholder = NSAttributedString(string:"Where do you want to go",
+         attributes:[NSForegroundColorAttributeName: UIColor(red: 1.0, green: 1.0, blue: 1.0, alpha: 0.8), NSFontAttributeName: UIFont(name: "HelveticaNeue-Thin", size: 16.0)!])
+      endingSearchBar.layer.cornerRadius = 8.0
+      endingSearchBar.layer.masksToBounds = true
+      endingSearchBar.layer.borderColor = UIColor(red:0.0, green:0.74, blue:0.82, alpha:1.0).CGColor
+      endingSearchBar.layer.borderWidth = 1.0
+      endingSearchBar.setTranslatesAutoresizingMaskIntoConstraints(false)
+      view.addSubview(endingSearchBar)
+      
+      endingTableView = UITableView()
+      endingTableView.backgroundColor = UIColor.clearColor()
+      endingTableView.delegate = self
+      endingTableView.dataSource = self
+      endingTableView.setTranslatesAutoresizingMaskIntoConstraints(false)
+      endingTableView.registerClass(ACTableViewCell.self, forCellReuseIdentifier: "cell")
+      endingTableView.hidden = true
+      endingTableView.rowHeight = UITableViewAutomaticDimension
+      endingTableView.estimatedRowHeight = 100.0
+      endingTableView.tableFooterView = UIView(frame: CGRectZero)
+      view.addSubview(endingTableView)
+      
+      endingVC.delegate = self
+      endingSearchBar.delegate = self
+      endingVC.searchBar = self.endingSearchBar
+      endingVC.tableView = self.endingTableView
       
       getCurrentDates()
-      getTimes()
       
       dateButton = UIButton()
       dateButton.addTarget(self, action: "selectDate:", forControlEvents: UIControlEvents.TouchUpInside)
@@ -120,7 +159,7 @@ class EditPostViewController: UIViewController, UITextFieldDelegate, UIPickerVie
       
       timeButton = UIButton()
       timeButton.addTarget(self, action: "selectTime:", forControlEvents: UIControlEvents.TouchUpInside)
-      timeButton.setAttributedTitle(NSAttributedString(string: times[0], attributes: [NSForegroundColorAttributeName: UIColor.whiteColor(), NSFontAttributeName: UIFont(name: "HelveticaNeue-Thin", size: 30.0)!]), forState: .Normal)
+      timeButton.setAttributedTitle(NSAttributedString(string: hours[0], attributes: [NSForegroundColorAttributeName: UIColor.whiteColor(), NSFontAttributeName: UIFont(name: "HelveticaNeue-Thin", size: 30.0)!]), forState: .Normal)
       timeButton.setTranslatesAutoresizingMaskIntoConstraints(false)
       view.addSubview(timeButton)
       
@@ -151,19 +190,24 @@ class EditPostViewController: UIViewController, UITextFieldDelegate, UIPickerVie
    }
    
    func loadConstraints() {
-      let viewsDict = ["blurEffectView":blurEffectView, "seekOfferSegment":seekOfferSegment, "startingLocation":startingLocation, "endingLocation":endingLocation, "dateButton":dateButton, "datePicker":datePicker, "timeButton":timeButton, "timePicker":timePicker, "cancelButton":cancelButton, "saveButton":saveButton]
+      let viewsDict = ["blurEffectView":blurEffectView, "seekOfferSegment":seekOfferSegment, "startingSearchBar":startingSearchBar, "endingSearchBar":endingSearchBar, "dateButton":dateButton, "datePicker":datePicker, "timeButton":timeButton, "timePicker":timePicker, "cancelButton":cancelButton, "saveButton":saveButton, "startTable":startingTableView, "endTable":endingTableView]
+      let metrics = ["tableHeight":38*5]
       
       self.view.addConstraints(NSLayoutConstraint.constraintsWithVisualFormat("V:|[blurEffectView]|", options: NSLayoutFormatOptions(0), metrics: nil, views: viewsDict))
+      self.view.addConstraints(NSLayoutConstraint.constraintsWithVisualFormat("V:[seekOfferSegment(40)]-20-[startingSearchBar(30)]-10-[endingSearchBar(30)]-10-[dateButton]", options: .AlignAllCenterX, metrics: nil, views: viewsDict))
+      self.view.addConstraints(NSLayoutConstraint.constraintsWithVisualFormat("V:[startingSearchBar]-1-[startTable]-[saveButton]", options: NSLayoutFormatOptions(0), metrics: metrics, views: viewsDict))
+      self.view.addConstraints(NSLayoutConstraint.constraintsWithVisualFormat("V:[endingSearchBar]-1-[endTable]-[saveButton]", options: NSLayoutFormatOptions(0), metrics: metrics, views: viewsDict))
       self.view.addConstraints(NSLayoutConstraint.constraintsWithVisualFormat("V:[datePicker(162)]", options: NSLayoutFormatOptions(0), metrics: nil, views: viewsDict))
       self.view.addConstraints(NSLayoutConstraint.constraintsWithVisualFormat("V:[timePicker(162)]", options: NSLayoutFormatOptions(0), metrics: nil, views: viewsDict))
-      self.view.addConstraints(NSLayoutConstraint.constraintsWithVisualFormat("V:[seekOfferSegment(40)]-20-[startingLocation(30)]-10-[endingLocation(30)]-10-[dateButton]", options: NSLayoutFormatOptions(0), metrics: nil, views: viewsDict))
       self.view.addConstraints(NSLayoutConstraint.constraintsWithVisualFormat("V:[cancelButton(40)]|", options: NSLayoutFormatOptions(0), metrics: nil, views: viewsDict))
       self.view.addConstraints(NSLayoutConstraint.constraintsWithVisualFormat("V:[saveButton(40)]|", options: NSLayoutFormatOptions(0), metrics: nil, views: viewsDict))
       
       self.view.addConstraints(NSLayoutConstraint.constraintsWithVisualFormat("H:|[blurEffectView]|", options: NSLayoutFormatOptions(0), metrics: nil, views: viewsDict))
       self.view.addConstraints(NSLayoutConstraint.constraintsWithVisualFormat("H:|-10-[seekOfferSegment]-10-|", options: NSLayoutFormatOptions(0), metrics: nil, views: viewsDict))
-      self.view.addConstraints(NSLayoutConstraint.constraintsWithVisualFormat("H:|-10-[startingLocation]-10-|", options: NSLayoutFormatOptions(0), metrics: nil, views: viewsDict))
-      self.view.addConstraints(NSLayoutConstraint.constraintsWithVisualFormat("H:|-10-[endingLocation]-10-|", options: NSLayoutFormatOptions(0), metrics: nil, views: viewsDict))
+      self.view.addConstraints(NSLayoutConstraint.constraintsWithVisualFormat("H:|-10-[startingSearchBar]-10-|", options: NSLayoutFormatOptions(0), metrics: nil, views: viewsDict))
+      self.view.addConstraints(NSLayoutConstraint.constraintsWithVisualFormat("H:|-10-[endingSearchBar]-10-|", options: NSLayoutFormatOptions(0), metrics: nil, views: viewsDict))
+      self.view.addConstraints(NSLayoutConstraint.constraintsWithVisualFormat("H:|[startTable]|", options: NSLayoutFormatOptions(0), metrics: nil, views: viewsDict))
+      self.view.addConstraints(NSLayoutConstraint.constraintsWithVisualFormat("H:|[endTable]|", options: NSLayoutFormatOptions(0), metrics: nil, views: viewsDict))
       self.view.addConstraints(NSLayoutConstraint.constraintsWithVisualFormat("H:|-10-[dateButton]-10-|", options: NSLayoutFormatOptions(0), metrics: nil, views: viewsDict))
       self.view.addConstraints(NSLayoutConstraint.constraintsWithVisualFormat("H:|[datePicker]|", options: NSLayoutFormatOptions(0), metrics: nil, views: viewsDict))
       self.view.addConstraints(NSLayoutConstraint.constraintsWithVisualFormat("H:|-10-[timeButton]-10-|", options: NSLayoutFormatOptions(0), metrics: nil, views: viewsDict))
@@ -181,13 +225,13 @@ class EditPostViewController: UIViewController, UITextFieldDelegate, UIPickerVie
       self.view.addConstraint(NSLayoutConstraint(item: timePicker, attribute: .Top, relatedBy: .Equal, toItem: timeButton, attribute: .Bottom, multiplier: 1, constant: 0))
       self.view.layoutIfNeeded()
       
-      //      let viewsDict = ["blurEffectView":blurEffectView, "seekOfferSegment":seekOfferSegment, "startingLocation":startingLocation, "endingLocation":endingLocation, "dateButton":dateButton, "datePicker":datePicker, "timeButton":timeButton, "timePicker":timePicker, "cancelButton":cancelButton, "saveButton":saveButton]
+      //      let viewsDict = ["blurEffectView":blurEffectView, "seekOfferSegment":seekOfferSegment, "startingSearchBar":startingSearchBar, "endingSearchBar":endingSearchBar, "dateButton":dateButton, "datePicker":datePicker, "timeButton":timeButton, "timePicker":timePicker, "cancelButton":cancelButton, "saveButton":saveButton]
       //
       //      self.view.addConstraints(NSLayoutConstraint.constraintsWithVisualFormat("V:|[blurEffectView]|", options: NSLayoutFormatOptions(0), metrics: nil, views: viewsDict))
       //      self.view.addConstraints(NSLayoutConstraint.constraintsWithVisualFormat("V:[datePicker(162)]", options: NSLayoutFormatOptions(0), metrics: nil, views: viewsDict))
       //      self.view.addConstraints(NSLayoutConstraint.constraintsWithVisualFormat("V:[timePicker(162)]", options: NSLayoutFormatOptions(0), metrics: nil, views: viewsDict))
-      //      self.view.addConstraints(NSLayoutConstraint.constraintsWithVisualFormat("V:|-70-[seekOfferSegment(40)]-[startingLocation(>=20,<=40)]-[endingLocation(==startingLocation)]-[dateButton]", options: NSLayoutFormatOptions.AlignAllCenterX | NSLayoutFormatOptions.AlignAllLeading | NSLayoutFormatOptions.AlignAllTrailing, metrics: nil, views: viewsDict))
-      //      //      self.view.addConstraints(NSLayoutConstraint.constraintsWithVisualFormat("V:|-70-[seekOfferSegment(40)]-[startingLocation(>=20,<= 40)]-10-[endingLocation(==startingLocation)]-[dateButton]-[timeButton]", options: NSLayoutFormatOptions.AlignAllCenterX | NSLayoutFormatOptions.AlignAllLeading | NSLayoutFormatOptions.AlignAllTrailing, metrics: nil, views: viewsDict))
+      //      self.view.addConstraints(NSLayoutConstraint.constraintsWithVisualFormat("V:|-70-[seekOfferSegment(40)]-[startingSearchBar(>=20,<=40)]-[endingSearchBar(==startingSearchBar)]-[dateButton]", options: NSLayoutFormatOptions.AlignAllCenterX | NSLayoutFormatOptions.AlignAllLeading | NSLayoutFormatOptions.AlignAllTrailing, metrics: nil, views: viewsDict))
+      //      //      self.view.addConstraints(NSLayoutConstraint.constraintsWithVisualFormat("V:|-70-[seekOfferSegment(40)]-[startingSearchBar(>=20,<= 40)]-10-[endingSearchBar(==startingSearchBar)]-[dateButton]-[timeButton]", options: NSLayoutFormatOptions.AlignAllCenterX | NSLayoutFormatOptions.AlignAllLeading | NSLayoutFormatOptions.AlignAllTrailing, metrics: nil, views: viewsDict))
       //
       //
       //      self.view.addConstraints(NSLayoutConstraint.constraintsWithVisualFormat("V:[cancelButton(>=40,<=80)]|", options: NSLayoutFormatOptions(0), metrics: nil, views: viewsDict))
@@ -195,8 +239,8 @@ class EditPostViewController: UIViewController, UITextFieldDelegate, UIPickerVie
       //      //
       //      self.view.addConstraints(NSLayoutConstraint.constraintsWithVisualFormat("H:|[blurEffectView]|", options: NSLayoutFormatOptions(0), metrics: nil, views: viewsDict))
       //      self.view.addConstraints(NSLayoutConstraint.constraintsWithVisualFormat("H:|-10-[seekOfferSegment]-10-|", options: NSLayoutFormatOptions(0), metrics: nil, views: viewsDict))
-      //      //      self.view.addConstraints(NSLayoutConstraint.constraintsWithVisualFormat("H:|-10-[startingLocation]-10-|", options: NSLayoutFormatOptions(0), metrics: nil, views: viewsDict))
-      //      //      self.view.addConstraints(NSLayoutConstraint.constraintsWithVisualFormat("H:|-10-[endingLocation]-10-|", options: NSLayoutFormatOptions(0), metrics: nil, views: viewsDict))
+      //      //      self.view.addConstraints(NSLayoutConstraint.constraintsWithVisualFormat("H:|-10-[startingSearchBar]-10-|", options: NSLayoutFormatOptions(0), metrics: nil, views: viewsDict))
+      //      //      self.view.addConstraints(NSLayoutConstraint.constraintsWithVisualFormat("H:|-10-[endingSearchBar]-10-|", options: NSLayoutFormatOptions(0), metrics: nil, views: viewsDict))
       //      //      self.view.addConstraints(NSLayoutConstraint.constraintsWithVisualFormat("H:|-10-[dateButton]-10-|", options: NSLayoutFormatOptions(0), metrics: nil, views: viewsDict))
       //      //      self.view.addConstraints(NSLayoutConstraint.constraintsWithVisualFormat("H:|[datePicker]|", options: NSLayoutFormatOptions(0), metrics: nil, views: viewsDict))
       //      //      self.view.addConstraints(NSLayoutConstraint.constraintsWithVisualFormat("H:|-10-[timeButton]-10-|", options: NSLayoutFormatOptions(0), metrics: nil, views: viewsDict))
@@ -219,8 +263,8 @@ class EditPostViewController: UIViewController, UITextFieldDelegate, UIPickerVie
          let time = current.time.uppercaseString
          
          seekOfferSegment.selectedSegmentIndex = current.isDriver ? 1 : 0
-         startingLocation.text = current.start.name
-         endingLocation.text = current.end.name
+         startingSearchBar.text = current.start.name
+         endingSearchBar.text = current.end.name
          
          if let dateIdx = find(currentDates, current.day) {
             let currentDateArr = currentDates[dateIdx].componentsSeparatedByString(" ")
@@ -231,25 +275,40 @@ class EditPostViewController: UIViewController, UITextFieldDelegate, UIPickerVie
          
          if time == "ANYTIME" {
             timePicker.selectRow(0, inComponent: 0, animated: false)
+            timePicker.selectRow(0, inComponent: 1, animated: false)
+            timePicker.selectRow(0, inComponent: 2, animated: false)
          }
          else {
             let timeStr = time.substringWithRange(Range<String.Index>(start: time.startIndex, end: advance(time.endIndex, -2))).stringByTrimmingCharactersInSet(NSCharacterSet.whitespaceCharacterSet())
+            let timeArr = timeStr.componentsSeparatedByString(":")
+            let hourStr = timeArr[0]
+            let minStr = timeArr[1]
             let ampmStr = time.substringWithRange(Range<String.Index>(start: advance(time.endIndex, -2), end: time.endIndex))
             
-            if let timeStrIdx = find(times, timeStr) {
-               timePicker.selectRow(timeStrIdx, inComponent: 0, animated: false)
-               
-               if ampmStr == "AM" {
-                  timePicker.selectRow(1, inComponent: 1, animated: false)
-               } else if ampmStr == "PM" {
-                  timePicker.selectRow(2, inComponent: 1, animated: false)
-               }
+            if let hourStrIdx = find(hours, hourStr) {
+               timePicker.selectRow(hourStrIdx, inComponent: 0, animated: false)
+            } else {
+               println("error: couldn't find hourStr -> \(hourStr)")
+            }
+            if let minStrIdx = find(minutes, minStr) {
+               timePicker.selectRow(minStrIdx, inComponent: 1, animated: false)
+            } else {
+               println("error: couldn't find minStr -> \(minStr)")
+            }
+            if ampmStr == "AM" {
+               timePicker.selectRow(1, inComponent: 2, animated: false)
+            } else if ampmStr == "PM" {
+               timePicker.selectRow(2, inComponent: 2, animated: false)
             }
          }
          
-         let selectedTime = timePicker.viewForRow(timePicker.selectedRowInComponent(0), forComponent: 0) as! UILabel
-         let selectedAMPM = timePicker.viewForRow(timePicker.selectedRowInComponent(1), forComponent: 1) as! UILabel
-         timeButton.setAttributedTitle(createAttributedString(selectedTime.text!, str2: selectedAMPM.text!, color: UIColor.whiteColor()), forState: .Normal)
+         var selectedTime = hours[timePicker.selectedRowInComponent(0)]
+         if timePicker.selectedRowInComponent(0) != 0 {
+            selectedTime += ":\(minutes[timePicker.selectedRowInComponent(1)])"
+         }
+         let selectedAMPM = ampm[timePicker.selectedRowInComponent(2)]
+         timeButton.setAttributedTitle(createAttributedString(selectedTime, str2: selectedAMPM, color: UIColor.whiteColor()), forState: .Normal)
+         currentPost.timeFormatStr = currentPost.getTimeFormatStr("\(selectedTime) \(selectedAMPM)")
       }
    }
    
@@ -259,7 +318,7 @@ class EditPostViewController: UIViewController, UITextFieldDelegate, UIPickerVie
       if pickerView == datePicker {
          return 1
       } else {
-         return 2
+         return 3
       }
    }
    
@@ -268,15 +327,13 @@ class EditPostViewController: UIViewController, UITextFieldDelegate, UIPickerVie
          return currentDates.count
       } else {
          if (component == 0) {
-            return times.count
-         } else  {
+            return hours.count
+         } else  if (component == 1) {
+            return minutes.count
+         } else {
             return 3
          }
       }
-   }
-   
-   func pickerView(pickerView: UIPickerView, rowHeightForComponent component: Int) -> CGFloat {
-      return 26.0
    }
    
    //MARK: Delegates
@@ -285,21 +342,52 @@ class EditPostViewController: UIViewController, UITextFieldDelegate, UIPickerVie
          let currentDateArr = currentDates[row].componentsSeparatedByString(" ")
          var date = NSMutableAttributedString(attributedString: createAttributedString(currentDateArr[0], str2: currentDateArr[1]+" "+currentDateArr[2], color: UIColor.whiteColor()))
          dateButton.setAttributedTitle(date, forState: .Normal)
+         currentPost.dayFormatStr = currentPost.getDayFormatStr(currentDates[row])
       } else {
          if component == 0 {
             if row == 0 {
                timePicker.selectRow(0, inComponent: 1, animated: true)
-            } else if timePicker.selectedRowInComponent(1) == 0 {
-               timePicker.selectRow(1, inComponent: 1, animated: true)
+               timePicker.selectRow(0, inComponent: 2, animated: true)
+            } else {
+               if timePicker.selectedRowInComponent(1) == 0 {
+                  timePicker.selectRow(1, inComponent: 1, animated: true)
+               }
+               if timePicker.selectedRowInComponent(2) == 0 {
+                  timePicker.selectRow(1, inComponent: 2, animated: true)
+               }
+            }
+         } else if component == 1 {
+            if row == 0 {
+               timePicker.selectRow(0, inComponent: 0, animated: true)
+               timePicker.selectRow(0, inComponent: 2, animated: true)
+            } else {
+               if timePicker.selectedRowInComponent(0) == 0 {
+                  timePicker.selectRow(1, inComponent: 0, animated: true)
+               }
+               if timePicker.selectedRowInComponent(2) == 0 {
+                  timePicker.selectRow(1, inComponent: 2, animated: true)
+               }
             }
          } else {
-            if timePicker.selectedRowInComponent(0) == 0 && row > 0 {
-               timePicker.selectRow(1, inComponent: 0, animated: true)
+            if row == 0 {
+               timePicker.selectRow(0, inComponent: 0, animated: true)
+               timePicker.selectRow(0, inComponent: 1, animated: true)
+            } else {
+               if timePicker.selectedRowInComponent(0) == 0 {
+                  timePicker.selectRow(1, inComponent: 0, animated: true)
+               }
+               if timePicker.selectedRowInComponent(1) == 0 {
+                  timePicker.selectRow(1, inComponent: 1, animated: true)
+               }
             }
          }
-         let selectedTime = timePicker.viewForRow(timePicker.selectedRowInComponent(0), forComponent: 0) as! UILabel
-         let selectedAMPM = timePicker.viewForRow(timePicker.selectedRowInComponent(1), forComponent: 1) as! UILabel
-         timeButton.setAttributedTitle(createAttributedString(selectedTime.text!, str2: selectedAMPM.text!, color: UIColor.whiteColor()), forState: .Normal)
+         var selectedTime = hours[timePicker.selectedRowInComponent(0)]
+         if timePicker.selectedRowInComponent(0) != 0 {
+            selectedTime += ":\(minutes[timePicker.selectedRowInComponent(1)])"
+         }
+         let selectedAMPM = ampm[timePicker.selectedRowInComponent(2)]
+         timeButton.setAttributedTitle(createAttributedString(selectedTime, str2: selectedAMPM, color: UIColor.whiteColor()), forState: .Normal)
+         currentPost.timeFormatStr = currentPost.getTimeFormatStr("\(selectedTime) \(selectedAMPM)")
       }
    }
    
@@ -321,8 +409,10 @@ class EditPostViewController: UIViewController, UITextFieldDelegate, UIPickerVie
          pickerLabel.attributedText = NSMutableAttributedString(string: currentDates[row])
       } else {
          if (component == 0) {
-            pickerLabel.text = times[row]
-         } else  {
+            pickerLabel.text = hours[row]
+         } else if (component == 1) {
+            pickerLabel.text = minutes[row]
+         } else {
             pickerLabel.text = ampm[row]
          }
       }
@@ -428,13 +518,6 @@ class EditPostViewController: UIViewController, UITextFieldDelegate, UIPickerVie
       }
    }
    
-   func getTimes() {
-      times.append("ANYTIME")
-      for i in 1 ..< 12 {
-         times.append("\(i%12):00")
-      }
-   }
-   
    func cancel(sender: UIButton) {
       self.performSegueWithIdentifier("unwindToMyPosts", sender: self)
       self.dismissViewControllerAnimated(true, completion: nil)
@@ -442,8 +525,8 @@ class EditPostViewController: UIViewController, UITextFieldDelegate, UIPickerVie
    
    func save(sender: UIButton) {
       let driverEnum = !(seekOfferSegment.selectedSegmentIndex == 0)
-      let start = startingLocation.text!
-      let end = endingLocation.text!
+      let start = startingSearchBar.text!
+      let end = endingSearchBar.text!
       let day = dateButton.titleLabel?.text
       let time = timeButton.titleLabel?.text
       
@@ -456,13 +539,14 @@ class EditPostViewController: UIViewController, UITextFieldDelegate, UIPickerVie
    
    override func viewDidLoad() {
       super.viewDidLoad()
+      self.startingVC.viewDidLoad()
+      self.endingVC.viewDidLoad()
    }
    
    override func didReceiveMemoryWarning() {
       super.didReceiveMemoryWarning()
       // Dispose of any resources that can be recreated.
    }
-   
    
    func swipeAway(recognizer: UISwipeGestureRecognizer) {
       self.performSegueWithIdentifier("unwindToMyPosts", sender: self)
@@ -478,4 +562,150 @@ class EditPostViewController: UIViewController, UITextFieldDelegate, UIPickerVie
       }
    }
    
+   // MARK: - GooglePlacesAutocompleteContainer (UITableViewDataSource / UITableViewDelegate)
+   
+   func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+      return activeSearchBar == startingSearchBar ? startingVC.places.count : endingVC.places.count
+   }
+   
+   func numberOfSectionsInTableView(tableView: UITableView) -> Int {
+      return 1
+   }
+   
+   func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
+      var cell: ACTableViewCell
+      if (activeSearchBar == startingSearchBar) {
+         cell = self.startingTableView.dequeueReusableCellWithIdentifier("cell") as! ACTableViewCell
+      } else {
+         cell = self.endingTableView.dequeueReusableCellWithIdentifier("cell") as! ACTableViewCell
+      }
+      let place = activeSearchBar == startingSearchBar ? startingVC.places[indexPath.row] : endingVC.places[indexPath.row]
+      
+      cell.placeLabel.text = place.description
+      
+      return cell
+   }
+   
+   func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
+      if (activeSearchBar == startingSearchBar) {
+         startingVC.delegate?.placeSelected?(startingVC.places[indexPath.row])
+         let place = startingVC.places[indexPath.row]
+         place.getDetails { details in
+            self.currentPost.start = Location(name: "\(details.city), \(details.state)", lat: details.latitude, long: details.longitude)
+            self.startingSearchBar.text = details.city + ", " + details.state
+         }
+         self.startingTableView.hidden = true
+         self.endingSearchBar.hidden = false
+         self.dateButton.hidden = false
+         self.timeButton.hidden = false
+      }
+      else {
+         endingVC.delegate?.placeSelected?(endingVC.places[indexPath.row])
+         let place = endingVC.places[indexPath.row]
+         place.getDetails { details in
+            self.currentPost.end = Location(name: "\(details.city), \(details.state)", lat: details.latitude, long: details.longitude)
+            self.endingSearchBar.text = details.city + ", " + details.state
+         }
+         self.endingTableView.hidden = true
+         self.dateButton.hidden = false
+         self.timeButton.hidden = false
+      }
+   }
+   
+   
+   // MARK: - GooglePlacesAutocompleteContainer (UISearchBarDelegate)
+   
+   func searchBar(searchBar: UISearchBar, textDidChange searchText: String) {
+      self.activeSearchBar = searchBar
+      if (searchText == "") {
+         if (self.activeSearchBar == startingSearchBar) {
+            startingVC.places = []
+            self.startingTableView.hidden = true
+            self.endingSearchBar.hidden = false
+            self.dateButton.hidden = false
+            self.timeButton.hidden = false
+         } else {
+            endingVC.places = []
+            self.endingTableView.hidden = true
+            self.dateButton.hidden = false
+            self.timeButton.hidden = false
+         }
+      } else {
+         getPlaces(searchText)
+      }
+   }
+   
+   /**
+   Call the Google Places API and update the view with results.
+   
+   :param: searchString The search query
+   */
+   func getPlaces(searchString: String) {
+      //      println("in getPlaces with \(searchString)")
+      
+      if (self.activeSearchBar == startingSearchBar) {
+         GooglePlacesRequestHelpers.doRequest(
+            "https://maps.googleapis.com/maps/api/place/autocomplete/json",
+            params: [
+               "input": searchString,
+               "types": startingVC.placeType.description,
+               "key": startingVC.apiKey ?? ""
+            ]
+            ) { json in
+               if let predictions = json["predictions"] as? Array<[String: AnyObject]> {
+                  self.startingVC.places = predictions.map { (prediction: [String: AnyObject]) -> Place in
+                     return Place(prediction: prediction, apiKey: self.startingVC.apiKey)
+                  }
+                  
+                  self.reloadInputViews()
+                  self.refreshUI()
+                  self.startingTableView.hidden = false
+                  self.endingSearchBar.hidden = true
+                  self.dateButton.hidden = true
+                  self.timeButton.hidden = true
+                  self.startingVC.delegate?.placesFound?(self.startingVC.places)
+               }
+         }
+      } else {
+         GooglePlacesRequestHelpers.doRequest(
+            "https://maps.googleapis.com/maps/api/place/autocomplete/json",
+            params: [
+               "input": searchString,
+               "types": endingVC.placeType.description,
+               "key": endingVC.apiKey ?? ""
+            ]
+            ) { json in
+               if let predictions = json["predictions"] as? Array<[String: AnyObject]> {
+                  self.endingVC.places = predictions.map { (prediction: [String: AnyObject]) -> Place in
+                     return Place(prediction: prediction, apiKey: self.endingVC.apiKey)
+                  }
+                  
+                  self.reloadInputViews()
+                  self.refreshUI()
+                  self.endingTableView.hidden = false
+                  self.dateButton.hidden = true
+                  self.timeButton.hidden = true
+                  self.endingVC.delegate?.placesFound?(self.endingVC.places)
+               }
+         }
+      }
+   }
+   
+   func refreshUI() {
+      dispatch_async(dispatch_get_main_queue(),{
+         if (self.activeSearchBar == self.startingSearchBar) {
+            self.startingTableView.reloadSections(NSIndexSet(index: 0), withRowAnimation: UITableViewRowAnimation.None)
+         } else {
+            self.endingTableView.reloadSections(NSIndexSet(index: 0), withRowAnimation: UITableViewRowAnimation.None)
+         }
+      });
+   }
+}
+
+extension EditPostViewController: GooglePlacesAutocompleteDelegate {
+   func placeSelected(place: Place) {
+      place.getDetails { details in
+         println(details)
+      }
+   }
 }

@@ -35,7 +35,12 @@ class Post {
    }
    
    func setDriverEnum(value: Int) {
-      driverEnum = value == 0 ? "RIDER" : "DRIVER"
+      if value == 0 {
+         self.driverEnum = "RIDER"
+      } else {
+         self.driverEnum = "DRIVER"
+         self.isDriver = true
+      }
    }
    
    func getDay(dayFormatStr: String) -> String {

@@ -1346,9 +1346,29 @@
                     <view key="view" contentMode="scaleToFill" id="ft7-cc-o7W">
                         <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <searchBar contentMode="redraw" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="IzW-ze-qsg">
+                                <rect key="frame" x="0.0" y="278" width="600" height="44"/>
+                                <color key="barTintColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
+                                <textInputTraits key="textInputTraits"/>
+                                <connections>
+                                    <outlet property="delegate" destination="G3a-lA-nWN" id="hwX-XO-PCv"/>
+                                </connections>
+                            </searchBar>
+                            <searchBar contentMode="redraw" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="LtA-AE-lzy">
+                                <rect key="frame" x="0.0" y="234" width="600" height="44"/>
+                                <color key="barTintColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
+                                <textInputTraits key="textInputTraits"/>
+                                <connections>
+                                    <outlet property="delegate" destination="G3a-lA-nWN" id="G1s-NP-b1C"/>
+                                </connections>
+                            </searchBar>
+                        </subviews>
                         <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                     </view>
                     <connections>
+                        <outlet property="endingSearchBar" destination="LtA-AE-lzy" id="kY3-ze-8OP"/>
+                        <outlet property="startingSearchBar" destination="IzW-ze-qsg" id="Q9t-lI-In4"/>
                         <segue destination="yOb-7p-W5w" kind="unwind" identifier="unwindToMyPosts" unwindAction="unwindToMyPosts:" id="c9u-GN-9Fb"/>
                     </connections>
                 </viewController>
@@ -1405,7 +1425,7 @@
         <image name="menu" width="22" height="22"/>
     </resources>
     <inferredMetricsTieBreakers>
+        <segue reference="ndH-hG-Xoc"/>
         <segue reference="3Sk-Xj-7lo"/>
-        <segue reference="di9-G9-f6D"/>
     </inferredMetricsTieBreakers>
 </document>
