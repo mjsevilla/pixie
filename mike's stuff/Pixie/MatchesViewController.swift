@@ -27,8 +27,10 @@ class MatchesViewController: UIViewController, UICollectionViewDelegateFlowLayou
    var topMargin: CGFloat!
    var userId: Int! = -1
    var fullName: String = "Error"
-   var latitude: Double!
-   var longitude: Double!
+   var startLat: Double!
+   var startLon: Double!
+   var endLat: Double!
+   var endLon: Double!
    var searchDate: String!
    var searchTime: String!
    
@@ -69,17 +71,27 @@ class MatchesViewController: UIViewController, UICollectionViewDelegateFlowLayou
       self.view.addConstraints(NSLayoutConstraint.constraintsWithVisualFormat("V:|-64-[collectionView]|", options: NSLayoutFormatOptions(0), metrics: nil, views: viewsDict))
       self.view.addConstraints(NSLayoutConstraint.constraintsWithVisualFormat("H:|[collectionView]|", options: NSLayoutFormatOptions(0), metrics: nil, views: viewsDict))
       
-      loadPostsFromAPI()
-      loadUsersFromAPI()
-      collectionView.reloadData()
-      
-//      println("lat: \(latitude), long: \(longitude)")
+//      loadPostsFromAPI()
+//      loadUsersFromAPI()
+//      collectionView.reloadData()
+//      
+//      println("startLat: \(startLat), startLon: \(startLon)")
+//      println("endLat: \(endLat), endLon: \(endLon)")
 //      println("search date: \(searchDate)")
 //      println("search time: \(searchTime)")
    }
    
    override func viewDidLoad() {
       super.viewDidLoad()
+      
+      loadPostsFromAPI()
+      loadUsersFromAPI()
+      collectionView.reloadData()
+      
+//      println("startLat: \(startLat), startLon: \(startLon)")
+//      println("endLat: \(endLat), endLon: \(endLon)")
+//      println("search date: \(searchDate)")
+//      println("search time: \(searchTime)")
       
       var swipeToSearchView = UISwipeGestureRecognizer(target: self, action: "handleSwipes:")
       swipeToSearchView.direction = .Down
@@ -101,12 +113,12 @@ class MatchesViewController: UIViewController, UICollectionViewDelegateFlowLayou
          }
       }
       
-      println("MatchesViewController found userId: \(userId), name: \(fullName)")
+//      println("MatchesViewController found userId: \(userId), name: \(fullName)")
    }
    
    func loadPostsFromAPI() {
-      var urlString = "http://ec2-54-69-253-12.us-west-2.compute.amazonaws.com/pixie/posts?lat=\(latitude)&lon=\(longitude)&day=\(searchDate)&time=\(searchTime)"
-      println("urlString: \(urlString)")
+      var urlString = "http://ec2-54-69-253-12.us-west-2.compute.amazonaws.com/pixie/posts?startLat=\(startLat)&startLon=\(startLon)&endLat=\(endLat)&endLon=\(endLon)&day=\(searchDate)&time=\(searchTime)"
+//      println("urlString: \(urlString)")
       let url = NSURL(string: urlString)
       var request = NSURLRequest(URL: url!)
       var response: NSURLResponse?
@@ -114,7 +126,7 @@ class MatchesViewController: UIViewController, UICollectionViewDelegateFlowLayou
       var data =  NSURLConnection.sendSynchronousRequest(request, returningResponse: &response, error:nil)! as NSData
       
       if let json = NSJSONSerialization.JSONObjectWithData(data, options: NSJSONReadingOptions.MutableContainers, error: nil) as? NSDictionary {
-//         println("loadPostsFromAPI json...\n\(json)")
+         println("loadPostsFromAPI json...\n\(json)")
          if let items = json["posts"] as? NSArray {
             for item in items {
                if let start_name = item["start_name"] as? String {
@@ -210,7 +222,7 @@ class MatchesViewController: UIViewController, UICollectionViewDelegateFlowLayou
                         }
                         if let photoURL = json["photoURL"] as? String {
                            if count(photoURL) > 0 {
-                              user.profilePic = photoURL
+                              user.setProfPic(photoURL)
                            }
                         }
                         self.matches.append(Match(author: user, post: p))
@@ -253,7 +265,7 @@ class MatchesViewController: UIViewController, UICollectionViewDelegateFlowLayou
       cell.messageIcon.addTarget(self, action: "sendMessage:", forControlEvents: UIControlEvents.TouchUpInside)
       
       cell.profilePic.addGestureRecognizer(tap)
-      cell.profilePic.image = UIImage(data: currentMatch.author.profilePicData)
+      cell.profilePic.image = currentMatch.author.useDefaultImage ? currentMatch.author.defaultImage : UIImage(data: currentMatch.author.profilePicData)
       if currentMatch.author.age > 0 {
          cell.userNameLabel.attributedText = createAttributedNameString(currentMatch.author.fullName, age: currentMatch.author.age)
       } else {

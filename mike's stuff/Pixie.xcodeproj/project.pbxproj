@@ -13,6 +13,7 @@
 		2CC475E81AFE9D6A00864116 /* AutocompleteViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 2CC475E21AFE9D6A00864116 /* AutocompleteViewController.m */; };
 		2CC475E91AFE9D6A00864116 /* PlaceDetailQuery.m in Sources */ = {isa = PBXBuildFile; fileRef = 2CC475E41AFE9D6A00864116 /* PlaceDetailQuery.m */; };
 		520DB44C1AF20EB300986846 /* MyProfileViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 520DB44B1AF20EB300986846 /* MyProfileViewController.swift */; };
+		520E91F21B16FE4E002FB5DE /* sloth.jpg in Resources */ = {isa = PBXBuildFile; fileRef = 520E91F11B16FE4E002FB5DE /* sloth.jpg */; };
 		52274C611ABAE65300DB6DC3 /* MyPostsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 52274C5E1ABAE65300DB6DC3 /* MyPostsViewController.swift */; };
 		52274C621ABAE65300DB6DC3 /* RidePostedView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 52274C5F1ABAE65300DB6DC3 /* RidePostedView.swift */; };
 		52414C6B1AADFE7100417481 /* MatchesViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 52414C6A1AADFE7100417481 /* MatchesViewController.swift */; };
@@ -157,6 +158,7 @@
 		2CC475E31AFE9D6A00864116 /* PlaceDetailQuery.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = PlaceDetailQuery.h; path = Autocomplete/PlaceDetailQuery.h; sourceTree = "<group>"; };
 		2CC475E41AFE9D6A00864116 /* PlaceDetailQuery.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = PlaceDetailQuery.m; path = Autocomplete/PlaceDetailQuery.m; sourceTree = "<group>"; };
 		520DB44B1AF20EB300986846 /* MyProfileViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MyProfileViewController.swift; sourceTree = "<group>"; };
+		520E91F11B16FE4E002FB5DE /* sloth.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = sloth.jpg; sourceTree = "<group>"; };
 		52274C5E1ABAE65300DB6DC3 /* MyPostsViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MyPostsViewController.swift; sourceTree = "<group>"; };
 		52274C5F1ABAE65300DB6DC3 /* RidePostedView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RidePostedView.swift; sourceTree = "<group>"; };
 		52414C6A1AADFE7100417481 /* MatchesViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MatchesViewController.swift; sourceTree = "<group>"; };
@@ -712,6 +714,7 @@
 		619B9AF11B006CAC00AA299F /* Images */ = {
 			isa = PBXGroup;
 			children = (
+				520E91F11B16FE4E002FB5DE /* sloth.jpg */,
 				52414C6F1AAE002200417481 /* green-car.png */,
 				52414C721AAE002200417481 /* red-car.png */,
 				52414C741AAE002200417481 /* yellow-car.png */,
@@ -878,6 +881,7 @@
 				6120961C1B02BECD00336D1C /* JSQMessagesTypingIndicatorFooterView.xib in Resources */,
 				612095B61B02BE5400336D1C /* JSQMessagesViewController.xib in Resources */,
 				612096171B02BECD00336D1C /* JSQMessagesLoadEarlierHeaderView.xib in Resources */,
+				520E91F21B16FE4E002FB5DE /* sloth.jpg in Resources */,
 				6184D2E71A9302F3006DA1E4 /* Main.storyboard in Resources */,
 				52414C891AAE04EF00417481 /* chat-bubble32.png in Resources */,
 				61EAACCA1A9C1ABD00D84246 /* Images.xcassets in Resources */,

@@ -24,8 +24,10 @@ class SearchViewController: AutocompleteViewController, CLLocationManagerDelegat
     let matchesTransitionOperator = SearchToMatchesTransitionOperator()
     var moviePlayer: MPMoviePlayerController?
     let locationManager = CLLocationManager()
-    var latitude: Double!
-    var longitude: Double!
+    var startLat: Double!
+    var startLon: Double!
+    var endLat: Double!
+    var endLon: Double!
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -157,6 +159,8 @@ class SearchViewController: AutocompleteViewController, CLLocationManagerDelegat
 			startingVC.delegate?.placeSelected?(startingVC.places[indexPath.row])
 			let place = startingVC.places[indexPath.row]
 			place.getDetails { details in
+            self.endLat = details.latitude
+            self.endLon = details.longitude
 				self.setTripInfo(self.searchBar, city: details.city, state: details.state)
 			}
 			startingTableView.hidden = true
@@ -240,8 +244,10 @@ class SearchViewController: AutocompleteViewController, CLLocationManagerDelegat
             if let destinationVC = segue.destinationViewController as? MatchesViewController {
                 destinationVC.transitioningDelegate = self.matchesTransitionOperator
                 destinationVC.modalPresentationStyle = UIModalPresentationStyle.Custom
-                destinationVC.latitude = self.latitude
-                destinationVC.longitude = self.longitude
+                destinationVC.startLat = self.startLat
+                destinationVC.startLon = self.startLon
+                destinationVC.endLat = self.endLat
+                destinationVC.endLon = self.endLon
                 destinationVC.searchDate = getCurrentDate()
                 destinationVC.searchTime = "25:00:00"
             }
@@ -277,8 +283,8 @@ class SearchViewController: AutocompleteViewController, CLLocationManagerDelegat
     
     func setLocationInfo(placemark: CLPlacemark) {
         self.locationManager.stopUpdatingLocation()
-        self.latitude = placemark.location.coordinate.latitude
-        self.longitude = placemark.location.coordinate.longitude
+        self.startLat = placemark.location.coordinate.latitude
+        self.startLon = placemark.location.coordinate.longitude
 //        println("Current location: \(placemark.locality), \(placemark.administrativeArea), \(placemark.country)")
 //        println("latitude: \(latitude), longitude: \(longitude)")
     }

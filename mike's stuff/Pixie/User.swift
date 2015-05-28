@@ -17,11 +17,15 @@ class User {
    var profilePic: String!
    var profilePicData: NSData!
    var userId: Int!
+   var useDefaultImage: Bool = true
+   var defaultImage: UIImage = UIImage(named: "sloth.jpg")!
    
    init() {
       self.age = -1
       self.bio = "No bio :("
-      setProfPic("http://upload.wikimedia.org/wikipedia/commons/3/31/SlothDWA.jpg")
+//      self.useDefaultImage = true
+//      self.defaultImage = UIImage(named: "sloth.jpg")!
+//      setProfPic("http://upload.wikimedia.org/wikipedia/commons/3/31/SlothDWA.jpg")
    }
    
    init(firstName: String, lastName: String, age: Int, bio: String, profilePic: String, userId: Int) {
@@ -39,6 +43,7 @@ class User {
    }
    
    func setProfPic(profilePic: String) {
+      self.useDefaultImage = false
       self.profilePic = profilePic
       let url = NSURL(string: profilePic)
       self.profilePicData = NSData(contentsOfURL: url!)
