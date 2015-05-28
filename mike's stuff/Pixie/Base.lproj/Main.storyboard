@@ -479,8 +479,8 @@
                         <color key="backgroundColor" red="0.98039215686274506" green="0.98039215686274506" blue="0.98039215686274506" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                     </view>
                     <connections>
-                        <outlet property="endingLocation" destination="mzt-oV-3Yd" id="W3B-xj-UIX"/>
-                        <outlet property="startingLocation" destination="AwC-bw-W2S" id="JKJ-Iz-Iji"/>
+                        <outlet property="endingSearchBar" destination="mzt-oV-3Yd" id="xka-pP-ZfT"/>
+                        <outlet property="startingSearchBar" destination="AwC-bw-W2S" id="tJh-Am-iVE"/>
                         <segue destination="keP-pR-kfn" kind="unwind" identifier="unwindToSearchView" unwindAction="unwindToSearchView:" id="SS8-b3-mu4"/>
                     </connections>
                 </viewController>
