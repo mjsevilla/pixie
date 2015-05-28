@@ -299,7 +299,7 @@ class GooglePlacesRequestHelpers {
    }
    
    internal class func doRequest(url: String, params: [String: String], success: NSDictionary -> ()) {
-      println("beginning of doRequest")
+//      println("beginning of doRequest")
       var request = NSMutableURLRequest(
          URL: NSURL(string: "\(url)?\(query(params))")!
       )
@@ -311,7 +311,7 @@ class GooglePlacesRequestHelpers {
       }
       
       task.resume()
-      println("end of doRequest")
+//      println("end of doRequest")
    }
    
    private class func handleResponse(data: NSData!, response: NSHTTPURLResponse!, error: NSError!, success: NSDictionary -> ()) {

@@ -10,6 +10,7 @@ import Foundation
 
 class Post {
    var isDriver: Bool = false
+   var driverEnum: String!
    var start: Location!
    var end: Location!
    var day: String!
@@ -18,6 +19,8 @@ class Post {
    var timeFormatStr: String!
    var id: Int!
    var userId: Int!
+   
+   init() {}
    
    init(isDriver: Bool, start: Location, end: Location, day: String, time: String, id: Int, userId: Int) {
       self.isDriver = isDriver
@@ -31,16 +34,15 @@ class Post {
       self.userId = userId;
    }
    
+   func setDriverEnum(value: Int) {
+      driverEnum = value == 0 ? "RIDER" : "DRIVER"
+   }
+   
    func getDay(dayFormatStr: String) -> String {
       var dateFormatter = NSDateFormatter()
       dateFormatter.dateFormat = "yyyy-MM-dd"
       var dayDate = dateFormatter.dateFromString(dayFormatStr)
       dateFormatter.dateFormat = "EEEE, MMMM d"
-      
-//      let temp = dateFormatter.stringFromDate(dayDate!)
-//      println("getDay(\(dayFormatStr)) -> \(temp)")
-//      println("getDayFormatStr(\(temp)) -> \(getDayFormatStr(temp))")
-      
       return dateFormatter.stringFromDate(dayDate!)
    }
    
@@ -52,9 +54,9 @@ class Post {
       var currentYear = dateFormatter.stringFromDate(NSDate()).toInt()!
       
       let calendar = NSCalendar.currentCalendar()
-      let components = calendar.component(NSCalendarUnit.CalendarUnitMonth, fromDate: dayDate!)
-      let componentsNow = calendar.component(NSCalendarUnit.CalendarUnitMonth, fromDate: NSDate())
-      if componentsNow < components {
+      let paramMonth = calendar.component(NSCalendarUnit.CalendarUnitMonth, fromDate: dayDate!)
+      let currentMonth = calendar.component(NSCalendarUnit.CalendarUnitMonth, fromDate: NSDate())
+      if currentMonth > paramMonth {
          currentYear += 1
       }
       
@@ -73,33 +75,50 @@ class Post {
       dateFormatter.dateFormat = "HH:mm:ss"
       var timeDate = dateFormatter.dateFromString(timeFormatStr)
       dateFormatter.dateFormat = "h:mm a"
-      
-//      let temp = dateFormatter.stringFromDate(timeDate!)
-//      println("getTime(\(timeFormatStr)) -> \(temp)")
-//      println("getTimeFormatStr(\(temp)) -> \(getTimeFormatStr(temp))\n")
-      
       return dateFormatter.stringFromDate(timeDate!)
    }
    
    func getTimeFormatStr(time: String) -> String {
-      if timeFormatStr == "ANYTIME" {
+      let newTime = time.stringByTrimmingCharactersInSet(NSCharacterSet.whitespaceCharacterSet())
+      if newTime == "ANYTIME" {
          return "25:00:00"
       }
       
       var dateFormatter = NSDateFormatter()
       dateFormatter.dateFormat = "h:mm a"
-      var timeDate = dateFormatter.dateFromString(time)
+      var timeDate = dateFormatter.dateFromString(newTime)
       dateFormatter.dateFormat = "HH:mm:ss"
       return dateFormatter.stringFromDate(timeDate!)
-
    }
    
    func toString() {
-      println("userId: \(userId), postId: \(id)")
-      println("isDriver: \(isDriver)")
-      println("start: \(start.toString())")
-      println("end: \(end.toString())")
-      println("date: \(day), time: \(time)")
+      if let myUserId = self.userId {
+         println("userId: \(myUserId)")
+      }
+      if let myPostId = self.id {
+         println("postId: \(myPostId)")
+      }
+      if let myDriverEnum = self.driverEnum {
+         println("driverEnum: \(myDriverEnum)")
+      }
+      if let myStart = self.start {
+         println("start: \(myStart.toString())")
+      }
+      if let myEnd = self.end {
+         println("end: \(myEnd.toString())")
+      }
+      if let myDay = self.day {
+         println("day: \(myDay)")
+      }
+      if let myDayFormatStr = self.dayFormatStr {
+         println("dayFormatStr: \(myDayFormatStr)")
+      }
+      if let myTime = self.time {
+         println("time: \(myTime)")
+      }
+      if let myTimeFormatStr = self.timeFormatStr {
+         println("timeFormatStr: \(myTimeFormatStr)")
+      }
    }
 }
 

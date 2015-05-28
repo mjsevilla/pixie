@@ -10,7 +10,7 @@ import UIKit
 
 class PostRideViewController: UIViewController, UITextFieldDelegate, UIPickerViewDataSource, UIPickerViewDelegate, UITableViewDataSource, UITableViewDelegate, UISearchBarDelegate {
    
-   var post: Post!
+   var post: Post = Post()
    
    var startingVC = GooglePlacesAutocompleteContainer(apiKey: "AIzaSyB6Gv8uuTNh_ZN-Hk8H3S5RARpQot_6I-k", placeType: .All)
    var startingTableView: UITableView!
@@ -27,6 +27,7 @@ class PostRideViewController: UIViewController, UITextFieldDelegate, UIPickerVie
    @IBOutlet weak var endingLocation: UISearchBar!
    var startingLocTextField: UITextField!
    var endingLocTextField: UITextField!
+   var edgeInsets = UIEdgeInsets(top: 0, left: 16, bottom: 0, right: 16)
    
    var dateTimeSectionButton: UIButton!
    var dateButton: UIButton!
@@ -34,7 +35,8 @@ class PostRideViewController: UIViewController, UITextFieldDelegate, UIPickerVie
    var timeButton: UIButton!
    var timePicker: UIPickerView!
    var currentDates: [String] = []
-   var times: [String] = []
+   var hours: [String] = ["ANYTIME", "12", "1", "2", "3", "4", "5", "6", "7", "8", "9", "10", "11"]
+   var minutes: [String] = ["", "00", "05", "10", "15", "20", "25", "30", "35", "40", "45", "50", "55"]
    var ampm: [String] = ["", "AM", "PM"]
    
    var reviewSectionButton: UIButton!
@@ -77,7 +79,7 @@ class PostRideViewController: UIViewController, UITextFieldDelegate, UIPickerVie
       self.view.addSubview(blurEffectView)
       
       activeSearchBar = startingLocation
-      println("just set the fucking search bar fuck")
+      //      println("just set the fucking search bar fuck")
       
       loadTripSectionView()
       loadDateTimeSectionView()
@@ -134,6 +136,7 @@ class PostRideViewController: UIViewController, UITextFieldDelegate, UIPickerVie
       tripSectionButton.titleLabel?.numberOfLines = 1
       tripSectionButton.titleLabel?.adjustsFontSizeToFitWidth = true
       tripSectionButton.titleLabel?.lineBreakMode = .ByClipping;
+      tripSectionButton.titleEdgeInsets = edgeInsets
       tripSectionButton.setTranslatesAutoresizingMaskIntoConstraints(false)
       view.addSubview(tripSectionButton)
       
@@ -200,7 +203,8 @@ class PostRideViewController: UIViewController, UITextFieldDelegate, UIPickerVie
    
    func loadDateTimeSectionView() {
       getCurrentDates()
-      getTimes()
+      post.dayFormatStr = post.getDayFormatStr("Friday, January 1")
+      post.timeFormatStr = post.getTimeFormatStr("ANYTIME")
       
       dateTimeSectionButton = UIButton()
       dateTimeSectionButton.backgroundColor = UIColor(red:0.0, green:0.74, blue:0.82, alpha:1.0)
@@ -210,6 +214,7 @@ class PostRideViewController: UIViewController, UITextFieldDelegate, UIPickerVie
       dateTimeSectionButton.titleLabel?.adjustsFontSizeToFitWidth = true
       dateTimeSectionButton.titleLabel?.lineBreakMode = .ByClipping;
       dateTimeSectionButton.hidden = true
+      dateTimeSectionButton.titleEdgeInsets = edgeInsets
       dateTimeSectionButton.setTranslatesAutoresizingMaskIntoConstraints(false)
       view.addSubview(dateTimeSectionButton)
       
@@ -232,7 +237,7 @@ class PostRideViewController: UIViewController, UITextFieldDelegate, UIPickerVie
       
       timeButton = UIButton()
       timeButton.addTarget(self, action: "selectTime:", forControlEvents: UIControlEvents.TouchUpInside)
-      timeButton.setAttributedTitle(NSAttributedString(string: times[0], attributes: [NSForegroundColorAttributeName: UIColor.whiteColor(), NSFontAttributeName: UIFont(name: "HelveticaNeue-Thin", size: 30.0)!]), forState: .Normal)
+      timeButton.setAttributedTitle(NSAttributedString(string: hours[0], attributes: [NSForegroundColorAttributeName: UIColor.whiteColor(), NSFontAttributeName: UIFont(name: "HelveticaNeue-Thin", size: 30.0)!]), forState: .Normal)
       timeButton.setTranslatesAutoresizingMaskIntoConstraints(false)
       timeButton.hidden = true
       view.addSubview(timeButton)
@@ -266,7 +271,7 @@ class PostRideViewController: UIViewController, UITextFieldDelegate, UIPickerVie
       tripLabel = UILabel()
       tripLabel.backgroundColor = UIColor.clearColor()
       tripLabel.textColor = UIColor(red: 1.0, green: 1.0, blue: 1.0, alpha: 1.0)
-      tripLabel.font = UIFont(name: "HelveticaNeue-UltraLight", size: 24.0)
+      tripLabel.font = UIFont(name: "HelveticaNeue-UltraLight", size: 30.0)
       tripLabel.textAlignment = .Center
       tripLabel.numberOfLines = 1
       tripLabel.adjustsFontSizeToFitWidth = true
@@ -377,10 +382,10 @@ class PostRideViewController: UIViewController, UITextFieldDelegate, UIPickerVie
       self.view.addConstraints(NSLayoutConstraint.constraintsWithVisualFormat("V:|[ridePostedView]|", options: NSLayoutFormatOptions(0), metrics: nil, views: viewsDict))
       
       self.view.addConstraints(NSLayoutConstraint.constraintsWithVisualFormat("H:|[reviewSectionButton]|", options: NSLayoutFormatOptions(0), metrics: nil, views: viewsDict))
-      self.view.addConstraints(NSLayoutConstraint.constraintsWithVisualFormat("H:|-10-[seekOfferLabel]-10-|", options: NSLayoutFormatOptions(0), metrics: nil, views: viewsDict))
-      self.view.addConstraints(NSLayoutConstraint.constraintsWithVisualFormat("H:|-10-[tripLabel]-10-|", options: NSLayoutFormatOptions(0), metrics: nil, views: viewsDict))
-      self.view.addConstraints(NSLayoutConstraint.constraintsWithVisualFormat("H:|-10-[dateLabel]-10-|", options: NSLayoutFormatOptions(0), metrics: nil, views: viewsDict))
-      self.view.addConstraints(NSLayoutConstraint.constraintsWithVisualFormat("H:|-10-[timeLabel]-10-|", options: NSLayoutFormatOptions(0), metrics: nil, views: viewsDict))
+      self.view.addConstraints(NSLayoutConstraint.constraintsWithVisualFormat("H:|-16-[seekOfferLabel]-16-|", options: NSLayoutFormatOptions(0), metrics: nil, views: viewsDict))
+      self.view.addConstraints(NSLayoutConstraint.constraintsWithVisualFormat("H:|-16-[tripLabel]-16-|", options: NSLayoutFormatOptions(0), metrics: nil, views: viewsDict))
+      self.view.addConstraints(NSLayoutConstraint.constraintsWithVisualFormat("H:|-16-[dateLabel]-16-|", options: NSLayoutFormatOptions(0), metrics: nil, views: viewsDict))
+      self.view.addConstraints(NSLayoutConstraint.constraintsWithVisualFormat("H:|-16-[timeLabel]-16-|", options: NSLayoutFormatOptions(0), metrics: nil, views: viewsDict))
       self.view.addConstraints(NSLayoutConstraint.constraintsWithVisualFormat("H:|[postRideButton]|", options: NSLayoutFormatOptions(0), metrics: nil, views: viewsDict))
       self.view.addConstraints(NSLayoutConstraint.constraintsWithVisualFormat("H:|[ridePostedView]|", options: NSLayoutFormatOptions(0), metrics: nil, views: viewsDict))
       
@@ -403,6 +408,12 @@ class PostRideViewController: UIViewController, UITextFieldDelegate, UIPickerVie
    override func viewDidLoad() {
       super.viewDidLoad()
       self.startingVC.viewDidLoad()
+      
+      let defaults = NSUserDefaults.standardUserDefaults()
+      if let savedId = defaults.stringForKey("PixieUserId") {
+         post.userId = savedId.toInt()
+         println("PixieUserId: \(savedId.toInt()!)")
+      }
    }
    
    override func didReceiveMemoryWarning() {
@@ -427,6 +438,7 @@ class PostRideViewController: UIViewController, UITextFieldDelegate, UIPickerVie
       }
       let str = seekOfferSegment.selectedSegmentIndex == 0 ? "SEEKING" : "OFFERING"
       seekOfferLabel.attributedText = NSAttributedString(string: "\u{2015} "+str+" \u{2015}", attributes: [NSFontAttributeName:UIFont(name: "HelveticaNeue-UltraLight", size: 30.0)!,NSForegroundColorAttributeName: UIColor(red: 1.0, green: 1.0, blue: 1.0, alpha: 1.0)])
+      post.setDriverEnum(seekOfferSegment.selectedSegmentIndex)
    }
    
    func selectedLocationInSearchBar() {
@@ -886,20 +898,13 @@ class PostRideViewController: UIViewController, UITextFieldDelegate, UIPickerVie
       }
    }
    
-   func getTimes() {
-      times.append("ANYTIME")
-      for i in 1 ..< 12 {
-         times.append("\(i%12):00")
-      }
-   }
-   
    //MARK: - Delegates and data sources
    //MARK: Data Sources
    func numberOfComponentsInPickerView(pickerView: UIPickerView) -> Int {
       if pickerView == datePicker {
          return 1
       } else {
-         return 2
+         return 3
       }
    }
    
@@ -908,8 +913,10 @@ class PostRideViewController: UIViewController, UITextFieldDelegate, UIPickerVie
          return currentDates.count
       } else {
          if (component == 0) {
-            return times.count
-         } else  {
+            return hours.count
+         } else  if (component == 1) {
+            return minutes.count
+         } else {
             return 3
          }
       }
@@ -921,21 +928,52 @@ class PostRideViewController: UIViewController, UITextFieldDelegate, UIPickerVie
          let currentDateArr = currentDates[row].componentsSeparatedByString(" ")
          var date = NSMutableAttributedString(attributedString: createAttributedString(currentDateArr[0], str2: currentDateArr[1]+" "+currentDateArr[2], color: UIColor.whiteColor()))
          dateButton.setAttributedTitle(date, forState: .Normal)
+         post.dayFormatStr = post.getDayFormatStr(currentDates[row])
       } else {
          if component == 0 {
             if row == 0 {
                timePicker.selectRow(0, inComponent: 1, animated: true)
-            } else if timePicker.selectedRowInComponent(1) == 0 {
-               timePicker.selectRow(1, inComponent: 1, animated: true)
+               timePicker.selectRow(0, inComponent: 2, animated: true)
+            } else {
+               if timePicker.selectedRowInComponent(1) == 0 {
+                  timePicker.selectRow(1, inComponent: 1, animated: true)
+               }
+               if timePicker.selectedRowInComponent(2) == 0 {
+                  timePicker.selectRow(1, inComponent: 2, animated: true)
+               }
+            }
+         } else if component == 1 {
+            if row == 0 {
+               timePicker.selectRow(0, inComponent: 0, animated: true)
+               timePicker.selectRow(0, inComponent: 2, animated: true)
+            } else {
+               if timePicker.selectedRowInComponent(0) == 0 {
+                  timePicker.selectRow(1, inComponent: 0, animated: true)
+               }
+               if timePicker.selectedRowInComponent(2) == 0 {
+                  timePicker.selectRow(1, inComponent: 2, animated: true)
+               }
             }
          } else {
-            if timePicker.selectedRowInComponent(0) == 0 && row > 0 {
-               timePicker.selectRow(1, inComponent: 0, animated: true)
+            if row == 0 {
+               timePicker.selectRow(0, inComponent: 0, animated: true)
+               timePicker.selectRow(0, inComponent: 1, animated: true)
+            } else {
+               if timePicker.selectedRowInComponent(0) == 0 {
+                  timePicker.selectRow(1, inComponent: 0, animated: true)
+               }
+               if timePicker.selectedRowInComponent(1) == 0 {
+                  timePicker.selectRow(1, inComponent: 1, animated: true)
+               }
             }
          }
-         let selectedTime = timePicker.viewForRow(timePicker.selectedRowInComponent(0), forComponent: 0) as! UILabel
-         let selectedAMPM = timePicker.viewForRow(timePicker.selectedRowInComponent(1), forComponent: 1) as! UILabel
-         timeButton.setAttributedTitle(createAttributedString(selectedTime.text!, str2: selectedAMPM.text!, color: UIColor.whiteColor()), forState: .Normal)
+         var selectedTime = hours[timePicker.selectedRowInComponent(0)]
+         if timePicker.selectedRowInComponent(0) != 0 {
+            selectedTime += ":\(minutes[timePicker.selectedRowInComponent(1)])"
+         }
+         let selectedAMPM = ampm[timePicker.selectedRowInComponent(2)]
+         timeButton.setAttributedTitle(createAttributedString(selectedTime, str2: selectedAMPM, color: UIColor.whiteColor()), forState: .Normal)
+         post.timeFormatStr = post.getTimeFormatStr("\(selectedTime) \(selectedAMPM)")
       }
       setDateTimeString()
    }
@@ -958,8 +996,10 @@ class PostRideViewController: UIViewController, UITextFieldDelegate, UIPickerVie
          pickerLabel.attributedText = NSMutableAttributedString(string: currentDates[row])
       } else {
          if (component == 0) {
-            pickerLabel.text = times[row]
-         } else  {
+            pickerLabel.text = hours[row]
+         } else if (component == 1) {
+            pickerLabel.text = minutes[row]
+         } else {
             pickerLabel.text = ampm[row]
          }
       }
@@ -976,26 +1016,16 @@ class PostRideViewController: UIViewController, UITextFieldDelegate, UIPickerVie
    }
    
    func postRide(sender: UIButton) {
-      let type = seekOfferSegment.selectedSegmentIndex == 0 ? "Seeking" : "Offering"
-      let start = startingLocation.text!
-      let end = endingLocation.text!
-      let day = dateLabel.text!
-      let time = timeLabel.text!
-      let driverEnum = seekOfferSegment.selectedSegmentIndex == 0 ? "rider" : "driver"
-      
       let urlString = "http://ec2-54-69-253-12.us-west-2.compute.amazonaws.com/pixie/posts";
       var request = NSMutableURLRequest(URL: NSURL(string: urlString)!);
       var session = NSURLSession.sharedSession();
       request.HTTPMethod = "POST"
-      
-      var userId = "2";
       var err: NSError?
-      let defaults = NSUserDefaults.standardUserDefaults()
-      if let savedId = defaults.stringForKey("PixieUserId") {
-         userId = savedId;
-         println("saved id");
-      }
-      var reqText = ["day": day, "driverEnum": driverEnum, "end": end, "userId": userId, "start": start, "time": time]
+      
+      var reqText = ["start_name": post.start.name, "start_lat": post.start.latitude, "start_lon": post.start.longitude, "end_name": post.end.name, "end_lat": post.end.latitude, "end_lon": post.end.longitude, "day": post.dayFormatStr, "driver_enum": post.driverEnum, "time": post.timeFormatStr, "userId": post.userId]
+      
+      println("\nreqText...\(reqText)")
+      return
       
       request.HTTPBody = NSJSONSerialization.dataWithJSONObject(reqText, options: nil, error: &err)
       request.addValue("application/json", forHTTPHeaderField: "Content-Type")
@@ -1045,12 +1075,12 @@ class PostRideViewController: UIViewController, UITextFieldDelegate, UIPickerVie
    // MARK: - GooglePlacesAutocompleteContainer (UITableViewDataSource / UITableViewDelegate)
    
    func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-      println("tableView numberOfRowsInSection: \(startingVC.places.count)")
+      //      println("tableView numberOfRowsInSection: \(startingVC.places.count)")
       return activeSearchBar == startingLocation ? startingVC.places.count : endingVC.places.count
    }
    
    func numberOfSectionsInTableView(tableView: UITableView) -> Int {
-      println("numberOfSectionsInTableView: 1")
+      //      println("numberOfSectionsInTableView: 1")
       return 1
    }
    
@@ -1067,7 +1097,7 @@ class PostRideViewController: UIViewController, UITextFieldDelegate, UIPickerVie
       cell.textLabel?.adjustsFontSizeToFitWidth = true
       cell.textLabel?.font = UIFont(name: "HelveticaNeue-Thin", size: 16.0)
       
-      println("tableView cellForRowAtIndexPath: \(indexPath), place.description: \(place.description)")
+      //      println("tableView cellForRowAtIndexPath: \(indexPath), place.description: \(place.description)")
       
       return cell
    }
@@ -1080,11 +1110,12 @@ class PostRideViewController: UIViewController, UITextFieldDelegate, UIPickerVie
    
    func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
       if (activeSearchBar == startingLocation) {
-         println("tableView didSelectRowAtIndexPath: \(startingVC.places[indexPath.row])")
+//         println("tableView didSelectRowAtIndexPath: \(startingVC.places[indexPath.row])")
          startingVC.delegate?.placeSelected?(startingVC.places[indexPath.row])
          let place = startingVC.places[indexPath.row]
          place.getDetails { details in
             self.setTripInfo(self.startingLocation, city: details.city, state: details.state)
+            self.post.start = Location(name: "\(details.city), \(details.state)", lat: details.latitude, long: details.longitude)
          }
          startingTableView.hidden = true
          if endingLocation.alpha == 0 {
@@ -1092,11 +1123,12 @@ class PostRideViewController: UIViewController, UITextFieldDelegate, UIPickerVie
          }
       }
       else {
-         println("tableView didSelectRowAtIndexPath: \(endingVC.places[indexPath.row])")
+//         println("tableView didSelectRowAtIndexPath: \(endingVC.places[indexPath.row])")
          endingVC.delegate?.placeSelected?(endingVC.places[indexPath.row])
          let place = endingVC.places[indexPath.row]
          place.getDetails { details in
             self.setTripInfo(self.endingLocation, city: details.city, state: details.state)
+            self.post.end = Location(name: "\(details.city), \(details.state)", lat: details.latitude, long: details.longitude)
          }
          endingTableView.hidden = true
       }
@@ -1137,7 +1169,7 @@ class PostRideViewController: UIViewController, UITextFieldDelegate, UIPickerVie
    :param: searchString The search query
    */
    func getPlaces(searchString: String) {
-      println("in getPlaces with \(searchString)")
+      //      println("in getPlaces with \(searchString)")
       
       if (self.activeSearchBar == startingLocation) {
          GooglePlacesRequestHelpers.doRequest(
@@ -1154,8 +1186,8 @@ class PostRideViewController: UIViewController, UITextFieldDelegate, UIPickerVie
                   }
                   
                   self.reloadInputViews()
-                  println("before refreshUI()")
-                  println("places: \(self.startingVC.places)")
+                  //                  println("before refreshUI()")
+                  //                  println("places: \(self.startingVC.places)")
                   self.refreshUI()
                   //               self.startingTableView.reloadSections(NSIndexSet(index: 0), withRowAnimation: UITableViewRowAnimation.None)
                   self.endingLocation.alpha = 0
@@ -1179,8 +1211,8 @@ class PostRideViewController: UIViewController, UITextFieldDelegate, UIPickerVie
                   }
                   
                   self.reloadInputViews()
-                  println("before refreshUI()")
-                  println("places: \(self.endingVC.places)")
+                  //                  println("before refreshUI()")
+                  //                  println("places: \(self.endingVC.places)")
                   self.refreshUI()
                   //               self.startingTableView.reloadSections(NSIndexSet(index: 0), withRowAnimation: UITableViewRowAnimation.None)
                   self.nextButton.alpha = 0
