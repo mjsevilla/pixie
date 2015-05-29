@@ -128,17 +128,16 @@ class ConversationViewController: JSQMessagesViewController {
     }
     
     override func didPressSendButton(button: UIButton!, withMessageText text: String!, senderId: String!, senderDisplayName: String!, date: NSDate!) {
-        let token = PFInstallation.currentInstallation().deviceToken
-        let pushQuery: PFQuery = PFInstallation.query()!
+        let pushQuery: PFQuery = PFQuery(className: "PixieUser")
         let pushMsg = "New message from \(senderDisplayName)"
         let pushNot: PFPush = PFPush()
-        pushQuery.whereKey("deviceToken", equalTo: token!)
+        pushQuery.whereKey("name", equalTo: recipientName!)
         pushNot.setQuery(pushQuery)
         pushNot.setData([
             "sound":"alert.caf",
             "alert":pushMsg
             ])
-        pushNot.sendPushInBackgroundWithBlock({ (succeeded,e) -> Void in
+        pushNot.sendPushInBackgroundWithBlock({ (succeeded, e) -> Void in
             if succeeded {
                 println("Push notification sent successfully!")
             }
