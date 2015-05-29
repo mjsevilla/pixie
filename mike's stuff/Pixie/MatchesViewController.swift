@@ -328,7 +328,7 @@ class MatchesViewController: UIViewController, UICollectionViewDelegateFlowLayou
       var senderBtn = sender as! SenderButton
       var newConvo = PFObject(className: "Conversation")
       newConvo["user1Id"] = String(userId)
-      newConvo["user1Name"] = "\(fullName)"
+      newConvo["user1Name"] = fullName
       newConvo["user2Id"] = String(currentMatch.author.userId)
       newConvo["user2Name"] = currentMatch.author.fullName
       newConvo["lastMessage"] = nil // <------------------- Mike for some reason this line throws an exception
