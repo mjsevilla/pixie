@@ -836,7 +836,6 @@
                         <segue destination="WGR-7L-PRe" kind="show" identifier="presentInitial" id="UmM-tB-58v"/>
                         <segue destination="9HI-6j-g6Y" kind="show" identifier="presentProfile" id="NIe-HK-wbH"/>
                         <segue destination="GCW-6Z-dMB" kind="show" identifier="presentAbout" id="YDc-Zs-ygh"/>
-                        <segue destination="WNj-zI-suc" kind="show" identifier="presentSettings" id="ipi-lh-Ijg"/>
                         <segue destination="dzH-Kb-FUl" kind="show" identifier="presentMyPosts" id="hQN-2J-Iwr"/>
                         <segue destination="uUn-Vq-NVl" kind="show" identifier="presentMessages" id="eAZ-5T-K8L"/>
                     </connections>
@@ -906,58 +905,6 @@
                 <placeholder placeholderIdentifier="IBFirstResponder" id="1dg-UK-nrU" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
             <point key="canvasLocation" x="2505" y="-425"/>
-        </scene>
-        <!--SettingsViewController-->
-        <scene sceneID="ZgY-D0-EH9">
-            <objects>
-                <viewController title="SettingsViewController" id="WNj-zI-suc" customClass="SettingsViewController" customModule="Pixie" customModuleProvider="target" sceneMemberID="viewController">
-                    <layoutGuides>
-                        <viewControllerLayoutGuide type="top" id="OKQ-kd-gsO"/>
-                        <viewControllerLayoutGuide type="bottom" id="7BX-u9-4aR"/>
-                    </layoutGuides>
-                    <view key="view" contentMode="scaleToFill" id="3fS-59-2h7">
-                        <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
-                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
-                        <subviews>
-                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="192-kV-cDd">
-                                <rect key="frame" x="0.0" y="0.0" width="600" height="20"/>
-                                <color key="backgroundColor" red="0.0" green="0.73725490196078436" blue="0.81960784313725488" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
-                            </view>
-                            <navigationBar opaque="NO" contentMode="scaleToFill" translucent="NO" translatesAutoresizingMaskIntoConstraints="NO" id="JUI-Z5-tdM">
-                                <rect key="frame" x="0.0" y="20" width="600" height="44"/>
-                                <color key="barTintColor" red="0.0" green="0.73725490196078436" blue="0.81960784313725488" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
-                                <textAttributes key="titleTextAttributes">
-                                    <fontDescription key="fontDescription" name="HelveticaNeue-Thin" family="Helvetica Neue" pointSize="22"/>
-                                    <color key="textColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
-                                    <color key="textShadowColor" white="0.66666666666666663" alpha="1" colorSpace="calibratedWhite"/>
-                                </textAttributes>
-                                <items>
-                                    <navigationItem title="Settings" id="ANS-se-Fwq">
-                                        <barButtonItem key="leftBarButtonItem" image="menu" id="8Xh-UC-lYA">
-                                            <color key="tintColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
-                                            <connections>
-                                                <segue destination="Sik-hd-hg0" kind="custom" identifier="presentNav" customClass="CustomSegueClass" customModule="Pixie" customModuleProvider="target" id="dlF-QM-Cfp"/>
-                                            </connections>
-                                        </barButtonItem>
-                                    </navigationItem>
-                                </items>
-                            </navigationBar>
-                        </subviews>
-                        <color key="backgroundColor" red="0.98039215686274506" green="0.98039215686274506" blue="0.98039215686274506" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
-                        <constraints>
-                            <constraint firstItem="JUI-Z5-tdM" firstAttribute="leading" secondItem="3fS-59-2h7" secondAttribute="leading" id="5s1-8L-J15"/>
-                            <constraint firstAttribute="trailing" secondItem="JUI-Z5-tdM" secondAttribute="trailing" id="6Co-1u-eUO"/>
-                            <constraint firstItem="192-kV-cDd" firstAttribute="top" secondItem="3fS-59-2h7" secondAttribute="top" id="Ls5-n3-Poy"/>
-                            <constraint firstItem="JUI-Z5-tdM" firstAttribute="leading" secondItem="192-kV-cDd" secondAttribute="leading" id="MR4-AT-Wjj"/>
-                            <constraint firstItem="192-kV-cDd" firstAttribute="trailing" secondItem="JUI-Z5-tdM" secondAttribute="trailing" id="fPz-XU-Uw0"/>
-                            <constraint firstItem="JUI-Z5-tdM" firstAttribute="top" secondItem="192-kV-cDd" secondAttribute="bottom" id="lEg-lY-6p8"/>
-                            <constraint firstItem="JUI-Z5-tdM" firstAttribute="top" secondItem="OKQ-kd-gsO" secondAttribute="bottom" id="zJU-zl-GCl"/>
-                        </constraints>
-                    </view>
-                </viewController>
-                <placeholder placeholderIdentifier="IBFirstResponder" id="Ka5-ha-X2M" userLabel="First Responder" sceneMemberID="firstResponder"/>
-            </objects>
-            <point key="canvasLocation" x="2505" y="257"/>
         </scene>
         <!--ProfileViewController-->
         <scene sceneID="hJT-Xe-qRX">
@@ -1042,7 +989,7 @@
                                     <action selector="textFieldsDidChange:" destination="9HI-6j-g6Y" eventType="editingChanged" id="Kej-8n-bze"/>
                                 </connections>
                             </textField>
-                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" misplaced="YES" text="300" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="eqK-Fd-G4a">
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="300" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="eqK-Fd-G4a">
                                 <rect key="frame" x="543" y="314" width="29" height="22"/>
                                 <fontDescription key="fontDescription" name="HelveticaNeue-Thin" family="Helvetica Neue" pointSize="10"/>
                                 <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
@@ -1114,7 +1061,7 @@
                             <constraint firstItem="k7r-VZ-DKx" firstAttribute="trailing" secondItem="II1-We-ws9" secondAttribute="trailing" id="VlO-yo-EjP"/>
                             <constraint firstItem="ggK-Wt-6Rh" firstAttribute="leading" secondItem="x1h-bI-CD8" secondAttribute="leading" id="YR6-P2-YsN"/>
                             <constraint firstItem="ggK-Wt-6Rh" firstAttribute="top" secondItem="hmK-Cg-DKU" secondAttribute="bottom" constant="17" id="YlJ-gD-Ua2"/>
-                            <constraint firstItem="ggK-Wt-6Rh" firstAttribute="trailing" secondItem="eqK-Fd-G4a" secondAttribute="trailing" id="eWt-1e-2ok"/>
+                            <constraint firstItem="ggK-Wt-6Rh" firstAttribute="trailing" secondItem="eqK-Fd-G4a" secondAttribute="trailing" constant="12" id="eWt-1e-2ok"/>
                             <constraint firstItem="8LT-0M-kaw" firstAttribute="trailing" secondItem="Txd-yd-jno" secondAttribute="trailing" id="f8j-TN-6a4"/>
                             <constraint firstItem="8CH-k0-ZgM" firstAttribute="centerY" secondItem="hmK-Cg-DKU" secondAttribute="centerY" id="fUr-fr-TBN"/>
                             <constraint firstItem="hmK-Cg-DKU" firstAttribute="leading" secondItem="Fs0-ky-Va8" secondAttribute="leadingMargin" id="jJ7-fL-0x9"/>
@@ -1425,7 +1372,7 @@
         <image name="menu" width="22" height="22"/>
     </resources>
     <inferredMetricsTieBreakers>
-        <segue reference="ndH-hG-Xoc"/>
+        <segue reference="di9-G9-f6D"/>
         <segue reference="3Sk-Xj-7lo"/>
     </inferredMetricsTieBreakers>
 </document>

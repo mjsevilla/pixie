@@ -120,7 +120,6 @@
 		61CF5A321B0D6201000E828F /* GooglePlacesAutocomplete.swift in Sources */ = {isa = PBXBuildFile; fileRef = 61CF5A311B0D6201000E828F /* GooglePlacesAutocomplete.swift */; };
 		61DEC0391ABA48B0004314EB /* RegisterViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 61DEC0381ABA48B0004314EB /* RegisterViewController.swift */; };
 		61DEC03B1ABA830E004314EB /* AboutViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 61DEC03A1ABA830E004314EB /* AboutViewController.swift */; };
-		61DEC03D1ABA87A5004314EB /* SettingsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 61DEC03C1ABA87A5004314EB /* SettingsViewController.swift */; };
 		61EAACCA1A9C1ABD00D84246 /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 6184D2E81A9302F3006DA1E4 /* Images.xcassets */; };
 		61EB1B9A1AEF4B6B00939E60 /* AudioToolbox.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 61EB1B991AEF4B6B00939E60 /* AudioToolbox.framework */; };
 		61EB1B9C1AEF4B7200939E60 /* CFNetwork.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 61EB1B9B1AEF4B7200939E60 /* CFNetwork.framework */; };
@@ -329,7 +328,6 @@
 		61D339A11AF021EC0084D716 /* Bolts.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Bolts.framework; path = ParseSDK/Bolts.framework; sourceTree = "<group>"; };
 		61DEC0381ABA48B0004314EB /* RegisterViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; indentWidth = 3; lastKnownFileType = sourcecode.swift; path = RegisterViewController.swift; sourceTree = "<group>"; tabWidth = 3; };
 		61DEC03A1ABA830E004314EB /* AboutViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AboutViewController.swift; sourceTree = "<group>"; };
-		61DEC03C1ABA87A5004314EB /* SettingsViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SettingsViewController.swift; sourceTree = "<group>"; };
 		61EB1B991AEF4B6B00939E60 /* AudioToolbox.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AudioToolbox.framework; path = System/Library/Frameworks/AudioToolbox.framework; sourceTree = SDKROOT; };
 		61EB1B9B1AEF4B7200939E60 /* CFNetwork.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CFNetwork.framework; path = System/Library/Frameworks/CFNetwork.framework; sourceTree = SDKROOT; };
 		61EB1B9D1AEF4B7A00939E60 /* CoreGraphics.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreGraphics.framework; path = System/Library/Frameworks/CoreGraphics.framework; sourceTree = SDKROOT; };
@@ -747,7 +745,6 @@
 				52414C801AAE025E00417481 /* ReviewsViewController.swift */,
 				611A1A3C1AAE8BE900F18B3B /* SignInViewController.swift */,
 				611A1A361AAE827E00F18B3B /* SearchViewController.swift */,
-				61DEC03C1ABA87A5004314EB /* SettingsViewController.swift */,
 			);
 			name = "View Controllers";
 			sourceTree = "<group>";
@@ -948,7 +945,6 @@
 				520E91F61B173D59002FB5DE /* ACTableViewCell.swift in Sources */,
 				2CC475E61AFE9D6A00864116 /* AutocompleteQuery.m in Sources */,
 				61345B281AF57DB900DCCE42 /* ConversationViewController.swift in Sources */,
-				61DEC03D1ABA87A5004314EB /* SettingsViewController.swift in Sources */,
 				612095D01B02BE9C00336D1C /* JSQMessagesCollectionViewFlowLayoutInvalidationContext.m in Sources */,
 				61BCE4BF1B09598600F1A681 /* GPUImageTwoPassFilter.m in Sources */,
 				612096131B02BECD00336D1C /* JSQMessagesComposerTextView.m in Sources */,
