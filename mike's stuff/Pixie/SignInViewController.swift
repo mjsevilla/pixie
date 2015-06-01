@@ -60,7 +60,7 @@ class SignInViewController: UIViewController, UITextFieldDelegate {
       let email = emailField.text!
       let password = pwField.text!
       
-      let defaults = NSUserDefaults.standardUserDefaults();
+      let defaults = NSUserDefaults.standardUserDefaults()
       var urlString = "http://ec2-54-69-253-12.us-west-2.compute.amazonaws.com/pixie/users?email=\(email)&password=\(password)"
       let url = NSURL(string: urlString)
       var request = NSURLRequest(URL: url!)
@@ -70,13 +70,13 @@ class SignInViewController: UIViewController, UITextFieldDelegate {
       
       if let json = NSJSONSerialization.JSONObjectWithData(data, options: NSJSONReadingOptions.MutableContainers, error: nil) as? NSDictionary {
          if let userId = json["userId"] as? String {
-            if let first_name = json ["first_name"] as? String {
-               if let last_name = json ["last_name"] as? String {
+            if let first_name = json["first_name"] as? String {
+               if let last_name = json["last_name"] as? String {
                   defaults.setObject(userId.toInt(), forKey: "PixieUserId")
                   defaults.setObject(first_name, forKey: "PixieUserFirstName")
                   defaults.setObject(last_name, forKey: "PixieUserLastName")
                   NSUserDefaults.standardUserDefaults().synchronize()
-                  println("created userId: \(userId.toInt()!)")
+                  println("created userId: \(userId)")
                   println("created first_name: \(first_name)")
                   println("created last_name: \(last_name)")
                   self.wrongEmailPwLabel.hidden = true
@@ -95,7 +95,6 @@ class SignInViewController: UIViewController, UITextFieldDelegate {
          println("error json")
          wrongEmailPwLabel.hidden = false
       }
-      
    }
    
    override func touchesBegan(touches: Set<NSObject>, withEvent event: UIEvent) {
@@ -108,11 +107,6 @@ class SignInViewController: UIViewController, UITextFieldDelegate {
             self.modalPresentationStyle = UIModalPresentationStyle.Custom
          }
       }
-   }
-   
-   override func didReceiveMemoryWarning() {
-      super.didReceiveMemoryWarning()
-      // Dispose of any resources that can be recreated.
    }
    
    override func preferredStatusBarStyle() -> UIStatusBarStyle {
