@@ -361,6 +361,7 @@
                     <connections>
                         <segue destination="lG3-sQ-OM6" kind="custom" identifier="showUserBio" customClass="CustomSegueClass" customModule="Pixie" customModuleProvider="target" id="Vnq-Mo-Toq"/>
                         <segue destination="1al-ph-uIg" kind="unwind" identifier="unwindToSearchView" unwindAction="unwindToSearchView:" id="koV-I8-kk0"/>
+                        <segue destination="keS-XJ-ehL" kind="show" identifier="presentConvo" id="Ntf-EL-NHY"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="ak2-py-XIn" userLabel="First Responder" sceneMemberID="firstResponder"/>
@@ -1372,7 +1373,8 @@
         <image name="menu" width="22" height="22"/>
     </resources>
     <inferredMetricsTieBreakers>
+        <segue reference="Ntf-EL-NHY"/>
         <segue reference="vwa-0O-sBD"/>
-        <segue reference="ndH-hG-Xoc"/>
+        <segue reference="ELl-Ug-DNN"/>
     </inferredMetricsTieBreakers>
 </document>

@@ -297,18 +297,18 @@ class MatchesViewController: UIViewController, UICollectionViewDelegateFlowLayou
    *      initialized at line 218 which loads the view for the current cell in view
    *
    */
-   func sendMessage(sender: UIButton!) {
-      var senderBtn = sender as! SenderButton
+   func sendMessage(sender: SenderButton!) {
+//      var senderBtn = sender as! SenderButton
       var newConvo = PFObject(className: "Conversation")
       newConvo["user1Id"] = String(userId)
       newConvo["user1Name"] = fullName
       newConvo["user2Id"] = String(currentMatch.author.userId)
       newConvo["user2Name"] = currentMatch.author.fullName
-      newConvo["lastMessage"] = nil // <------------------- Mike for some reason this line throws an exception
-      senderBtn.parseConvo = newConvo
+//      newConvo["lastMessage"] = nil // <------------------- Mike for some reason this line throws an exception
+      sender.parseConvo = newConvo
       
-      performSegueWithIdentifier("presentConvo", sender: senderBtn)
       println("Send message from \(fullName) with id \(userId) to \(currentMatch.author.fullName) with id \(currentMatch.author.userId)")
+      performSegueWithIdentifier("presentConvo", sender: sender)
    }
    
    override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {
