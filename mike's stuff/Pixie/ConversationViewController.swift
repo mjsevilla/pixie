@@ -18,7 +18,6 @@ class ConversationViewController: JSQMessagesViewController {
     
     var convoId: String?
     var convo: PFObject?
-    var timer: NSTimer?
 
     var bubbleImageOutgoing: JSQMessagesBubbleImage!
     var bubbleImageIncoming: JSQMessagesBubbleImage!
@@ -37,7 +36,6 @@ class ConversationViewController: JSQMessagesViewController {
         collectionView.collectionViewLayout.outgoingAvatarViewSize = CGSizeZero
         
         inputToolbar.contentView.leftBarButtonItem = nil
-        timer = NSTimer.scheduledTimerWithTimeInterval(5.0, target: self, selector: Selector("loadMessages:"), userInfo: nil, repeats: true)
         
         bubbleImageOutgoing = bubbleFactory.outgoingMessagesBubbleImageWithColor(uicolorFromHex(0x00BCD1))
         bubbleImageIncoming = bubbleFactory.incomingMessagesBubbleImageWithColor(UIColor.jsq_messageBubbleLightGrayColor())
@@ -56,11 +54,6 @@ class ConversationViewController: JSQMessagesViewController {
     override func viewDidAppear(animated: Bool) {
         super.viewDidAppear(animated)
         collectionView.collectionViewLayout.springinessEnabled = true
-    }
-    
-    override func viewWillDisappear(animated: Bool) {
-        super.viewWillDisappear(animated)
-        timer?.invalidate()
     }
     
     func receivedMessagePressed(sender: UIBarButtonItem) {
@@ -138,12 +131,10 @@ class ConversationViewController: JSQMessagesViewController {
     
     override func didPressSendButton(button: UIButton!, withMessageText text: String!, senderId: String!, senderDisplayName: String!, date: NSDate!) {
 //        let pushQuery = PFQuery(className: "PixieUser")
-        let innerQuery = PFUser.query()
-        let pushQuery = PFInstallation.query()
+        let pushQuery = PFUser.query()
         let pushMsg = "New message from \(senderDisplayName)"
         let pushNot = PFPush()
-        innerQuery!.whereKey("userId", equalTo: recipientId!)
-        pushQuery!.whereKey("user", matchesQuery: innerQuery!)
+        pushQuery!.whereKey("userId", equalTo: recipientId!)
         pushNot.setQuery(pushQuery)
         pushNot.setData([
             "sound":"alert.caf",
