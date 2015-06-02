@@ -50,7 +50,8 @@ class SearchViewController: AutocompleteViewController, CLLocationManagerDelegat
 		
 		searchBar.layer.cornerRadius = 8.0
 		searchBar.layer.masksToBounds = true
-		searchBar.layer.borderColor = UIColor(red:0.0, green:0.74, blue:0.82, alpha:1.0).CGColor
+		searchBar.layer.borderColor = UIColor.clearColor().CGColor
+      searchBar.backgroundColor = UIColor.clearColor()
 		searchBar.layer.borderWidth = 1.0
 		searchBar.hidden = false
 		searchBar.setTranslatesAutoresizingMaskIntoConstraints(false)
@@ -123,12 +124,12 @@ class SearchViewController: AutocompleteViewController, CLLocationManagerDelegat
     }
 	
 	override func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-		println("tableView numberOfRowsInSection: \(startingVC.places.count)")
+//		println("tableView numberOfRowsInSection: \(startingVC.places.count)")
 		return startingVC.places.count
 	}
 	
 	override func numberOfSectionsInTableView(tableView: UITableView) -> Int {
-		println("numberOfSectionsInTableView: 1")
+//		println("numberOfSectionsInTableView: 1")
 		return 1
 	}
 	
@@ -143,7 +144,7 @@ class SearchViewController: AutocompleteViewController, CLLocationManagerDelegat
 		cell.textLabel?.adjustsFontSizeToFitWidth = true
 		cell.textLabel?.font = UIFont(name: "HelveticaNeue-Thin", size: 16.0)
 		
-		println("tableView cellForRowAtIndexPath: \(indexPath), place.description: \(place.description)")
+//		println("tableView cellForRowAtIndexPath: \(indexPath), place.description: \(place.description)")
 		
 		return cell
 	}
@@ -155,7 +156,7 @@ class SearchViewController: AutocompleteViewController, CLLocationManagerDelegat
 	
 	override func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
 		if (activeSearchBar == searchBar) {
-			println("tableView didSelectRowAtIndexPath: \(startingVC.places[indexPath.row])")
+//			println("tableView didSelectRowAtIndexPath: \(startingVC.places[indexPath.row])")
 			startingVC.delegate?.placeSelected?(startingVC.places[indexPath.row])
 			let place = startingVC.places[indexPath.row]
 			place.getDetails { details in
@@ -170,7 +171,7 @@ class SearchViewController: AutocompleteViewController, CLLocationManagerDelegat
 	
 	override func searchBar(searchBar: UISearchBar, textDidChange searchText: String) {
 		self.activeSearchBar = searchBar
-		println("in searchBar with \(searchText)")
+//		println("in searchBar with \(searchText)")
 		
 		if (searchText == "") {
 			if (self.activeSearchBar == searchBar) {
@@ -183,7 +184,7 @@ class SearchViewController: AutocompleteViewController, CLLocationManagerDelegat
 	}
 	
 	func getPlaces(searchString: String) {
-		println("in getPlaces with \(searchString)")
+//		println("in getPlaces with \(searchString)")
 		
 		if (self.activeSearchBar == searchBar) {
 			GooglePlacesRequestHelpers.doRequest(
@@ -200,8 +201,8 @@ class SearchViewController: AutocompleteViewController, CLLocationManagerDelegat
 						}
 						
 						self.reloadInputViews()
-						println("before refreshUI()")
-						println("places: \(self.startingVC.places)")
+//						println("before refreshUI()")
+//						println("places: \(self.startingVC.places)")
 						self.refreshUI()
 						self.startingTableView.reloadSections(NSIndexSet(index: 0), withRowAnimation: UITableViewRowAnimation.None)
 						self.startingTableView.hidden = false

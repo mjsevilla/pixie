@@ -126,13 +126,13 @@ class RegisterViewController: UIViewController, FBLoginViewDelegate, UITextField
       let firstName = user.first_name
       let lastName = user.last_name
       let age = calculateAge(user.birthday)
-      let bio = user.objectForKey("about") as! String
+      let bio = user.objectForKey("bio") as! String
       
       
 //      let newUser = CreateUser();
 //      var reqText = newUser.generateHttp(name, emailParam: email, password: "facebook", genderParam: gender, bday: birthday);
       var reqText = ["first_name": "\(firstName)", "last_name": "\(lastName)", "age": "\(age)", "email": "\(email)", "password": "NULL", "bio": "\(bio)", "facebook": "\(1)"]
-//      println("reqText...\n\(reqText)")
+      println("reqText...\n\(reqText)")
       
       request.HTTPBody = NSJSONSerialization.dataWithJSONObject(reqText, options: nil, error: &err) // This Line fills the web service with required parameters.
       request.addValue("application/json", forHTTPHeaderField: "Content-Type")
@@ -150,13 +150,37 @@ class RegisterViewController: UIViewController, FBLoginViewDelegate, UITextField
             // parse data
             let unparsedArray: AnyObject? = NSJSONSerialization.JSONObjectWithData(data, options: NSJSONReadingOptions.AllowFragments, error: &parseError)
             if let resp = unparsedArray as? NSDictionary {
-               
                let defaults = NSUserDefaults.standardUserDefaults()
-               print("id is ")
-               println(resp["id"]! as! Int)
-               defaults.setObject(resp["id"]! as! Int, forKey: "PixieUserId")
-               NSUserDefaults.standardUserDefaults().synchronize()
-               self.wrongEmailPwLabel.hidden = true
+               if let userId = resp["userId"] as? String {
+                  if let first_name = resp["first_name"] as? String {
+                     if let last_name = resp["last_name"] as? String {
+                        if let resp_email = resp["email"] as? String {
+                           if let resp_password = resp["password"] as? String {
+                              defaults.setObject(userId.toInt(), forKey: "PixieUserId")
+                              defaults.setObject(first_name, forKey: "PixieUserFirstName")
+                              defaults.setObject(last_name, forKey: "PixieUserLastName")
+                              defaults.setObject(resp_email, forKey: "PixieUserEmail")
+                              defaults.setObject(resp_password, forKey: "PixieUserPassword")
+                              NSUserDefaults.standardUserDefaults().synchronize()
+                              println("created userId: \(userId.toInt()!), first_name: \(first_name), last_name: \(last_name), email: \(resp_email), password: \(resp_password)")
+                              self.wrongEmailPwLabel.hidden = true
+                              self.performSegueWithIdentifier("presentSearch", sender: self)
+                           } else {
+                              println("error last_name")
+                           }
+                        } else {
+                           println("error last_name")
+                        }
+                     } else {
+                        println("error last_name")
+                     }
+                  } else {
+                     println("error first_name")
+                  }
+               } else {
+                  self.wrongEmailPwLabel.hidden = false
+                  println("error userID")
+               }
             }
             else {
                println("Probably 500")
@@ -217,15 +241,25 @@ class RegisterViewController: UIViewController, FBLoginViewDelegate, UITextField
       if let json = NSJSONSerialization.JSONObjectWithData(data, options: NSJSONReadingOptions.AllowFragments, error: nil) as? NSDictionary {
 //         println("json after post request...\njson.count: \(json.count)\n\(json)")
          if let userId = json["userId"] as? String {
-            if let first_name = json ["first_name"] as? String {
-               if let last_name = json ["last_name"] as? String {
-                  defaults.setObject(userId.toInt(), forKey: "PixieUserId")
-                  defaults.setObject(first_name, forKey: "PixieUserFirstName")
-                  defaults.setObject(last_name, forKey: "PixieUserLastName")
-                  NSUserDefaults.standardUserDefaults().synchronize()
-                  println("created userId: \(userId.toInt()!), first_name: \(first_name), last_name: \(last_name)")
-                  self.wrongEmailPwLabel.hidden = true
-                  self.performSegueWithIdentifier("presentSearch", sender: self)
+            if let first_name = json["first_name"] as? String {
+               if let last_name = json["last_name"] as? String {
+                  if let resp_email = json["email"] as? String {
+                     if let resp_password = json["password"] as? String {
+                        defaults.setObject(userId.toInt(), forKey: "PixieUserId")
+                        defaults.setObject(first_name, forKey: "PixieUserFirstName")
+                        defaults.setObject(last_name, forKey: "PixieUserLastName")
+                        defaults.setObject(resp_email, forKey: "PixieUserEmail")
+                        defaults.setObject(resp_password, forKey: "PixieUserPassword")
+                        NSUserDefaults.standardUserDefaults().synchronize()
+                        println("created userId: \(userId.toInt()!), first_name: \(first_name), last_name: \(last_name), email: \(resp_email), password: \(resp_password)")
+                        self.wrongEmailPwLabel.hidden = true
+                        self.performSegueWithIdentifier("presentSearch", sender: self)
+                     } else {
+                        println("error password")
+                     }
+                  } else {
+                     println("error email")
+                  }
                } else {
                   println("error last_name")
                }

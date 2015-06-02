@@ -61,7 +61,7 @@ class SignInViewController: UIViewController, UITextFieldDelegate {
       let password = pwField.text!
       
       let defaults = NSUserDefaults.standardUserDefaults()
-      var urlString = "http://ec2-54-69-253-12.us-west-2.compute.amazonaws.com/pixie/users?email=\(email)&password=\(password)"
+      var urlString = "http://ec2-54-69-253-12.us-west-2.compute.amazonaws.com/pixie/users?email=\(email)&password=\(password)&facebook=\(0)&firstName=NULL&lastName=NULL"
       let url = NSURL(string: urlString)
       var request = NSURLRequest(URL: url!)
       var response: NSURLResponse?
@@ -72,15 +72,23 @@ class SignInViewController: UIViewController, UITextFieldDelegate {
          if let userId = json["userId"] as? String {
             if let first_name = json["first_name"] as? String {
                if let last_name = json["last_name"] as? String {
-                  defaults.setObject(userId.toInt(), forKey: "PixieUserId")
-                  defaults.setObject(first_name, forKey: "PixieUserFirstName")
-                  defaults.setObject(last_name, forKey: "PixieUserLastName")
-                  NSUserDefaults.standardUserDefaults().synchronize()
-                  println("created userId: \(userId)")
-                  println("created first_name: \(first_name)")
-                  println("created last_name: \(last_name)")
-                  self.wrongEmailPwLabel.hidden = true
-                  self.performSegueWithIdentifier("presentSearch", sender: self)
+                  if let resp_email = json["email"] as? String {
+                     if let resp_password = json["password"] as? String {
+                        defaults.setObject(userId.toInt(), forKey: "PixieUserId")
+                        defaults.setObject(first_name, forKey: "PixieUserFirstName")
+                        defaults.setObject(last_name, forKey: "PixieUserLastName")
+                        defaults.setObject(resp_email, forKey: "PixieUserEmail")
+                        defaults.setObject(resp_password, forKey: "PixieUserPassword")
+                        NSUserDefaults.standardUserDefaults().synchronize()
+                        println("signed in userId: \(userId.toInt()!), first_name: \(first_name), last_name: \(last_name), email: \(resp_email), password: \(resp_password)")
+                        self.wrongEmailPwLabel.hidden = true
+                        self.performSegueWithIdentifier("presentSearch", sender: self)
+                     } else {
+                        println("error password")
+                     }
+                  } else {
+                     println("error email")
+                  }
                } else {
                   println("error last_name")
                }
