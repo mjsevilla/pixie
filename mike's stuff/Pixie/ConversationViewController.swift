@@ -14,6 +14,7 @@ class ConversationViewController: JSQMessagesViewController {
     var userId: String?
     var userName: String?
     var recipientName: String?
+    var recipientId: String?
     
     var convoId: String?
     var convo: PFObject?
@@ -33,6 +34,7 @@ class ConversationViewController: JSQMessagesViewController {
         self.navigationController?.navigationBar.backgroundColor = UIColor(red: 0/256, green: 188/256, blue: 209/256, alpha: 1.0)
         self.collectionView.collectionViewLayout.incomingAvatarViewSize = CGSizeZero
         self.collectionView.collectionViewLayout.outgoingAvatarViewSize = CGSizeZero
+        self.inputToolbar.contentView.leftBarButtonItem = nil
         
         bubbleImageOutgoing = bubbleFactory.outgoingMessagesBubbleImageWithColor(uicolorFromHex(0x00BCD1))
         bubbleImageIncoming = bubbleFactory.incomingMessagesBubbleImageWithColor(UIColor.jsq_messageBubbleLightGrayColor())
@@ -128,10 +130,10 @@ class ConversationViewController: JSQMessagesViewController {
     }
     
     override func didPressSendButton(button: UIButton!, withMessageText text: String!, senderId: String!, senderDisplayName: String!, date: NSDate!) {
-        let pushQuery: PFQuery = PFQuery(className: "PixieUser")
+        let pushQuery = PFQuery(className: "PixieUser")
         let pushMsg = "New message from \(senderDisplayName)"
-        let pushNot: PFPush = PFPush()
-        pushQuery.whereKey("name", equalTo: recipientName!)
+        let pushNot = PFPush()
+        pushQuery.whereKey("userId", equalTo: recipientId!)
         pushNot.setQuery(pushQuery)
         pushNot.setData([
             "sound":"alert.caf",
@@ -163,7 +165,7 @@ class ConversationViewController: JSQMessagesViewController {
             cell.textView.textColor = UIColor.whiteColor()
         }
         
-        let attributes : [NSObject:AnyObject] = [NSForegroundColorAttributeName:cell.textView.textColor, NSUnderlineStyleAttributeName: 1]
+        let attributes: [NSObject:AnyObject] = [NSForegroundColorAttributeName:cell.textView.textColor, NSUnderlineStyleAttributeName: 1]
         cell.textView.linkTextAttributes = attributes
         
         return cell
@@ -173,12 +175,12 @@ class ConversationViewController: JSQMessagesViewController {
         return messages[indexPath.item]
     }
     
-    override func collectionView(collectionView: JSQMessagesCollectionView!,messageBubbleImageDataForItemAtIndexPath indexPath: NSIndexPath!) -> JSQMessageBubbleImageDataSource! {
+    override func collectionView(collectionView: JSQMessagesCollectionView!, messageBubbleImageDataForItemAtIndexPath indexPath: NSIndexPath!) -> JSQMessageBubbleImageDataSource! {
         var message = messages[indexPath.item]
+        
         if message.senderId == self.senderId {
             return bubbleImageOutgoing
         }
-        
         return bubbleImageIncoming
     }
     

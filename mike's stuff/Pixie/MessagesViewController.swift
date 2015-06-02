@@ -80,6 +80,7 @@ class MessagesViewContoller: UITableViewController {
                 destVC.userName = self.userName
                 destVC.userId = self.userID
                 destVC.recipientName = cell.nameLabel.text
+                destVC.recipientId = (self.userID == cell.convo!["user1Id"] as? String ? cell.convo!["user2Id"] : cell.convo!["user1Id"]) as? String
                 destVC.convoId = cell.convoID
                 destVC.convo = cell.convo
             }
@@ -98,7 +99,6 @@ class MessagesViewContoller: UITableViewController {
     
     // swipe to remove conversations
     override func tableView(tableView: UITableView, commitEditingStyle editingStyle: UITableViewCellEditingStyle, forRowAtIndexPath indexPath: NSIndexPath) {
-        
         if editingStyle == UITableViewCellEditingStyle.Delete {
             convos?.removeAtIndex(indexPath.row)
             tableView.deleteRowsAtIndexPaths([indexPath], withRowAnimation: UITableViewRowAnimation.Automatic)

@@ -21,7 +21,14 @@ class NavigationViewController: UIViewController, UITableViewDelegate, UITableVi
     var defaults = NSUserDefaults.standardUserDefaults() {
         didSet {
             let id = defaults.stringForKey("PixieUserId")
-            user = ContactObject(_id: id!)
+            var fullName = ""
+            if let savedFirstName = defaults.stringForKey("PixieUserFirstName") {
+                fullName = savedFirstName
+                if let savedLastName = defaults.stringForKey("PixieUserLastName") {
+                    fullName += " \(savedLastName)"
+                }
+            }
+            user = ContactObject(_id: id!, _name: fullName)
         }
     }
     
@@ -123,8 +130,8 @@ class NavigationViewController: UIViewController, UITableViewDelegate, UITableVi
         if segue.identifier == "presentMessages" {
             if let navVC = segue.destinationViewController as? UINavigationController {
                 if let destVC = navVC.topViewController as? MessagesViewContoller {
-                    destVC.userID = "123"
-                    destVC.userName = "Mike Sevilla"
+                    destVC.userID = user?.id
+                    destVC.userName = user?.name
                 }
             }
         }
