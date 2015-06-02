@@ -87,29 +87,6 @@ class RegisterViewController: UIViewController, FBLoginViewDelegate, UITextField
       performSegueWithIdentifier("presentSearch", sender: self)
    }
    
-   // calculate age from birthday string of fb user
-   func calculateAge (birthdayString: String) -> NSInteger {
-      var dateFormatter = NSDateFormatter()
-      dateFormatter.dateFormat = "MM/dd/yyyy"
-      let birthday = dateFormatter.dateFromString(birthdayString)!
-      
-      var userAge : NSInteger = 0
-      var calendar : NSCalendar = NSCalendar.currentCalendar()
-      var unitFlags : NSCalendarUnit = NSCalendarUnit.CalendarUnitYear | NSCalendarUnit.CalendarUnitMonth | NSCalendarUnit.CalendarUnitDay
-      var dateComponentNow : NSDateComponents = calendar.components(unitFlags, fromDate: NSDate())
-      var dateComponentBirth : NSDateComponents = calendar.components(unitFlags, fromDate: birthday)
-      
-      if ( (dateComponentNow.month < dateComponentBirth.month) ||
-         ((dateComponentNow.month == dateComponentBirth.month) && (dateComponentNow.day < dateComponentBirth.day))
-         )
-      {
-         return dateComponentNow.year - dateComponentBirth.year - 1
-      }
-      else {
-         return dateComponentNow.year - dateComponentBirth.year
-      }
-   }
-   
    func loginViewFetchedUserInfo(loginView: FBLoginView!, user: FBGraphUser!) {
       println("in loginViewFetchedUserInfo")
       println("user...\(user)")
@@ -120,19 +97,22 @@ class RegisterViewController: UIViewController, FBLoginViewDelegate, UITextField
       request.HTTPMethod = "POST"
       var err: NSError?
       
-      var email = user.objectForKey("email") as! String
-      var gender = user.objectForKey("gender") as! String
-      var birthday = user.objectForKey("birthday") as! String
-      let firstName = user.first_name
-      let lastName = user.last_name
-      let age = calculateAge(user.birthday)
-      let bio = user.objectForKey("bio") as! String
+      var email: String
+      if let fb_email = user.objectForKey("email") as? String {
+         email = fb_email
+      } else {
+         email = "\(user.username)@facebook.com"
+      }
+      var bio: String
+      if let fb_bio = user.objectForKey("bio") as? String {
+         bio = fb_bio
+      } else {
+         bio = "NULL"
+      }
       
-      
-//      let newUser = CreateUser();
-//      var reqText = newUser.generateHttp(name, emailParam: email, password: "facebook", genderParam: gender, bday: birthday);
-      var reqText = ["first_name": "\(firstName)", "last_name": "\(lastName)", "age": "\(age)", "email": "\(email)", "password": "NULL", "bio": "\(bio)", "facebook": "\(1)"]
-      println("reqText...\n\(reqText)")
+      let newUser = CreateUser();
+      var reqText = newUser.generateHttp(user.first_name, lastName: user.last_name, email: email, password: "NULL", bday: user.birthday, bio: bio, hasFB: true)
+      //      println("reqText...\n\(reqText)")
       
       request.HTTPBody = NSJSONSerialization.dataWithJSONObject(reqText, options: nil, error: &err) // This Line fills the web service with required parameters.
       request.addValue("application/json", forHTTPHeaderField: "Content-Type")
@@ -163,8 +143,6 @@ class RegisterViewController: UIViewController, FBLoginViewDelegate, UITextField
                               defaults.setObject(resp_password, forKey: "PixieUserPassword")
                               NSUserDefaults.standardUserDefaults().synchronize()
                               println("created userId: \(userId.toInt()!), first_name: \(first_name), last_name: \(last_name), email: \(resp_email), password: \(resp_password)")
-                              self.wrongEmailPwLabel.hidden = true
-                              self.performSegueWithIdentifier("presentSearch", sender: self)
                            } else {
                               println("error last_name")
                            }
@@ -219,15 +197,15 @@ class RegisterViewController: UIViewController, FBLoginViewDelegate, UITextField
       var fullNameArr = correctNameCase(nameField.text!)
       let firstName = getFirstName(fullNameArr)
       let lastName = fullNameArr.count == 1 ? "" : fullNameArr[fullNameArr.count-1]
-      let email = emailField.text!
-      let password = pwField.text!
-   
+      
       var urlString = "http://ec2-54-69-253-12.us-west-2.compute.amazonaws.com/pixie/users"
       var request = NSMutableURLRequest(URL: NSURL(string: urlString)!)
       request.HTTPMethod = "POST"
       var err: NSError?
-      var reqText = ["first_name": "\(firstName)", "last_name": "\(lastName)", "age": "NULL", "email": "\(email)", "password": "\(password)", "bio": "NULL", "facebook": "\(0)"]
-//      println("reqText...\n\(reqText)")
+      
+      let newUser = CreateUser();
+      var reqText = newUser.generateHttp(firstName, lastName: lastName, email: emailField.text!, password: pwField.text!, bday: "NULL", bio: "NULL", hasFB: false)
+      println("reqText...\n\(reqText)")
       
       //This Line fills the web service with required parameters.
       request.HTTPBody = NSJSONSerialization.dataWithJSONObject(reqText, options: nil, error: &err)
@@ -239,7 +217,7 @@ class RegisterViewController: UIViewController, FBLoginViewDelegate, UITextField
       var data =  NSURLConnection.sendSynchronousRequest(request, returningResponse: &response, error:nil)! as NSData
       
       if let json = NSJSONSerialization.JSONObjectWithData(data, options: NSJSONReadingOptions.AllowFragments, error: nil) as? NSDictionary {
-//         println("json after post request...\njson.count: \(json.count)\n\(json)")
+         //         println("json after post request...\njson.count: \(json.count)\n\(json)")
          if let userId = json["userId"] as? String {
             if let first_name = json["first_name"] as? String {
                if let last_name = json["last_name"] as? String {

@@ -36,6 +36,7 @@ class MatchesViewController: UIViewController, UICollectionViewDelegateFlowLayou
    
    private var matches = [Match]()
    private var posts = [Post]()
+   private var users = [Int: User]()
    
    override func loadView() {
       super.loadView()
@@ -71,27 +72,17 @@ class MatchesViewController: UIViewController, UICollectionViewDelegateFlowLayou
       self.view.addConstraints(NSLayoutConstraint.constraintsWithVisualFormat("V:|-64-[collectionView]|", options: NSLayoutFormatOptions(0), metrics: nil, views: viewsDict))
       self.view.addConstraints(NSLayoutConstraint.constraintsWithVisualFormat("H:|[collectionView]|", options: NSLayoutFormatOptions(0), metrics: nil, views: viewsDict))
       
-//      loadPostsFromAPI()
-//      loadUsersFromAPI()
-//      collectionView.reloadData()
-//      
+      loadPostsFromAPI()
+      loadUsersFromAPI()
+      collectionView.reloadData()
+
 //      println("startLat: \(startLat), startLon: \(startLon)")
 //      println("endLat: \(endLat), endLon: \(endLon)")
-//      println("search date: \(searchDate)")
-//      println("search time: \(searchTime)")
+//      println("search date: \(searchDate), search time: \(searchTime)")
    }
    
    override func viewDidLoad() {
       super.viewDidLoad()
-      
-      loadPostsFromAPI()
-      loadUsersFromAPI()
-      collectionView.reloadData()
-      
-//      println("startLat: \(startLat), startLon: \(startLon)")
-//      println("endLat: \(endLat), endLon: \(endLon)")
-//      println("search date: \(searchDate)")
-//      println("search time: \(searchTime)")
       
       var swipeToSearchView = UISwipeGestureRecognizer(target: self, action: "handleSwipes:")
       swipeToSearchView.direction = .Down
@@ -112,12 +103,11 @@ class MatchesViewController: UIViewController, UICollectionViewDelegateFlowLayou
             fullName += " \(savedLastName)"
          }
       }
-      
 //      println("MatchesViewController found userId: \(userId), name: \(fullName)")
    }
    
    func loadPostsFromAPI() {
-      var urlString = "http://ec2-54-69-253-12.us-west-2.compute.amazonaws.com/pixie/posts?startLat=\(startLat)&startLon=\(startLon)&endLat=\(endLat)&endLon=\(endLon)&day=\(searchDate)&time=\(searchTime)"
+      var urlString = "http://ec2-54-69-253-12.us-west-2.compute.amazonaws.com/pixie/posts?startLat=\(startLat)&startLon=\(startLon)&endLat=\(endLat)&endLon=\(endLon)&day=\(searchDate)&time=\(searchTime)&driverEnum=RIDER"
 //      println("urlString: \(urlString)")
       let url = NSURL(string: urlString)
       var request = NSURLRequest(URL: url!)
@@ -126,62 +116,40 @@ class MatchesViewController: UIViewController, UICollectionViewDelegateFlowLayou
       var data =  NSURLConnection.sendSynchronousRequest(request, returningResponse: &response, error:nil)! as NSData
       
       if let json = NSJSONSerialization.JSONObjectWithData(data, options: NSJSONReadingOptions.MutableContainers, error: nil) as? NSDictionary {
-         println("loadPostsFromAPI json...\n\(json)")
-         if let items = json["posts"] as? NSArray {
+//         println("loadPostsFromAPI json...\n\(json)")
+         if let items = json["results"] as? NSArray {
             for item in items {
-               if let start_name = item["start_name"] as? String {
-                  if let start_latStr = item["start_lat"] as? String {
-                     let start_lat = (start_latStr as NSString).doubleValue
-                     if let start_lonStr = item["start_lon"] as? String {
-                        let start_lon = (start_lonStr as NSString).doubleValue
-                        if let end_name = item["end_name"] as? String {
-                           if let end_latStr = item["end_lat"] as? String {
-                              let end_lat = (end_latStr as NSString).doubleValue
-                              if let end_lonStr = item["end_lon"] as? String {
-                                 let end_lon = (end_lonStr as NSString).doubleValue
-                                 if let day = item["day"] as? String {
-                                    if let time = item["time"] as? String {
-                                       if let id = item["id"] as? Int {
-                                          if let userIdStr = item["userId"] as? String {
-                                             let userId = userIdStr.toInt()!
-                                             if let driverEnum = item["driver_enum"] as? String {
-                                                let isDriver = driverEnum == "DRIVER" ? true : false
-                                                let start = Location(name: start_name, lat: start_lat, long: start_lon)
-                                                let end = Location(name: end_name, lat: end_lat, long: end_lon)
-                                                self.posts.append(Post(isDriver: isDriver, start: start, end: end, day: day, time: time, id: id, userId: userId))
+               if let start = item["start"] as? String {
+                  if let end = item["end"] as? String {
+                     if let day = item["day"] as? String {
+                        if let time = item["time"] as? String {
+//                           if let id = item["id"] as? Int {
+                              if let userIdStr = item["userId"] as? String {
+                                 let userId = userIdStr.toInt()!
+                                 if let driverEnum = item["driverEnum"] as? String {
+                                    let isDriver = driverEnum == "DRIVER" ? true : false
+                                    self.posts.append(Post(isDriver: isDriver, start: Location(name: start, lat: 0, long: 0), end: Location(name: end, lat: 0, long: 0), day: day, time: time, id: 5/*id*/, userId: userId))
 //                                                posts[posts.count-1].toString()
-                                             } else {
-                                                println("error: driver_enum")
-                                             }
-                                          } else {
-                                             println("error: userId")
-                                          }
-                                       } else {
-                                          println("error: id")
-                                       }
-                                    } else {
-                                       println("error: time")
-                                    }
                                  } else {
-                                    println("error: day")
+                                    println("error: driver_enum")
                                  }
                               } else {
-                                 println("error: end_lon")
+                                 println("error: userId")
                               }
-                           } else {
-                              println("error: end_lat")
-                           }
+                           /*} else {
+                              println("error: id")
+                           }*/
                         } else {
-                           println("error: end_name")
+                           println("error: time")
                         }
                      } else {
-                        println("error: start_lon")
+                        println("error: day")
                      }
                   } else {
-                     println("error: start_lat")
+                     println("error: end")
                   }
                } else {
-                  println("error: start_name")
+                  println("error: start")
                }
             }
          } else {
@@ -194,53 +162,58 @@ class MatchesViewController: UIViewController, UICollectionViewDelegateFlowLayou
    
    func loadUsersFromAPI() {
       for p in posts {
-         var user = User()
-         var urlString = "http://ec2-54-69-253-12.us-west-2.compute.amazonaws.com/pixie/users/\(p.userId)"
-         let url = NSURL(string: urlString)
-         var request = NSURLRequest(URL: url!)
-         var response: NSURLResponse?
-         var error: NSErrorPointer = nil
-         var data =  NSURLConnection.sendSynchronousRequest(request, returningResponse: &response, error:nil)! as NSData
-         
-         if let json = NSJSONSerialization.JSONObjectWithData(data, options: NSJSONReadingOptions.MutableContainers, error: nil) as? NSDictionary {
-//            println("json...\n\(json)\n")
-            if let userIdStr = json["userId"] as? String {
-               let userId = userIdStr.toInt()!
-               if userId == p.userId {
-                  user.userId = userId
-                  if let first_name = json["first_name"] as? String {
-                     if let last_name = json["last_name"] as? String {
-                        user.setName(first_name, lastName: last_name)
-                        if let ageStr = json["age"] as? String {
-                           let age = ageStr.toInt()!
-                           user.age = age
-                        }
-                        if let bio = json["bio"] as? String {
-                           if count(bio) > 0 {
-                              user.bio = bio
+         if let currUser = users[p.userId] {
+            self.matches.append(Match(author: currUser, post: p))
+         } else {
+            var user = User()
+            var urlString = "http://ec2-54-69-253-12.us-west-2.compute.amazonaws.com/pixie/users/\(p.userId)"
+            let url = NSURL(string: urlString)
+            var request = NSURLRequest(URL: url!)
+            var response: NSURLResponse?
+            var error: NSErrorPointer = nil
+            var data =  NSURLConnection.sendSynchronousRequest(request, returningResponse: &response, error:nil)! as NSData
+            
+            if let json = NSJSONSerialization.JSONObjectWithData(data, options: NSJSONReadingOptions.MutableContainers, error: nil) as? NSDictionary {
+//               println("loadUsersFromAPI json...\n\(json)\n")
+               if let userIdStr = json["userId"] as? String {
+                  let userId = userIdStr.toInt()!
+                  if userId == p.userId {
+                     user.userId = userId
+                     if let first_name = json["first_name"] as? String {
+                        if let last_name = json["last_name"] as? String {
+                           user.setName(first_name, lastName: last_name)
+                           if let ageStr = json["age"] as? String {
+                              if let age = ageStr.toInt() {
+                                 user.age = age
+                              }
                            }
-                        }
-                        if let photoURL = json["photoURL"] as? String {
-                           if count(photoURL) > 0 {
-                              user.setProfPic(photoURL)
+                           if let bio = json["bio"] as? String {
+                              if bio != "NULL" && count(bio) > 0 {
+                                 user.bio = bio
+                              }
                            }
+                           if let photoURL = json["photoURL"] as? String {
+                              if count(photoURL) > 0 {
+                                 user.setProfPic(photoURL)
+                              }
+                           }
+                           self.matches.append(Match(author: user, post: p))
+                           users[p.userId] = user
+                        } else {
+                           println("error: last_name")
                         }
-                        self.matches.append(Match(author: user, post: p))
-//                        user.toString()
                      } else {
-                        println("error: last_name")
+                        println("error: first_name")
                      }
                   } else {
-                     println("error: first_name")
+                     println("error: post.userId != user.userId")
                   }
                } else {
-                  println("error: post.userId != user.userId")
+                  println("error: userId")
                }
             } else {
-               println("error: userId")
+               println("error: json object with userId: \(p.userId)")
             }
-         } else {
-            println("error: json object with userId: \(p.userId)")
          }
       }
    }
@@ -352,7 +325,7 @@ class MatchesViewController: UIViewController, UICollectionViewDelegateFlowLayou
             } else {
                destinationVC.userNameLabel.attributedText = createAttributedNameStringNoAge(current.fullName)
             }
-            destinationVC.userBio.text = "This is my bio. This is my bio. This is my bio. This is my bio. This is my bio. This is my bio. This is my bio. This is my bio. This is my bio. This is my bio. This is my bio. This is my bio. This is my bio. This is my bio. This is my bio. This is my bio. This is my bio. This is my bio. This is my bio. This is my bio. This is my bio. This is my bio. This is my bio. This is my bio. This is my bio. This is my bio. This is my bio. This is my bio. This is my bio. This is my bio. This is my bio. This is my bio. This is my bio. This is my bio. This is my bio. This is my bio. This is my bio. This is my bio. This is my bio. This is my bio. This is my bio. This is my bio. This is my bio. This is my bio. This is my bio. This is my bio. This is my bio."
+            destinationVC.userBio.text = current.bio
             destinationVC.profilePic.image = currentCell?.profilePic.image
          }
       }

@@ -72,7 +72,7 @@ class Post {
    }
    
    func getTime(timeFormatStr: String) -> String {
-      if timeFormatStr == "25:00:00" {
+      if timeFormatStr == "1 day, 1:00:00" {
          return "ANYTIME"
       }
       
