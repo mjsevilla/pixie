@@ -8,10 +8,9 @@
 
 import Foundation
 class CreateUser {
-   func generateHttp(name:String, emailParam: String, password: String, genderParam: String, bday: String) -> Dictionary<String, String> {
-      var email = emailParam;
-      var gender: String;
-      var age: NSInteger = -1;
+   func generateHttp(firstName: String, lastName: String, email: String, password: String, bday: String, bio: String, hasFB: Bool) -> Dictionary<String, String> {
+      var hasFBStr = hasFB ? "1" : "0"
+      var age = "NULL"
       
       if(count(bday.utf16) == 10) {
          let convertToMinutes: Double = 60
@@ -28,30 +27,9 @@ class CreateUser {
          timeInterval /= convertToDays
          timeInterval /= convertToYears
          //This will floor the number of years the person has lived
-         age = Int(timeInterval)
-      }
-          
-      
-      if(genderParam == "male") {
-         gender = "M";
-      }
-      else if (genderParam == "female"){
-         gender = "F"
-      }
-      else {
-         gender = "UNDISCLOSED"
+         age = String(Int(timeInterval))
       }
       
-      //needs to be redone
-      if (emailParam == "") {
-         email = name;
-      }
-      
-      if (age == -1) {
-         return ["email": email, "password": password, "name": name, "gender": gender];
-      }
-      else {
-         return ["email": email, "password": password, "name": name, "gender": gender, "age": String(age)];
-      }      
+      return ["first_name": firstName, "last_name": lastName, "email": email, "password": password, "age": age, "bio": bio, "facebook": hasFBStr];
    }
 }
