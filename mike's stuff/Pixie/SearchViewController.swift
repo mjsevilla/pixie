@@ -50,13 +50,15 @@ class SearchViewController: AutocompleteViewController, CLLocationManagerDelegat
         searchBar.setTranslatesAutoresizingMaskIntoConstraints(false)
         
         //startingTableView = UITableView()
+        startingTableView.backgroundColor = UIColor.clearColor()
         startingTableView.delegate = self
         startingTableView.dataSource = self
         startingTableView.setTranslatesAutoresizingMaskIntoConstraints(false)
-        startingTableView.registerClass(UITableViewCell.self, forCellReuseIdentifier: "Cell")
+        startingTableView.registerClass(ACTableViewCell.self, forCellReuseIdentifier: "cell")
         startingTableView.hidden = true
-        startingTableView.backgroundColor = UIColor.whiteColor().colorWithAlphaComponent(0.75)
-        startingTableView.layer.cornerRadius = 5
+        startingTableView.rowHeight = UITableViewAutomaticDimension
+        startingTableView.estimatedRowHeight = 100.0
+        startingTableView.tableFooterView = UIView(frame: CGRectZero)
         
         startingVC.delegate = self
         searchBar.delegate = self
@@ -139,15 +141,11 @@ class SearchViewController: AutocompleteViewController, CLLocationManagerDelegat
     }
     
     override func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
-        var cell: UITableViewCell
-        
-        cell = self.startingTableView.dequeueReusableCellWithIdentifier("Cell") as! UITableViewCell
+        var cell: ACTableViewCell
+        cell = self.startingTableView.dequeueReusableCellWithIdentifier("cell") as! ACTableViewCell
         
         let place = startingVC.places[indexPath.row]
-        
-        cell.textLabel?.text = place.description
-        cell.textLabel?.adjustsFontSizeToFitWidth = true
-        cell.textLabel?.font = UIFont(name: "HelveticaNeue-Thin", size: 16.0)
+        cell.placeLabel.text = place.description
         
         //		println("tableView cellForRowAtIndexPath: \(indexPath), place.description: \(place.description)")
         
