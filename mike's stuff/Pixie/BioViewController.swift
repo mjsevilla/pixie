@@ -86,9 +86,9 @@ class BioViewController: UIViewController, UIGestureRecognizerDelegate, UIScroll
       view.addConstraints(NSLayoutConstraint.constraintsWithVisualFormat("H:[profilePic(profPicSize)]", options: NSLayoutFormatOptions(0), metrics: metrics, views: viewsDict))
       view.addConstraints(NSLayoutConstraint.constraintsWithVisualFormat("H:|[userInfo]|", options: NSLayoutFormatOptions(0), metrics: nil, views: viewsDict))
       userInfo.addConstraints(NSLayoutConstraint.constraintsWithVisualFormat("H:|-16-[userName]-16-|", options: NSLayoutFormatOptions(0), metrics: nil, views: viewsDict))
-      userInfo.addConstraints(NSLayoutConstraint.constraintsWithVisualFormat("H:|-10-[userBio]-16-|", options: NSLayoutFormatOptions(0), metrics: nil, views: viewsDict))
+      userInfo.addConstraints(NSLayoutConstraint.constraintsWithVisualFormat("H:|-12-[userBio]-12-|", options: NSLayoutFormatOptions(0), metrics: nil, views: viewsDict))
       view.addConstraints(NSLayoutConstraint.constraintsWithVisualFormat("V:|[profilePic(profPicSize)]-0-[userInfo]|", options: NSLayoutFormatOptions(0), metrics: metrics, views: viewsDict))
-      userInfo.addConstraints(NSLayoutConstraint.constraintsWithVisualFormat("V:|-8-[userName]-8-[userBio]-16-|", options: NSLayoutFormatOptions(0), metrics: nil, views: viewsDict))
+      userInfo.addConstraints(NSLayoutConstraint.constraintsWithVisualFormat("V:|-8-[userName]-8-[userBio]", options: NSLayoutFormatOptions(0), metrics: nil, views: viewsDict))
       
       view.layoutIfNeeded()
    }

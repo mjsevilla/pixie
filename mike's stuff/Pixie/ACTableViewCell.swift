@@ -19,9 +19,7 @@ class ACTableViewCell: UITableViewCell {
    override init(style: UITableViewCellStyle, reuseIdentifier: String!) {
       super.init(style: style, reuseIdentifier: reuseIdentifier)
       
-      self.backgroundColor = UIColor.whiteColor()
-//      self.layer.cornerRadius = 5
-//      self.layer.masksToBounds = true
+      self.backgroundColor = UIColor.whiteColor().colorWithAlphaComponent(0.5)
       
       placeLabel = UILabel()
       placeLabel.font = UIFont(name: "HelveticaNeue-Thin", size: 16)
@@ -38,12 +36,3 @@ class ACTableViewCell: UITableViewCell {
    }
    
 }
-
-//extension ACTableViewCell {
-//   func roundCorners(corners:UIRectCorner, radius: CGFloat) {
-//      let path = UIBezierPath(roundedRect: self.bounds, byRoundingCorners: corners, cornerRadii: CGSize(width: radius, height: radius))
-//      let mask = CAShapeLayer()
-//      mask.path = path.CGPath
-//      self.layer.mask = mask
-//   }
-//}

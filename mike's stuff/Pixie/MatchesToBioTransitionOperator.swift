@@ -43,7 +43,7 @@ class MatchesToBioTransitionOperator: NSObject, UIViewControllerAnimatedTransiti
       
       if (presenting) {
          profilePic.transform = imageScale
-         infoView.transform = CGAffineTransformMakeTranslation(0, infoView.frame.height)
+         infoView.transform = CGAffineTransformMakeTranslation(0, bioView.frame.height-infoView.frame.origin.y)
       }
       
       // get the duration of the animation
@@ -65,7 +65,7 @@ class MatchesToBioTransitionOperator: NSObject, UIViewControllerAnimatedTransiti
             
             }, completion: { finished in
                UIView.animateWithDuration(duration, delay: 0.0, usingSpringWithDamping: 1.0, initialSpringVelocity: 0.5, options: nil, animations: {
-                  infoView.transform = CGAffineTransformMakeTranslation(0, infoView.frame.height+5)
+                  infoView.transform = CGAffineTransformMakeTranslation(0, bioView.frame.height-infoView.frame.origin.y+5)
                   profilePic.transform = imageScale
                   
                   }, completion: { finished in
