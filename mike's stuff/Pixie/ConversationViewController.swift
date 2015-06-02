@@ -130,7 +130,6 @@ class ConversationViewController: JSQMessagesViewController {
     }
     
     override func didPressSendButton(button: UIButton!, withMessageText text: String!, senderId: String!, senderDisplayName: String!, date: NSDate!) {
-//        let pushQuery = PFQuery(className: "PixieUser")
         let pushQuery = PFUser.query()
         let pushMsg = "New message from \(senderDisplayName)"
         let pushNot = PFPush()
