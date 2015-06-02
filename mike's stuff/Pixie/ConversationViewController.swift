@@ -18,6 +18,7 @@ class ConversationViewController: JSQMessagesViewController {
     
     var convoId: String?
     var convo: PFObject?
+    var timer: NSTimer?
 
     var bubbleImageOutgoing: JSQMessagesBubbleImage!
     var bubbleImageIncoming: JSQMessagesBubbleImage!
@@ -30,11 +31,13 @@ class ConversationViewController: JSQMessagesViewController {
         
         automaticallyScrollsToMostRecentMessage = true
         messages = []
-        self.navigationItem.title = recipientName!
-        self.navigationController?.navigationBar.backgroundColor = UIColor(red: 0/256, green: 188/256, blue: 209/256, alpha: 1.0)
-        self.collectionView.collectionViewLayout.incomingAvatarViewSize = CGSizeZero
-        self.collectionView.collectionViewLayout.outgoingAvatarViewSize = CGSizeZero
-        self.inputToolbar.contentView.leftBarButtonItem = nil
+        navigationItem.title = recipientName!
+        navigationController?.navigationBar.backgroundColor = UIColor(red: 0/256, green: 188/256, blue: 209/256, alpha: 1.0)
+        collectionView.collectionViewLayout.incomingAvatarViewSize = CGSizeZero
+        collectionView.collectionViewLayout.outgoingAvatarViewSize = CGSizeZero
+        
+        inputToolbar.contentView.leftBarButtonItem = nil
+        timer = NSTimer.scheduledTimerWithTimeInterval(5.0, target: self, selector: Selector("loadMessages:"), userInfo: nil, repeats: true)
         
         bubbleImageOutgoing = bubbleFactory.outgoingMessagesBubbleImageWithColor(uicolorFromHex(0x00BCD1))
         bubbleImageIncoming = bubbleFactory.incomingMessagesBubbleImageWithColor(UIColor.jsq_messageBubbleLightGrayColor())
@@ -55,6 +58,11 @@ class ConversationViewController: JSQMessagesViewController {
         collectionView.collectionViewLayout.springinessEnabled = true
     }
     
+    override func viewWillDisappear(animated: Bool) {
+        super.viewWillDisappear(animated)
+        timer?.invalidate()
+    }
+    
     func receivedMessagePressed(sender: UIBarButtonItem) {
         // Simulate reciving message
         showTypingIndicator = !showTypingIndicator
@@ -66,7 +74,6 @@ class ConversationViewController: JSQMessagesViewController {
         var lastMsg = messages.last
         var query = PFQuery(className: "Message")
         
-        //
         query.whereKey("convoId", equalTo: convoId!)
         if lastMsg != nil {
             query.whereKey("createdAt", greaterThan: lastMsg!.date)
@@ -130,10 +137,13 @@ class ConversationViewController: JSQMessagesViewController {
     }
     
     override func didPressSendButton(button: UIButton!, withMessageText text: String!, senderId: String!, senderDisplayName: String!, date: NSDate!) {
-        let pushQuery = PFQuery(className: "PixieUser")
+//        let pushQuery = PFQuery(className: "PixieUser")
+        let innerQuery = PFUser.query()
+        let pushQuery = PFInstallation.query()
         let pushMsg = "New message from \(senderDisplayName)"
         let pushNot = PFPush()
-        pushQuery.whereKey("userId", equalTo: recipientId!)
+        innerQuery!.whereKey("userId", equalTo: recipientId!)
+        pushQuery!.whereKey("user", matchesQuery: innerQuery!)
         pushNot.setQuery(pushQuery)
         pushNot.setData([
             "sound":"alert.caf",

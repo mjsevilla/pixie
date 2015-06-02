@@ -43,8 +43,6 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
             application.registerUserNotificationSettings(settings)
             application.registerForRemoteNotifications()
         } else {
-//            let types = UIRemoteNotificationType.Badge | UIRemoteNotificationType.Alert | UIRemoteNotificationType.Sound
-//            application.registerForRemoteNotificationTypes(types)
             application.registerForRemoteNotifications()
         }
         
@@ -83,6 +81,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 
     func application(application: UIApplication, didRegisterForRemoteNotificationsWithDeviceToken deviceToken: NSData) {
         let installation = PFInstallation.currentInstallation()
+        installation.setObject(PFUser.currentUser()!, forKey: "user")
         installation.setDeviceTokenFromData(deviceToken)
         installation.saveInBackground()
     }
