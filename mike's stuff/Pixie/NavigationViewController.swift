@@ -18,19 +18,7 @@ class NavigationViewController: UIViewController, UITableViewDelegate, UITableVi
     var items: [NavigationModel]!
     var presentingView: UIViewController!
     var user: ContactObject?
-    var defaults = NSUserDefaults.standardUserDefaults() {
-        didSet {
-            let id = defaults.stringForKey("PixieUserId")
-            var fullName = ""
-            if let savedFirstName = defaults.stringForKey("PixieUserFirstName") {
-                fullName = savedFirstName
-                if let savedLastName = defaults.stringForKey("PixieUserLastName") {
-                    fullName += " \(savedLastName)"
-                }
-            }
-            user = ContactObject(_id: id!, _name: fullName)
-        }
-    }
+    var defaults = NSUserDefaults.standardUserDefaults()
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -39,9 +27,20 @@ class NavigationViewController: UIViewController, UITableViewDelegate, UITableVi
         tableView.dataSource = self
         tableView.separatorStyle = .None
         tableView.backgroundColor = UIColor.clearColor()
-        
         bgImageView.image = UIImage(named: "nav-bg")
         dimmerView.backgroundColor = UIColor(white: 0.0, alpha: 0.3)
+        
+        let id = defaults.stringForKey("PixieUserId")
+        println("ID: \(id!)")
+        var fullName = ""
+        if let savedFirstName = defaults.stringForKey("PixieUserFirstName") {
+            fullName = savedFirstName
+            if let savedLastName = defaults.stringForKey("PixieUserLastName") {
+                fullName += " \(savedLastName)"
+                println("name: \(fullName)")
+            }
+        }
+        user = ContactObject(_id: id!, _name: fullName)
         
         let search = NavigationModel(title: "Search", icon: "location")
         let myProfile = NavigationModel(title: "My Profile", icon: "user")
@@ -62,9 +61,7 @@ class NavigationViewController: UIViewController, UITableViewDelegate, UITableVi
     }
     
     func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
-        
         let cell = tableView.dequeueReusableCellWithIdentifier("NavigationCell") as! NavigationCell
-        
         let item = items[indexPath.row]
         
         cell.titleLabel.text = item.title
