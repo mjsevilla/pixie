@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="7702" systemVersion="14D136" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" initialViewController="WGR-7L-PRe">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="7706" systemVersion="14D136" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" initialViewController="WGR-7L-PRe">
     <dependencies>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="7701"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="7703"/>
         <capability name="Aspect ratio constraints" minToolsVersion="5.1"/>
         <capability name="Constraints to layout margins" minToolsVersion="6.0"/>
     </dependencies>
@@ -942,7 +942,7 @@
                                         <barButtonItem key="rightBarButtonItem" enabled="NO" title="Save" id="A2m-8O-S9y">
                                             <color key="tintColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                             <connections>
-                                                <segue destination="vXZ-lx-hvc" kind="show" identifier="presentSearch" id="3Sk-Xj-7lo"/>
+                                                <action selector="saveBtnTapped:" destination="9HI-6j-g6Y" id="SIN-FU-zRk"/>
                                             </connections>
                                         </barButtonItem>
                                     </navigationItem>
@@ -1090,6 +1090,7 @@
                         <outlet property="password" destination="II1-We-ws9" id="Hs1-Br-ghu"/>
                         <outlet property="profPic" destination="x1h-bI-CD8" id="Run-Zh-lhe"/>
                         <outlet property="saveBtn" destination="A2m-8O-S9y" id="ZNN-WS-4B3"/>
+                        <segue destination="vXZ-lx-hvc" kind="presentation" identifier="presentSearch" id="lKm-Ld-Zgx"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="uSD-ex-pPU" userLabel="First Responder" sceneMemberID="firstResponder"/>
@@ -1373,8 +1374,8 @@
         <image name="menu" width="22" height="22"/>
     </resources>
     <inferredMetricsTieBreakers>
+        <segue reference="ndH-hG-Xoc"/>
+        <segue reference="lKm-Ld-Zgx"/>
         <segue reference="Ntf-EL-NHY"/>
-        <segue reference="vwa-0O-sBD"/>
-        <segue reference="ELl-Ug-DNN"/>
     </inferredMetricsTieBreakers>
 </document>
