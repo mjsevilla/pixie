@@ -11,8 +11,7 @@ import UIKit
 
 class ConversationViewController: JSQMessagesViewController {
     var messages: [JSQMessage]!
-    var userId: String?
-    var userName: String?
+    let user = PFUser.currentUser()!
     var recipientName: String?
     var recipientId: String?
     
@@ -24,8 +23,9 @@ class ConversationViewController: JSQMessagesViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        super.senderId = userId
-        super.senderDisplayName = userName
+        println("Parse: \(user.objectId)")
+        super.senderId = user["userId"]!.stringValue
+        super.senderDisplayName = user["name"]!.stringValue
         let bubbleFactory = JSQMessagesBubbleImageFactory()
         
         automaticallyScrollsToMostRecentMessage = true
@@ -34,7 +34,6 @@ class ConversationViewController: JSQMessagesViewController {
         navigationController?.navigationBar.backgroundColor = UIColor(red: 0/256, green: 188/256, blue: 209/256, alpha: 1.0)
         collectionView.collectionViewLayout.incomingAvatarViewSize = CGSizeZero
         collectionView.collectionViewLayout.outgoingAvatarViewSize = CGSizeZero
-        
         inputToolbar.contentView.leftBarButtonItem = nil
         
         bubbleImageOutgoing = bubbleFactory.outgoingMessagesBubbleImageWithColor(uicolorFromHex(0x00BCD1))
@@ -54,12 +53,6 @@ class ConversationViewController: JSQMessagesViewController {
     override func viewDidAppear(animated: Bool) {
         super.viewDidAppear(animated)
         collectionView.collectionViewLayout.springinessEnabled = true
-    }
-    
-    func receivedMessagePressed(sender: UIBarButtonItem) {
-        // Simulate reciving message
-        showTypingIndicator = !showTypingIndicator
-        scrollToBottomAnimated(true)
     }
     
     // load previous messages of a convo
@@ -110,9 +103,11 @@ class ConversationViewController: JSQMessagesViewController {
     func sendMessage(text: String) {
         var parseMsg = PFObject(className: "Message")
         
-        parseMsg["userId"] = self.userId
-        parseMsg["userName"] = self.userName
-        parseMsg["convoId"] = self.convoId
+        parseMsg["user"] = self.user
+//        parseMsg["userId"] = self.user["userId"]!.stringValue
+//        parseMsg["userName"] = self.user["name"]!.stringValue
+//        parseMsg["convoId"] = self.convoId
+        parseMsg["convo"] = self.convo!
         parseMsg["message"] = text
         
         parseMsg.saveInBackgroundWithBlock {
@@ -130,11 +125,17 @@ class ConversationViewController: JSQMessagesViewController {
     }
     
     override func didPressSendButton(button: UIButton!, withMessageText text: String!, senderId: String!, senderDisplayName: String!, date: NSDate!) {
-        let pushQuery = PFUser.query()
+        let recipientQuery = PFUser.query()
+        recipientQuery?.whereKey("userId", equalTo: recipientId!)
+        recipientQuery?.findObjectsInBackgroundWithBlock {
+            (objects: [AnyObject]?, error: NSError?) -> Void in
+            if error == nil {
+                let recipient = objects![0] as! PFUser
+            }
+        }
         let pushMsg = "New message from \(senderDisplayName)"
         let pushNot = PFPush()
-        pushQuery!.whereKey("userId", equalTo: recipientId!)
-        pushNot.setQuery(pushQuery)
+//        pushNot.setQuery(pushQuery)
         pushNot.setData([
             "sound":"alert.caf",
             "alert":pushMsg

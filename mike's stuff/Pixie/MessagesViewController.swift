@@ -11,8 +11,7 @@ import UIKit
 
 class MessagesViewContoller: UITableViewController {
     var navTransitionOperator = NavigationTransitionOperator()
-    var userID: String?
-    var userName: String?
+    let user = PFUser.currentUser()!
     var convos: [PFObject]?
     
     override func viewDidLoad() {
@@ -42,9 +41,9 @@ class MessagesViewContoller: UITableViewController {
     // load all conversations that have the user's ID
     func loadConversations() {
         var query1 = PFQuery(className: "Conversation")
-        query1.whereKey("user1Id", equalTo: userID!)
+        query1.whereKey("user1", equalTo: self.user)
         var query2 = PFQuery(className: "Conversation")
-        query2.whereKey("user2Id", equalTo: userID!)
+        query2.whereKey("user2", equalTo: self.user)
         
         var query = PFQuery.orQueryWithSubqueries([query1, query2])
         query.orderByDescending("updatedAt")
@@ -76,11 +75,12 @@ class MessagesViewContoller: UITableViewController {
         if segue.identifier == "presentConvo" {
             if let destVC = segue.destinationViewController as? ConversationViewController {
                 let cell = sender as! MessageCell
-                
-                destVC.userName = self.userName
-                destVC.userId = self.userID
+                let user1 = cell.convo!["user1"] as! PFUser
+                let user2 = cell.convo!["user2"] as! PFUser
+//                destVC.userName = self.userName
+//                destVC.userId = self.userID
                 destVC.recipientName = cell.nameLabel.text
-                destVC.recipientId = (self.userID == cell.convo!["user1Id"] as? String ? cell.convo!["user2Id"] : cell.convo!["user1Id"]) as? String
+                destVC.recipientId = self.user["userId"]!.stringValue == user1["userId"]!.stringValue ? user2["userId"]!.stringValue : user1["userId"]!.stringValue
                 destVC.convoId = cell.convoID
                 destVC.convo = cell.convo
             }
@@ -112,9 +112,9 @@ class MessagesViewContoller: UITableViewController {
     override func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCellWithIdentifier("MessageCell") as! MessageCell
         let convo = convos![indexPath.row]
-        let user1 = convo["user1Id"] as! String
-        let user2 = convo["user2Id"] as! String
-        let recipientName = (self.userID == user1 ? convo["user2Name"] : convo["user1Name"]) as? String
+        let user1 = convo["user1"] as! PFUser
+        let user2 = convo["user2"] as! PFUser
+        let recipientName = (self.user["name"]!.stringValue == user1["name"]!.stringValue ? user2["name"] : user1["name"]) as? String
         let lastMsgObj = convo["lastMessage"] as? PFObject
         let lastMsg = lastMsgObj!["message"] as! NSString
         

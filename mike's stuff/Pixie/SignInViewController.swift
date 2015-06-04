@@ -79,6 +79,15 @@ class SignInViewController: UIViewController, UITextFieldDelegate {
                         defaults.setObject(last_name, forKey: "PixieUserLastName")
                         defaults.setObject(resp_email, forKey: "PixieUserEmail")
                         defaults.setObject(resp_password, forKey: "PixieUserPassword")
+                        let username = first_name + last_name + userId
+                        PFUser.logInWithUsernameInBackground(username, password: resp_password) {
+                            [unowned self] (user: PFUser?, error: NSError?) -> Void in
+                            if user != nil {
+                                println("Parse user successfully logged in")
+                            } else {
+                                println("Parse log in error: \(error!)")
+                            }
+                        }
                         NSUserDefaults.standardUserDefaults().synchronize()
                         println("signed in userId: \(userId.toInt()!), first_name: \(first_name), last_name: \(last_name), email: \(resp_email), password: \(resp_password)")
                         self.wrongEmailPwLabel.hidden = true

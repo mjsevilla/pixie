@@ -17,7 +17,7 @@ class NavigationViewController: UIViewController, UITableViewDelegate, UITableVi
     
     var items: [NavigationModel]!
     var presentingView: UIViewController!
-    var user: ContactObject?
+//    let user = PFUser.currentUser()!
     var defaults = NSUserDefaults.standardUserDefaults()
     
     override func viewDidLoad() {
@@ -31,16 +31,13 @@ class NavigationViewController: UIViewController, UITableViewDelegate, UITableVi
         dimmerView.backgroundColor = UIColor(white: 0.0, alpha: 0.3)
         
         let id = defaults.stringForKey("PixieUserId")
-        println("ID: \(id!)")
         var fullName = ""
         if let savedFirstName = defaults.stringForKey("PixieUserFirstName") {
             fullName = savedFirstName
             if let savedLastName = defaults.stringForKey("PixieUserLastName") {
                 fullName += " \(savedLastName)"
-                println("name: \(fullName)")
             }
         }
-        user = ContactObject(_id: id!, _name: fullName)
         
         let search = NavigationModel(title: "Search", icon: "location")
         let myProfile = NavigationModel(title: "My Profile", icon: "user")
@@ -117,7 +114,8 @@ class NavigationViewController: UIViewController, UITableViewDelegate, UITableVi
             }
         case 5:
             NSUserDefaults.standardUserDefaults().removeObjectForKey("PixieUserId")
-            self.performSegueWithIdentifier("presentInitial", sender: self)
+            self.performSegueWithIdentifier("unwindInitial", sender: self)
+            PFUser.logOut()
         default:
             print("uhhh...hai <(._.<)")
         }
@@ -127,8 +125,8 @@ class NavigationViewController: UIViewController, UITableViewDelegate, UITableVi
         if segue.identifier == "presentMessages" {
             if let navVC = segue.destinationViewController as? UINavigationController {
                 if let destVC = navVC.topViewController as? MessagesViewContoller {
-                    destVC.userID = user?.id
-                    destVC.userName = user?.name
+//                    destVC.userID = user?.id
+//                    destVC.userName = user?.name
                 }
             }
         }

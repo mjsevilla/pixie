@@ -35,7 +35,7 @@ class InitialViewController: UIViewController {
             player.scalingMode = .AspectFill
             self.view.addSubview(player.view)
             self.view.sendSubviewToBack(player.view)
-            
+            player.play()
             return true
         }
         
@@ -56,6 +56,10 @@ class InitialViewController: UIViewController {
         if segue.identifier == "presentRegister" {
             if let signInVC = segue.destinationViewController as? RegisterViewController {}
         }
+    }
+    
+    @IBAction func unwindToInitialVC(sender: UIStoryboardSegue) {
+        playVideo()
     }
     
     override func didReceiveMemoryWarning() {
