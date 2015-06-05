@@ -57,7 +57,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
             
             // Fetch convo object
             convo!.fetchIfNeededInBackgroundWithBlock {
-                (object: PFObject?, error:NSError?) -> Void in
+                (object: PFObject?, error: NSError?) -> Void in
                 if error == nil {
                     // Show conversationVC
                     let convoVC = ConversationViewController()
@@ -65,9 +65,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
                     convoVC.convoId = convoId
                     convoVC.recipientId = recipientId!
                     convoVC.recipientName = recipientName
-                    let navController = self.window?.rootViewController as? UINavigationController
-                    navController?.pushViewController(convoVC, animated: true)
-//                    self.navController.pushViewController(convoVC, animated: true)
+                    self.window?.rootViewController?.navigationController?.pushViewController(convoVC, animated: true)
                 }
             }
         }
@@ -117,6 +115,36 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         } else {
             println("application:didFailToRegisterForRemoteNotificationsWithError: %@", error)
         }
+    }
+    
+    func application(application: UIApplication, didReceiveRemoteNotification userInfo: [NSObject : AnyObject], fetchCompletionHandler completionHandler: (UIBackgroundFetchResult) -> Void) {
+        if let convo = userInfo["convo"] as? PFObject {
+            // Create pointers to payload objects
+            let recipientName = userInfo["rName"] as? String
+            let recipientId = userInfo["rID"] as? String
+            let convoId = userInfo["cID"] as? String
+            
+            // Fetch convo object
+            convo.fetchIfNeededInBackgroundWithBlock {
+                (object: PFObject?, error: NSError?) -> Void in
+                if error != nil {
+                    completionHandler(UIBackgroundFetchResult.Failed)
+                }
+                else if PFUser.currentUser() != nil {
+                    // Show conversationVC
+                    let convoVC = ConversationViewController()
+                    convoVC.convo = convo
+                    convoVC.convoId = convoId
+                    convoVC.recipientId = recipientId!
+                    convoVC.recipientName = recipientName
+                    self.window?.rootViewController?.navigationController?.pushViewController(convoVC, animated: true)
+                }
+                else {
+                    completionHandler(UIBackgroundFetchResult.NoData)
+                }
+            }
+        }
+        completionHandler(UIBackgroundFetchResult.NoData)
     }
     
     func application(application: UIApplication, didReceiveRemoteNotification userInfo: [NSObject : AnyObject]) {
