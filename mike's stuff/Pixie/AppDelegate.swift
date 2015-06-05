@@ -77,7 +77,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     }
    
    func application(application: UIApplication, openURL url: NSURL, sourceApplication: String?, annotation: AnyObject?) -> Bool {
-      var wasHandled:Bool = FBAppCall.handleOpenURL(url, sourceApplication: sourceApplication)
+      var wasHandled: Bool = FBAppCall.handleOpenURL(url, sourceApplication: sourceApplication, withSession: PFFacebookUtils.session())
       return wasHandled
    }
 

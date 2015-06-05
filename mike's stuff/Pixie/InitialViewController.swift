@@ -59,7 +59,7 @@ class InitialViewController: UIViewController {
     }
     
     @IBAction func unwindToInitialVC(sender: UIStoryboardSegue) {
-        playVideo()
+        moviePlayer?.play()
     }
     
     override func didReceiveMemoryWarning() {

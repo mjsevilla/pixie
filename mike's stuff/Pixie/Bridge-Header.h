@@ -12,6 +12,7 @@
 #import <FacebookSDK/FacebookSDK.h>
 #import <Bolts/Bolts.h>
 #import <Parse/Parse.h>
+#import <ParseFacebookUtils/PFFacebookUtils.h>
 #import <JSQMessagesViewController/JSQMessages.h>
 #import "AutocompleteViewController.h"
 #import "Autocomplete.h"

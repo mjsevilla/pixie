@@ -40,6 +40,8 @@
 		52FFF7D11AEDFA350054A803 /* MyPostsTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 52FFF7D01AEDFA350054A803 /* MyPostsTableViewCell.swift */; };
 		610A6B641B1CDF8E00119333 /* Locksmith.swift in Sources */ = {isa = PBXBuildFile; fileRef = 610A6B621B1CDF8E00119333 /* Locksmith.swift */; };
 		610A6B651B1CDF8E00119333 /* LocksmithRequest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 610A6B631B1CDF8E00119333 /* LocksmithRequest.swift */; };
+		610A6B681B2258E100119333 /* ParseFacebookUtils.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 610A6B661B2258E100119333 /* ParseFacebookUtils.framework */; };
+		610A6B691B2258E100119333 /* ParseFacebookUtilsV4.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 610A6B671B2258E100119333 /* ParseFacebookUtilsV4.framework */; };
 		611A1A351AAE814800F18B3B /* ProfileViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 611A1A341AAE814800F18B3B /* ProfileViewController.swift */; };
 		611A1A371AAE827E00F18B3B /* SearchViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 611A1A361AAE827E00F18B3B /* SearchViewController.swift */; };
 		611A1A3B1AAE8BBD00F18B3B /* InitialViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 611A1A3A1AAE8BBD00F18B3B /* InitialViewController.swift */; };
@@ -187,6 +189,8 @@
 		52FFF7D01AEDFA350054A803 /* MyPostsTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MyPostsTableViewCell.swift; sourceTree = "<group>"; };
 		610A6B621B1CDF8E00119333 /* Locksmith.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = Locksmith.swift; path = Pixie/Locksmith.swift; sourceTree = "<group>"; };
 		610A6B631B1CDF8E00119333 /* LocksmithRequest.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = LocksmithRequest.swift; path = Pixie/LocksmithRequest.swift; sourceTree = "<group>"; };
+		610A6B661B2258E100119333 /* ParseFacebookUtils.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = ParseFacebookUtils.framework; path = ParseSDK/ParseFacebookUtils.framework; sourceTree = "<group>"; };
+		610A6B671B2258E100119333 /* ParseFacebookUtilsV4.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = ParseFacebookUtilsV4.framework; path = ParseSDK/ParseFacebookUtilsV4.framework; sourceTree = "<group>"; };
 		611A1A341AAE814800F18B3B /* ProfileViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ProfileViewController.swift; sourceTree = "<group>"; };
 		611A1A361AAE827E00F18B3B /* SearchViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; indentWidth = 4; lastKnownFileType = sourcecode.swift; path = SearchViewController.swift; sourceTree = "<group>"; };
 		611A1A3A1AAE8BBD00F18B3B /* InitialViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = InitialViewController.swift; sourceTree = "<group>"; };
@@ -358,6 +362,7 @@
 				619B9AF51B006E9100AA299F /* FacebookSDK.framework in Frameworks */,
 				612ECAD51AF0112C006C2D13 /* Accounts.framework in Frameworks */,
 				612ECAD31AF01122006C2D13 /* Social.framework in Frameworks */,
+				610A6B681B2258E100119333 /* ParseFacebookUtils.framework in Frameworks */,
 				61EB1BAE1AEF4BB700939E60 /* libsqlite3.dylib in Frameworks */,
 				61EB1BAC1AEF4BAF00939E60 /* libz.dylib in Frameworks */,
 				61EB1BAA1AEF4BA800939E60 /* SystemConfiguration.framework in Frameworks */,
@@ -366,6 +371,7 @@
 				61EB1BA41AEF4B9200939E60 /* QuartzCore.framework in Frameworks */,
 				61EB1BA21AEF4B8700939E60 /* MobileCoreServices.framework in Frameworks */,
 				61EB1BA01AEF4B8000939E60 /* CoreLocation.framework in Frameworks */,
+				610A6B691B2258E100119333 /* ParseFacebookUtilsV4.framework in Frameworks */,
 				61EB1B9E1AEF4B7A00939E60 /* CoreGraphics.framework in Frameworks */,
 				61EB1B9C1AEF4B7200939E60 /* CFNetwork.framework in Frameworks */,
 				61EB1B9A1AEF4B6B00939E60 /* AudioToolbox.framework in Frameworks */,
@@ -618,6 +624,8 @@
 				619B9AF61B006E9100AA299F /* Bolts.framework */,
 				61D339A11AF021EC0084D716 /* Bolts.framework */,
 				61D3399F1AF01F610084D716 /* Parse.framework */,
+				610A6B661B2258E100119333 /* ParseFacebookUtils.framework */,
+				610A6B671B2258E100119333 /* ParseFacebookUtilsV4.framework */,
 				61D3399B1AF01F4A0084D716 /* FacebookSDK.framework */,
 				612ECAD41AF0112C006C2D13 /* Accounts.framework */,
 				612ECAD21AF01122006C2D13 /* Social.framework */,
