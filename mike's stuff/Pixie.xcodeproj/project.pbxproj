@@ -855,6 +855,11 @@
 					6184D2DB1A9302F3006DA1E4 = {
 						CreatedOnToolsVersion = 6.1.1;
 						DevelopmentTeam = PY9957M84G;
+						SystemCapabilities = {
+							com.apple.BackgroundModes = {
+								enabled = 1;
+							};
+						};
 					};
 					6184D2F01A9302F3006DA1E4 = {
 						CreatedOnToolsVersion = 6.1.1;
