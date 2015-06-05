@@ -65,7 +65,8 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
                     convoVC.convoId = convoId
                     convoVC.recipientId = recipientId!
                     convoVC.recipientName = recipientName
-                    self.window?.rootViewController?.navigationController?.pushViewController(convoVC, animated: true)
+                    let navController = self.window?.rootViewController as? UINavigationController
+                    navController?.pushViewController(convoVC, animated: true)
 //                    self.navController.pushViewController(convoVC, animated: true)
                 }
             }
