@@ -46,6 +46,31 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
             application.registerForRemoteNotifications()
         }
         
+        // Extract the notification data
+        if let notificationPayload = launchOptions?[UIApplicationLaunchOptionsRemoteNotificationKey] as? NSDictionary {
+            
+            // Create pointers to payload objects
+            let recipientName = notificationPayload["rName"] as? String
+            let recipientId = notificationPayload["rID"] as? String
+            let convoId = notificationPayload["cID"] as? String
+            let convo = notificationPayload["convo"] as? PFObject
+            
+            // Fetch convo object
+            convo!.fetchIfNeededInBackgroundWithBlock {
+                (object: PFObject?, error:NSError?) -> Void in
+                if error == nil {
+                    // Show conversationVC
+                    let convoVC = ConversationViewController()
+                    convoVC.convo = convo!
+                    convoVC.convoId = convoId
+                    convoVC.recipientId = recipientId!
+                    convoVC.recipientName = recipientName
+                    self.window?.rootViewController?.navigationController?.pushViewController(convoVC, animated: true)
+//                    self.navController.pushViewController(convoVC, animated: true)
+                }
+            }
+        }
+        
         // Facebook stuff
         FBLoginView.self
         FBProfilePictureView.self

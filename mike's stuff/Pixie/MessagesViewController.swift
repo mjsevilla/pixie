@@ -23,7 +23,7 @@ class MessagesViewContoller: UITableViewController {
         tableView.dataSource = self
         convos = []
         currentInstallation.badge = 0
-        currentInstallation.saveEventually()
+        currentInstallation.saveInBackground()
         var rightSwipe = UISwipeGestureRecognizer(target: self, action: Selector("handleSwipes:"))
         rightSwipe.direction = .Right
         view.addGestureRecognizer(rightSwipe)

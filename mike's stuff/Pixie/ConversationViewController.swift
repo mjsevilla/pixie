@@ -139,7 +139,10 @@ class ConversationViewController: JSQMessagesViewController {
             "sound" : "alert.caf",
             "alert" : "\(senderDisplayName) sent you a message",
             "badge" : "Increment",
-            "cID"   : convoId!
+            "convo" : convo!,
+            "cID"   : convoId!,
+            "rName" : recipientName!,
+            "rID"   : recipientId!
             ])
         pushNot.sendPushInBackgroundWithBlock({ (succeeded, e) -> Void in
             if succeeded {
@@ -188,14 +191,14 @@ class ConversationViewController: JSQMessagesViewController {
         
         // Sent by me, skip
         if message.senderId == self.senderId {
-            return CGFloat(0.0);
+            return CGFloat(0.0)
         }
         
         // Same as previous sender, skip
         if indexPath.item > 0 {
             let previousMessage = messages[indexPath.item - 1];
             if previousMessage.senderId == message.senderId {
-                return CGFloat(0.0);
+                return CGFloat(0.0)
             }
         }
         
