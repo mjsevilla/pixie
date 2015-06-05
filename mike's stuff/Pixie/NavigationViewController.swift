@@ -17,8 +17,8 @@ class NavigationViewController: UIViewController, UITableViewDelegate, UITableVi
     
     var items: [NavigationModel]!
     var presentingView: UIViewController!
-//    let user = PFUser.currentUser()!
     var defaults = NSUserDefaults.standardUserDefaults()
+    let currentInstallation = PFInstallation.currentInstallation()
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -39,9 +39,17 @@ class NavigationViewController: UIViewController, UITableViewDelegate, UITableVi
             }
         }
         
+        let messages: NavigationModel
+        if currentInstallation.badge > 0 {
+            let count = String(currentInstallation.badge)
+            messages = NavigationModel(title: "Messages", icon: "icon-chat", count: count)
+        }
+        else {
+            messages = NavigationModel(title: "Messages", icon: "icon-chat")
+        }
+        
         let search = NavigationModel(title: "Search", icon: "location")
         let myProfile = NavigationModel(title: "My Profile", icon: "user")
-        let messages = NavigationModel(title: "Messages", icon: "icon-chat", count: "3")
         let myRides = NavigationModel(title: "My Rides", icon: "car")
         let about = NavigationModel(title: "About", icon: "icon-info")
         let signOut = NavigationModel(title: "Sign Out", icon: "door")
@@ -125,8 +133,6 @@ class NavigationViewController: UIViewController, UITableViewDelegate, UITableVi
         if segue.identifier == "presentMessages" {
             if let navVC = segue.destinationViewController as? UINavigationController {
                 if let destVC = navVC.topViewController as? MessagesViewContoller {
-//                    destVC.userID = user?.id
-//                    destVC.userName = user?.name
                 }
             }
         }

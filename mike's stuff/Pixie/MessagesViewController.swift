@@ -12,6 +12,7 @@ import UIKit
 class MessagesViewContoller: UITableViewController {
     var navTransitionOperator = NavigationTransitionOperator()
     let user = PFUser.currentUser()!
+    let currentInstallation = PFInstallation.currentInstallation()
     var convos: [PFObject]?
     
     override func viewDidLoad() {
@@ -21,7 +22,8 @@ class MessagesViewContoller: UITableViewController {
         tableView.delegate = self
         tableView.dataSource = self
         convos = []
-        
+        currentInstallation.badge = 0
+        currentInstallation.saveEventually()
         var rightSwipe = UISwipeGestureRecognizer(target: self, action: Selector("handleSwipes:"))
         rightSwipe.direction = .Right
         view.addGestureRecognizer(rightSwipe)
