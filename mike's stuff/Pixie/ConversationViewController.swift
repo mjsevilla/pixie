@@ -129,26 +129,15 @@ class ConversationViewController: JSQMessagesViewController {
     override func didPressSendButton(button: UIButton!, withMessageText text: String!, senderId: String!, senderDisplayName: String!, date: NSDate!) {
         self.sendMessage(text)
         self.finishSendingMessage()
-        
-        let recipientQuery = PFUser.query()
-        var recipient = ""
-        recipientQuery?.whereKey("userId", equalTo: recipientId!)
-        recipientQuery?.findObjectsInBackgroundWithBlock {
-            (objects: [AnyObject]?, error: NSError?) -> Void in
-            if error == nil {
-                let user = objects![0] as! PFUser
-                recipient = user["username"] as! String
-                println("Recipient: \(recipient)")
-            }
-        }
-        let pushMsg = "\(senderDisplayName) sent you a message"
-        let pushNot = PFPush()
+        let userQuery = PFUser.query()
+        userQuery?.whereKey("userId", equalTo: recipientId!)
         let pushQuery = PFInstallation.query()
-        pushQuery?.whereKey("username", equalTo: recipient)
+        pushQuery?.whereKey("user", matchesQuery: userQuery!)
+        let pushNot = PFPush()
         pushNot.setQuery(pushQuery)
         pushNot.setData([
             "sound" : "alert.caf",
-            "alert" : pushMsg,
+            "alert" : "\(senderDisplayName) sent you a message",
             "cID"   : convoId!
             ])
         pushNot.sendPushInBackgroundWithBlock({ (succeeded, e) -> Void in
