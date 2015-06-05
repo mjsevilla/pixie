@@ -138,6 +138,7 @@ class ConversationViewController: JSQMessagesViewController {
         pushNot.setData([
             "sound" : "alert.caf",
             "alert" : "\(senderDisplayName) sent you a message",
+            "badge" : "Increment",
             "cID"   : convoId!
             ])
         pushNot.sendPushInBackgroundWithBlock({ (succeeded, e) -> Void in
