@@ -21,11 +21,15 @@ class ConversationViewController: JSQMessagesViewController {
     var bubbleImageOutgoing: JSQMessagesBubbleImage!
     var bubbleImageIncoming: JSQMessagesBubbleImage!
     
+    override func viewWillAppear(animated: Bool) {
+        super.viewWillAppear(animated)
+        user.fetch()
+    }
+    
     override func viewDidLoad() {
         super.viewDidLoad()
-        println("Parse: \(user.objectId)")
-        super.senderId = user["userId"]!.stringValue
-        super.senderDisplayName = user["name"]!.stringValue
+        super.senderId = user["userId"] as! String
+        super.senderDisplayName = user["name"] as! String
         let bubbleFactory = JSQMessagesBubbleImageFactory()
         
         automaticallyScrollsToMostRecentMessage = true
@@ -103,13 +107,11 @@ class ConversationViewController: JSQMessagesViewController {
     func sendMessage(text: String) {
         var parseMsg = PFObject(className: "Message")
         
-        parseMsg["user"] = self.user
-//        parseMsg["userId"] = self.user["userId"]!.stringValue
-//        parseMsg["userName"] = self.user["name"]!.stringValue
-//        parseMsg["convoId"] = self.convoId
+        parseMsg["userId"] = self.user["userId"] as! String
+        parseMsg["userName"] = self.user["name"] as! String
         parseMsg["convo"] = self.convo!
+        parseMsg["convoId"] = self.convoId!
         parseMsg["message"] = text
-        
         parseMsg.saveInBackgroundWithBlock {
             [unowned self] (success: Bool, error: NSError?) -> Void in
             if error == nil {
@@ -125,20 +127,29 @@ class ConversationViewController: JSQMessagesViewController {
     }
     
     override func didPressSendButton(button: UIButton!, withMessageText text: String!, senderId: String!, senderDisplayName: String!, date: NSDate!) {
+        self.sendMessage(text)
+        self.finishSendingMessage()
+        
         let recipientQuery = PFUser.query()
+        var recipient = ""
         recipientQuery?.whereKey("userId", equalTo: recipientId!)
         recipientQuery?.findObjectsInBackgroundWithBlock {
             (objects: [AnyObject]?, error: NSError?) -> Void in
             if error == nil {
-                let recipient = objects![0] as! PFUser
+                let user = objects![0] as! PFUser
+                recipient = user["username"] as! String
+                println("Recipient: \(recipient)")
             }
         }
-        let pushMsg = "New message from \(senderDisplayName)"
+        let pushMsg = "\(senderDisplayName) sent you a message"
         let pushNot = PFPush()
-//        pushNot.setQuery(pushQuery)
+        let pushQuery = PFInstallation.query()
+        pushQuery?.whereKey("username", equalTo: recipient)
+        pushNot.setQuery(pushQuery)
         pushNot.setData([
-            "sound":"alert.caf",
-            "alert":pushMsg
+            "sound" : "alert.caf",
+            "alert" : pushMsg,
+            "cID"   : convoId!
             ])
         pushNot.sendPushInBackgroundWithBlock({ (succeeded, e) -> Void in
             if succeeded {
@@ -148,9 +159,6 @@ class ConversationViewController: JSQMessagesViewController {
                 println("Error: \(error.localizedDescription)")
             }
         })
-        
-        sendMessage(text)
-        finishSendingMessage()
     }
     
     override func collectionView(collectionView: UICollectionView, cellForItemAtIndexPath indexPath: NSIndexPath) -> UICollectionViewCell {

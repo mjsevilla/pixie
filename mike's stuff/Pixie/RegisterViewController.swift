@@ -166,7 +166,7 @@ class RegisterViewController: UIViewController, FBLoginViewDelegate, UITextField
                                        let errorString = error.userInfo?["error"] as? NSString
                                        println("Parse error: \(errorString!)")
                                     } else {
-                                       PFInstallation.currentInstallation().setObject(_user, forKey: "user")
+                                       PFInstallation.currentInstallation().setObject(_user.username!, forKey: "username")
                                        PFInstallation.currentInstallation().saveInBackground()
                                        println("Facebook registration successful")
                                     }
@@ -272,7 +272,7 @@ class RegisterViewController: UIViewController, FBLoginViewDelegate, UITextField
                                  let errorString = error.userInfo?["error"] as? NSString
                                  println("Parse error: \(errorString!)")
                               } else {
-                                 PFInstallation.currentInstallation().setObject(_user, forKey: "user")
+                                 PFInstallation.currentInstallation().setObject(_user.username!, forKey: "username")
                                  PFInstallation.currentInstallation().saveInBackground()
                                  println("Pixie registration successful")
                               }
