@@ -19,7 +19,7 @@ class ACTableViewCell: UITableViewCell {
    override init(style: UITableViewCellStyle, reuseIdentifier: String!) {
       super.init(style: style, reuseIdentifier: reuseIdentifier)
       
-      self.backgroundColor = UIColor.whiteColor().colorWithAlphaComponent(0.75)
+//      self.backgroundColor = UIColor.whiteColor().colorWithAlphaComponent(0.75)
       
       placeLabel = UILabel()
       placeLabel.font = UIFont(name: "HelveticaNeue-Thin", size: 16)

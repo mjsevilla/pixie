@@ -17,7 +17,7 @@ class MatchCollectionViewCell: UICollectionViewCell, UIGestureRecognizerDelegate
    var dateTimeLabel: UILabel!
    var lineImage: UIImageView!
    var messageIcon: SenderButton!
-   var starIcon: UIButton!
+//   var starIcon: UIButton!
    
    override init(frame: CGRect) {
       super.init(frame: frame)
@@ -72,11 +72,11 @@ class MatchCollectionViewCell: UICollectionViewCell, UIGestureRecognizerDelegate
       messageIcon.setTranslatesAutoresizingMaskIntoConstraints(false)
       contentView.addSubview(messageIcon)
       
-      starIcon = UIButton()
-      starIcon.setImage(UIImage(named: "star.png")!, forState: .Normal)
-      starIcon.backgroundColor = UIColor.clearColor()
-      starIcon.setTranslatesAutoresizingMaskIntoConstraints(false)
-      contentView.addSubview(starIcon)
+//      starIcon = UIButton()
+//      starIcon.setImage(UIImage(named: "star.png")!, forState: .Normal)
+//      starIcon.backgroundColor = UIColor.clearColor()
+//      starIcon.setTranslatesAutoresizingMaskIntoConstraints(false)
+//      contentView.addSubview(starIcon)
       
       // Gradient background
       let gradient = CAGradientLayer()
@@ -101,7 +101,7 @@ class MatchCollectionViewCell: UICollectionViewCell, UIGestureRecognizerDelegate
       contentView.addSubview(lineImage)
       
       
-      let viewsDict = ["profilePic":profilePic, "userName":userNameLabel, "seekOffer":seekOfferLabel, "location":locationLabel, "dateTime":dateTimeLabel, "line":lineImage, "message":messageIcon, "star":starIcon]
+      let viewsDict = ["profilePic":profilePic, "userName":userNameLabel, "seekOffer":seekOfferLabel, "location":locationLabel, "dateTime":dateTimeLabel, "line":lineImage, "message":messageIcon/*, "star":starIcon*/]
       contentView.addConstraints(NSLayoutConstraint.constraintsWithVisualFormat("H:|[profilePic]|", options: NSLayoutFormatOptions(0), metrics: nil, views: viewsDict))
       contentView.addConstraints(NSLayoutConstraint.constraintsWithVisualFormat("H:|-10-[userName]-10-|", options: NSLayoutFormatOptions(0), metrics: nil, views: viewsDict))
       contentView.addConstraints(NSLayoutConstraint.constraintsWithVisualFormat("H:|-5-[line]-5-|", options: NSLayoutFormatOptions(0), metrics: nil, views: viewsDict))
@@ -112,8 +112,8 @@ class MatchCollectionViewCell: UICollectionViewCell, UIGestureRecognizerDelegate
       contentView.addConstraints(NSLayoutConstraint.constraintsWithVisualFormat("V:|[profilePic]-3-[userName]-5-[seekOffer]-0-[location]-0-[dateTime]", options: NSLayoutFormatOptions(0), metrics: nil, views: viewsDict))
       contentView.addConstraints(NSLayoutConstraint.constraintsWithVisualFormat("V:[userName]-1-[line]", options: NSLayoutFormatOptions(0), metrics: nil, views: viewsDict))
       contentView.addConstraint(NSLayoutConstraint(item: messageIcon, attribute: NSLayoutAttribute.CenterX, relatedBy: .Equal, toItem: profilePic, attribute: .CenterX, multiplier: 1.0, constant: 0))
-      contentView.addConstraint(NSLayoutConstraint(item: starIcon, attribute: NSLayoutAttribute.RightMargin, relatedBy: .Equal, toItem: profilePic, attribute: .RightMargin, multiplier: 1.0, constant: -1))
-      contentView.addConstraint(NSLayoutConstraint(item: starIcon, attribute: NSLayoutAttribute.TopMargin, relatedBy: .Equal, toItem: profilePic, attribute: .TopMargin, multiplier: 1.0, constant: 1))
+//      contentView.addConstraint(NSLayoutConstraint(item: starIcon, attribute: NSLayoutAttribute.RightMargin, relatedBy: .Equal, toItem: profilePic, attribute: .RightMargin, multiplier: 1.0, constant: -1))
+//      contentView.addConstraint(NSLayoutConstraint(item: starIcon, attribute: NSLayoutAttribute.TopMargin, relatedBy: .Equal, toItem: profilePic, attribute: .TopMargin, multiplier: 1.0, constant: 1))
       contentView.addConstraint(NSLayoutConstraint(item: profilePic, attribute: NSLayoutAttribute.Height, relatedBy: .Equal, toItem: profilePic, attribute: .Width, multiplier: 1.0, constant: 0))
       
       self.layoutIfNeeded()

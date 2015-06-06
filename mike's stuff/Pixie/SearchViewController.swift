@@ -147,6 +147,7 @@ class SearchViewController: AutocompleteViewController, CLLocationManagerDelegat
         
         let place = startingVC.places[indexPath.row]
         cell.placeLabel.text = place.description
+        cell.backgroundColor = UIColor.whiteColor().colorWithAlphaComponent(0.75)
         
         //		println("tableView cellForRowAtIndexPath: \(indexPath), place.description: \(place.description)")
         

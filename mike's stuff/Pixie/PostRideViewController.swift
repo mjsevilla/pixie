@@ -79,7 +79,6 @@ class PostRideViewController: UIViewController, UITextFieldDelegate, UIPickerVie
       self.view.addSubview(blurEffectView)
       
       activeSearchBar = startingSearchBar
-      //      println("just set the fucking search bar fuck")
       
       loadTripSectionView()
       loadDateTimeSectionView()
@@ -115,7 +114,7 @@ class PostRideViewController: UIViewController, UITextFieldDelegate, UIPickerVie
       loadDateTimeSectionContraints()
       loadReviewSectionConstraints()
       
-      var swipeToSearchView = UISwipeGestureRecognizer(target: self, action: "goBack:")
+      var swipeToSearchView = UISwipeGestureRecognizer(target: self, action: "swipeBack:")
       swipeToSearchView.direction = .Right
       self.view.addGestureRecognizer(swipeToSearchView)
       
@@ -421,7 +420,6 @@ class PostRideViewController: UIViewController, UITextFieldDelegate, UIPickerVie
       let defaults = NSUserDefaults.standardUserDefaults()
       if let savedId = defaults.stringForKey("PixieUserId") {
          post.userId = savedId.toInt()
-         println("PixieUserId: \(savedId.toInt()!)")
       }
    }
    
@@ -1064,6 +1062,10 @@ class PostRideViewController: UIViewController, UITextFieldDelegate, UIPickerVie
    }
    
    func goBack(sender: UIButton) {
+      self.performSegueWithIdentifier("unwindToSearchView", sender: self)
+   }
+   
+   func swipeBack(sender:UISwipeGestureRecognizer) {
       self.performSegueWithIdentifier("unwindToSearchView", sender: self)
    }
    
