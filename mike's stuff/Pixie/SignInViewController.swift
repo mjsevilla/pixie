@@ -19,8 +19,10 @@ class SignInViewController: UIViewController, UITextFieldDelegate, FBLoginViewDe
    @IBOutlet weak var cancelBtn: UIBarButtonItem!
    @IBOutlet weak var wrongEmailPwLabel: UILabel!
    @IBOutlet var fbLoginView: FBLoginView!
-   
+   var user: PFUser?
    let defaults = NSUserDefaults.standardUserDefaults()
+   var shouldAttempt = true
+   var didComplete = false
    
    override func viewDidLoad() {
       super.viewDidLoad()
@@ -62,8 +64,11 @@ class SignInViewController: UIViewController, UITextFieldDelegate, FBLoginViewDe
    
    // Facebook delegate methods
    func loginViewShowingLoggedInUser(loginView: FBLoginView!) {
-      println("User Logged In")
-      performSegueWithIdentifier("presentSearch", sender: self)
+      if didComplete {
+      	println("User Logged In")
+         performSegueWithIdentifier("presentSearch", sender: self)
+      }
+      didComplete = false
    }
    
    func loginViewShowingLoggedOutUser(loginView: FBLoginView!) {
@@ -77,6 +82,11 @@ class SignInViewController: UIViewController, UITextFieldDelegate, FBLoginViewDe
    func loginViewFetchedUserInfo(loginView: FBLoginView!, user: FBGraphUser!) {
       //      println("in loginViewFetchedUserInfo")
       //      println("user...\(user)")
+      if !shouldAttempt {
+         return
+      }
+      shouldAttempt = false
+      
       var email: String
       if let fb_email = user.objectForKey("email") as? String {
          email = fb_email
@@ -103,47 +113,51 @@ class SignInViewController: UIViewController, UITextFieldDelegate, FBLoginViewDe
             if let first_name = json["first_name"] as? String {
                if let last_name = json["last_name"] as? String {
                   if let resp_email = json["email"] as? String {
-                     defaults.setObject(userId.toInt(), forKey: "PixieUserId")
-                     defaults.setObject(first_name, forKey: "PixieUserFirstName")
-                     defaults.setObject(last_name, forKey: "PixieUserLastName")
-                     defaults.setObject(resp_email, forKey: "PixieUserEmail")
-                     let username = first_name + last_name + userId
-                     
-                     
-                     // IMPORTANT. CHANGE THE VALUE OF PASSWORD BECAUSE FB USERS DON'T HAVE PASSWORDS
-                     
-                     
-                     PFUser.logInWithUsernameInBackground(username, password: "") {
-                        [unowned self] (user: PFUser?, error: NSError?) -> Void in
-                        if user != nil {
-                           println("Parse user successfully logged in")
-                        } else {
-                           println("Parse log in error: \(error!)")
+                     if let resp_password = json["password"] as? String {
+                        defaults.setObject(userId.toInt(), forKey: "PixieUserId")
+                        defaults.setObject(first_name, forKey: "PixieUserFirstName")
+                        defaults.setObject(last_name, forKey: "PixieUserLastName")
+                        defaults.setObject(resp_email, forKey: "PixieUserEmail")
+                        let username = first_name + last_name + userId
+                        PFUser.logInWithUsernameInBackground(username, password: resp_password) {
+                           [unowned self] (user: PFUser?, error: NSError?) -> Void in
+                           if user != nil {
+                              println("Parse user successfully logged in")
+                           } else {
+                              println("Parse log in error: \(error!)")
+                           }
                         }
+                        Keychain.set(true, forKey: "loggedIn")
+                        NSUserDefaults.standardUserDefaults().synchronize()
+                        println("signed in userId: \(userId.toInt()!), first_name: \(first_name), last_name: \(last_name), email: \(resp_email)")
+                        self.wrongEmailPwLabel.hidden = true
+                        didComplete = true
+                     } else {
+                        shouldAttempt = true
+                        println("error password")
                      }
-                     Keychain.set(true, forKey: "loggedIn")
-                     NSUserDefaults.standardUserDefaults().synchronize()
-                     println("signed in userId: \(userId.toInt()!), first_name: \(first_name), last_name: \(last_name), email: \(resp_email)")
-                     self.wrongEmailPwLabel.hidden = true
-                     self.performSegueWithIdentifier("presentSearch", sender: self)
                   } else {
+                     shouldAttempt = true
                      println("error email")
                   }
                } else {
+                  shouldAttempt = true
                   println("error last_name")
                }
             } else {
+               shouldAttempt = true
                println("error first_name")
             }
          } else {
+            shouldAttempt = true
             wrongEmailPwLabel.hidden = false
             println("error userID")
          }
       } else {
+         shouldAttempt = true
          println("error json")
          wrongEmailPwLabel.hidden = false
       }
-   
    }
    
    @IBAction func attemptSignIn(sender: AnyObject) {

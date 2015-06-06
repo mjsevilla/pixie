@@ -23,6 +23,8 @@ class RegisterViewController: UIViewController, FBLoginViewDelegate, UITextField
    @IBOutlet weak var pwHeading: UIView!
    @IBOutlet weak var wrongEmailPwLabel: UILabel!
    var user: PFUser?
+   var shouldAttempt = true
+   var didComplete = false
    
    let defaults = NSUserDefaults.standardUserDefaults()
    
@@ -96,16 +98,23 @@ class RegisterViewController: UIViewController, FBLoginViewDelegate, UITextField
    
    // Facebook delegate methods
    func loginViewShowingLoggedInUser(loginView: FBLoginView!) {
-      println("User Logged In")
-      //      println("This is where you perform a segue.")
-      performSegueWithIdentifier("presentSearch", sender: self)
+      if didComplete {
+         println("User Logged In")
+         performSegueWithIdentifier("presentSearch", sender: self)
+      }
+      didComplete = false
    }
    
    func loginViewFetchedUserInfo(loginView: FBLoginView!, user: FBGraphUser!) {
-      //      println("in loginViewFetchedUserInfo")
+//      println("in loginViewFetchedUserInfo")
       //      println("user...\(user)")
-      
-      checkIfFBUserExists(loginView, user: user)
+      if !shouldAttempt {
+         return
+      }
+      if checkIfFBUserExists(loginView, user: user) {
+         return
+      }
+      shouldAttempt = false
       
       var urlString = "http://ec2-54-69-253-12.us-west-2.compute.amazonaws.com/pixie/users";
       var request = NSMutableURLRequest(URL: NSURL(string: urlString)!);
@@ -137,6 +146,7 @@ class RegisterViewController: UIViewController, FBLoginViewDelegate, UITextField
       var task = session.dataTaskWithRequest(request, completionHandler: {data, response, error -> Void in
          var strData = NSString(data: data, encoding: NSUTF8StringEncoding)
          if(err != nil) {
+            self.shouldAttempt = true
             println(err!.localizedDescription)
             self.wrongEmailPwLabel.hidden = false
          }
@@ -176,27 +186,34 @@ class RegisterViewController: UIViewController, FBLoginViewDelegate, UITextField
                                        println("Facebook registration successful")
                                     }
                                  }
-                                 Keychain.set(true, forKey: "loggedIn")
                               }
+                              Keychain.set(true, forKey: "loggedIn")
                               println("created userId: \(userId), first_name: \(first_name), last_name: \(last_name), email: \(resp_email), password: \(resp_password)")
+                              self.didComplete = true
                            } else {
-                              println("error last_name")
+                              self.shouldAttempt = true
+                              println("error password")
                            }
                         } else {
-                           println("error last_name")
+                           self.shouldAttempt = true
+                           println("error email")
                         }
                      } else {
+                        self.shouldAttempt = true
                         println("error last_name")
                      }
                   } else {
+                     self.shouldAttempt = true
                      println("error first_name")
                   }
                } else {
+                  self.shouldAttempt = true
                   self.wrongEmailPwLabel.hidden = false
                   println("error userID")
                }
             }
             else {
+               self.shouldAttempt = true
                println("Probably 500")
                println("\(parseError)")
                let defaults = NSUserDefaults.standardUserDefaults()
@@ -204,10 +221,14 @@ class RegisterViewController: UIViewController, FBLoginViewDelegate, UITextField
             }
          }
       })
+      
       task.resume()
    }
    
-   func checkIfFBUserExists(loginView: FBLoginView!, user: FBGraphUser!) {
+   func checkIfFBUserExists(loginView: FBLoginView!, user: FBGraphUser!) -> Bool {
+//      println("in checkIfFBUserExists")
+      shouldAttempt = false
+      
       var email: String
       if let fb_email = user.objectForKey("email") as? String {
          email = fb_email
@@ -234,29 +255,30 @@ class RegisterViewController: UIViewController, FBLoginViewDelegate, UITextField
             if let first_name = json["first_name"] as? String {
                if let last_name = json["last_name"] as? String {
                   if let resp_email = json["email"] as? String {
-                     defaults.setObject(userId.toInt(), forKey: "PixieUserId")
-                     defaults.setObject(first_name, forKey: "PixieUserFirstName")
-                     defaults.setObject(last_name, forKey: "PixieUserLastName")
-                     defaults.setObject(resp_email, forKey: "PixieUserEmail")
-                     let username = first_name + last_name + userId
-                     
-                     
-                     // IMPORTANT. CHANGE THE VALUE OF PASSWORD BECAUSE FB USERS DON'T HAVE PASSWORDS
-                     
-                     
-                     PFUser.logInWithUsernameInBackground(username, password: "") {
-                        [unowned self] (user: PFUser?, error: NSError?) -> Void in
-                        if user != nil {
-                           println("Parse user successfully logged in")
-                        } else {
-                           println("Parse log in error: \(error!)")
+                     if let resp_password = json["password"] as? String {
+                        defaults.setObject(userId.toInt(), forKey: "PixieUserId")
+                        defaults.setObject(first_name, forKey: "PixieUserFirstName")
+                        defaults.setObject(last_name, forKey: "PixieUserLastName")
+                        defaults.setObject(resp_email, forKey: "PixieUserEmail")
+                        let username = first_name + last_name + userId
+                        self.user = PFUser()
+                        PFUser.logInWithUsernameInBackground(username, password: resp_password) {
+                           [unowned self] (user: PFUser?, error: NSError?) -> Void in
+                           if user != nil {
+                              println("Parse user successfully logged in")
+                           } else {
+                              println("Parse log in error: \(error!)")
+                           }
                         }
+                        Keychain.set(true, forKey: "loggedIn")
+                        NSUserDefaults.standardUserDefaults().synchronize()
+                        println("signed in userId: \(userId.toInt()!), first_name: \(first_name), last_name: \(last_name), email: \(resp_email)")
+                        self.wrongEmailPwLabel.hidden = true
+                        self.didComplete = true
+                        return true
+                     } else {
+                        println("error password")
                      }
-                     Keychain.set(true, forKey: "loggedIn")
-                     NSUserDefaults.standardUserDefaults().synchronize()
-                     println("signed in userId: \(userId.toInt()!), first_name: \(first_name), last_name: \(last_name), email: \(resp_email)")
-                     self.wrongEmailPwLabel.hidden = true
-                     self.performSegueWithIdentifier("presentSearch", sender: self)
                   } else {
                      println("error email")
                   }
@@ -274,6 +296,8 @@ class RegisterViewController: UIViewController, FBLoginViewDelegate, UITextField
          println("error json")
          wrongEmailPwLabel.hidden = false
       }
+
+      return false
    }
    
    // returns an array of the users name separated by spaces
@@ -434,6 +458,7 @@ class RegisterViewController: UIViewController, FBLoginViewDelegate, UITextField
          println("error json")
          wrongEmailPwLabel.hidden = false
       }
+
    }
    
    func loginViewShowingLoggedOutUser(loginView: FBLoginView!) {
