@@ -18,8 +18,15 @@ class InitialViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        // Do any additional setup after loading the view, typically from a nib.        
+        // Do any additional setup after loading the view, typically from a nib.
         self.playVideo()
+    }
+    
+    override func viewDidAppear(animated: Bool) {
+        super.viewDidAppear(animated)
+        if Keychain.bool(forKey: "loggedIn") == true {
+            self.performSegueWithIdentifier("loggedSearch", sender: self)
+        }
     }
     
     func playVideo() -> Bool {
@@ -35,7 +42,6 @@ class InitialViewController: UIViewController {
             player.scalingMode = .AspectFill
             self.view.addSubview(player.view)
             self.view.sendSubviewToBack(player.view)
-            player.play()
             return true
         }
         
@@ -44,19 +50,6 @@ class InitialViewController: UIViewController {
     
     // exit segue from sign in view
     @IBAction func cancelActionUnwindToIntialVC(sender: UIStoryboardSegue) {}
-    
-    override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {
-        
-        if segue.identifier == "presentRegister" {
-            if let registerVC = segue.destinationViewController as? SearchViewController {}
-        }
-        if segue.identifier == "presentSignIn" {
-            if let signInVC = segue.destinationViewController as? SignInViewController {}
-        }
-        if segue.identifier == "presentRegister" {
-            if let signInVC = segue.destinationViewController as? RegisterViewController {}
-        }
-    }
     
     @IBAction func unwindToInitialVC(sender: UIStoryboardSegue) {
         self.moviePlayer?.play()

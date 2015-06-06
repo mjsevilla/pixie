@@ -90,7 +90,7 @@ class SearchViewController: AutocompleteViewController, CLLocationManagerDelegat
     }
     
     override func viewDidAppear(animated: Bool) {
-        super.viewDidAppear(true)
+        super.viewDidAppear(animated)
         var rightSwipe = UISwipeGestureRecognizer(target: self, action: Selector("handleSwipes:"))
         rightSwipe.direction = .Right
         self.view.addGestureRecognizer(rightSwipe)

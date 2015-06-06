@@ -96,11 +96,11 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 
     func applicationDidBecomeActive(application: UIApplication) {
         // Restart any tasks that were paused (or not yet started) while the application was inactive. If the application was previously in the background, optionally refresh the user interface.
-        let rootVC = self.window?.rootViewController as! UINavigationController
-        if let initVC = rootVC.topViewController as? InitialViewController {
+
+        if let initVC = self.window?.rootViewController as? InitialViewController {
             initVC.moviePlayer?.play()
         }
-        if let searchVC = rootVC.visibleViewController as? SearchViewController {
+        if let searchVC = self.window?.rootViewController?.presentedViewController as? SearchViewController {
             searchVC.moviePlayer?.play()
         }
     }

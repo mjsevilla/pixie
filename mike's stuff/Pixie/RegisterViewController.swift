@@ -95,13 +95,13 @@ class RegisterViewController: UIViewController, FBLoginViewDelegate, UITextField
    // Facebook delegate methods
    func loginViewShowingLoggedInUser(loginView: FBLoginView!) {
       println("User Logged In")
-//      println("This is where you perform a segue.")
+      //      println("This is where you perform a segue.")
       performSegueWithIdentifier("presentSearch", sender: self)
    }
    
    func loginViewFetchedUserInfo(loginView: FBLoginView!, user: FBGraphUser!) {
-//      println("in loginViewFetchedUserInfo")
-//      println("user...\(user)")
+      //      println("in loginViewFetchedUserInfo")
+      //      println("user...\(user)")
       var urlString = "http://ec2-54-69-253-12.us-west-2.compute.amazonaws.com/pixie/users";
       var request = NSMutableURLRequest(URL: NSURL(string: urlString)!);
       var session = NSURLSession.sharedSession()
@@ -123,7 +123,7 @@ class RegisterViewController: UIViewController, FBLoginViewDelegate, UITextField
       
       let newUser = CreateUser()
       var reqText = newUser.generateHttp(user.first_name, lastName: user.last_name, email: email, password: "NULL", bday: user.birthday, bio: bio, hasFB: true)
-//      println("reqText...\n\(reqText)")
+      //      println("reqText...\n\(reqText)")
       
       request.HTTPBody = NSJSONSerialization.dataWithJSONObject(reqText, options: nil, error: &err) // This Line fills the web service with required parameters.
       request.addValue("application/json", forHTTPHeaderField: "Content-Type")
@@ -171,6 +171,7 @@ class RegisterViewController: UIViewController, FBLoginViewDelegate, UITextField
                                        println("Facebook registration successful")
                                     }
                                  }
+                                 Keychain.set(true, forKey: "loggedIn")
                               }
                               println("created userId: \(userId), first_name: \(first_name), last_name: \(last_name), email: \(resp_email), password: \(resp_password)")
                            } else {
@@ -247,7 +248,7 @@ class RegisterViewController: UIViewController, FBLoginViewDelegate, UITextField
       var data =  NSURLConnection.sendSynchronousRequest(request, returningResponse: &response, error:nil)! as NSData
       
       if let json = NSJSONSerialization.JSONObjectWithData(data, options: NSJSONReadingOptions.AllowFragments, error: nil) as? NSDictionary {
-//         println("json after post request...\njson.count: \(json.count)\n\(json)")
+         //         println("json after post request...\njson.count: \(json.count)\n\(json)")
          if let userId = json["userId"] as? String {
             if let first_name = json["first_name"] as? String {
                if let last_name = json["last_name"] as? String {
@@ -277,6 +278,7 @@ class RegisterViewController: UIViewController, FBLoginViewDelegate, UITextField
                                  println("Pixie registration successful")
                               }
                            }
+                           Keychain.set(true, forKey: "loggedIn")
                         }
                         println("created userId: \(userId.toInt()!), first_name: \(first_name), last_name: \(last_name), email: \(resp_email), password: \(resp_password)")
                         self.wrongEmailPwLabel.hidden = true
@@ -313,8 +315,10 @@ class RegisterViewController: UIViewController, FBLoginViewDelegate, UITextField
    
    override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {
       if segue.identifier == "presentSearch" {
-         if let searchVC = segue.destinationViewController as? SearchViewController {
-            
+         if let navVC = segue.destinationViewController as? UINavigationController {
+            if let searchVC = navVC.topViewController as? SearchViewController {
+               self.modalPresentationStyle = UIModalPresentationStyle.Custom
+            }
          }
       }
    }

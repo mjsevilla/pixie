@@ -61,7 +61,6 @@ class SignInViewController: UIViewController, UITextFieldDelegate, FBLoginViewDe
     // Facebook delegate methods
     func loginViewShowingLoggedInUser(loginView: FBLoginView!) {
         println("User Logged In")
-        //      println("This is where you perform a segue.")
         performSegueWithIdentifier("presentSearch", sender: self)
     }
     
@@ -105,6 +104,7 @@ class SignInViewController: UIViewController, UITextFieldDelegate, FBLoginViewDe
                                         println("Parse log in error: \(error!)")
                                     }
                                 }
+                                Keychain.set(true, forKey: "loggedIn")
                                 NSUserDefaults.standardUserDefaults().synchronize()
                                 println("signed in userId: \(userId.toInt()!), first_name: \(first_name), last_name: \(last_name), email: \(resp_email), password: \(resp_password)")
                                 self.wrongEmailPwLabel.hidden = true
@@ -137,8 +137,10 @@ class SignInViewController: UIViewController, UITextFieldDelegate, FBLoginViewDe
     
     override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {
         if segue.identifier == "presentSearch" {
-            if let searchVC = segue.destinationViewController as? SearchViewController {
-                self.modalPresentationStyle = UIModalPresentationStyle.Custom
+            if let navVC = segue.destinationViewController as? UINavigationController {
+                if let searchVC = navVC.topViewController as? SearchViewController {
+                    self.modalPresentationStyle = UIModalPresentationStyle.Custom
+                }
             }
         }
     }

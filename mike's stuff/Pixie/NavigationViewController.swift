@@ -121,20 +121,12 @@ class NavigationViewController: UIViewController, UITableViewDelegate, UITableVi
                 self.performSegueWithIdentifier("presentAbout", sender: self)
             }
         case 5:
-            NSUserDefaults.standardUserDefaults().removeObjectForKey("PixieUserId")
             self.performSegueWithIdentifier("unwindInitial", sender: self)
-            PFUser.logOut()
+            NSUserDefaults.standardUserDefaults().removeObjectForKey("PixieUserId")
+            Keychain.set(false, forKey: "loggedIn")
+            PFUser.logOutInBackground()
         default:
-            print("uhhh...hai <(._.<)")
-        }
-    }
-    
-    override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {
-        if segue.identifier == "presentMessages" {
-            if let navVC = segue.destinationViewController as? UINavigationController {
-                if let destVC = navVC.topViewController as? MessagesViewContoller {
-                }
-            }
+            println("uhhh...hai <(._.<)")
         }
     }
     
@@ -145,9 +137,9 @@ class NavigationViewController: UIViewController, UITableViewDelegate, UITableVi
 
 class NavigationModel {
     
-    var title : String!
-    var icon : String!
-    var count : String?
+    var title: String!
+    var icon: String!
+    var count: String?
     
     init(title: String, icon : String) {
         self.title = title
@@ -155,7 +147,6 @@ class NavigationModel {
     }
     
     init(title: String, icon : String, count: String) {
-        
         self.title = title
         self.icon = icon
         self.count = count
