@@ -38,10 +38,9 @@
 		52CB3C6A1AA85C8B00FAE10A /* PostRideTransitionOperator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 52CB3C691AA85C8B00FAE10A /* PostRideTransitionOperator.swift */; };
 		52CF2BD91AEE591200172812 /* EditPostViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 52CF2BD81AEE591200172812 /* EditPostViewController.swift */; };
 		52FFF7D11AEDFA350054A803 /* MyPostsTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 52FFF7D01AEDFA350054A803 /* MyPostsTableViewCell.swift */; };
-		610A6B641B1CDF8E00119333 /* Locksmith.swift in Sources */ = {isa = PBXBuildFile; fileRef = 610A6B621B1CDF8E00119333 /* Locksmith.swift */; };
-		610A6B651B1CDF8E00119333 /* LocksmithRequest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 610A6B631B1CDF8E00119333 /* LocksmithRequest.swift */; };
 		610A6B681B2258E100119333 /* ParseFacebookUtils.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 610A6B661B2258E100119333 /* ParseFacebookUtils.framework */; };
 		610A6B691B2258E100119333 /* ParseFacebookUtilsV4.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 610A6B671B2258E100119333 /* ParseFacebookUtilsV4.framework */; };
+		610A6B6B1B22815B00119333 /* Keychain.swift in Sources */ = {isa = PBXBuildFile; fileRef = 610A6B6A1B22815B00119333 /* Keychain.swift */; };
 		611A1A351AAE814800F18B3B /* ProfileViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 611A1A341AAE814800F18B3B /* ProfileViewController.swift */; };
 		611A1A371AAE827E00F18B3B /* SearchViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 611A1A361AAE827E00F18B3B /* SearchViewController.swift */; };
 		611A1A3B1AAE8BBD00F18B3B /* InitialViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 611A1A3A1AAE8BBD00F18B3B /* InitialViewController.swift */; };
@@ -187,10 +186,9 @@
 		52CB3C691AA85C8B00FAE10A /* PostRideTransitionOperator.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PostRideTransitionOperator.swift; sourceTree = "<group>"; };
 		52CF2BD81AEE591200172812 /* EditPostViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = EditPostViewController.swift; sourceTree = "<group>"; };
 		52FFF7D01AEDFA350054A803 /* MyPostsTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MyPostsTableViewCell.swift; sourceTree = "<group>"; };
-		610A6B621B1CDF8E00119333 /* Locksmith.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = Locksmith.swift; path = Pixie/Locksmith.swift; sourceTree = "<group>"; };
-		610A6B631B1CDF8E00119333 /* LocksmithRequest.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = LocksmithRequest.swift; path = Pixie/LocksmithRequest.swift; sourceTree = "<group>"; };
 		610A6B661B2258E100119333 /* ParseFacebookUtils.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = ParseFacebookUtils.framework; path = ParseSDK/ParseFacebookUtils.framework; sourceTree = "<group>"; };
 		610A6B671B2258E100119333 /* ParseFacebookUtilsV4.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = ParseFacebookUtilsV4.framework; path = ParseSDK/ParseFacebookUtilsV4.framework; sourceTree = "<group>"; };
+		610A6B6A1B22815B00119333 /* Keychain.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Keychain.swift; sourceTree = "<group>"; };
 		611A1A341AAE814800F18B3B /* ProfileViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ProfileViewController.swift; sourceTree = "<group>"; };
 		611A1A361AAE827E00F18B3B /* SearchViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; indentWidth = 4; lastKnownFileType = sourcecode.swift; path = SearchViewController.swift; sourceTree = "<group>"; };
 		611A1A3A1AAE8BBD00F18B3B /* InitialViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = InitialViewController.swift; sourceTree = "<group>"; };
@@ -437,15 +435,6 @@
 			path = Pixie;
 			sourceTree = "<group>";
 		};
-		610A6B611B1CDF7100119333 /* Locksmith Keychain */ = {
-			isa = PBXGroup;
-			children = (
-				610A6B621B1CDF8E00119333 /* Locksmith.swift */,
-				610A6B631B1CDF8E00119333 /* LocksmithRequest.swift */,
-			);
-			name = "Locksmith Keychain";
-			sourceTree = "<group>";
-		};
 		612095941B02BDFF00336D1C /* JSQMessagesViewController */ = {
 			isa = PBXGroup;
 			children = (
@@ -615,7 +604,6 @@
 		61457A5E1AA01D83008CE64B /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
-				610A6B611B1CDF7100119333 /* Locksmith Keychain */,
 				2C6BC8931AFAABBB00EA180D /* Autocomplete */,
 				52C9684E1B15BB6E00BE193F /* MapKit.framework */,
 				52CD95631B074AB500F356E4 /* GPUImage */,
@@ -669,6 +657,8 @@
 			children = (
 				61457A5F1AA02183008CE64B /* Bridge-Header.h */,
 				6184D2E11A9302F3006DA1E4 /* AppDelegate.swift */,
+				61CF5A311B0D6201000E828F /* GooglePlacesAutocomplete.swift */,
+				610A6B6A1B22815B00119333 /* Keychain.swift */,
 				61A6096F1AF5585900FD4854 /* View Controllers */,
 				61A609721AF5587500FD4854 /* Transition Operators */,
 				61A609731AF5588900FD4854 /* Cells */,
@@ -753,7 +743,6 @@
 				52414C7E1AAE00C200417481 /* BioViewController.swift */,
 				61345B271AF57DB900DCCE42 /* ConversationViewController.swift */,
 				52CF2BD81AEE591200172812 /* EditPostViewController.swift */,
-				61CF5A311B0D6201000E828F /* GooglePlacesAutocomplete.swift */,
 				611A1A3A1AAE8BBD00F18B3B /* InitialViewController.swift */,
 				52414C6A1AADFE7100417481 /* MatchesViewController.swift */,
 				617D3D841AF19A030018900D /* MessagesViewController.swift */,
@@ -977,7 +966,6 @@
 				6120960F1B02BECD00336D1C /* JSQMessagesCollectionViewCellIncoming.m in Sources */,
 				612095C61B02BE7100336D1C /* JSQMessagesToolbarButtonFactory.m in Sources */,
 				6120960D1B02BECD00336D1C /* JSQMessagesCollectionView.m in Sources */,
-				610A6B641B1CDF8E00119333 /* Locksmith.swift in Sources */,
 				52414C781AAE002200417481 /* Post.swift in Sources */,
 				61BCE4B61B09598600F1A681 /* GLProgram.m in Sources */,
 				52414C6B1AADFE7100417481 /* MatchesViewController.swift in Sources */,
@@ -996,6 +984,7 @@
 				617D3D871AF1E1460018900D /* MessageCell.swift in Sources */,
 				612096141B02BECD00336D1C /* JSQMessagesInputToolbar.m in Sources */,
 				611A1A3B1AAE8BBD00F18B3B /* InitialViewController.swift in Sources */,
+				610A6B6B1B22815B00119333 /* Keychain.swift in Sources */,
 				61BCE4BD1B09598600F1A681 /* GPUImageOutput.m in Sources */,
 				A7EFA9CD1ABD06DA00047024 /* CreateUser.swift in Sources */,
 				612095AD1B02BE3C00336D1C /* UIView+JSQMessages.m in Sources */,
@@ -1007,7 +996,6 @@
 				612095E91B02BEAB00336D1C /* JSQMessage.m in Sources */,
 				61DEC0391ABA48B0004314EB /* RegisterViewController.swift in Sources */,
 				6123E3E01A9AF59600AB776F /* NavigationTransitionOperator.swift in Sources */,
-				610A6B651B1CDF8E00119333 /* LocksmithRequest.swift in Sources */,
 				52414C771AAE002200417481 /* Match.swift in Sources */,
 				612095B41B02BE5400336D1C /* JSQMessagesKeyboardController.m in Sources */,
 				612096211B02BEF800336D1C /* JSQSystemSoundPlayer.m in Sources */,
