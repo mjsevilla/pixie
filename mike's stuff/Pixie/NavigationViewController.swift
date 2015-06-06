@@ -93,7 +93,7 @@ class NavigationViewController: UIViewController, UITableViewDelegate, UITableVi
                 self.performSegueWithIdentifier("presentSearch", sender: self)
             }
         case 1:
-            if let pView = presentingView as? ProfileViewController {
+            if let pView = presentingView as? MyProfileViewController {
                 dismissViewControllerAnimated(true, completion: nil)
             }
             else {
@@ -123,6 +123,12 @@ class NavigationViewController: UIViewController, UITableViewDelegate, UITableVi
         case 5:
             self.performSegueWithIdentifier("unwindInitial", sender: self)
             NSUserDefaults.standardUserDefaults().removeObjectForKey("PixieUserId")
+            NSUserDefaults.standardUserDefaults().removeObjectForKey("PixieUserFirstName")
+            NSUserDefaults.standardUserDefaults().removeObjectForKey("PixieUserLastName")
+            NSUserDefaults.standardUserDefaults().removeObjectForKey("PixieUserEmail")
+            NSUserDefaults.standardUserDefaults().removeObjectForKey("PixieUserPassword")
+            NSUserDefaults.standardUserDefaults().removeObjectForKey("PixieUserAge")
+            NSUserDefaults.standardUserDefaults().removeObjectForKey("PixieUserBio")
             Keychain.set(false, forKey: "loggedIn")
             PFUser.logOutInBackground()
         default:

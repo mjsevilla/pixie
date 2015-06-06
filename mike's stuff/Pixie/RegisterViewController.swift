@@ -162,34 +162,48 @@ class RegisterViewController: UIViewController, FBLoginViewDelegate, UITextField
                      if let last_name = resp["last_name"] as? String {
                         if let resp_email = resp["email"] as? String {
                            if let resp_password = resp["password"] as? String {
-                              defaults.setObject(userId.toInt(), forKey: "PixieUserId")
-                              defaults.setObject(first_name, forKey: "PixieUserFirstName")
-                              defaults.setObject(last_name, forKey: "PixieUserLastName")
-                              defaults.setObject(resp_email, forKey: "PixieUserEmail")
-                              defaults.setObject(resp_password, forKey: "PixieUserPassword")
-                              NSUserDefaults.standardUserDefaults().synchronize()
-                              self.user = PFUser()
-                              if let _user = self.user {
-                                 _user.username = first_name + last_name + userId
-                                 _user.password = resp_password
-                                 _user.email = resp_email
-                                 _user["name"] = "\(first_name) \(last_name)"
-                                 _user["userId"] = userId
-                                 _user.signUpInBackgroundWithBlock {
-                                    (succeeded: Bool, error: NSError?) -> Void in
-                                    if let error = error {
-                                       let errorString = error.userInfo?["error"] as? NSString
-                                       println("Parse error: \(errorString!)")
-                                    } else {
-                                       PFInstallation.currentInstallation().setObject(_user, forKey: "user")
-                                       PFInstallation.currentInstallation().saveInBackground()
-                                       println("Facebook registration successful")
+                              if let resp_bio = resp["bio"] as? String {
+//                                 let user_bio = resp_bio == "NULL" ? "No bio :("
+                                 if let resp_age = resp["age"] as? String {
+                                    let age = resp_age.toInt()
+                                    defaults.setObject(userId.toInt(), forKey: "PixieUserId")
+                                    defaults.setObject(first_name, forKey: "PixieUserFirstName")
+                                    defaults.setObject(last_name, forKey: "PixieUserLastName")
+                                    defaults.setObject(resp_email, forKey: "PixieUserEmail")
+                                    defaults.setObject(resp_password, forKey: "PixieUserPassword")
+                                    defaults.setObject(age, forKey: "PixieUserAge")
+                                    defaults.setObject(resp_bio == "NULL" ? "No bio :(" : resp_bio, forKey: "PixieUserBio")
+                                    NSUserDefaults.standardUserDefaults().synchronize()
+                                    self.user = PFUser()
+                                    if let _user = self.user {
+                                       _user.username = first_name + last_name + userId
+                                       _user.password = resp_password
+                                       _user.email = resp_email
+                                       _user["name"] = "\(first_name) \(last_name)"
+                                       _user["userId"] = userId
+                                       _user.signUpInBackgroundWithBlock {
+                                          (succeeded: Bool, error: NSError?) -> Void in
+                                          if let error = error {
+                                             let errorString = error.userInfo?["error"] as? NSString
+                                             println("Parse error: \(errorString!)")
+                                          } else {
+                                             PFInstallation.currentInstallation().setObject(_user, forKey: "user")
+                                             PFInstallation.currentInstallation().saveInBackground()
+                                             println("Facebook registration successful")
+                                          }
+                                       }
                                     }
+                                    Keychain.set(true, forKey: "loggedIn")
+                                    println("created userId: \(userId), first_name: \(first_name), last_name: \(last_name), email: \(resp_email), password: \(resp_password)")
+                                    self.didComplete = true
+                                 } else {
+                                    self.shouldAttempt = true
+                                    println("error age")
                                  }
+                              } else {
+                                 self.shouldAttempt = true
+                                 println("error bio")
                               }
-                              Keychain.set(true, forKey: "loggedIn")
-                              println("created userId: \(userId), first_name: \(first_name), last_name: \(last_name), email: \(resp_email), password: \(resp_password)")
-                              self.didComplete = true
                            } else {
                               self.shouldAttempt = true
                               println("error password")
