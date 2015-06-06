@@ -17,7 +17,6 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 
     func application(application: UIApplication, didFinishLaunchingWithOptions launchOptions: [NSObject: AnyObject]?) -> Bool {
         // Override point for customization after application launch.
-        println(window?.rootViewController)
         // Parse stuff
         Parse.setApplicationId("U9G1lVXQ2AVcJTLhtCOGf2Zwk0Q1ZQ47jSHqpoEy",
             clientKey: "Fs4ajHom8FkqZYYv4OJCWUA1Yn2dGhunYViSD6SI")
@@ -97,6 +96,13 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 
     func applicationDidBecomeActive(application: UIApplication) {
         // Restart any tasks that were paused (or not yet started) while the application was inactive. If the application was previously in the background, optionally refresh the user interface.
+        let rootVC = self.window?.rootViewController as! UINavigationController
+        if let initVC = rootVC.topViewController as? InitialViewController {
+            initVC.moviePlayer?.play()
+        }
+        if let searchVC = rootVC.visibleViewController as? SearchViewController {
+            searchVC.moviePlayer?.play()
+        }
     }
 
     func applicationWillTerminate(application: UIApplication) {

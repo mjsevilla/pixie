@@ -19,7 +19,7 @@ class InitialViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         // Do any additional setup after loading the view, typically from a nib.        
-        playVideo()
+        self.playVideo()
     }
     
     func playVideo() -> Bool {
@@ -59,12 +59,7 @@ class InitialViewController: UIViewController {
     }
     
     @IBAction func unwindToInitialVC(sender: UIStoryboardSegue) {
-        moviePlayer?.play()
-    }
-    
-    override func didReceiveMemoryWarning() {
-        super.didReceiveMemoryWarning()
-        // Dispose of any resources that can be recreated.
+        self.moviePlayer?.play()
     }
     
     override func preferredStatusBarStyle() -> UIStatusBarStyle {

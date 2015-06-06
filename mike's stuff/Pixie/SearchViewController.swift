@@ -32,7 +32,7 @@ class SearchViewController: AutocompleteViewController, CLLocationManagerDelegat
     override func viewDidLoad() {
         super.viewDidLoad()
         // Do any additional setup after loading the view, typically from a nib.
-        playVideo()
+        self.playVideo()
         
         toolBar.setBackgroundImage(UIImage(), forToolbarPosition: UIBarPosition.Any,
             barMetrics: UIBarMetrics.Default)
@@ -110,6 +110,7 @@ class SearchViewController: AutocompleteViewController, CLLocationManagerDelegat
             player.prepareToPlay()
             player.repeatMode = .One
             player.scalingMode = .AspectFill
+            player.play()
             self.view.addSubview(player.view)
             self.view.sendSubviewToBack(player.view)
             
@@ -258,11 +259,8 @@ class SearchViewController: AutocompleteViewController, CLLocationManagerDelegat
         }
     }
     
-    @IBAction func unwindToSearchView(sender: UIStoryboardSegue) {}
-    
-    override func didReceiveMemoryWarning() {
-        super.didReceiveMemoryWarning()
-        // Dispose of any resources that can be recreated.
+    @IBAction func unwindToSearchView(sender: UIStoryboardSegue) {
+        self.moviePlayer?.play()
     }
     
     override func preferredStatusBarStyle() -> UIStatusBarStyle {
