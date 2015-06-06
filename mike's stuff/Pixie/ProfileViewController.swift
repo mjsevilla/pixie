@@ -197,6 +197,7 @@ class ProfileViewController: UIViewController, UITextViewDelegate, UITextFieldDe
 							if count(bio) > 0 {
 								//user.bio = bio
 								bioField.text = bio
+								defaults.setObject(bioField.text, forKey: "PixieUserBio")
 							}
 						}
 						if let photoURL = json["photoURL"] as? String {
@@ -300,8 +301,8 @@ class ProfileViewController: UIViewController, UITextViewDelegate, UITextFieldDe
 			toViewController.transitioningDelegate = self.navTransitionOperator
 			toViewController.presentingView = self
 		}
-		if segue.identifier == "presentSearch" {
-			if let searchVC = segue.destinationViewController as? SearchViewController {
+		if segue.identifier == "presentProfile" {
+			if let profVC = segue.destinationViewController as? MyProfileViewController {
 				self.modalPresentationStyle = UIModalPresentationStyle.Custom
 			}
 		}

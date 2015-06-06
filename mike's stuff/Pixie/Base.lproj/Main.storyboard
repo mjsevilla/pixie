@@ -502,8 +502,8 @@
                         <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <label opaque="NO" userInteractionEnabled="NO" contentMode="top" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="PIXIe" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="B2k-LN-2YF">
-                                <rect key="frame" x="183.5" y="91" width="234.5" height="73"/>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="top" horizontalHuggingPriority="251" verticalHuggingPriority="251" misplaced="YES" text="PIXIe" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="B2k-LN-2YF">
+                                <rect key="frame" x="184" y="91" width="235" height="73"/>
                                 <fontDescription key="fontDescription" name="Syncopate-Regular" family="Syncopate" pointSize="75"/>
                                 <color key="textColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                 <nil key="highlightedColor"/>
@@ -717,8 +717,8 @@
                                     <constraint firstItem="Jkr-VY-dVR" firstAttribute="top" secondItem="FMm-05-EMQ" secondAttribute="top" id="yXR-mO-vk0"/>
                                 </constraints>
                             </view>
-                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" usesAttributedText="YES" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="OtV-uL-Xdv">
-                                <rect key="frame" x="193.5" y="286" width="214.5" height="17"/>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" misplaced="YES" usesAttributedText="YES" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="OtV-uL-Xdv">
+                                <rect key="frame" x="194" y="286" width="215" height="17"/>
                                 <attributedString key="attributedText">
                                     <fragment content="Ruh roh, wrong email and password.">
                                         <attributes>
@@ -874,11 +874,11 @@
                         <outlet property="dimmerView" destination="WjK-45-ixf" id="FAt-ZR-VWj"/>
                         <outlet property="tableView" destination="Mmi-Sp-jq7" id="n5z-ge-Kdm"/>
                         <segue destination="vXZ-lx-hvc" kind="show" identifier="presentSearch" id="QXm-KY-6G3"/>
-                        <segue destination="9HI-6j-g6Y" kind="show" identifier="presentProfile" id="NIe-HK-wbH"/>
                         <segue destination="GCW-6Z-dMB" kind="show" identifier="presentAbout" id="YDc-Zs-ygh"/>
                         <segue destination="dzH-Kb-FUl" kind="show" identifier="presentMyPosts" id="hQN-2J-Iwr"/>
                         <segue destination="uUn-Vq-NVl" kind="show" identifier="presentMessages" id="eAZ-5T-K8L"/>
                         <segue destination="YSt-SD-BMQ" kind="unwind" identifier="unwindInitial" unwindAction="unwindToInitialVC:" id="kJ6-Kd-g8Q"/>
+                        <segue destination="kQ1-0w-jNs" kind="show" identifier="presentProfile" id="h5T-Ck-x9x"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="gBX-1g-wYc" userLabel="First Responder" sceneMemberID="firstResponder"/>
@@ -1130,12 +1130,12 @@
                         <outlet property="password" destination="II1-We-ws9" id="Hs1-Br-ghu"/>
                         <outlet property="profPic" destination="x1h-bI-CD8" id="Run-Zh-lhe"/>
                         <outlet property="saveBtn" destination="A2m-8O-S9y" id="ZNN-WS-4B3"/>
-                        <segue destination="vXZ-lx-hvc" kind="show" identifier="presentSearch" id="lKm-Ld-Zgx"/>
+                        <segue destination="kQ1-0w-jNs" kind="presentation" identifier="presentProfile" id="kq3-ie-xHz"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="uSD-ex-pPU" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="2505" y="-1143"/>
+            <point key="canvasLocation" x="3241" y="-1181"/>
         </scene>
         <!--My Profile View Controller-->
         <scene sceneID="tPL-QN-3GW">
@@ -1166,25 +1166,34 @@
                                         <barButtonItem key="leftBarButtonItem" image="menu" id="tnG-r1-Wqt">
                                             <color key="tintColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                         </barButtonItem>
+                                        <barButtonItem key="rightBarButtonItem" title="Edit" id="tR9-2D-Rbv">
+                                            <color key="tintColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                            <connections>
+                                                <action selector="editBtnTapped:" destination="kQ1-0w-jNs" id="AfL-Eu-RoY"/>
+                                            </connections>
+                                        </barButtonItem>
                                     </navigationItem>
                                 </items>
                             </navigationBar>
                         </subviews>
                         <color key="backgroundColor" red="0.98039215686274506" green="0.98039215686274506" blue="0.98039215686274506" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                         <constraints>
-                            <constraint firstItem="vmF-8k-G1X" firstAttribute="top" secondItem="bjf-Xl-ffu" secondAttribute="bottom" id="0qA-U5-MNJ"/>
-                            <constraint firstItem="vmF-8k-G1X" firstAttribute="top" secondItem="7LB-fw-PcD" secondAttribute="bottom" id="DIQ-OI-EOE"/>
-                            <constraint firstItem="bjf-Xl-ffu" firstAttribute="trailing" secondItem="vmF-8k-G1X" secondAttribute="trailing" id="Us9-ag-Hdr"/>
-                            <constraint firstItem="bjf-Xl-ffu" firstAttribute="top" secondItem="43L-o1-x8l" secondAttribute="top" id="buU-yL-3rl"/>
-                            <constraint firstItem="bjf-Xl-ffu" firstAttribute="leading" secondItem="43L-o1-x8l" secondAttribute="leading" id="ioB-wX-CPl"/>
-                            <constraint firstAttribute="trailing" secondItem="bjf-Xl-ffu" secondAttribute="trailing" id="oTv-vB-6y1"/>
-                            <constraint firstItem="bjf-Xl-ffu" firstAttribute="leading" secondItem="vmF-8k-G1X" secondAttribute="leading" id="ymW-PV-kh9"/>
+                            <constraint firstItem="vmF-8k-G1X" firstAttribute="top" secondItem="bjf-Xl-ffu" secondAttribute="bottom" id="O3S-0L-C1d"/>
+                            <constraint firstItem="bjf-Xl-ffu" firstAttribute="top" secondItem="43L-o1-x8l" secondAttribute="top" id="VFn-f4-2wZ"/>
+                            <constraint firstItem="vmF-8k-G1X" firstAttribute="trailing" secondItem="bjf-Xl-ffu" secondAttribute="trailing" id="VMy-1q-Lef"/>
+                            <constraint firstItem="bjf-Xl-ffu" firstAttribute="leading" secondItem="43L-o1-x8l" secondAttribute="leading" id="cgA-7Q-qam"/>
+                            <constraint firstAttribute="trailing" secondItem="vmF-8k-G1X" secondAttribute="trailing" id="dXW-ps-pIu"/>
+                            <constraint firstItem="bjf-Xl-ffu" firstAttribute="leading" secondItem="vmF-8k-G1X" secondAttribute="leading" id="jaY-Tv-Xyc"/>
+                            <constraint firstItem="vmF-8k-G1X" firstAttribute="top" secondItem="7LB-fw-PcD" secondAttribute="bottom" id="rpS-OI-FNw"/>
                         </constraints>
                     </view>
+                    <connections>
+                        <segue destination="9HI-6j-g6Y" kind="presentation" identifier="presentEditProf" id="I4v-uf-04T"/>
+                    </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="omF-rJ-Tt1" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="3387" y="-1143"/>
+            <point key="canvasLocation" x="2535" y="-1181"/>
         </scene>
         <!--MyPostsViewController-->
         <scene sceneID="5FF-jg-HLQ">
@@ -1256,7 +1265,7 @@
                                 <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="gCG-7T-HmQ" id="wnk-WU-xoH">
                                     <autoresizingMask key="autoresizingMask"/>
                                     <subviews>
-                                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Name" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="4OS-UI-cmU">
+                                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" misplaced="YES" text="Name" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="4OS-UI-cmU">
                                             <rect key="frame" x="8" y="8" width="322" height="16"/>
                                             <constraints>
                                                 <constraint firstAttribute="width" constant="322" id="gWr-tt-OiO"/>
@@ -1265,7 +1274,7 @@
                                             <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
                                             <nil key="highlightedColor"/>
                                         </label>
-                                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Last Message" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Fzq-3v-Kt4">
+                                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" misplaced="YES" text="Last Message" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Fzq-3v-Kt4">
                                             <rect key="frame" x="8" y="29" width="349" height="17"/>
                                             <constraints>
                                                 <constraint firstAttribute="width" constant="349" id="4ff-gv-nRd"/>
@@ -1414,8 +1423,9 @@
         <image name="menu" width="22" height="22"/>
     </resources>
     <inferredMetricsTieBreakers>
+        <segue reference="di9-G9-f6D"/>
+        <segue reference="kq3-ie-xHz"/>
         <segue reference="DAt-Tu-EYX"/>
-        <segue reference="ndH-hG-Xoc"/>
         <segue reference="Ntf-EL-NHY"/>
     </inferredMetricsTieBreakers>
 </document>

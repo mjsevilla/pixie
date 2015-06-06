@@ -15,8 +15,9 @@ class MyProfileViewController: UIViewController {
    var profilePic: UIImageView!
    var nameLabel: UILabel!
    var bioLabel: UILabel!
-   
-   
+   let defaults = NSUserDefaults.standardUserDefaults()
+   var navTransitionOperator = NavigationTransitionOperator()
+	
    override func loadView() {
       super.loadView()
       
@@ -88,10 +89,14 @@ class MyProfileViewController: UIViewController {
       profilePic.layer.cornerRadius = self.profilePic.frame.size.width / 2;
       profilePic.clipsToBounds = true
       
-      nameLabel.text = "Coolio Julio"
-      bioLabel.text = "Ayeeee wassup girl! How you doinnnnn?????"
+	  var first = defaults.stringForKey("PixieUserFirstName")
+	  var last = defaults.stringForKey("PixieUserLastName")
+	  var full = first! + " " + last!
+	
+	  nameLabel.text = full
+	  bioLabel.text = defaults.stringForKey("PixieUserBio")
    }
-   
+	
    override func didReceiveMemoryWarning() {
       super.didReceiveMemoryWarning()
       // Dispose of any resources that can be recreated.
@@ -132,5 +137,23 @@ class MyProfileViewController: UIViewController {
       
       return image
    }
-   
+	
+	override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {
+		if segue.identifier == "presentNav" {
+			let toViewController = segue.destinationViewController as! NavigationViewController
+			self.modalPresentationStyle = UIModalPresentationStyle.Custom
+			toViewController.transitioningDelegate = self.navTransitionOperator
+			toViewController.presentingView = self
+		}
+		if segue.identifier == "presentEditProf" {
+			if let editVC = segue.destinationViewController as? ProfileViewController {
+				self.modalPresentationStyle = UIModalPresentationStyle.Custom
+			}
+		}
+	}
+	
+	@IBAction func editBtnTapped(sender: AnyObject) {
+		performSegueWithIdentifier("presentEditProf", sender: self)
+	}
+	
 }
