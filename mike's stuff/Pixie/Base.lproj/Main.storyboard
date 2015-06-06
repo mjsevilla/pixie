@@ -247,9 +247,6 @@
                         <subviews>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="top" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="PIXIe" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="PE2-lx-b7n">
                                 <rect key="frame" x="183" y="106" width="235" height="73"/>
-                                <constraints>
-                                    <constraint firstAttribute="width" constant="235" id="cxm-AJ-S9o"/>
-                                </constraints>
                                 <fontDescription key="fontDescription" name="Syncopate-Regular" family="Syncopate" pointSize="75"/>
                                 <color key="textColor" red="1" green="1" blue="1" alpha="1" colorSpace="calibratedRGB"/>
                                 <nil key="highlightedColor"/>
@@ -284,25 +281,27 @@
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                         <constraints>
-                            <constraint firstItem="m9q-h8-tBS" firstAttribute="bottom" secondItem="fFe-FZ-SOR" secondAttribute="top" id="1rB-eD-RxO"/>
-                            <constraint firstAttribute="trailing" secondItem="dyh-NB-3wh" secondAttribute="trailing" id="3pd-mI-keX"/>
-                            <constraint firstItem="PE2-lx-b7n" firstAttribute="top" secondItem="dyh-NB-3wh" secondAttribute="bottom" constant="42" id="4tL-Z1-9bj"/>
-                            <constraint firstItem="m9q-h8-tBS" firstAttribute="trailing" secondItem="eff-Jk-XnX" secondAttribute="trailing" id="COH-J6-4Ks"/>
-                            <constraint firstItem="eff-Jk-XnX" firstAttribute="leading" secondItem="dyh-NB-3wh" secondAttribute="leading" id="F53-fj-qau"/>
-                            <constraint firstItem="eff-Jk-XnX" firstAttribute="trailing" secondItem="dyh-NB-3wh" secondAttribute="trailing" id="LQr-pe-E4t"/>
-                            <constraint firstItem="m9q-h8-tBS" firstAttribute="leading" secondItem="eff-Jk-XnX" secondAttribute="leading" id="Pda-kJ-ogm"/>
-                            <constraint firstItem="m9q-h8-tBS" firstAttribute="top" secondItem="eff-Jk-XnX" secondAttribute="bottom" id="aNZ-k7-ZSN"/>
-                            <constraint firstItem="dyh-NB-3wh" firstAttribute="leading" secondItem="TrL-na-hN8" secondAttribute="leading" id="i5V-DD-lFG"/>
-                            <constraint firstItem="PE2-lx-b7n" firstAttribute="centerX" secondItem="dyh-NB-3wh" secondAttribute="centerX" id="rDx-bJ-89j"/>
-                            <constraint firstItem="dyh-NB-3wh" firstAttribute="top" secondItem="p9N-cV-qKr" secondAttribute="bottom" id="xAi-rX-cCx"/>
-                            <constraint firstItem="eff-Jk-XnX" firstAttribute="centerY" secondItem="TrL-na-hN8" secondAttribute="centerY" id="yp5-yN-upx"/>
+                            <constraint firstItem="eff-Jk-XnX" firstAttribute="leading" secondItem="TrL-na-hN8" secondAttribute="leadingMargin" constant="-16" id="JDP-ok-hZj"/>
+                            <constraint firstItem="eff-Jk-XnX" firstAttribute="top" secondItem="p9N-cV-qKr" secondAttribute="bottom" constant="258" id="QiB-ON-jf9"/>
+                            <constraint firstItem="PE2-lx-b7n" firstAttribute="top" secondItem="dyh-NB-3wh" secondAttribute="bottom" constant="42" id="WXQ-zx-v68"/>
+                            <constraint firstAttribute="centerX" secondItem="PE2-lx-b7n" secondAttribute="centerX" id="aoT-cf-TuZ"/>
+                            <constraint firstItem="fFe-FZ-SOR" firstAttribute="top" secondItem="m9q-h8-tBS" secondAttribute="bottom" id="fSy-Fn-nhi"/>
+                            <constraint firstAttribute="trailingMargin" secondItem="m9q-h8-tBS" secondAttribute="trailing" constant="-16" id="kos-vR-k86"/>
+                            <constraint firstItem="m9q-h8-tBS" firstAttribute="leading" secondItem="TrL-na-hN8" secondAttribute="leadingMargin" constant="-16" id="nFv-xP-A6i"/>
+                            <constraint firstItem="dyh-NB-3wh" firstAttribute="leading" secondItem="TrL-na-hN8" secondAttribute="leadingMargin" constant="-16" id="sFW-89-Djs"/>
+                            <constraint firstItem="dyh-NB-3wh" firstAttribute="top" secondItem="p9N-cV-qKr" secondAttribute="bottom" id="tCP-wC-Si2"/>
+                            <constraint firstItem="m9q-h8-tBS" firstAttribute="top" secondItem="eff-Jk-XnX" secondAttribute="bottom" id="uiL-Td-EVN"/>
+                            <constraint firstAttribute="trailingMargin" secondItem="dyh-NB-3wh" secondAttribute="trailing" constant="-16" id="utB-5p-JcM"/>
+                            <constraint firstAttribute="trailingMargin" secondItem="eff-Jk-XnX" secondAttribute="trailing" constant="-16" id="xwV-yO-aKV"/>
                         </constraints>
                     </view>
                     <simulatedStatusBarMetrics key="simulatedStatusBarMetrics" statusBarStyle="lightContent"/>
                     <connections>
                         <outlet property="pixieLabel" destination="PE2-lx-b7n" id="O39-1O-QFn"/>
+                        <outlet property="seachBarTopConstraint" destination="QiB-ON-jf9" id="GR1-u6-ama"/>
                         <outlet property="searchBar" destination="eff-Jk-XnX" id="JhL-jI-aNC"/>
                         <outlet property="startingTableView" destination="m9q-h8-tBS" id="Sqi-fd-BML"/>
+                        <outlet property="tableTopConstraint" destination="uiL-Td-EVN" id="HI6-UU-ZOc"/>
                         <outlet property="toolBar" destination="dyh-NB-3wh" id="WVC-Rd-oUd"/>
                         <segue destination="oOl-XQ-AIu" kind="custom" identifier="postRideSegue" customClass="CustomSegueClass" customModule="Pixie" customModuleProvider="target" id="w4w-Vg-J1K"/>
                         <segue destination="2PL-Nj-2SE" kind="custom" identifier="showMatches" customClass="CustomSegueClass" customModule="Pixie" customModuleProvider="target" id="Gap-73-MpG"/>

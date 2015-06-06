@@ -7,21 +7,21 @@
 	<key>IDESourceControlProjectIdentifier</key>
 	<string>11E4C8EF-D4BB-44B3-BDDB-C12F6CC29BB2</string>
 	<key>IDESourceControlProjectName</key>
-	<string>project</string>
+	<string>Pixie</string>
 	<key>IDESourceControlProjectOriginsDictionary</key>
 	<dict>
 		<key>1840CC86EE0EDF9C2BB2399E8B2FF5D4F3FD4544</key>
-		<string>https://github.com/mjsevilla/pixie</string>
+		<string>https://github.com/mjsevilla/pixie.git</string>
 	</dict>
 	<key>IDESourceControlProjectPath</key>
-	<string>mike's stuff/Pixie.xcodeproj/project.xcworkspace</string>
+	<string>mike's stuff/Pixie.xcodeproj</string>
 	<key>IDESourceControlProjectRelativeInstallPathDictionary</key>
 	<dict>
 		<key>1840CC86EE0EDF9C2BB2399E8B2FF5D4F3FD4544</key>
 		<string>../../..</string>
 	</dict>
 	<key>IDESourceControlProjectURL</key>
-	<string>https://github.com/mjsevilla/pixie</string>
+	<string>https://github.com/mjsevilla/pixie.git</string>
 	<key>IDESourceControlProjectVersion</key>
 	<integer>111</integer>
 	<key>IDESourceControlProjectWCCIdentifier</key>

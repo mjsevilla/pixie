@@ -13,6 +13,8 @@ import CoreLocation
 
 class SearchViewController: AutocompleteViewController, CLLocationManagerDelegate {
     
+    @IBOutlet weak var tableTopConstraint: NSLayoutConstraint!
+    @IBOutlet weak var seachBarTopConstraint: NSLayoutConstraint!
     @IBOutlet weak var pixieLabel: UILabel!
     @IBOutlet weak var searchBar: UISearchBar!
     @IBOutlet weak var toolBar: UIToolbar!
@@ -105,17 +107,13 @@ class SearchViewController: AutocompleteViewController, CLLocationManagerDelegat
     
     func keyboardWillShow(sender: NSNotification) {
         self.pixieLabel.hidden = true
-        self.searchBar.setTranslatesAutoresizingMaskIntoConstraints(true)
-        self.startingTableView.setTranslatesAutoresizingMaskIntoConstraints(true)
-        self.searchBar.frame.origin.y -= 150
-        self.startingTableView.frame.origin.y -= 150
+        self.seachBarTopConstraint.constant -= 150
+        self.searchBar.layoutIfNeeded()
     }
     func keyboardWillHide(sender: NSNotification) {
         self.pixieLabel.hidden = false
-        self.searchBar.setTranslatesAutoresizingMaskIntoConstraints(false)
-        self.startingTableView.setTranslatesAutoresizingMaskIntoConstraints(false)
-        self.searchBar.frame.origin.y += 150
-        self.startingTableView.frame.origin.y += 150
+        self.seachBarTopConstraint.constant += 150
+        self.searchBar.layoutIfNeeded()
     }
     
     func playVideo() -> Bool {

@@ -33,6 +33,7 @@ class MatchesViewController: UIViewController, UICollectionViewDelegateFlowLayou
     var endLon: Double!
     var searchDate: String!
     var searchTime: String!
+    let user = PFUser.currentUser()
     
     private var matches = [Match]()
     private var posts = [Post]()
@@ -298,29 +299,13 @@ class MatchesViewController: UIViewController, UICollectionViewDelegateFlowLayou
     *
     */
     func sendMessage(sender: SenderButton!) {
-        let userQuery = PFUser.query()!
-        userQuery.whereKey("userId", equalTo: String(currentMatch.author.userId))
         var newConvo = PFObject(className: "Conversation")
-        newConvo["user1"] = PFUser.currentUser()
-        userQuery.findObjectsInBackgroundWithBlock {
-            (objects: [AnyObject]?, error: NSError?) -> Void in
-            if error == nil {
-                newConvo["user2"] = objects![0] as! PFUser
-            }
-        }
-//        newConvo.setObject(String(userId), forKey: "user1Id")
-//        newConvo.setObject(fullName, forKey: "user1Name")
-//        newConvo.setObject(String(currentMatch.author.userId), forKey: "user2Id")
-//        newConvo.setObject(currentMatch.author.fullName, forKey: "user2Name")
-        newConvo.saveInBackgroundWithBlock {
-            [unowned self] (success: Bool, error: NSError?) -> Void in
-            if success {
-                NSLog("Object created with id: \(newConvo.objectId)")
-            }
-            else {
-                NSLog("%@", error!)
-            }
-        }
+        
+        newConvo["user1name"] = self.user!["name"] as? String
+        newConvo["user1Id"] = self.user!["userId"] as? String
+        newConvo["user2name"] = currentMatch.author.fullName
+        newConvo["user2Id"] = String(currentMatch.author.userId)
+        newConvo.save()
         sender.parseConvo = newConvo
         
         println("Send message from \(fullName) with id \(userId) to \(currentMatch.author.fullName) with id \(currentMatch.author.userId)")
@@ -355,9 +340,8 @@ class MatchesViewController: UIViewController, UICollectionViewDelegateFlowLayou
             if let destVC = segue.destinationViewController as? ConversationViewController {
                 let btn = sender as! SenderButton
                 
-//                destVC.userName = btn.parseConvo!["user1Name"]!.stringValue
-//                destVC.userId = btn.parseConvo!["user1Id"]!.stringValue
-                destVC.recipientName = btn.parseConvo!["user2Name"]!.stringValue
+                destVC.recipientName = btn.parseConvo!["user2Name"] as? String
+                destVC.recipientId = btn.parseConvo!["user2Id"] as? String
                 destVC.convoId = btn.parseConvo!.objectId
                 println("ID: \(btn.parseConvo!.objectId)")
                 destVC.convo = btn.parseConvo!
