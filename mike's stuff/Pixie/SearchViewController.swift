@@ -13,6 +13,7 @@ import CoreLocation
 
 class SearchViewController: AutocompleteViewController, CLLocationManagerDelegate {
     
+    @IBOutlet weak var pixieLabel: UILabel!
     @IBOutlet weak var searchBar: UISearchBar!
     @IBOutlet weak var toolBar: UIToolbar!
     var activeSearchBar: UISearchBar!
@@ -33,6 +34,9 @@ class SearchViewController: AutocompleteViewController, CLLocationManagerDelegat
         super.viewDidLoad()
         // Do any additional setup after loading the view, typically from a nib.
         self.playVideo()
+        
+        NSNotificationCenter.defaultCenter().addObserver(self, selector: Selector("keyboardWillShow:"), name:UIKeyboardWillShowNotification, object: nil)
+        NSNotificationCenter.defaultCenter().addObserver(self, selector: Selector("keyboardWillHide:"), name:UIKeyboardWillHideNotification, object: nil)
         
         toolBar.setBackgroundImage(UIImage(), forToolbarPosition: UIBarPosition.Any,
             barMetrics: UIBarMetrics.Default)
@@ -97,6 +101,21 @@ class SearchViewController: AutocompleteViewController, CLLocationManagerDelegat
         var leftSwipe = UISwipeGestureRecognizer(target: self, action: Selector("handleSwipes:"))
         leftSwipe.direction = .Left
         self.view.addGestureRecognizer(leftSwipe)
+    }
+    
+    func keyboardWillShow(sender: NSNotification) {
+        self.pixieLabel.hidden = true
+        self.searchBar.setTranslatesAutoresizingMaskIntoConstraints(true)
+        self.startingTableView.setTranslatesAutoresizingMaskIntoConstraints(true)
+        self.searchBar.frame.origin.y -= 150
+        self.startingTableView.frame.origin.y -= 150
+    }
+    func keyboardWillHide(sender: NSNotification) {
+        self.pixieLabel.hidden = false
+        self.searchBar.setTranslatesAutoresizingMaskIntoConstraints(false)
+        self.startingTableView.setTranslatesAutoresizingMaskIntoConstraints(false)
+        self.searchBar.frame.origin.y += 150
+        self.startingTableView.frame.origin.y += 150
     }
     
     func playVideo() -> Bool {
