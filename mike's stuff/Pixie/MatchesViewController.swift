@@ -34,6 +34,7 @@ class MatchesViewController: UIViewController, UICollectionViewDelegateFlowLayou
     var searchDate: String!
     var searchTime: String!
     let user = PFUser.currentUser()
+    let spinner = UIActivityIndicatorView(activityIndicatorStyle: .WhiteLarge)
     
     private var matches = [Match]()
     private var posts = [Post]()
@@ -84,6 +85,9 @@ class MatchesViewController: UIViewController, UICollectionViewDelegateFlowLayou
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        
+        spinner.center = CGPointMake(self.view.frame.midX, self.view.frame.midY)
+        self.view.addSubview(spinner)
         
         var swipeToSearchView = UISwipeGestureRecognizer(target: self, action: "handleSwipes:")
         swipeToSearchView.direction = .Down
@@ -268,11 +272,6 @@ class MatchesViewController: UIViewController, UICollectionViewDelegateFlowLayou
         
     }
     
-    override func didReceiveMemoryWarning() {
-        super.didReceiveMemoryWarning()
-        // Dispose of any resources that can be recreated.
-    }
-    
     func tappedImage(recognizer: UITapGestureRecognizer) {
         self.performSegueWithIdentifier("showUserBio", sender: self)
     }
@@ -305,9 +304,19 @@ class MatchesViewController: UIViewController, UICollectionViewDelegateFlowLayou
         newConvo["user1Id"] = self.user!["userId"] as? String
         newConvo["user2Name"] = currentMatch.author.fullName
         newConvo["user2Id"] = "\(currentMatch.author.userId)"
-        newConvo.save()
-        sender.parseConvo = newConvo
-        performSegueWithIdentifier("presentConvo", sender: sender)
+        dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_BACKGROUND, 0), {
+            dispatch_async(dispatch_get_main_queue(), {
+                self.spinner.startAnimating()
+            })
+            
+            newConvo.save()
+            sender.parseConvo = newConvo
+            
+            dispatch_async(dispatch_get_main_queue(), {
+                self.spinner.stopAnimating()
+                self.performSegueWithIdentifier("presentConvo", sender: sender)
+            })
+        })
     }
     
     override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {
