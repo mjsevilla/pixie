@@ -208,4 +208,9 @@ class ConversationViewController: JSQMessagesViewController {
     override func collectionView(collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
         return messages.count
     }
+    
+    // handles hiding keyboard when user touches outside of keyboard
+    override func touchesBegan(touches: Set<NSObject>, withEvent event: UIEvent) {
+        self.view.endEditing(true)
+    }
 }

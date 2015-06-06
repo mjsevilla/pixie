@@ -301,14 +301,12 @@ class MatchesViewController: UIViewController, UICollectionViewDelegateFlowLayou
     func sendMessage(sender: SenderButton!) {
         var newConvo = PFObject(className: "Conversation")
         
-        newConvo["user1name"] = self.user!["name"] as? String
+        newConvo["user1Name"] = self.user!["name"] as? String
         newConvo["user1Id"] = self.user!["userId"] as? String
-        newConvo["user2name"] = currentMatch.author.fullName
-        newConvo["user2Id"] = String(currentMatch.author.userId)
+        newConvo["user2Name"] = currentMatch.author.fullName
+        newConvo["user2Id"] = "\(currentMatch.author.userId)"
         newConvo.save()
         sender.parseConvo = newConvo
-        
-        println("Send message from \(fullName) with id \(userId) to \(currentMatch.author.fullName) with id \(currentMatch.author.userId)")
         performSegueWithIdentifier("presentConvo", sender: sender)
     }
     
@@ -340,10 +338,9 @@ class MatchesViewController: UIViewController, UICollectionViewDelegateFlowLayou
             if let destVC = segue.destinationViewController as? ConversationViewController {
                 let btn = sender as! SenderButton
                 
-                destVC.recipientName = btn.parseConvo!["user2Name"] as? String
-                destVC.recipientId = btn.parseConvo!["user2Id"] as? String
-                destVC.convoId = btn.parseConvo!.objectId
-                println("ID: \(btn.parseConvo!.objectId)")
+                destVC.recipientName = btn.recipientName
+                destVC.recipientId = btn.recipientId
+                destVC.convoId = btn.convoId
                 destVC.convo = btn.parseConvo!
             }
         }
@@ -354,5 +351,16 @@ class MatchesViewController: UIViewController, UICollectionViewDelegateFlowLayou
 
 // wrapper class to send parse conversation via segue
 class SenderButton: UIButton {
-    var parseConvo: PFObject?
+    var recipientName = ""
+    var recipientId = ""
+    var convoId = ""
+    var parseConvo: PFObject? {
+        didSet {
+            if let convo = parseConvo {
+                recipientName = convo["user2Name"] as! String
+                recipientId = convo["user2Id"] as! String
+                convoId = convo.objectId!
+            }
+        }
+    }
 }
