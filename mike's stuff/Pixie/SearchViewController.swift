@@ -33,6 +33,9 @@ class SearchViewController: AutocompleteViewController, CLLocationManagerDelegat
     var endLon: Double!
     var kbIsHidden = true
 	let defaults = NSUserDefaults.standardUserDefaults()
+	struct Check {
+		static var didInitialize = false
+	}
 	
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -79,13 +82,16 @@ class SearchViewController: AutocompleteViewController, CLLocationManagerDelegat
         self.locationManager.requestWhenInUseAuthorization()
         self.locationManager.startUpdatingLocation()
 		
-		dispatch_async(dispatch_get_main_queue(), {
-			var gaussianFilter = GPUImageGaussianBlurFilter()
-			gaussianFilter.blurRadiusInPixels = 5
-			gaussianFilter.blurPasses = 2
-			let blurredImage = gaussianFilter.imageByFilteringImage(UIImage(named: "sloth.jpg"))
-			self.defaults.setObject(UIImagePNGRepresentation(blurredImage), forKey: "PixieUserProfPic")
-		})
+		if (Check.didInitialize == false) {
+			dispatch_async(dispatch_get_main_queue(), {
+				var gaussianFilter = GPUImageGaussianBlurFilter()
+				gaussianFilter.blurRadiusInPixels = 5
+				gaussianFilter.blurPasses = 2
+				let blurredImage = gaussianFilter.imageByFilteringImage(UIImage(named: "sloth.jpg"))
+				self.defaults.setObject(UIImagePNGRepresentation(blurredImage), forKey: "PixieUserBlurredProfPic")
+				Check.didInitialize = true
+			})
+		}
 		
 //        let defaults = NSUserDefaults.standardUserDefaults()
 //        if let savedId = defaults.stringForKey("PixieUserId") {

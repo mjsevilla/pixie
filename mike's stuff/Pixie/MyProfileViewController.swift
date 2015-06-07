@@ -23,16 +23,19 @@ class MyProfileViewController: UIViewController {
 	
       //let croppedImage = cropToSquare(image: UIImage(named: "sloth.jpg")!)
 	
-	  var imageData = defaults.dataForKey("PixieUserProfPic")
+	  var imageData = defaults.dataForKey("PixieUserBlurredProfPic")
 	  var blurredImage = UIImage(data: imageData!)
-      
+	  var profPic = UIImage(named: "sloth.jpg")
+	  defaults.setObject(UIImagePNGRepresentation(profPic), forKey: "PixieUserProfPic")
+	
 	  profilePicBlurred = UIImageView(image: blurredImage)
       profilePicBlurred.setTranslatesAutoresizingMaskIntoConstraints(false)
       blurView = UIVisualEffectView(effect: UIBlurEffect(style: .ExtraLight))
       blurView.setTranslatesAutoresizingMaskIntoConstraints(false)
       view.addSubview(profilePicBlurred)
-      
-	  profilePic = UIImageView(image: UIImage(named: "sloth.jpg"))
+	
+	
+	  profilePic = UIImageView(image: profPic)
       profilePic.setTranslatesAutoresizingMaskIntoConstraints(false)
       view.addSubview(profilePic)
       

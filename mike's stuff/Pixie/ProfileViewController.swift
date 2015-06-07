@@ -77,8 +77,13 @@ class ProfileViewController: UIViewController, UITextViewDelegate, UITextFieldDe
 		password.layer.borderWidth = 1.0
 		password.secureTextEntry = true
 		
-		if (profPic.image == nil) {
+		if (profPic.image == nil && defaults.objectForKey("PixieUserProfPic") ==  nil) {
 			profPic.image = UIImage(named: "default.png")
+		}
+		else {
+			var imageData = defaults.dataForKey("PixieUserProfPic")
+	        var profImage = UIImage(data: imageData!)
+			profPic.image = profImage
 		}
 		profPic.layer.cornerRadius = 8.0
 		profPic.layer.masksToBounds = true
