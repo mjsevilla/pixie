@@ -92,12 +92,6 @@ class ProfileViewController: UIViewController, UITextViewDelegate, UITextFieldDe
 		view.addGestureRecognizer(rightSwipe)
 	}
 	
-	func handleSwipes(sender: UISwipeGestureRecognizer) {
-		if sender.direction == .Right {
-			self.performSegueWithIdentifier("presentNav", sender: self)
-		}
-	}
-	
 	// limit input to 300 characters
 	func textView(textView: UITextView, shouldChangeTextInRange range: NSRange, replacementText text: String) -> Bool {
 		if (range.length + range.location > count(bioField.text)) {
@@ -291,16 +285,14 @@ class ProfileViewController: UIViewController, UITextViewDelegate, UITextFieldDe
 			println("error json")
 		}
 		
-		performSegueWithIdentifier("presentSearch", sender: self)
+		performSegueWithIdentifier("presentProfile", sender: self)
+	}
+	
+	@IBAction func backBtnTapped(sender: AnyObject) {
+		performSegueWithIdentifier("presentProfile", sender: self)
 	}
 	
 	override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {
-		if segue.identifier == "presentNav" {
-			let toViewController = segue.destinationViewController as! NavigationViewController
-			self.modalPresentationStyle = UIModalPresentationStyle.Custom
-			toViewController.transitioningDelegate = self.navTransitionOperator
-			toViewController.presentingView = self
-		}
 		if segue.identifier == "presentProfile" {
 			if let profVC = segue.destinationViewController as? MyProfileViewController {
 				self.modalPresentationStyle = UIModalPresentationStyle.Custom

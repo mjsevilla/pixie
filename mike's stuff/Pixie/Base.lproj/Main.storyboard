@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="7702" systemVersion="14D136" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" initialViewController="WGR-7L-PRe">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="7706" systemVersion="14D136" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" initialViewController="WGR-7L-PRe">
     <dependencies>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="7701"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="7703"/>
         <capability name="Aspect ratio constraints" minToolsVersion="5.1"/>
         <capability name="Constraints to layout margins" minToolsVersion="6.0"/>
     </dependencies>
@@ -973,10 +973,10 @@
                                 </textAttributes>
                                 <items>
                                     <navigationItem title="Edit Profile" id="Qy6-sI-lZe">
-                                        <barButtonItem key="leftBarButtonItem" image="menu" id="aEa-0O-RUZ">
+                                        <barButtonItem key="leftBarButtonItem" image="back" id="aEa-0O-RUZ">
                                             <color key="tintColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                             <connections>
-                                                <segue destination="Sik-hd-hg0" kind="custom" identifier="presentNav" customClass="CustomSegueClass" customModule="Pixie" customModuleProvider="target" id="di9-G9-f6D"/>
+                                                <action selector="backBtnTapped:" destination="9HI-6j-g6Y" id="Eyv-rI-uUP"/>
                                             </connections>
                                         </barButtonItem>
                                         <barButtonItem key="rightBarButtonItem" enabled="NO" title="Save" id="A2m-8O-S9y">
@@ -1165,6 +1165,9 @@
                                     <navigationItem title="Profile" id="ery-HD-oiV">
                                         <barButtonItem key="leftBarButtonItem" image="menu" id="tnG-r1-Wqt">
                                             <color key="tintColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                            <connections>
+                                                <segue destination="Sik-hd-hg0" kind="custom" identifier="presentNav" customClass="CustomSegueClass" customModule="Pixie" id="LGl-cG-deb"/>
+                                            </connections>
                                         </barButtonItem>
                                         <barButtonItem key="rightBarButtonItem" title="Edit" id="tR9-2D-Rbv">
                                             <color key="tintColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
@@ -1420,12 +1423,13 @@
     </scenes>
     <resources>
         <image name="add" width="30" height="30"/>
+        <image name="back" width="30" height="30"/>
         <image name="menu" width="22" height="22"/>
     </resources>
     <inferredMetricsTieBreakers>
-        <segue reference="ndH-hG-Xoc"/>
         <segue reference="DAt-Tu-EYX"/>
         <segue reference="Ntf-EL-NHY"/>
+        <segue reference="LGl-cG-deb"/>
         <segue reference="kq3-ie-xHz"/>
     </inferredMetricsTieBreakers>
 </document>

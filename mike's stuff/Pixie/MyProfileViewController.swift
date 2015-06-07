@@ -101,6 +101,12 @@ class MyProfileViewController: UIViewController {
       super.didReceiveMemoryWarning()
       // Dispose of any resources that can be recreated.
    }
+	
+	func handleSwipes(sender: UISwipeGestureRecognizer) {
+		if sender.direction == .Right {
+			self.performSegueWithIdentifier("presentNav", sender: self)
+		}
+	}
    
    func cropToSquare(image originalImage: UIImage) -> UIImage {
       // Create a copy of the image without the imageOrientation property so it is in its native orientation (landscape)
