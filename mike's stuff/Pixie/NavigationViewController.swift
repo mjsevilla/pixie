@@ -122,6 +122,10 @@ class NavigationViewController: UIViewController, UITableViewDelegate, UITableVi
             }
         case 5:
             self.performSegueWithIdentifier("unwindInitial", sender: self)
+//            if (defaults.stringForKey("PixieUserFirstName") == true) {
+//               println("closing fb session")
+//               FBSession.activeSession().closeAndClearTokenInformation()
+//            }
             NSUserDefaults.standardUserDefaults().removeObjectForKey("PixieUserId")
             NSUserDefaults.standardUserDefaults().removeObjectForKey("PixieUserFirstName")
             NSUserDefaults.standardUserDefaults().removeObjectForKey("PixieUserLastName")
@@ -129,8 +133,10 @@ class NavigationViewController: UIViewController, UITableViewDelegate, UITableVi
             NSUserDefaults.standardUserDefaults().removeObjectForKey("PixieUserPassword")
             NSUserDefaults.standardUserDefaults().removeObjectForKey("PixieUserAge")
             NSUserDefaults.standardUserDefaults().removeObjectForKey("PixieUserBio")
+            NSUserDefaults.standardUserDefaults().removeObjectForKey("PixieUserHasFB")
             Keychain.set(false, forKey: "loggedIn")
             PFUser.logOutInBackground()
+            FBSession.activeSession().closeAndClearTokenInformation()
         default:
             println("uhhh...hai <(._.<)")
         }

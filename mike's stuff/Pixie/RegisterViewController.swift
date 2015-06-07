@@ -163,7 +163,7 @@ class RegisterViewController: UIViewController, FBLoginViewDelegate, UITextField
                         if let resp_email = resp["email"] as? String {
                            if let resp_password = resp["password"] as? String {
                               if let resp_bio = resp["bio"] as? String {
-//                                 let user_bio = resp_bio == "NULL" ? "No bio :("
+                                 let user_bio = resp_bio == "NULL" ? "No bio :(" : resp_bio
                                  if let resp_age = resp["age"] as? String {
                                     let age = resp_age.toInt()
                                     defaults.setObject(userId.toInt(), forKey: "PixieUserId")
@@ -171,8 +171,9 @@ class RegisterViewController: UIViewController, FBLoginViewDelegate, UITextField
                                     defaults.setObject(last_name, forKey: "PixieUserLastName")
                                     defaults.setObject(resp_email, forKey: "PixieUserEmail")
                                     defaults.setObject(resp_password, forKey: "PixieUserPassword")
+                                    defaults.setObject(user_bio, forKey: "PixieUserBio")
                                     defaults.setObject(age, forKey: "PixieUserAge")
-                                    defaults.setObject(resp_bio == "NULL" ? "No bio :(" : resp_bio, forKey: "PixieUserBio")
+                                    defaults.setObject(true, forKey: "PixieUserHasFB")
                                     NSUserDefaults.standardUserDefaults().synchronize()
                                     self.user = PFUser()
                                     if let _user = self.user {
@@ -194,7 +195,7 @@ class RegisterViewController: UIViewController, FBLoginViewDelegate, UITextField
                                        }
                                     }
                                     Keychain.set(true, forKey: "loggedIn")
-                                    println("created userId: \(userId), first_name: \(first_name), last_name: \(last_name), email: \(resp_email), password: \(resp_password)")
+                                    println("created userId: \(userId), first_name: \(first_name), last_name: \(last_name), email: \(resp_email), password: \(resp_password), age: \(age!), bio: \(user_bio), hasFB: true")
                                     self.didComplete = true
                                  } else {
                                     self.shouldAttempt = true
@@ -270,26 +271,40 @@ class RegisterViewController: UIViewController, FBLoginViewDelegate, UITextField
                if let last_name = json["last_name"] as? String {
                   if let resp_email = json["email"] as? String {
                      if let resp_password = json["password"] as? String {
-                        defaults.setObject(userId.toInt(), forKey: "PixieUserId")
-                        defaults.setObject(first_name, forKey: "PixieUserFirstName")
-                        defaults.setObject(last_name, forKey: "PixieUserLastName")
-                        defaults.setObject(resp_email, forKey: "PixieUserEmail")
-                        let username = first_name + last_name + userId
-                        self.user = PFUser()
-                        PFUser.logInWithUsernameInBackground(username, password: resp_password) {
-                           [unowned self] (user: PFUser?, error: NSError?) -> Void in
-                           if user != nil {
-                              println("Parse user successfully logged in")
+                        if let resp_bio = json["bio"] as? String {
+                           let user_bio = resp_bio == "NULL" ? "No bio :(" : resp_bio
+                           if let resp_age = json["age"] as? String {
+                              let age = resp_age.toInt()
+                              defaults.setObject(userId.toInt(), forKey: "PixieUserId")
+                              defaults.setObject(first_name, forKey: "PixieUserFirstName")
+                              defaults.setObject(last_name, forKey: "PixieUserLastName")
+                              defaults.setObject(resp_email, forKey: "PixieUserEmail")
+                              defaults.setObject(resp_password, forKey: "PixieUserPassword")
+                              defaults.setObject(user_bio, forKey: "PixieUserBio")
+                              defaults.setObject(age, forKey: "PixieUserAge")
+                              defaults.setObject(true, forKey: "PixieUserHasFB")
+                              let username = first_name + last_name + userId
+                              self.user = PFUser()
+                              PFUser.logInWithUsernameInBackground(username, password: resp_password) {
+                                 [unowned self] (user: PFUser?, error: NSError?) -> Void in
+                                 if user != nil {
+                                    println("Parse user successfully logged in")
+                                 } else {
+                                    println("Parse log in error: \(error!)")
+                                 }
+                              }
+                              Keychain.set(true, forKey: "loggedIn")
+                              NSUserDefaults.standardUserDefaults().synchronize()
+                              println("signed in userId: \(userId.toInt()!), first_name: \(first_name), last_name: \(last_name), email: \(resp_email), age: \(age!), bio: \(user_bio), hasFB: true")
+                              self.wrongEmailPwLabel.hidden = true
+                              self.didComplete = true
+                              return true
                            } else {
-                              println("Parse log in error: \(error!)")
+                              println("error age")
                            }
+                        } else {
+                           println("error bio")
                         }
-                        Keychain.set(true, forKey: "loggedIn")
-                        NSUserDefaults.standardUserDefaults().synchronize()
-                        println("signed in userId: \(userId.toInt()!), first_name: \(first_name), last_name: \(last_name), email: \(resp_email)")
-                        self.wrongEmailPwLabel.hidden = true
-                        self.didComplete = true
-                        return true
                      } else {
                         println("error password")
                      }
@@ -365,35 +380,49 @@ class RegisterViewController: UIViewController, FBLoginViewDelegate, UITextField
                if let last_name = json["last_name"] as? String {
                   if let resp_email = json["email"] as? String {
                      if let resp_password = json["password"] as? String {
-                        defaults.setObject(userId.toInt(), forKey: "PixieUserId")
-                        defaults.setObject(first_name, forKey: "PixieUserFirstName")
-                        defaults.setObject(last_name, forKey: "PixieUserLastName")
-                        defaults.setObject(resp_email, forKey: "PixieUserEmail")
-                        defaults.setObject(resp_password, forKey: "PixieUserPassword")
-                        NSUserDefaults.standardUserDefaults().synchronize()
-                        self.user = PFUser()
-                        if let _user = self.user {
-                           _user.username = first_name + last_name + userId
-                           _user.password = resp_password
-                           _user.email = resp_email
-                           _user["name"] = "\(first_name) \(last_name)"
-                           _user["userId"] = userId
-                           _user.signUpInBackgroundWithBlock {
-                              (succeeded: Bool, error: NSError?) -> Void in
-                              if let error = error {
-                                 let errorString = error.userInfo?["error"] as? NSString
-                                 println("Parse error: \(errorString!)")
-                              } else {
-                                 PFInstallation.currentInstallation().setObject(_user, forKey: "user")
-                                 PFInstallation.currentInstallation().saveInBackground()
-                                 println("Pixie registration successful")
+                        if let resp_bio = json["bio"] as? String {
+                           let user_bio = resp_bio == "NULL" ? "No bio :(" : resp_bio
+                           if let resp_age = json["age"] as? String {
+                              defaults.setObject(userId.toInt(), forKey: "PixieUserId")
+                              defaults.setObject(first_name, forKey: "PixieUserFirstName")
+                              defaults.setObject(last_name, forKey: "PixieUserLastName")
+                              defaults.setObject(resp_email, forKey: "PixieUserEmail")
+                              defaults.setObject(resp_password, forKey: "PixieUserPassword")
+                              defaults.setObject(user_bio, forKey: "PixieUserBio")
+                              if (resp_age != "NULL") {
+                                 defaults.setObject(resp_age.toInt(), forKey: "PixieUserAge")
                               }
+                              defaults.setObject(false, forKey: "PixieUserHasFB")
+                              NSUserDefaults.standardUserDefaults().synchronize()
+                              self.user = PFUser()
+                              if let _user = self.user {
+                                 _user.username = first_name + last_name + userId
+                                 _user.password = resp_password
+                                 _user.email = resp_email
+                                 _user["name"] = "\(first_name) \(last_name)"
+                                 _user["userId"] = userId
+                                 _user.signUpInBackgroundWithBlock {
+                                    (succeeded: Bool, error: NSError?) -> Void in
+                                    if let error = error {
+                                       let errorString = error.userInfo?["error"] as? NSString
+                                       println("Parse error: \(errorString!)")
+                                    } else {
+                                       PFInstallation.currentInstallation().setObject(_user, forKey: "user")
+                                       PFInstallation.currentInstallation().saveInBackground()
+                                       println("Pixie registration successful")
+                                    }
+                                 }
+                                 Keychain.set(true, forKey: "loggedIn")
+                              }
+                              println("created userId: \(userId.toInt()!), first_name: \(first_name), last_name: \(last_name), email: \(resp_email), password: \(resp_password), age: \(resp_age), bio: \(user_bio), hasFB: false")
+                              self.wrongEmailPwLabel.hidden = true
+                              self.performSegueWithIdentifier("presentSearch", sender: self)
+                           } else {
+                              println("error age")
                            }
-                           Keychain.set(true, forKey: "loggedIn")
+                        } else {
+                           println("error bio")
                         }
-                        println("created userId: \(userId.toInt()!), first_name: \(first_name), last_name: \(last_name), email: \(resp_email), password: \(resp_password)")
-                        self.wrongEmailPwLabel.hidden = true
-                        self.performSegueWithIdentifier("presentSearch", sender: self)
                      } else {
                         println("error password")
                      }
@@ -433,25 +462,39 @@ class RegisterViewController: UIViewController, FBLoginViewDelegate, UITextField
                if let last_name = json["last_name"] as? String {
                   if let resp_email = json["email"] as? String {
                      if let resp_password = json["password"] as? String {
-                        defaults.setObject(userId.toInt(), forKey: "PixieUserId")
-                        defaults.setObject(first_name, forKey: "PixieUserFirstName")
-                        defaults.setObject(last_name, forKey: "PixieUserLastName")
-                        defaults.setObject(resp_email, forKey: "PixieUserEmail")
-                        defaults.setObject(resp_password, forKey: "PixieUserPassword")
-                        let username = first_name + last_name + userId
-                        PFUser.logInWithUsernameInBackground(username, password: resp_password) {
-                           [unowned self] (user: PFUser?, error: NSError?) -> Void in
-                           if user != nil {
-                              println("Parse user successfully logged in")
+                        if let resp_bio = json["bio"] as? String {
+                           let user_bio = resp_bio == "NULL" ? "No bio :(" : resp_bio
+                           if let resp_age = json["age"] as? String {
+                              defaults.setObject(userId.toInt(), forKey: "PixieUserId")
+                              defaults.setObject(first_name, forKey: "PixieUserFirstName")
+                              defaults.setObject(last_name, forKey: "PixieUserLastName")
+                              defaults.setObject(resp_email, forKey: "PixieUserEmail")
+                              defaults.setObject(resp_password, forKey: "PixieUserPassword")
+                              defaults.setObject(user_bio, forKey: "PixieUserBio")
+                              if (resp_age != "NULL") {
+                                 defaults.setObject(resp_age.toInt(), forKey: "PixieUserAge")
+                              }
+                              defaults.setObject(false, forKey: "PixieUserHasFB")
+                              let username = first_name + last_name + userId
+                              PFUser.logInWithUsernameInBackground(username, password: resp_password) {
+                                 [unowned self] (user: PFUser?, error: NSError?) -> Void in
+                                 if user != nil {
+                                    println("Parse user successfully logged in")
+                                 } else {
+                                    println("Parse log in error: \(error!)")
+                                 }
+                              }
+                              Keychain.set(true, forKey: "loggedIn")
+                              NSUserDefaults.standardUserDefaults().synchronize()
+                              println("signed in userId: \(userId.toInt()!), first_name: \(first_name), last_name: \(last_name), email: \(resp_email), password: \(resp_password), age: \(resp_age), bio: \(user_bio), hasFB: false")
+                              self.wrongEmailPwLabel.hidden = true
+                              self.performSegueWithIdentifier("presentSearch", sender: self)
                            } else {
-                              println("Parse log in error: \(error!)")
+                              println("error age")
                            }
+                        } else {
+                           println("error bio")
                         }
-                        Keychain.set(true, forKey: "loggedIn")
-                        NSUserDefaults.standardUserDefaults().synchronize()
-                        println("signed in userId: \(userId.toInt()!), first_name: \(first_name), last_name: \(last_name), email: \(resp_email), password: \(resp_password)")
-                        self.wrongEmailPwLabel.hidden = true
-                        self.performSegueWithIdentifier("presentSearch", sender: self)
                      } else {
                         println("error password")
                      }
