@@ -10,7 +10,7 @@ import Foundation
 import UIKit
 
 class ConversationViewController: JSQMessagesViewController {
-    var messages: [JSQMessage]!
+    var messages: [JSQMessage] = []
     let user = PFUser.currentUser()!
     var recipientName: String?
     var recipientId: String?
@@ -19,6 +19,7 @@ class ConversationViewController: JSQMessagesViewController {
     var fromMatches: Bool?
     var bubbleImageOutgoing: JSQMessagesBubbleImage!
     var bubbleImageIncoming: JSQMessagesBubbleImage!
+    let spinner = UIActivityIndicatorView(activityIndicatorStyle: .Gray)
     
     override func viewWillAppear(animated: Bool) {
         super.viewWillAppear(animated)
@@ -31,14 +32,20 @@ class ConversationViewController: JSQMessagesViewController {
         super.senderDisplayName = user["name"] as! String
         let bubbleFactory = JSQMessagesBubbleImageFactory()
         
-        automaticallyScrollsToMostRecentMessage = true
-        messages = []
+        showTypingIndicator = true
+        showLoadEarlierMessagesHeader = true
+        self.collectionView.loadEarlierMessagesHeaderTextColor = UIColor(red: 0/256, green: 188/256, blue: 209/256, alpha: 1.0)
+        self.collectionView.typingIndicatorMessageBubbleColor = UIColor.jsq_messageBubbleLightGrayColor()
         navigationItem.title = recipientName!
         if self.fromMatches == true {
             let backBtn = UIBarButtonItem(title: "Back", style: .Plain, target: self, action: "callUnwindMatches:")
             backBtn.setTitleTextAttributes([NSFontAttributeName: UIFont(name: "HelveticaNeue-Thin", size: 18)!], forState: .Normal)
             navigationItem.leftBarButtonItem = backBtn
         }
+        
+        spinner.center = CGPointMake(self.view.frame.midX, self.view.frame.midY)
+        self.collectionView.addSubview(spinner)
+        self.view.addSubview(spinner)
         
         navigationController?.navigationBar.backgroundColor = UIColor(red: 0/256, green: 188/256, blue: 209/256, alpha: 1.0)
         collectionView.collectionViewLayout.incomingAvatarViewSize = CGSizeZero
@@ -48,7 +55,7 @@ class ConversationViewController: JSQMessagesViewController {
         bubbleImageOutgoing = bubbleFactory.outgoingMessagesBubbleImageWithColor(uicolorFromHex(0x00BCD1))
         bubbleImageIncoming = bubbleFactory.incomingMessagesBubbleImageWithColor(UIColor.jsq_messageBubbleLightGrayColor())
         
-        loadMessages()
+        self.loadMessages()
     }
     
     func callUnwindMatches(sender: UIBarButtonItem) {
@@ -65,7 +72,7 @@ class ConversationViewController: JSQMessagesViewController {
     
     override func viewDidAppear(animated: Bool) {
         super.viewDidAppear(animated)
-        collectionView.collectionViewLayout.springinessEnabled = true
+        self.collectionView.collectionViewLayout.springinessEnabled = true
     }
     
     // load previous messages of a convo
@@ -73,43 +80,71 @@ class ConversationViewController: JSQMessagesViewController {
         var lastMsg = messages.last
         var query = PFQuery(className: "Message")
         
+        // sort w/ newest at bottom
         query.whereKey("convoId", equalTo: convoId!)
         if lastMsg != nil {
-            query.whereKey("createdAt", greaterThan: lastMsg!.date)
+            query.whereKey("createdAt", greaterThanOrEqualTo: lastMsg!.date)
         }
-        
-        // sort w/ newest at bottom
-        query.orderByAscending("createdAt")
+        query.limit = 20
+        query.orderByDescending("createdAt")
         query.findObjectsInBackgroundWithBlock {
             [unowned self] (objects, error) -> Void in
             if error == nil {
-                self.automaticallyScrollsToMostRecentMessage = true
                 for object in objects! {
-                    self.newMessage(object as! PFObject)
+                    self.newMessage(object as! PFObject, ndx: 0)
                 }
-                
                 if self.messages.count != 0 {
+                    self.automaticallyScrollsToMostRecentMessage = true
                     self.finishReceivingMessage()
                 }
-                
                 // Scroll to bottom if a new message has been recieved
                 if objects!.count > 0 {
                     self.scrollToBottomAnimated(true)
                 }
             }
             else {
-                println("Error retrieving messages")
+                println("Error retrieving messages: \(error)")
             }}
     }
     
+    // load earlier messages when button is hit
+    func loadEarlierMessages() {
+        var oldestMsg = messages[0]
+        var query = PFQuery(className: "Message")
+        
+        query.whereKey("convoId", equalTo: convoId!)
+        query.whereKey("createdAt", lessThan: oldestMsg.date)
+        query.limit = 20
+        query.orderByDescending("createdAt")
+        query.findObjectsInBackgroundWithBlock {
+            [unowned self] (objects, error) -> Void in
+            if error == nil {
+                for object in objects! {
+                    self.newMessage(object as! PFObject, ndx: 0)
+                }
+                if self.messages.count != 0 {
+                    self.automaticallyScrollsToMostRecentMessage = false
+                    self.finishReceivingMessage()
+                }
+                // Scroll to bottom if a new message has been recieved
+                if objects!.count > 0 {
+                    self.scrollToBottomAnimated(true)
+                }
+            }
+            else {
+                println("Error loading earlier messages: \(error)")
+            }
+        }
+    }
+    
     // add message to message array
-    func newMessage(object: PFObject) {
+    func newMessage(object: PFObject, ndx: Int) {
         var senderId = object["userId"] as! String
         var senderName = object["userName"] as! String
         var text = object["message"] as! String
         var message = JSQMessage(senderId: senderId, senderDisplayName: senderName, date: object.createdAt, text: text)
         
-        messages.append(message)
+        messages.insert(message, atIndex: ndx)
     }
     
     // send message to parse
@@ -160,6 +195,20 @@ class ConversationViewController: JSQMessagesViewController {
             if let error = e {
                 println("Error: \(error.localizedDescription)")
             }
+        })
+    }
+    
+    override func collectionView(collectionView: JSQMessagesCollectionView!, header headerView: JSQMessagesLoadEarlierHeaderView!, didTapLoadEarlierMessagesButton sender: UIButton!) {
+        dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_BACKGROUND, 0), {
+            dispatch_async(dispatch_get_main_queue(), {
+                self.spinner.startAnimating()
+            })
+            
+            self.loadEarlierMessages()
+            
+            dispatch_async(dispatch_get_main_queue(), {
+                self.spinner.stopAnimating()
+            })
         })
     }
     
@@ -221,6 +270,7 @@ class ConversationViewController: JSQMessagesViewController {
     // handles hiding keyboard when user touches outside of keyboard
     override func touchesBegan(touches: Set<NSObject>, withEvent event: UIEvent) {
         self.view.endEditing(true)
+        self.collectionView.endEditing(true)
     }
     
     override func preferredStatusBarStyle() -> UIStatusBarStyle {
