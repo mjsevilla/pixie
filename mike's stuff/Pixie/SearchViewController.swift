@@ -31,6 +31,7 @@ class SearchViewController: AutocompleteViewController, CLLocationManagerDelegat
     var startLon: Double!
     var endLat: Double!
     var endLon: Double!
+    var kbIsHidden = true
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -106,14 +107,18 @@ class SearchViewController: AutocompleteViewController, CLLocationManagerDelegat
     }
     
     func keyboardWillShow(sender: NSNotification) {
+        self.kbIsHidden = false
         self.pixieLabel.hidden = true
         self.seachBarTopConstraint.constant -= 150
         self.searchBar.layoutIfNeeded()
     }
     func keyboardWillHide(sender: NSNotification) {
-        self.pixieLabel.hidden = false
-        self.seachBarTopConstraint.constant += 150
-        self.searchBar.layoutIfNeeded()
+        if self.kbIsHidden == false {
+            self.kbIsHidden = true
+            self.pixieLabel.hidden = false
+            self.seachBarTopConstraint.constant += 150
+            self.searchBar.layoutIfNeeded()
+        }
     }
     
     func playVideo() -> Bool {
