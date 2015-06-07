@@ -35,6 +35,12 @@ class ConversationViewController: JSQMessagesViewController {
         automaticallyScrollsToMostRecentMessage = true
         messages = []
         navigationItem.title = recipientName!
+        if navigationItem.leftBarButtonItem == nil {
+            let backBtn = UIBarButtonItem(title: "Back", style: .Plain, target: self, action: "callUnwindMatches:")
+            backBtn.setTitleTextAttributes([NSFontAttributeName: UIFont(name: "HelveticaNeue-Thin", size: 18)!], forState: .Normal)
+            navigationItem.leftBarButtonItem = backBtn
+        }
+        
         navigationController?.navigationBar.backgroundColor = UIColor(red: 0/256, green: 188/256, blue: 209/256, alpha: 1.0)
         collectionView.collectionViewLayout.incomingAvatarViewSize = CGSizeZero
         collectionView.collectionViewLayout.outgoingAvatarViewSize = CGSizeZero
@@ -44,6 +50,11 @@ class ConversationViewController: JSQMessagesViewController {
         bubbleImageIncoming = bubbleFactory.incomingMessagesBubbleImageWithColor(UIColor.jsq_messageBubbleLightGrayColor())
         
         loadMessages()
+    }
+    
+    func callUnwindMatches(sender: UIBarButtonItem) {
+        println("called unwind")
+        self.performSegueWithIdentifier("unwindMatches", sender: self)
     }
     
     func uicolorFromHex(rgbValue:UInt32) -> UIColor {
@@ -212,5 +223,9 @@ class ConversationViewController: JSQMessagesViewController {
     // handles hiding keyboard when user touches outside of keyboard
     override func touchesBegan(touches: Set<NSObject>, withEvent event: UIEvent) {
         self.view.endEditing(true)
+    }
+    
+    override func preferredStatusBarStyle() -> UIStatusBarStyle {
+        return UIStatusBarStyle.LightContent
     }
 }
