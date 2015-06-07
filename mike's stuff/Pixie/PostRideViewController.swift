@@ -28,6 +28,7 @@ class PostRideViewController: UIViewController, UITextFieldDelegate, UIPickerVie
    var startingLocTextField: UITextField!
    var endingLocTextField: UITextField!
    var edgeInsets = UIEdgeInsets(top: 0, left: 16, bottom: 0, right: 16)
+   var searchBarsVisible = true
    
    var dateTimeSectionButton: UIButton!
    var dateButton: UIButton!
@@ -340,6 +341,13 @@ class PostRideViewController: UIViewController, UITextFieldDelegate, UIPickerVie
       endingSearchBarConstraints["CenterY"] = NSLayoutConstraint(item: endingSearchBar, attribute: .CenterY, relatedBy: .Equal, toItem: self.view, attribute: .CenterY, multiplier: 1, constant: 0)
       nextButtonConstraints["Top"] = NSLayoutConstraint(item: self.nextButton, attribute: .Top, relatedBy: .Equal, toItem: self.endingSearchBar, attribute: .Bottom, multiplier: 1.0, constant: 50)
       
+      startingSearchBarConstraints["Search"] = NSLayoutConstraint(item: startingSearchBar, attribute: .Top, relatedBy: .Equal, toItem: self.view, attribute: .Top, multiplier: 1, constant: 70)
+      endingSearchBarConstraints["Search"] = NSLayoutConstraint(item: endingSearchBar, attribute: .Top, relatedBy: .Equal, toItem: self.view, attribute: .Top, multiplier: 1, constant: 70)
+      
+//      self.view.layoutIfNeeded()
+//      
+//      startingSearchBarConstraints["Top"] = NSLayoutConstraint(item: startingSearchBar, attribute: .Top, relatedBy: .Equal, toItem: seekOfferSegment, attribute: .Bottom, multiplier: 1, constant: (endingSearchBar.frame.origin.y - tripSectionButton.frame.origin.y - tripSectionButton.frame.height - seekOfferSegment.frame.height - startingSearchBar.frame.height)/3.0)
+      
       self.view.addConstraint(tripSectionConstraints["Top"]!)
       self.view.addConstraint(seekOfferSegmentConstraints["CenterY"]!)
       self.view.addConstraint(startingSearchBarConstraints["CenterY"]!)
@@ -451,32 +459,102 @@ class PostRideViewController: UIViewController, UITextFieldDelegate, UIPickerVie
    func selectedLocationInSearchBar() {
       if tripSectionButton.hidden {
          if activeSearchBar == self.startingSearchBar {
-            startingSearchBar.resignFirstResponder()
             startingSearchBarConstraints["Top"] = NSLayoutConstraint(item: startingSearchBar, attribute: .Top, relatedBy: .Equal, toItem: seekOfferSegment, attribute: .Bottom, multiplier: 1, constant: (endingSearchBar.frame.origin.y - tripSectionButton.frame.origin.y - tripSectionButton.frame.height - seekOfferSegment.frame.height - startingSearchBar.frame.height)/3.0)
+            self.view.removeConstraint(self.startingSearchBarConstraints["Search"]!)
             
-            UIView.animateWithDuration(0.2, animations: {
-               self.view.removeConstraint(self.startingSearchBarConstraints["CenterY"]!)
+            UIView.animateWithDuration(0.4, animations: {
                self.view.addConstraint(self.startingSearchBarConstraints["Top"]!)
+               self.startingSearchBar.resignFirstResponder()
+               self.seekOfferSegment.alpha = 1
+               if !self.endingSearchBar.hidden {
+                  self.endingSearchBar.alpha = 1
+               }
                self.startingSearchBar.layoutIfNeeded()
-               
                }, completion: {
                   (value: Bool) in
                   if self.endingSearchBar.hidden {
-                     self.activeSearchBar = self.endingSearchBar
                      self.endingSearchBar.hidden = false
-                     self.endingSearchBar.isFirstResponder()
                   }
+                  self.activeSearchBar = self.endingSearchBar
+                  self.endingSearchBar.isFirstResponder()
+                  self.view.removeConstraint(self.endingSearchBarConstraints["CenterY"]!)
+                  
+                  UIView.animateWithDuration(0.4, animations: {
+                     self.view.addConstraint(self.endingSearchBarConstraints["Search"]!)
+                     self.seekOfferSegment.alpha = 0
+                     self.startingSearchBar.alpha = 0
+                     self.endingSearchBar.layoutIfNeeded()
+                     }, completion: {
+                        (value: Bool) in
+                        self.searchBarsVisible = false
+                  })
             })
          } else if activeSearchBar == self.endingSearchBar {
-            UIView.animateWithDuration(0.2, animations: {
+            self.view.removeConstraint(self.endingSearchBarConstraints["Search"]!)
+            
+            UIView.animateWithDuration(0.4, animations: {
+               self.view.addConstraint(self.endingSearchBarConstraints["CenterY"]!)
+               self.endingSearchBar.resignFirstResponder()
                self.tripSectionButton.hidden = false
+               self.seekOfferSegment.alpha = 1
+               self.startingSearchBar.alpha = 1
+               self.endingSearchBar.layoutIfNeeded()
                }, completion: {
                   (value: Bool) in
+                  self.searchBarsVisible = true
                   if self.nextButton.hidden {
                      self.nextButton.hidden = false
                      self.view.addConstraint(self.nextButtonConstraints["Top"]!)
                      self.nextButton.layoutIfNeeded()
                   }
+            })
+         }
+      } else {
+         if activeSearchBar == startingSearchBar {
+            println("selectedLocationInSearchBar... active searchBar == startingSearchBar")
+            self.view.removeConstraint(self.startingSearchBarConstraints["Search"]!)
+            
+            UIView.animateWithDuration(0.25, animations: {
+               if self.endingSearchBar.hidden {
+                  self.view.addConstraint(self.startingSearchBarConstraints["CenterY"]!)
+               } else {
+                  self.view.addConstraint(self.startingSearchBarConstraints["Top"]!)
+               }
+               if !self.tripSectionButton.hidden {
+                  self.tripSectionButton.alpha = 1
+               }
+               self.seekOfferSegment.alpha = 1
+               if !self.endingSearchBar.hidden {
+                  self.endingSearchBar.alpha = 1
+               }
+               if !self.nextButton.hidden {
+                  self.nextButton.alpha = 1
+               }
+               self.startingSearchBar.layoutIfNeeded()
+               }, completion: {
+                  (value: Bool) in
+                  self.searchBarsVisible = true
+            })
+            self.startingSearchBar.resignFirstResponder()
+         }
+         else if activeSearchBar == endingSearchBar {
+            println("selectedLocationInSearchBar... active searchBar == endingSearchBar")
+            self.view.removeConstraint(self.endingSearchBarConstraints["Search"]!)
+            
+            UIView.animateWithDuration(0.25, animations: {
+               self.view.addConstraint(self.endingSearchBarConstraints["CenterY"]!)
+               if !self.tripSectionButton.hidden {
+                  self.tripSectionButton.alpha = 1
+               }
+               self.seekOfferSegment.alpha = 1
+               self.startingSearchBar.alpha = 1
+               if !self.nextButton.hidden {
+                  self.nextButton.alpha = 1
+               }
+               self.endingSearchBar.layoutIfNeeded()
+               }, completion: {
+                  (value: Bool) in
+                  self.searchBarsVisible = true
             })
             self.endingSearchBar.resignFirstResponder()
          }
@@ -1117,12 +1195,6 @@ class PostRideViewController: UIViewController, UITextFieldDelegate, UIPickerVie
          dispatch_get_main_queue(), closure)
    }
    
-   // handles hiding keyboard when user touches outside of keyboard
-   override func touchesBegan(touches: Set<NSObject>, withEvent event: UIEvent) {
-      self.view.endEditing(true)
-   }
-   
-   
    // MARK: - GooglePlacesAutocompleteContainer (UITableViewDataSource / UITableViewDelegate)
    
    func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
@@ -1189,16 +1261,118 @@ class PostRideViewController: UIViewController, UITextFieldDelegate, UIPickerVie
       });
    }
    
+   // handles hiding keyboard when user touches outside of keyboard
+   override func touchesBegan(touches: Set<NSObject>, withEvent event: UIEvent) {
+      self.view.endEditing(true)
+      
+      if activeSearchBar == startingSearchBar && !searchBarsVisible {
+         println("touchesBegan... active searchBar == startingSearchBar")
+         self.view.removeConstraint(self.startingSearchBarConstraints["Search"]!)
+         
+         UIView.animateWithDuration(0.25, animations: {
+            if self.endingSearchBar.hidden {
+               self.view.addConstraint(self.startingSearchBarConstraints["CenterY"]!)
+            } else {
+               self.view.addConstraint(self.startingSearchBarConstraints["Top"]!)
+            }
+            if !self.tripSectionButton.hidden {
+               self.tripSectionButton.alpha = 1
+            }
+            self.seekOfferSegment.alpha = 1
+            if !self.endingSearchBar.hidden {
+               self.endingSearchBar.alpha = 1
+            }
+            if !self.nextButton.hidden {
+               self.nextButton.alpha = 1
+            }
+            self.startingSearchBar.layoutIfNeeded()
+            }, completion: {
+               (value: Bool) in
+               self.searchBarsVisible = true
+         })
+         self.startingSearchBar.resignFirstResponder()
+      }
+      else if activeSearchBar == endingSearchBar && !searchBarsVisible {
+         println("touchesBegan... active searchBar == endingSearchBar")
+         self.view.removeConstraint(self.endingSearchBarConstraints["Search"]!)
+         
+         UIView.animateWithDuration(0.25, animations: {
+            self.view.addConstraint(self.endingSearchBarConstraints["CenterY"]!)
+            if !self.tripSectionButton.hidden {
+               self.tripSectionButton.alpha = 1
+            }
+            self.seekOfferSegment.alpha = 1
+            self.startingSearchBar.alpha = 1
+            if !self.nextButton.hidden {
+               self.nextButton.alpha = 1
+            }
+            self.endingSearchBar.layoutIfNeeded()
+            }, completion: {
+               (value: Bool) in
+               self.searchBarsVisible = true
+         })
+         self.endingSearchBar.resignFirstResponder()
+      }
+   }
    
    // MARK: - GooglePlacesAutocompleteContainer (UISearchBarDelegate)
+   
+   func searchBarTextDidBeginEditing(searchBar: UISearchBar) {
+      if searchBar == startingSearchBar && searchBarsVisible {
+         println("searchBarTextDidBeginEditing... active searchBar == startingSearchBar")
+         self.searchBarsVisible = false
+         if self.endingSearchBar.hidden {
+            self.view.removeConstraint(self.startingSearchBarConstraints["CenterY"]!)
+         } else {
+            self.view.removeConstraint(self.startingSearchBarConstraints["Top"]!)
+         }
+         
+         UIView.animateWithDuration(0.25, animations: {
+            self.view.addConstraint(self.startingSearchBarConstraints["Search"]!)
+            self.seekOfferSegment.alpha = 0
+            self.endingSearchBar.alpha = 0
+            if !self.tripSectionButton.hidden {
+               self.tripSectionButton.alpha = 0
+            }
+            if !self.nextButton.hidden {
+               self.nextButton.alpha = 0
+            }
+            self.startingSearchBar.layoutIfNeeded()
+            }, completion: {
+               (value: Bool) in
+         })
+      }
+      else if searchBar == endingSearchBar && searchBarsVisible {
+         println("searchBarTextDidBeginEditing... active searchBar == endingSearchBar")
+         self.searchBarsVisible = false
+         self.view.removeConstraint(self.endingSearchBarConstraints["CenterY"]!)
+
+         UIView.animateWithDuration(0.25, animations: {
+            self.view.addConstraint(self.endingSearchBarConstraints["Search"]!)
+            self.seekOfferSegment.alpha = 0
+            self.startingSearchBar.alpha = 0
+            if !self.tripSectionButton.hidden {
+               self.tripSectionButton.alpha = 0
+            }
+            if !self.nextButton.hidden {
+               self.nextButton.alpha = 0
+            }
+            self.endingSearchBar.layoutIfNeeded()
+            }, completion: {
+               (value: Bool) in
+         })
+      }
+   }
    
    func searchBar(searchBar: UISearchBar, textDidChange searchText: String) {
       self.activeSearchBar = searchBar
       if (searchText == "") {
          if (self.activeSearchBar == startingSearchBar) {
+            println("activeSearchBar set to startingSearchBar")
             startingVC.places = []
             startingTableView.hidden = true
          } else {
+            println("activeSearchBar set to endingSearchBar")
             endingVC.places = []
             endingTableView.hidden = true
          }

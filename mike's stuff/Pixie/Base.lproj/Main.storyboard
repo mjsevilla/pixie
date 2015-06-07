@@ -942,9 +942,6 @@
                             <constraint firstItem="E5e-17-Ua8" firstAttribute="top" secondItem="FX3-OQ-SnE" secondAttribute="bottom" constant="16" id="skU-en-K1M"/>
                         </constraints>
                     </view>
-                    <connections>
-                        <outlet property="aboutLabel" destination="E5e-17-Ua8" id="AJR-Lz-FhQ"/>
-                    </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="1dg-UK-nrU" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
