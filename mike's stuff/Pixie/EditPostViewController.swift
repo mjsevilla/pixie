@@ -24,6 +24,7 @@ class EditPostViewController: UIViewController, UITextFieldDelegate, UIPickerVie
    var seekOfferSegment: UISegmentedControl!
    var startingLocTextField: UITextField!
    var endingLocTextField: UITextField!
+   var searchBarsVisible = true
    
    var dateButton: UIButton!
    var datePicker: UIPickerView!
@@ -37,6 +38,8 @@ class EditPostViewController: UIViewController, UITextFieldDelegate, UIPickerVie
    var cancelButton: UIButton!
    var saveButton: UIButton!
    
+   var startingSearchBarConstraints = [String: NSLayoutConstraint]()
+   var endingSearchBarConstraints = [String: NSLayoutConstraint]()
    var timeButtonConstraints = [String: NSLayoutConstraint]()
    
    var currentPost: Post!
@@ -114,7 +117,7 @@ class EditPostViewController: UIViewController, UITextFieldDelegate, UIPickerVie
       endingLocTextField.backgroundColor = UIColor.clearColor()
       endingLocTextField.textColor = UIColor.whiteColor()
       endingLocTextField.font = UIFont(name: "HelveticaNeue-Thin", size: 16.0)
-      endingLocTextField.attributedPlaceholder = NSAttributedString(string:"Where do you want to go",
+      endingLocTextField.attributedPlaceholder = NSAttributedString(string:"Where do you want to go?",
          attributes:[NSForegroundColorAttributeName: UIColor(red: 1.0, green: 1.0, blue: 1.0, alpha: 0.8), NSFontAttributeName: UIFont(name: "HelveticaNeue-Thin", size: 16.0)!])
       endingSearchBar.layer.cornerRadius = 8.0
       endingSearchBar.layer.masksToBounds = true
@@ -195,7 +198,10 @@ class EditPostViewController: UIViewController, UITextFieldDelegate, UIPickerVie
       let metrics = ["tableHeight":38*5]
       
       self.view.addConstraints(NSLayoutConstraint.constraintsWithVisualFormat("V:|[blurEffectView]|", options: NSLayoutFormatOptions(0), metrics: nil, views: viewsDict))
-      self.view.addConstraints(NSLayoutConstraint.constraintsWithVisualFormat("V:[seekOfferSegment(40)]-20-[startingSearchBar(30)]-10-[endingSearchBar(30)]-10-[dateButton]", options: .AlignAllCenterX, metrics: nil, views: viewsDict))
+//      self.view.addConstraints(NSLayoutConstraint.constraintsWithVisualFormat("V:[seekOfferSegment(40)]-20-[startingSearchBar(30)]-10-[endingSearchBar(30)]-10-[dateButton]", options: .AlignAllCenterX, metrics: nil, views: viewsDict))
+      self.view.addConstraints(NSLayoutConstraint.constraintsWithVisualFormat("V:[seekOfferSegment(40)]-100-[dateButton]", options: .AlignAllCenterX, metrics: nil, views: viewsDict))
+      self.view.addConstraints(NSLayoutConstraint.constraintsWithVisualFormat("V:[startingSearchBar(30)]", options: .AlignAllCenterX, metrics: nil, views: viewsDict))
+      self.view.addConstraints(NSLayoutConstraint.constraintsWithVisualFormat("V:[endingSearchBar(30)]", options: .AlignAllCenterX, metrics: nil, views: viewsDict))
       self.view.addConstraints(NSLayoutConstraint.constraintsWithVisualFormat("V:[startingSearchBar]-1-[startTable]-[saveButton]", options: NSLayoutFormatOptions(0), metrics: metrics, views: viewsDict))
       self.view.addConstraints(NSLayoutConstraint.constraintsWithVisualFormat("V:[endingSearchBar]-1-[endTable]-[saveButton]", options: NSLayoutFormatOptions(0), metrics: metrics, views: viewsDict))
       self.view.addConstraints(NSLayoutConstraint.constraintsWithVisualFormat("V:[datePicker(162)]", options: NSLayoutFormatOptions(0), metrics: nil, views: viewsDict))
@@ -217,9 +223,15 @@ class EditPostViewController: UIViewController, UITextFieldDelegate, UIPickerVie
       
       self.view.layoutIfNeeded()
       
+      startingSearchBarConstraints["Top"] = NSLayoutConstraint(item: startingSearchBar, attribute: .Top, relatedBy: .Equal, toItem: seekOfferSegment, attribute: .Bottom, multiplier: 1, constant: 20)
+      endingSearchBarConstraints["Top"] = NSLayoutConstraint(item: endingSearchBar, attribute: .Top, relatedBy: .Equal, toItem: seekOfferSegment, attribute: .Bottom, multiplier: 1, constant: 60)
+      startingSearchBarConstraints["Search"] = NSLayoutConstraint(item: startingSearchBar, attribute: .Top, relatedBy: .Equal, toItem: self.view, attribute: .Top, multiplier: 1, constant: 70)
+      endingSearchBarConstraints["Search"] = NSLayoutConstraint(item: endingSearchBar, attribute: .Top, relatedBy: .Equal, toItem: self.view, attribute: .Top, multiplier: 1, constant: 70)
       timeButtonConstraints["Top"] = NSLayoutConstraint(item: timeButton, attribute: .Top, relatedBy: .Equal, toItem: dateButton, attribute: .Bottom, multiplier: 1, constant: 0)
       timeButtonConstraints["TopExpanded"] = NSLayoutConstraint(item: timeButton, attribute: .Top, relatedBy: .Equal, toItem: dateButton, attribute: .Bottom, multiplier: 1, constant: datePicker.frame.height)
       
+      self.view.addConstraint(startingSearchBarConstraints["Top"]!)
+      self.view.addConstraint(endingSearchBarConstraints["Top"]!)
       self.view.addConstraint(NSLayoutConstraint(item: dateButton, attribute: .CenterY, relatedBy: .Equal, toItem: self.view, attribute: .CenterY, multiplier: 1, constant: hasSmallHeight! ? -dateButton.frame.height*0.75 : 0))
       self.view.addConstraint(NSLayoutConstraint(item: datePicker, attribute: .Top, relatedBy: .Equal, toItem: dateButton, attribute: .Bottom, multiplier: 1, constant: 0))
       self.view.addConstraint(timeButtonConstraints["Top"]!)
@@ -318,11 +330,6 @@ class EditPostViewController: UIViewController, UITextFieldDelegate, UIPickerVie
    }
    
    func searchBarSearchButtonClicked(searchBar: UISearchBar) {
-      self.view.endEditing(true)
-   }
-   
-   // handles hiding keyboard when user touches outside of keyboard
-   override func touchesBegan(touches: Set<NSObject>, withEvent event: UIEvent) {
       self.view.endEditing(true)
    }
    
@@ -583,7 +590,7 @@ class EditPostViewController: UIViewController, UITextFieldDelegate, UIPickerVie
       
       var reqText = ["start_name": currentPost.start.name, "start_lat": currentPost.start.latitude, "start_lon": currentPost.start.longitude, "end_name": currentPost.end.name, "end_lat": currentPost.end.latitude, "end_lon": currentPost.end.longitude, "day": currentPost.dayFormatStr, "driver_enum": currentPost.driverEnum, "time": currentPost.timeFormatStr, "userId": currentPost.userId]
       
-      println("\nreqText...\(reqText)")
+//      println("\nreqText...\(reqText)")
       
       
       // TO-DO: FIX THIS API CALL SHIT
@@ -656,6 +663,10 @@ class EditPostViewController: UIViewController, UITextFieldDelegate, UIPickerVie
          self.endingSearchBar.hidden = false
          self.dateButton.hidden = false
          self.timeButton.hidden = false
+         startingSearchBar.resignFirstResponder()
+         if endingSearchBar.text.isEmpty {
+            endingSearchBar.becomeFirstResponder()
+         }
       }
       else {
          endingVC.delegate?.placeSelected?(endingVC.places[indexPath.row])
@@ -667,26 +678,141 @@ class EditPostViewController: UIViewController, UITextFieldDelegate, UIPickerVie
          self.endingTableView.hidden = true
          self.dateButton.hidden = false
          self.timeButton.hidden = false
+         endingSearchBar.resignFirstResponder()
+      }
+      
+      dispatch_async(dispatch_get_main_queue(),{
+         self.selectedLocationInSearchBar()
+      });
+   }
+   
+   func selectedLocationInSearchBar() {
+      let isStarting = activeSearchBar == startingSearchBar
+      
+      
+      self.view.removeConstraint(isStarting ? self.startingSearchBarConstraints["Search"]! : self.endingSearchBarConstraints["Search"]!)
+      
+      UIView.animateWithDuration(0.25, animations: {
+         self.view.addConstraint(isStarting ? self.startingSearchBarConstraints["Top"]! : self.endingSearchBarConstraints["Top"]!)
+         self.seekOfferSegment.alpha = 1
+         if isStarting {
+            self.endingSearchBar.alpha = 1
+         } else {
+            self.startingSearchBar.alpha = 1
+         }
+         self.dateButton.alpha = 1
+         self.timeButton.alpha = 1
+         isStarting ? self.startingSearchBar.layoutIfNeeded() : self.endingSearchBar.layoutIfNeeded()
+         }, completion: {
+            (value: Bool) in
+            if isStarting && self.endingSearchBar.text.isEmpty {
+               self.startingSearchBar.resignFirstResponder()
+               self.endingSearchBar.isFirstResponder()
+               self.activeSearchBar = self.endingSearchBar
+               self.view.removeConstraint(self.endingSearchBarConstraints["Top"]!)
+               
+               UIView.animateWithDuration(0.4, animations: {
+                  self.view.addConstraint(self.endingSearchBarConstraints["Search"]!)
+                  self.seekOfferSegment.alpha = 0
+                  self.startingSearchBar.alpha = 0
+                  self.dateButton.alpha = 0
+                  self.timeButton.alpha = 0
+                  self.endingSearchBar.layoutIfNeeded()
+                  }, completion: {
+                     (value: Bool) in
+                     self.searchBarsVisible = false
+               })
+            } else {
+               self.searchBarsVisible = true
+            }
+      })
+   }
+
+
+   // MARK: - GooglePlacesAutocompleteContainer (UISearchBarDelegate)
+
+   // handles hiding keyboard when user touches outside of keyboard
+   override func touchesBegan(touches: Set<NSObject>, withEvent event: UIEvent) {
+      self.view.endEditing(true)
+      
+      if !searchBarsVisible {
+         let isStarting = activeSearchBar == startingSearchBar
+         self.view.removeConstraint(isStarting ? self.startingSearchBarConstraints["Search"]! : self.endingSearchBarConstraints["Search"]!)
+         
+         UIView.animateWithDuration(0.25, animations: {
+            self.view.addConstraint(isStarting ? self.startingSearchBarConstraints["Top"]! : self.endingSearchBarConstraints["Top"]!)
+            self.seekOfferSegment.alpha = 1
+            if isStarting {
+               self.endingSearchBar.alpha = 1
+            } else {
+               self.startingSearchBar.alpha = 1
+            }
+            self.dateButton.alpha = 1
+            self.timeButton.alpha = 1
+            isStarting ? self.startingSearchBar.layoutIfNeeded() : self.endingSearchBar.layoutIfNeeded()
+            }, completion: {
+               (value: Bool) in
+               self.searchBarsVisible = true
+         })
+         isStarting ? self.startingSearchBar.resignFirstResponder() : self.endingSearchBar.resignFirstResponder()
       }
    }
    
-   
    // MARK: - GooglePlacesAutocompleteContainer (UISearchBarDelegate)
    
+   func searchBarTextDidBeginEditing(searchBar: UISearchBar) {
+      if searchBarsVisible {
+         self.activeSearchBar = searchBar
+      }
+      
+      if searchBarsVisible {
+         self.searchBarsVisible = false
+         let isStarting = searchBar == startingSearchBar
+         
+         self.view.removeConstraint(isStarting ? self.startingSearchBarConstraints["Top"]! : self.endingSearchBarConstraints["Top"]!)
+         self.dateButton.alpha = 0
+         self.timeButton.alpha = 0
+         if !self.datePicker.hidden {
+            self.datePicker.alpha = 0
+         }
+         if !self.timePicker.hidden {
+            self.timePicker.alpha = 0
+         }
+         if isStarting {
+            self.endingSearchBar.alpha = 0
+         } else {
+            self.startingSearchBar.alpha = 0
+         }
+
+         UIView.animateWithDuration(0.25, animations: {
+            self.view.addConstraint(isStarting ? self.startingSearchBarConstraints["Search"]! : self.endingSearchBarConstraints["Search"]!)
+            self.seekOfferSegment.alpha = 0
+            if !self.datePicker.hidden {
+               self.view.removeConstraint(self.timeButtonConstraints["TopExpanded"]!)
+               self.view.addConstraint(self.timeButtonConstraints["Top"]!)
+               self.datePicker.alpha = 0
+            }
+            isStarting ? self.startingSearchBar.layoutIfNeeded() : self.endingSearchBar.layoutIfNeeded()
+            }, completion: {
+               (value: Bool) in
+               if !self.datePicker.hidden {
+                  self.datePicker.hidden = true
+               }
+               if !self.timePicker.hidden {
+                  self.timePicker.hidden = true
+               }
+         })
+      }
+   }
+   
    func searchBar(searchBar: UISearchBar, textDidChange searchText: String) {
-      self.activeSearchBar = searchBar
       if (searchText == "") {
          if (self.activeSearchBar == startingSearchBar) {
             startingVC.places = []
             self.startingTableView.hidden = true
-            self.endingSearchBar.hidden = false
-            self.dateButton.hidden = false
-            self.timeButton.hidden = false
          } else {
             endingVC.places = []
             self.endingTableView.hidden = true
-            self.dateButton.hidden = false
-            self.timeButton.hidden = false
          }
       } else {
          getPlaces(searchText)

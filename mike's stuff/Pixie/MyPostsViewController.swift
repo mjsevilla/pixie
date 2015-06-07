@@ -71,7 +71,7 @@ class MyPostsViewController: UIViewController, UITableViewDelegate, UITableViewD
       var data =  NSURLConnection.sendSynchronousRequest(request, returningResponse: &response, error:nil)! as NSData
       
       if let json = NSJSONSerialization.JSONObjectWithData(data, options: NSJSONReadingOptions.MutableContainers, error: nil) as? NSDictionary {
-         println("loadPostsFromAPI json...\n\(json)")
+//         println("loadPostsFromAPI json...\n\(json)")
          if let items = json["results"] as? NSArray {
             for item in items {
                if let start = item["start_name"] as? String {
