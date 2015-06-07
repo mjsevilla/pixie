@@ -1457,9 +1457,9 @@
         <image name="menu" width="22" height="22"/>
     </resources>
     <inferredMetricsTieBreakers>
+        <segue reference="Ntf-EL-NHY"/>
         <segue reference="DAt-Tu-EYX"/>
+        <segue reference="ELl-Ug-DNN"/>
         <segue reference="kq3-ie-xHz"/>
-        <segue reference="LGl-cG-deb"/>
-        <segue reference="zPx-fe-Ar7"/>
     </inferredMetricsTieBreakers>
 </document>

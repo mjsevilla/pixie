@@ -86,6 +86,7 @@ class MessagesViewContoller: UITableViewController {
                     let selfID = self.user["userId"] as! String
                     let id1 = cell.convo!["user1Id"] as! String
                     let id2 = cell.convo!["user2Id"] as! String
+                    destVC.fromMatches = false
                     destVC.recipientName = cell.nameLabel.text
                     destVC.recipientId = selfID == id1 ? id2 : id1
                     destVC.convoId = cell.convoID

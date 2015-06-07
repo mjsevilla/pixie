@@ -14,10 +14,9 @@ class ConversationViewController: JSQMessagesViewController {
     let user = PFUser.currentUser()!
     var recipientName: String?
     var recipientId: String?
-    
     var convoId: String?
     var convo: PFObject?
-
+    var fromMatches: Bool?
     var bubbleImageOutgoing: JSQMessagesBubbleImage!
     var bubbleImageIncoming: JSQMessagesBubbleImage!
     
@@ -35,7 +34,7 @@ class ConversationViewController: JSQMessagesViewController {
         automaticallyScrollsToMostRecentMessage = true
         messages = []
         navigationItem.title = recipientName!
-        if navigationItem.leftBarButtonItem == nil {
+        if self.fromMatches == true {
             let backBtn = UIBarButtonItem(title: "Back", style: .Plain, target: self, action: "callUnwindMatches:")
             backBtn.setTitleTextAttributes([NSFontAttributeName: UIFont(name: "HelveticaNeue-Thin", size: 18)!], forState: .Normal)
             navigationItem.leftBarButtonItem = backBtn

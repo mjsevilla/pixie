@@ -348,14 +348,7 @@ class MatchesViewController: UIViewController, UICollectionViewDelegateFlowLayou
                 if let destVC = navVC.topViewController as? ConversationViewController {
                     let btn = sender as! SenderButton
                     
-//                    if destVC.navigationItem.leftBarButtonItem == nil {
-//                        println("hi")
-//                        let backBtn = UIBarButtonItem()
-//                        backBtn.title =  "Back"
-//                        backBtn.action = "callUnwindMatches:"
-//                        destVC.navigationItem.leftBarButtonItem = backBtn
-//                    }
-                    
+                    destVC.fromMatches = true
                     destVC.recipientName = btn.recipientName
                     destVC.recipientId = btn.recipientId
                     destVC.convoId = btn.convoId
