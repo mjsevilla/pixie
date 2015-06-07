@@ -285,6 +285,9 @@ class ProfileViewController: UIViewController, UITextViewDelegate, UITextFieldDe
 			println("error json")
 		}
 		
+		if !bioField.text.isEmpty || bioField.text != "Tell us about yourself!" {
+			defaults.setObject(bioField.text, forKey: "PixieUserBio")
+		}
 		performSegueWithIdentifier("presentProfile", sender: self)
 	}
 	
