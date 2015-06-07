@@ -32,7 +32,8 @@ class SearchViewController: AutocompleteViewController, CLLocationManagerDelegat
     var endLat: Double!
     var endLon: Double!
     var kbIsHidden = true
-    
+	let defaults = NSUserDefaults.standardUserDefaults()
+	
     override func viewDidLoad() {
         super.viewDidLoad()
         // Do any additional setup after loading the view, typically from a nib.
@@ -77,7 +78,15 @@ class SearchViewController: AutocompleteViewController, CLLocationManagerDelegat
         self.locationManager.requestAlwaysAuthorization()
         self.locationManager.requestWhenInUseAuthorization()
         self.locationManager.startUpdatingLocation()
-        
+		
+		dispatch_async(dispatch_get_main_queue(), {
+			var gaussianFilter = GPUImageGaussianBlurFilter()
+			gaussianFilter.blurRadiusInPixels = 5
+			gaussianFilter.blurPasses = 2
+			let blurredImage = gaussianFilter.imageByFilteringImage(UIImage(named: "sloth.jpg"))
+			self.defaults.setObject(UIImagePNGRepresentation(blurredImage), forKey: "PixieUserProfPic")
+		})
+		
 //        let defaults = NSUserDefaults.standardUserDefaults()
 //        if let savedId = defaults.stringForKey("PixieUserId") {
 //            if let savedFirstName = defaults.stringForKey("PixieUserFirstName") {

@@ -20,23 +20,19 @@ class MyProfileViewController: UIViewController {
 	
    override func loadView() {
       super.loadView()
+	
+      //let croppedImage = cropToSquare(image: UIImage(named: "sloth.jpg")!)
+	
+	  var imageData = defaults.dataForKey("PixieUserProfPic")
+	  var blurredImage = UIImage(data: imageData!)
       
-      let url = NSURL(string: "http://upload.wikimedia.org/wikipedia/commons/3/31/SlothDWA.jpg")
-      let profilePicData = NSData(contentsOfURL: url!)
-      let croppedImage = cropToSquare(image: UIImage(data: profilePicData!)!)
-      
-      var gaussianFilter = GPUImageGaussianBlurFilter()
-      gaussianFilter.blurRadiusInPixels = 5
-      gaussianFilter.blurPasses = 2
-      let blurredImage = gaussianFilter.imageByFilteringImage(croppedImage)
-      
-      profilePicBlurred = UIImageView(image: blurredImage)
+	  profilePicBlurred = UIImageView(image: blurredImage)
       profilePicBlurred.setTranslatesAutoresizingMaskIntoConstraints(false)
       blurView = UIVisualEffectView(effect: UIBlurEffect(style: .ExtraLight))
       blurView.setTranslatesAutoresizingMaskIntoConstraints(false)
       view.addSubview(profilePicBlurred)
       
-      profilePic = UIImageView(image: croppedImage)
+	  profilePic = UIImageView(image: UIImage(named: "sloth.jpg"))
       profilePic.setTranslatesAutoresizingMaskIntoConstraints(false)
       view.addSubview(profilePic)
       
