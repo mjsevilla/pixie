@@ -9,7 +9,7 @@
 import UIKit
 
 class EditPostViewController: UIViewController, UITextFieldDelegate, UIPickerViewDataSource, UIPickerViewDelegate, UITableViewDataSource, UITableViewDelegate, UISearchBarDelegate  {
-
+   
    var startingVC = GooglePlacesAutocompleteContainer(apiKey: "AIzaSyB6Gv8uuTNh_ZN-Hk8H3S5RARpQot_6I-k", placeType: .All)
    var startingTableView: UITableView!
    var endingVC = GooglePlacesAutocompleteContainer(apiKey: "AIzaSyB6Gv8uuTNh_ZN-Hk8H3S5RARpQot_6I-k", placeType: .All)
@@ -71,12 +71,13 @@ class EditPostViewController: UIViewController, UITextFieldDelegate, UIPickerVie
       seekOfferSegment.insertSegmentWithTitle("OFFERING", atIndex: 1, animated: false)
       var attr = NSDictionary(object: UIFont(name: "Syncopate-Regular", size: 16.0)!, forKey: NSFontAttributeName)
       seekOfferSegment.setTitleTextAttributes(attr as [NSObject : AnyObject], forState: .Normal)
+      seekOfferSegment.addTarget(self, action: "segmentValueChanged:", forControlEvents: UIControlEvents.ValueChanged)
       seekOfferSegment.setTranslatesAutoresizingMaskIntoConstraints(false)
       seekOfferSegment.tintColor = UIColor(red:0.0, green:0.74, blue:0.82, alpha:1.0)
       view.addSubview(seekOfferSegment)
       
       activeSearchBar = startingSearchBar
- 
+      
       startingSearchBar.setBackgroundImage(UIImage(), forBarPosition: UIBarPosition.Top, barMetrics: UIBarMetrics.Default)
       startingLocTextField = startingSearchBar.valueForKey("searchField") as? UITextField
       startingLocTextField.backgroundColor = UIColor.clearColor()
@@ -312,6 +313,19 @@ class EditPostViewController: UIViewController, UITextFieldDelegate, UIPickerVie
       }
    }
    
+   func segmentValueChanged(sender: AnyObject) {
+      currentPost.setDriverEnum(seekOfferSegment.selectedSegmentIndex)
+   }
+   
+   func searchBarSearchButtonClicked(searchBar: UISearchBar) {
+      self.view.endEditing(true)
+   }
+   
+   // handles hiding keyboard when user touches outside of keyboard
+   override func touchesBegan(touches: Set<NSObject>, withEvent event: UIEvent) {
+      self.view.endEditing(true)
+   }
+   
    //MARK: - Delegates and data sources
    //MARK: Data Sources
    func numberOfComponentsInPickerView(pickerView: UIPickerView) -> Int {
@@ -343,6 +357,8 @@ class EditPostViewController: UIViewController, UITextFieldDelegate, UIPickerVie
          var date = NSMutableAttributedString(attributedString: createAttributedString(currentDateArr[0], str2: currentDateArr[1]+" "+currentDateArr[2], color: UIColor.whiteColor()))
          dateButton.setAttributedTitle(date, forState: .Normal)
          currentPost.dayFormatStr = currentPost.getDayFormatStr(currentDates[row])
+         currentPost.day = currentDates[row]
+         
       } else {
          if component == 0 {
             if row == 0 {
@@ -387,7 +403,8 @@ class EditPostViewController: UIViewController, UITextFieldDelegate, UIPickerVie
          }
          let selectedAMPM = ampm[timePicker.selectedRowInComponent(2)]
          timeButton.setAttributedTitle(createAttributedString(selectedTime, str2: selectedAMPM, color: UIColor.whiteColor()), forState: .Normal)
-         currentPost.timeFormatStr = currentPost.getTimeFormatStr("\(selectedTime) \(selectedAMPM)")
+         currentPost.time = "\(selectedTime) \(selectedAMPM)"
+         currentPost.timeFormatStr = currentPost.getTimeFormatStr(currentPost.time)
       }
    }
    
@@ -523,16 +540,55 @@ class EditPostViewController: UIViewController, UITextFieldDelegate, UIPickerVie
       self.dismissViewControllerAnimated(true, completion: nil)
    }
    
+   func okToSave() -> Bool {
+      if startingSearchBar.text.isEmpty && endingSearchBar.text.isEmpty {
+         let alertController = UIAlertController(title: "Oops!", message:
+            "Please enter both a starting location and an ending location.", preferredStyle: UIAlertControllerStyle.Alert)
+         alertController.addAction(UIAlertAction(title: "Dismiss", style: UIAlertActionStyle.Default,handler: nil))
+         
+         self.presentViewController(alertController, animated: true, completion: nil)
+         return false
+      }
+      if startingSearchBar.text.isEmpty {
+         let alertController = UIAlertController(title: "Oops!", message:
+            "Please enter a starting location.", preferredStyle: UIAlertControllerStyle.Alert)
+         alertController.addAction(UIAlertAction(title: "Dismiss", style: UIAlertActionStyle.Default,handler: nil))
+         
+         self.presentViewController(alertController, animated: true, completion: nil)
+         return false
+      }
+      if endingSearchBar.text.isEmpty {
+         let alertController = UIAlertController(title: "Oops!", message:
+            "Please enter an ending location.", preferredStyle: UIAlertControllerStyle.Alert)
+         alertController.addAction(UIAlertAction(title: "Dismiss", style: UIAlertActionStyle.Default,handler: nil))
+         
+         self.presentViewController(alertController, animated: true, completion: nil)
+         return false
+      }
+      return true
+   }
+   
    func save(sender: UIButton) {
-      let driverEnum = !(seekOfferSegment.selectedSegmentIndex == 0)
-      let start = startingSearchBar.text!
-      let end = endingSearchBar.text!
-      let day = dateButton.titleLabel?.text
-      let time = timeButton.titleLabel?.text
+      //      currentPost.toString()
+      
+      if !okToSave() {
+         return
+      }
+      
+      let urlString = "http://ec2-54-69-253-12.us-west-2.compute.amazonaws.com/pixie/posts";
+      var request = NSMutableURLRequest(URL: NSURL(string: urlString)!);
+      var session = NSURLSession.sharedSession();
+      request.HTTPMethod = "PUT"
+      var err: NSError?
+      
+      var reqText = ["start_name": currentPost.start.name, "start_lat": currentPost.start.latitude, "start_lon": currentPost.start.longitude, "end_name": currentPost.end.name, "end_lat": currentPost.end.latitude, "end_lon": currentPost.end.longitude, "day": currentPost.dayFormatStr, "driver_enum": currentPost.driverEnum, "time": currentPost.timeFormatStr, "userId": currentPost.userId]
+      
+      println("\nreqText...\(reqText)")
+      
       
       // TO-DO: FIX THIS API CALL SHIT
       
-//      currentPost = Post(isDriver: driverEnum, start: start, end: end, date: day!, time: time!, userId: currentPost.userId)
+      //      currentPost = Post(isDriver: driverEnum, start: start, end: end, date: day!, time: time!, userId: currentPost.userId)
       shouldSavePost = true
       self.performSegueWithIdentifier("unwindToMyPosts", sender: self)
    }
@@ -587,6 +643,8 @@ class EditPostViewController: UIViewController, UITextFieldDelegate, UIPickerVie
    }
    
    func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
+      self.view.endEditing(true)
+      
       if (activeSearchBar == startingSearchBar) {
          startingVC.delegate?.placeSelected?(startingVC.places[indexPath.row])
          let place = startingVC.places[indexPath.row]

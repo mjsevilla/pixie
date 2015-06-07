@@ -1,6 +1,6 @@
 
 //
-//  MyRidesViewController.swift
+//  MyPostsViewController.swift
 //  Pixie
 //
 //  Created by Nicole on 3/19/15.
@@ -17,6 +17,8 @@ class MyPostsViewController: UIViewController, UITableViewDelegate, UITableViewD
    var navTransitionOperator = NavigationTransitionOperator()
    var posts = [Post]()
    var currentPostIndex: Int!
+   let defaults = NSUserDefaults.standardUserDefaults()
+   var userId: Int!
    
    override func loadView() {
       super.loadView()
@@ -39,45 +41,10 @@ class MyPostsViewController: UIViewController, UITableViewDelegate, UITableViewD
       self.view.addConstraints(NSLayoutConstraint.constraintsWithVisualFormat("V:[navBar]-0-[tableView]-|", options: NSLayoutFormatOptions(0), metrics: nil, views: viewsDict))
       self.view.addConstraints(NSLayoutConstraint.constraintsWithVisualFormat("H:|[tableView]|", options: NSLayoutFormatOptions(0), metrics: nil, views: viewsDict))
       
-//      loadPostsFromAPI()
-      var post1 = Post()
-      post1.setDriverEnum(0)
-      post1.start = Location(name: "San Luis Obispo, CA", lat: 35.0, long: -120.0)
-      post1.end = Location(name: "San Francisco, CA", lat: 37.0, long: -127.0)
-      post1.dayFormatStr = "2015-05-28"
-      post1.day = post1.getDay(post1.dayFormatStr)
-      post1.timeFormatStr = "25:00:00"
-      post1.time = post1.getTime(post1.timeFormatStr)
-      post1.id = 1
-      post1.userId = 10
-//      post1.toString()
-      posts.append(post1)
-      
-      var post2 = Post()
-      post2.setDriverEnum(1)
-      post2.start = Location(name: "Los Angeles, CA", lat: 34.0, long: -118.0)
-      post2.end = Location(name: "Long Beach, CA", lat: 33.0, long: -117.0)
-      post2.dayFormatStr = "2015-06-01"
-      post2.day = post2.getDay(post2.dayFormatStr)
-      post2.timeFormatStr = "13:30:00"
-      post2.time = post2.getTime(post2.timeFormatStr)
-      post2.id = 2
-      post2.userId = 20
-//      post2.toString()
-      posts.append(post2)
-      
-      var post3 = Post()
-      post3.setDriverEnum(0)
-      post3.start = Location(name: "El Dorado Hills, CA", lat: 39.0, long: -121.0)
-      post3.end = Location(name: "Cupertino, CA", lat: 37.0, long: -120.0)
-      post3.dayFormatStr = "2015-06-15"
-      post3.day = post3.getDay(post3.dayFormatStr)
-      post3.timeFormatStr = "6:45:00"
-      post3.time = post3.getTime(post3.timeFormatStr)
-      post3.id = 3
-      post3.userId = 30
-//      post3.toString()
-      posts.append(post3)
+      if let savedId = defaults.stringForKey("PixieUserId") {
+         userId = savedId.toInt()
+      }
+      loadPostsFromAPI()
       
       var rightSwipe = UISwipeGestureRecognizer(target: self, action: Selector("handleSwipes:"))
       rightSwipe.direction = .Right
@@ -95,13 +62,7 @@ class MyPostsViewController: UIViewController, UITableViewDelegate, UITableViewD
    }
    
    func loadPostsFromAPI() {
-      var myUserId = "-1";
-      let defaults = NSUserDefaults.standardUserDefaults()
-      if let savedId = defaults.stringForKey("PixieUserId") {
-         myUserId = savedId;
-      }
-      
-      var urlString = "http://ec2-54-69-253-12.us-west-2.compute.amazonaws.com/pixie/posts"
+      var urlString = "http://ec2-54-69-253-12.us-west-2.compute.amazonaws.com/pixie/userPosts/\(userId)"
       
       let url = NSURL(string: urlString)
       var request = NSURLRequest(URL: url!)
@@ -110,71 +71,71 @@ class MyPostsViewController: UIViewController, UITableViewDelegate, UITableViewD
       var data =  NSURLConnection.sendSynchronousRequest(request, returningResponse: &response, error:nil)! as NSData
       
       if let json = NSJSONSerialization.JSONObjectWithData(data, options: NSJSONReadingOptions.MutableContainers, error: nil) as? NSDictionary {
-         println("json...\n\(json)")
-         if let items = json["posts"] as? NSArray {
+         println("loadPostsFromAPI json...\n\(json)")
+         if let items = json["results"] as? NSArray {
             for item in items {
-               if let userIdStr = item["userId"] as? String {
-                  let userId = userIdStr.toInt()!
-                  if true /*userId == myUserId.toInt()*/ {
-                     if let id = item["id"] as? Int {
-                        if let start_name = item["start_name"] as? String {
-                           if let start_latStr = item["start_lat"] as? String {
-                              let start_lat = (start_latStr as NSString).doubleValue
-                              if let start_lonStr = item["start_lon"] as? String {
-                                 let start_lon = (start_lonStr as NSString).doubleValue
-                                 if let end_name = item["end_name"] as? String {
-                                    if let end_latStr = item["end_lat"] as? String {
-                                       let end_lat = (end_latStr as NSString).doubleValue
-                                       if let end_lonStr = item["end_lon"] as? String {
-                                          let end_lon = (end_lonStr as NSString).doubleValue
-                                          if let day = item["day"] as? String {
-                                             if let time = item["time"] as? String {
-                                                if let driverEnum = item["driver_enum"] as? String {
-                                                   let isDriver = driverEnum == "DRIVER" ? true : false
-                                                   let start = Location(name: start_name, lat: start_lat, long: start_lon)
-                                                   let end = Location(name: end_name, lat: end_lat, long: end_lon)
-                                                   self.posts.append(Post(isDriver: isDriver, start: start, end: end, day: day, time: time, id: id, userId: userId))
-                                                } else {
-                                                   println("error: driver_enum")
-                                                }
+               if let start = item["start_name"] as? String {
+                  if let startLatStr = item["start_lat"] as? String {
+                     let startLat = (startLatStr as NSString).doubleValue
+                     if let startLonStr = item["start_lon"] as? String {
+                        let startLon = (startLonStr as NSString).doubleValue
+                        if let end = item["end_name"] as? String {
+                           if let endLatStr = item["end_lat"] as? String {
+                              let endLat = (endLatStr as NSString).doubleValue
+                              if let endLonStr = item["end_lon"] as? String {
+                                 let endLon = (endLonStr as NSString).doubleValue
+                                 if let day = item["day"] as? String {
+                                    if let time = item["time"] as? String {
+                                       if let postId = item["postId"] as? Int {
+                                          if let userIdStr = item["userId"] as? String {
+                                             let userId = userIdStr.toInt()!
+                                             if let driverEnum = item["driver_enum"] as? String {
+                                                let isDriver = driverEnum == "DRIVER" ? true : false
+                                                let start = Location(name: start, lat: startLat, long: startLon)
+                                                let end = Location(name: end, lat: endLat, long: endLon)
+                                                self.posts.append(Post(isDriver: isDriver, start: start, end: end, day: day, time: time, postId: postId, userId: userId))
+                                                posts[posts.count-1].toString()
                                              } else {
-                                                println("error: time")
+                                                println("error: driver_enum")
                                              }
                                           } else {
-                                             println("error: day")
+                                             println("error: userId")
                                           }
                                        } else {
-                                          println("error: end_lon")
+                                          println("error: postId")
                                        }
                                     } else {
-                                       println("error: end_lat")
+                                       println("error: time")
                                     }
                                  } else {
-                                    println("error: end_name")
+                                    println("error: day")
                                  }
                               } else {
-                                 println("error: start_lon")
+                                 println("error: end_lon")
                               }
                            } else {
-                              println("error: start_lat")
+                              println("error: end_lat")
                            }
                         } else {
-                           println("error: start_name")
+                           println("error: end_name")
                         }
                      } else {
-                        println("error: id")
+                        println("error: start_lon")
                      }
+                  } else {
+                     println("error: start_lat")
                   }
                } else {
-                  println("error: userId")
+                  println("error: start_name")
                }
             }
          } else {
             println("error: posts")
          }
       } else {
-         println("error json: \(error)") // print the error!
+         println("error json: \(error)")
       }
+      println()
    }
    
    func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {

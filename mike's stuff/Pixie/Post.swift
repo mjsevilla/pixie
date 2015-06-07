@@ -17,26 +17,28 @@ class Post {
    var dayFormatStr: String!
    var time: String!
    var timeFormatStr: String!
-   var id: Int!
+   var postId: Int!
    var userId: Int!
    
    init() {}
    
-   init(isDriver: Bool, start: Location, end: Location, day: String, time: String, id: Int, userId: Int) {
+   init(isDriver: Bool, start: Location, end: Location, day: String, time: String, postId: Int, userId: Int) {
       self.isDriver = isDriver
+      self.driverEnum = isDriver ? "DRIVER" : "RIDER"
       self.start = start
       self.end = end
       self.dayFormatStr = day
       self.day = getDay(day)
       self.timeFormatStr = time
       self.time = getTime(time)
-      self.id = id
+      self.postId = postId
       self.userId = userId;
    }
    
    func setDriverEnum(value: Int) {
       if value == 0 {
          self.driverEnum = "RIDER"
+         self.isDriver = false
       } else {
          self.driverEnum = "DRIVER"
          self.isDriver = true
@@ -100,7 +102,7 @@ class Post {
       if let myUserId = self.userId {
          println("userId: \(myUserId)")
       }
-      if let myPostId = self.id {
+      if let myPostId = self.postId {
          println("postId: \(myPostId)")
       }
       if let myDriverEnum = self.driverEnum {
