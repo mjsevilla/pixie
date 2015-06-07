@@ -53,7 +53,6 @@ class ConversationViewController: JSQMessagesViewController {
     }
     
     func callUnwindMatches(sender: UIBarButtonItem) {
-        println("called unwind")
         self.performSegueWithIdentifier("unwindMatches", sender: self)
     }
     

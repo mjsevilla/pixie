@@ -56,7 +56,12 @@ class MessagesViewContoller: UITableViewController {
             if error == nil {
                 self.convos!.removeAll(keepCapacity: true)
                 for object in objects! {
-                    self.convos!.append(object as! PFObject)
+                    if object["lastMessage"] as? PFObject != nil {
+                        self.convos!.append(object as! PFObject)
+                    }
+                    else {
+                        object.deleteInBackground()
+                    }
                 }
                 self.tableView.reloadData()
             }
