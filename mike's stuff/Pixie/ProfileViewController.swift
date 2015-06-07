@@ -20,6 +20,7 @@ class ProfileViewController: UIViewController, UITextViewDelegate, UITextFieldDe
 	@IBOutlet weak var email: UITextField!
 	@IBOutlet weak var password: UITextField!
 	@IBOutlet weak var bioField: UITextView!
+	var changePic = false
 	var userId: Int! = -1
 	var navTransitionOperator = NavigationTransitionOperator()
 	//var newMedia: Bool?
@@ -77,14 +78,19 @@ class ProfileViewController: UIViewController, UITextViewDelegate, UITextFieldDe
 		password.layer.borderWidth = 1.0
 		password.secureTextEntry = true
 		
-		if (profPic.image == nil && defaults.objectForKey("PixieUserProfPic") ==  nil) {
+		//loadUserPicFromAPI()
+		
+		/*if (profPic.image == nil && defaults.objectForKey("PixieUserProfPic") ==  nil) {
 			profPic.image = UIImage(named: "default.png")
 		}
 		else {
 			var imageData = defaults.dataForKey("PixieUserProfPic")
 	        var profImage = UIImage(data: imageData!)
 			profPic.image = profImage
-		}
+		}*/
+		var imageData = defaults.dataForKey("PixieUserProfPic")
+		var profImage = UIImage(data: imageData!)
+		profPic.image = profImage
 		profPic.layer.cornerRadius = 8.0
 		profPic.layer.masksToBounds = true
 		profPic.layer.borderColor = UIColor(red:0.0, green:0.74, blue:0.82, alpha:1.0).CGColor
@@ -138,6 +144,8 @@ class ProfileViewController: UIViewController, UITextViewDelegate, UITextFieldDe
 		if let pickedImage = info[UIImagePickerControllerOriginalImage] as? UIImage {
 			profPic.contentMode = .ScaleAspectFit
 			profPic.image = pickedImage
+			changePic = true
+			saveBtn.enabled = true
 		}
 		
 		dismissViewControllerAnimated(true, completion: nil)
@@ -199,12 +207,6 @@ class ProfileViewController: UIViewController, UITextViewDelegate, UITextFieldDe
 								defaults.setObject(bioField.text, forKey: "PixieUserBio")
 							}
 						}
-						if let photoURL = json["photoURL"] as? String {
-							if count(photoURL) > 0 {
-								//user.setProfPic(photoURL)
-								profPic.image = UIImage(data: NSData(contentsOfURL: NSURL(string: photoURL)!)!)
-							}
-						}
 					} else {
 						println("error: last_name")
 					}
@@ -219,9 +221,23 @@ class ProfileViewController: UIViewController, UITextViewDelegate, UITextFieldDe
 		}
 	}
 	
+	/*func loadUserPicFromAPI() {
+		if let savedId = defaults.stringForKey("PixieUserId") {
+			userId = savedId.toInt()
+		}
+		
+		var urlString = "http://ec2-54-69-253-12.us-west-2.compute.amazonaws.com/pixie/userPic/\(userId)"
+		let url = NSURL(string: urlString)
+		var request = NSURLRequest(URL: url!)
+		var response: NSURLResponse?
+		var error: NSErrorPointer = nil
+		var data =  NSURLConnection.sendSynchronousRequest(request, returningResponse: &response, error:nil)! as NSData
+		
+		profPic.image = UIImage(data: data)
+	}*/
+	
 	@IBAction func saveBtnTapped(sender: AnyObject) {
 		var urlString = "http://ec2-54-69-253-12.us-west-2.compute.amazonaws.com/pixie/users"
-		//var urlString = "http://ec2-54-69-253-12.us-west-2.compute.amazonaws.com/pixie/editUser"
 		var request = NSMutableURLRequest(URL: NSURL(string: urlString)!)
 		request.HTTPMethod = "PUT"
 		var err: NSError?
@@ -232,7 +248,6 @@ class ProfileViewController: UIViewController, UITextViewDelegate, UITextFieldDe
 		request.HTTPBody = NSJSONSerialization.dataWithJSONObject(reqText, options: nil, error: &err)
 		request.addValue("application/json", forHTTPHeaderField: "Content-Type")
 		request.addValue("application/json", forHTTPHeaderField: "Accept")
-		let defaults = NSUserDefaults.standardUserDefaults()
 		var response: NSURLResponse?
 		
 		var data =  NSURLConnection.sendSynchronousRequest(request, returningResponse: &response, error:nil)! as NSData
@@ -290,10 +305,34 @@ class ProfileViewController: UIViewController, UITextViewDelegate, UITextFieldDe
 			println("error json")
 		}
 		
-		if !bioField.text.isEmpty || bioField.text != "Tell us about yourself!" {
+		if (!bioField.text.isEmpty || bioField.text != "Tell us about yourself!") {
 			defaults.setObject(bioField.text, forKey: "PixieUserBio")
 		}
+		if (changePic == true) {
+			defaults.setObject(UIImagePNGRepresentation(profPic.image), forKey: "PixieUserProfPic")
+			sendUserPicToAPI()
+		}
+		
 		performSegueWithIdentifier("presentProfile", sender: self)
+	}
+	
+	func sendUserPicToAPI() {
+		if let savedId = defaults.stringForKey("PixieUserId") {
+			userId = savedId.toInt()
+		}
+		
+		var imageData = UIImagePNGRepresentation(profPic.image)
+		var url = NSURL(string: "http://ec2-54-69-253-12.us-west-2.compute.amazonaws.com/pixie/userPic/\(userId)")
+		var request = NSMutableURLRequest(URL: url!)
+		request.HTTPMethod = "POST"
+		request.HTTPBody = NSData(data: imageData!)
+		
+		var response: NSURLResponse? = nil
+		var error: NSError? = nil
+		let reply = NSURLConnection.sendSynchronousRequest(request, returningResponse:&response, error:&error)
+		
+		let results = NSString(data:reply!, encoding:NSUTF8StringEncoding)
+		println("API Response: \(results)")
 	}
 	
 	@IBAction func backBtnTapped(sender: AnyObject) {

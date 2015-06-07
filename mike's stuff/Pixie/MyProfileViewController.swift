@@ -15,17 +15,42 @@ class MyProfileViewController: UIViewController {
    var profilePic: UIImageView!
    var nameLabel: UILabel!
    var bioLabel: UILabel!
+   var profPic: UIImage!
+   var userId: Int! = -1
    let defaults = NSUserDefaults.standardUserDefaults()
    var navTransitionOperator = NavigationTransitionOperator()
+   struct Check {
+		static var didInitialize = false
+   }
 	
    override func loadView() {
       super.loadView()
 	
       //let croppedImage = cropToSquare(image: UIImage(named: "sloth.jpg")!)
 	
+	loadUserPicFromAPI()
+	
+	var tempData = defaults.dataForKey("PixieUserProfPic")
+	
+	if (!(tempData!.isEqual(UIImagePNGRepresentation(profPic)))) {
+		println("picture is changed")
+		Check.didInitialize = false
+	}
+	
+	 if (Check.didInitialize == false) {
+		
+		dispatch_async(dispatch_get_main_queue(), {
+			var gaussianFilter = GPUImageGaussianBlurFilter()
+			gaussianFilter.blurRadiusInPixels = 5
+			gaussianFilter.blurPasses = 2
+			let blurredImage = gaussianFilter.imageByFilteringImage(self.profPic)
+			self.defaults.setObject(UIImagePNGRepresentation(blurredImage), forKey: "PixieUserBlurredProfPic")
+			Check.didInitialize = true
+		})
+	 }
+	
 	  var imageData = defaults.dataForKey("PixieUserBlurredProfPic")
 	  var blurredImage = UIImage(data: imageData!)
-	  var profPic = UIImage(named: "sloth.jpg")
 	  defaults.setObject(UIImagePNGRepresentation(profPic), forKey: "PixieUserProfPic")
 	
 	  profilePicBlurred = UIImageView(image: blurredImage)
@@ -33,7 +58,6 @@ class MyProfileViewController: UIViewController {
       blurView = UIVisualEffectView(effect: UIBlurEffect(style: .ExtraLight))
       blurView.setTranslatesAutoresizingMaskIntoConstraints(false)
       view.addSubview(profilePicBlurred)
-	
 	
 	  profilePic = UIImageView(image: profPic)
       profilePic.setTranslatesAutoresizingMaskIntoConstraints(false)
@@ -161,4 +185,18 @@ class MyProfileViewController: UIViewController {
 		performSegueWithIdentifier("presentEditProf", sender: self)
 	}
 	
+	func loadUserPicFromAPI() {
+		if let savedId = defaults.stringForKey("PixieUserId") {
+			userId = savedId.toInt()
+		}
+		
+		var urlString = "http://ec2-54-69-253-12.us-west-2.compute.amazonaws.com/pixie/userPic/\(userId)"
+		let url = NSURL(string: urlString)
+		var request = NSURLRequest(URL: url!)
+		var response: NSURLResponse?
+		var error: NSErrorPointer = nil
+		var data =  NSURLConnection.sendSynchronousRequest(request, returningResponse: &response, error:nil)! as NSData
+		
+		profPic = UIImage(data: data)
+	}
 }
