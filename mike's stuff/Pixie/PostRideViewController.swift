@@ -560,6 +560,10 @@ class PostRideViewController: UIViewController, UITextFieldDelegate, UIPickerVie
    }
    
    func reviewDateTime(sender: UIButton) {
+      if self.section == 0 && !locationsEntered() {
+         return
+      }
+      
       if self.section == 0 || self.section == 3 {
          dateButton.hidden = false
          timeButton.hidden = false
@@ -613,6 +617,10 @@ class PostRideViewController: UIViewController, UITextFieldDelegate, UIPickerVie
    }
    
    func reviewPost(sender: UIButton) {
+      if self.section == 0 && !locationsEntered() {
+         return
+      }
+      
       if self.section == 0 || self.section == 1 {
          nextButton.hidden = true
          seekOfferLabel.hidden = false
@@ -691,6 +699,9 @@ class PostRideViewController: UIViewController, UITextFieldDelegate, UIPickerVie
    func nextButtonPressed(sender: UIButton) {
       
       if section == 0 {
+         if !locationsEntered() {
+            return
+         }
          self.setDateTimeString()
          seekOfferSegment.hidden = true
          startingSearchBar.hidden = true
@@ -1021,6 +1032,34 @@ class PostRideViewController: UIViewController, UITextFieldDelegate, UIPickerVie
       
    }
    
+   func locationsEntered() -> Bool {
+      if startingSearchBar.text.isEmpty && endingSearchBar.text.isEmpty {
+         let alertController = UIAlertController(title: "Oops!", message:
+            "Please enter both a starting location and an ending location.", preferredStyle: UIAlertControllerStyle.Alert)
+         alertController.addAction(UIAlertAction(title: "Dismiss", style: UIAlertActionStyle.Default,handler: nil))
+         
+         self.presentViewController(alertController, animated: true, completion: nil)
+         return false
+      }
+      if startingSearchBar.text.isEmpty {
+         let alertController = UIAlertController(title: "Oops!", message:
+            "Please enter a starting location.", preferredStyle: UIAlertControllerStyle.Alert)
+         alertController.addAction(UIAlertAction(title: "Dismiss", style: UIAlertActionStyle.Default,handler: nil))
+         
+         self.presentViewController(alertController, animated: true, completion: nil)
+         return false
+      }
+      if endingSearchBar.text.isEmpty {
+         let alertController = UIAlertController(title: "Oops!", message:
+            "Please enter an ending location.", preferredStyle: UIAlertControllerStyle.Alert)
+         alertController.addAction(UIAlertAction(title: "Dismiss", style: UIAlertActionStyle.Default,handler: nil))
+         
+         self.presentViewController(alertController, animated: true, completion: nil)
+         return false
+      }
+      return true
+   }
+   
    func postRide(sender: UIButton) {
       let urlString = "http://ec2-54-69-253-12.us-west-2.compute.amazonaws.com/pixie/posts";
       var request = NSMutableURLRequest(URL: NSURL(string: urlString)!);
@@ -1126,6 +1165,10 @@ class PostRideViewController: UIViewController, UITextFieldDelegate, UIPickerVie
          if endingSearchBar.alpha == 0 {
             endingSearchBar.alpha = 1
          }
+         startingSearchBar.resignFirstResponder()
+         if endingSearchBar.text.isEmpty {
+            endingSearchBar.becomeFirstResponder()
+         }
       }
       else {
          endingVC.delegate?.placeSelected?(endingVC.places[indexPath.row])
@@ -1135,6 +1178,7 @@ class PostRideViewController: UIViewController, UITextFieldDelegate, UIPickerVie
             self.post.end = Location(name: "\(details.city), \(details.state)", lat: details.latitude, long: details.longitude)
          }
          endingTableView.hidden = true
+         endingSearchBar.resignFirstResponder()
       }
       if nextButton.alpha == 0 {
          nextButton.alpha = 1

@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="7706" systemVersion="14D136" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" initialViewController="WGR-7L-PRe">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="7702" systemVersion="14D136" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" initialViewController="WGR-7L-PRe">
     <dependencies>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="7703"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="7701"/>
         <capability name="Aspect ratio constraints" minToolsVersion="5.1"/>
         <capability name="Constraints to layout margins" minToolsVersion="6.0"/>
     </dependencies>
@@ -920,28 +920,31 @@
                                     </navigationItem>
                                 </items>
                             </navigationBar>
-                            <textView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" editable="NO" textAlignment="center" selectable="NO" translatesAutoresizingMaskIntoConstraints="NO" id="1Fb-W6-oG0">
-                                <rect key="frame" x="16" y="64" width="568" height="163"/>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" lineBreakMode="wordWrap" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="E5e-17-Ua8">
+                                <rect key="frame" x="16" y="80" width="568" height="76"/>
                                 <string key="text">Pixie's ultimate goal is to connect people within a local area who are both trying to travel to the same location or event. Pixie brings together members of a community in a way that benefits every user. Riders post where they are going and drivers can pick them up to split the tab of gas.</string>
                                 <fontDescription key="fontDescription" name="HelveticaNeue-Thin" family="Helvetica Neue" pointSize="16"/>
-                                <textInputTraits key="textInputTraits" autocapitalizationType="sentences"/>
-                            </textView>
+                                <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
+                                <nil key="highlightedColor"/>
+                            </label>
                         </subviews>
                         <color key="backgroundColor" red="0.98039215686274506" green="0.98039215686274506" blue="0.98039215686274506" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                         <constraints>
                             <constraint firstItem="FX3-OQ-SnE" firstAttribute="top" secondItem="FiG-lV-wa4" secondAttribute="bottom" id="0oF-00-Hpv"/>
                             <constraint firstAttribute="trailing" secondItem="FX3-OQ-SnE" secondAttribute="trailing" id="4Ia-MG-Qvv"/>
-                            <constraint firstItem="1Fb-W6-oG0" firstAttribute="leading" secondItem="nBT-Js-lhv" secondAttribute="leadingMargin" id="5fE-xG-fGR"/>
-                            <constraint firstItem="1Fb-W6-oG0" firstAttribute="top" secondItem="FX3-OQ-SnE" secondAttribute="bottom" id="8ME-Ts-lbT"/>
                             <constraint firstItem="FX3-OQ-SnE" firstAttribute="leading" secondItem="nBT-Js-lhv" secondAttribute="leading" id="C0S-LC-Vj1"/>
+                            <constraint firstItem="E5e-17-Ua8" firstAttribute="leading" secondItem="nBT-Js-lhv" secondAttribute="leadingMargin" id="C2f-Hw-0Cf"/>
                             <constraint firstItem="FX3-OQ-SnE" firstAttribute="top" secondItem="pH4-SZ-Ffs" secondAttribute="bottom" id="Q4b-re-e4Z"/>
+                            <constraint firstItem="E5e-17-Ua8" firstAttribute="trailing" secondItem="nBT-Js-lhv" secondAttribute="trailingMargin" id="Tbd-fX-a34"/>
                             <constraint firstItem="FiG-lV-wa4" firstAttribute="trailing" secondItem="FX3-OQ-SnE" secondAttribute="trailing" id="TzG-mh-9IL"/>
                             <constraint firstItem="FiG-lV-wa4" firstAttribute="top" secondItem="nBT-Js-lhv" secondAttribute="top" id="YEe-dV-tQs"/>
-                            <constraint firstItem="zVP-ZW-urE" firstAttribute="top" secondItem="1Fb-W6-oG0" secondAttribute="bottom" constant="373" id="ZFF-eF-ORR"/>
                             <constraint firstItem="FiG-lV-wa4" firstAttribute="leading" secondItem="FX3-OQ-SnE" secondAttribute="leading" id="fqy-1c-Box"/>
-                            <constraint firstItem="1Fb-W6-oG0" firstAttribute="centerX" secondItem="FX3-OQ-SnE" secondAttribute="centerX" id="wZS-CV-Jtc"/>
+                            <constraint firstItem="E5e-17-Ua8" firstAttribute="top" secondItem="FX3-OQ-SnE" secondAttribute="bottom" constant="16" id="skU-en-K1M"/>
                         </constraints>
                     </view>
+                    <connections>
+                        <outlet property="aboutLabel" destination="E5e-17-Ua8" id="AJR-Lz-FhQ"/>
+                    </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="1dg-UK-nrU" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
@@ -1268,7 +1271,7 @@
                                 <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="gCG-7T-HmQ" id="wnk-WU-xoH">
                                     <autoresizingMask key="autoresizingMask"/>
                                     <subviews>
-                                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Name" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="4OS-UI-cmU">
+                                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" misplaced="YES" text="Name" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="4OS-UI-cmU">
                                             <rect key="frame" x="8" y="8" width="322" height="16"/>
                                             <constraints>
                                                 <constraint firstAttribute="width" constant="322" id="gWr-tt-OiO"/>
@@ -1277,7 +1280,7 @@
                                             <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
                                             <nil key="highlightedColor"/>
                                         </label>
-                                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Last Message" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Fzq-3v-Kt4">
+                                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" misplaced="YES" text="Last Message" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Fzq-3v-Kt4">
                                             <rect key="frame" x="8" y="29" width="349" height="17"/>
                                             <constraints>
                                                 <constraint firstAttribute="width" constant="349" id="4ff-gv-nRd"/>
@@ -1457,9 +1460,9 @@
         <image name="menu" width="22" height="22"/>
     </resources>
     <inferredMetricsTieBreakers>
-        <segue reference="Ntf-EL-NHY"/>
-        <segue reference="DAt-Tu-EYX"/>
-        <segue reference="ELl-Ug-DNN"/>
         <segue reference="kq3-ie-xHz"/>
+        <segue reference="DAt-Tu-EYX"/>
+        <segue reference="Ntf-EL-NHY"/>
+        <segue reference="rAo-kp-Ahx"/>
     </inferredMetricsTieBreakers>
 </document>

@@ -10,38 +10,38 @@ import Foundation
 import UIKit
 
 class AboutViewController: UIViewController {
-    
-    var navTransitionOperator = NavigationTransitionOperator()
-    
-    override func viewDidLoad() {
-        super.viewDidLoad()
-        // Do any additional setup after loading the view, typically from a nib.
-        var rightSwipe = UISwipeGestureRecognizer(target: self, action: Selector("handleSwipes:"))
-        rightSwipe.direction = .Right
-        view.addGestureRecognizer(rightSwipe)
-    }
-    
-    func handleSwipes(sender: UISwipeGestureRecognizer) {
-        if sender.direction == .Right {
-            self.performSegueWithIdentifier("presentNav", sender: self)
-        }
-    }
-    
-    override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {
-        if segue.identifier == "presentNav" {
-            let toViewController = segue.destinationViewController as! NavigationViewController
-            self.modalPresentationStyle = UIModalPresentationStyle.Custom
-            toViewController.transitioningDelegate = self.navTransitionOperator
-            toViewController.presentingView = self
-        }
-    }
-    
-    override func didReceiveMemoryWarning() {
-        super.didReceiveMemoryWarning()
-        // Dispose of any resources that can be recreated.
-    }
-    
-    override func preferredStatusBarStyle() -> UIStatusBarStyle {
-        return UIStatusBarStyle.LightContent
-    }
+   
+   var navTransitionOperator = NavigationTransitionOperator()
+   
+   override func viewDidLoad() {
+      super.viewDidLoad()
+      // Do any additional setup after loading the view, typically from a nib.
+      var rightSwipe = UISwipeGestureRecognizer(target: self, action: Selector("handleSwipes:"))
+      rightSwipe.direction = .Right
+      view.addGestureRecognizer(rightSwipe)
+   }
+   
+   func handleSwipes(sender: UISwipeGestureRecognizer) {
+      if sender.direction == .Right {
+         self.performSegueWithIdentifier("presentNav", sender: self)
+      }
+   }
+   
+   override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {
+      if segue.identifier == "presentNav" {
+         let toViewController = segue.destinationViewController as! NavigationViewController
+         self.modalPresentationStyle = UIModalPresentationStyle.Custom
+         toViewController.transitioningDelegate = self.navTransitionOperator
+         toViewController.presentingView = self
+      }
+   }
+   
+   override func didReceiveMemoryWarning() {
+      super.didReceiveMemoryWarning()
+      // Dispose of any resources that can be recreated.
+   }
+   
+   override func preferredStatusBarStyle() -> UIStatusBarStyle {
+      return UIStatusBarStyle.LightContent
+   }
 }
