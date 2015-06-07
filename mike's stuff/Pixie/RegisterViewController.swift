@@ -108,9 +108,15 @@ class RegisterViewController: UIViewController, FBLoginViewDelegate, UITextField
    func loginViewFetchedUserInfo(loginView: FBLoginView!, user: FBGraphUser!) {
 //      println("in loginViewFetchedUserInfo")
       //      println("user...\(user)")
+      self.view.endEditing(true)
+      if nameField.isFirstResponder() { nameField.resignFirstResponder() }
+      if emailField.isFirstResponder() { emailField.resignFirstResponder() }
+      if pwField.isFirstResponder() { pwField.resignFirstResponder() }
+      
       if !shouldAttempt {
          return
       }
+      
       if checkIfFBUserExists(loginView, user: user) {
          return
       }
@@ -274,30 +280,48 @@ class RegisterViewController: UIViewController, FBLoginViewDelegate, UITextField
                         if let resp_bio = json["bio"] as? String {
                            let user_bio = resp_bio == "NULL" ? "No bio :(" : resp_bio
                            if let resp_age = json["age"] as? String {
-                              let age = resp_age.toInt()
-                              defaults.setObject(userId.toInt(), forKey: "PixieUserId")
-                              defaults.setObject(first_name, forKey: "PixieUserFirstName")
-                              defaults.setObject(last_name, forKey: "PixieUserLastName")
-                              defaults.setObject(resp_email, forKey: "PixieUserEmail")
-                              defaults.setObject(resp_password, forKey: "PixieUserPassword")
-                              defaults.setObject(user_bio, forKey: "PixieUserBio")
-                              defaults.setObject(age, forKey: "PixieUserAge")
-                              defaults.setObject(true, forKey: "PixieUserHasFB")
-                              let username = first_name + last_name + userId
-                              self.user = PFUser()
-                              PFUser.logInWithUsernameInBackground(username, password: resp_password) {
-                                 [unowned self] (user: PFUser?, error: NSError?) -> Void in
-                                 if user != nil {
-                                    println("Parse user successfully logged in")
-                                 } else {
-                                    println("Parse log in error: \(error!)")
-                                 }
+                              
+                              let alertController = UIAlertController(title: "Account already exists.", message: "Would you like to sign in?", preferredStyle: .Alert)
+                              
+                              let registerNewUserAction = UIAlertAction(title: "Register New User", style: .Default) { (action) in
+                                 self.nameField.text = ""
+                                 self.emailField.text = ""
+                                 self.pwField.text = ""
+                                 FBSession.activeSession().closeAndClearTokenInformation()
+                                 self.shouldAttempt = true
                               }
-                              Keychain.set(true, forKey: "loggedIn")
-                              NSUserDefaults.standardUserDefaults().synchronize()
-                              println("signed in userId: \(userId.toInt()!), first_name: \(first_name), last_name: \(last_name), email: \(resp_email), age: \(age!), bio: \(user_bio), hasFB: true")
-                              self.wrongEmailPwLabel.hidden = true
-                              self.didComplete = true
+                              
+                              let signInAction = UIAlertAction(title: "Sign In", style: .Default) { (action) in
+                                 let age = resp_age.toInt()
+                                 self.defaults.setObject(userId.toInt(), forKey: "PixieUserId")
+                                 self.defaults.setObject(first_name, forKey: "PixieUserFirstName")
+                                 self.defaults.setObject(last_name, forKey: "PixieUserLastName")
+                                 self.defaults.setObject(resp_email, forKey: "PixieUserEmail")
+                                 self.defaults.setObject(resp_password, forKey: "PixieUserPassword")
+                                 self.defaults.setObject(user_bio, forKey: "PixieUserBio")
+                                 self.defaults.setObject(age, forKey: "PixieUserAge")
+                                 self.defaults.setObject(true, forKey: "PixieUserHasFB")
+                                 let username = first_name + last_name + userId
+                                 self.user = PFUser()
+                                 PFUser.logInWithUsernameInBackground(username, password: resp_password) {
+                                    [unowned self] (user: PFUser?, error: NSError?) -> Void in
+                                    if user != nil {
+                                       println("Parse user successfully logged in")
+                                    } else {
+                                       println("Parse log in error: \(error!)")
+                                    }
+                                 }
+                                 Keychain.set(true, forKey: "loggedIn")
+                                 NSUserDefaults.standardUserDefaults().synchronize()
+                                 println("signed in userId: \(userId.toInt()!), first_name: \(first_name), last_name: \(last_name), email: \(resp_email), age: \(age!), bio: \(user_bio), hasFB: true")
+                                 self.wrongEmailPwLabel.hidden = true
+                                 println("User Logged In with existing account")
+                                 self.performSegueWithIdentifier("presentSearch", sender: self)
+                              }
+                              
+                              alertController.addAction(signInAction)
+                              alertController.addAction(registerNewUserAction)
+                              self.presentViewController(alertController, animated: true, completion: nil)
                               return true
                            } else {
                               println("error age")
@@ -352,6 +376,10 @@ class RegisterViewController: UIViewController, FBLoginViewDelegate, UITextField
    }
    
    @IBAction func attemptRegisterUser(sender: AnyObject) {
+      if checkIfUserExists() {
+         return
+      }
+      
       var fullNameArr = correctNameCase(nameField.text!)
       let firstName = getFirstName(fullNameArr)
       let lastName = fullNameArr.count == 1 ? "" : fullNameArr[fullNameArr.count-1]
@@ -445,7 +473,7 @@ class RegisterViewController: UIViewController, FBLoginViewDelegate, UITextField
       }
    }
    
-   func checkIfUserExists() {
+   func checkIfUserExists() -> Bool {
       let email = emailField.text!
       let password = pwField.text!
       
@@ -465,30 +493,47 @@ class RegisterViewController: UIViewController, FBLoginViewDelegate, UITextField
                         if let resp_bio = json["bio"] as? String {
                            let user_bio = resp_bio == "NULL" ? "No bio :(" : resp_bio
                            if let resp_age = json["age"] as? String {
-                              defaults.setObject(userId.toInt(), forKey: "PixieUserId")
-                              defaults.setObject(first_name, forKey: "PixieUserFirstName")
-                              defaults.setObject(last_name, forKey: "PixieUserLastName")
-                              defaults.setObject(resp_email, forKey: "PixieUserEmail")
-                              defaults.setObject(resp_password, forKey: "PixieUserPassword")
-                              defaults.setObject(user_bio, forKey: "PixieUserBio")
-                              if (resp_age != "NULL") {
-                                 defaults.setObject(resp_age.toInt(), forKey: "PixieUserAge")
+                              
+                              let alertController = UIAlertController(title: "Account already exists.", message: "Would you like to sign in?", preferredStyle: .Alert)
+                              
+                              let registerNewUserAction = UIAlertAction(title: "Register New User", style: .Default) { (action) in
+                                 self.nameField.becomeFirstResponder()
+                                 self.nameField.text = ""
+                                 self.emailField.text = ""
+                                 self.pwField.text = ""
                               }
-                              defaults.setObject(false, forKey: "PixieUserHasFB")
-                              let username = first_name + last_name + userId
-                              PFUser.logInWithUsernameInBackground(username, password: resp_password) {
-                                 [unowned self] (user: PFUser?, error: NSError?) -> Void in
-                                 if user != nil {
-                                    println("Parse user successfully logged in")
-                                 } else {
-                                    println("Parse log in error: \(error!)")
+                              
+                              let signInAction = UIAlertAction(title: "Sign In", style: .Default) { (action) in
+                                 self.defaults.setObject(userId.toInt(), forKey: "PixieUserId")
+                                 self.defaults.setObject(first_name, forKey: "PixieUserFirstName")
+                                 self.defaults.setObject(last_name, forKey: "PixieUserLastName")
+                                 self.defaults.setObject(resp_email, forKey: "PixieUserEmail")
+                                 self.defaults.setObject(resp_password, forKey: "PixieUserPassword")
+                                 self.defaults.setObject(user_bio, forKey: "PixieUserBio")
+                                 if (resp_age != "NULL") {
+                                    self.defaults.setObject(resp_age.toInt(), forKey: "PixieUserAge")
                                  }
+                                 self.defaults.setObject(false, forKey: "PixieUserHasFB")
+                                 let username = first_name + last_name + userId
+                                 PFUser.logInWithUsernameInBackground(username, password: resp_password) {
+                                    [unowned self] (user: PFUser?, error: NSError?) -> Void in
+                                    if user != nil {
+                                       println("Parse user successfully logged in")
+                                    } else {
+                                       println("Parse log in error: \(error!)")
+                                    }
+                                 }
+                                 Keychain.set(true, forKey: "loggedIn")
+                                 NSUserDefaults.standardUserDefaults().synchronize()
+                                 println("signed in userId: \(userId.toInt()!), first_name: \(first_name), last_name: \(last_name), email: \(resp_email), password: \(resp_password), age: \(resp_age), bio: \(user_bio), hasFB: false")
+                                 self.wrongEmailPwLabel.hidden = true
+                                 self.performSegueWithIdentifier("presentSearch", sender: self)
                               }
-                              Keychain.set(true, forKey: "loggedIn")
-                              NSUserDefaults.standardUserDefaults().synchronize()
-                              println("signed in userId: \(userId.toInt()!), first_name: \(first_name), last_name: \(last_name), email: \(resp_email), password: \(resp_password), age: \(resp_age), bio: \(user_bio), hasFB: false")
-                              self.wrongEmailPwLabel.hidden = true
-                              self.performSegueWithIdentifier("presentSearch", sender: self)
+                              
+                              alertController.addAction(signInAction)
+                              alertController.addAction(registerNewUserAction)
+                              self.presentViewController(alertController, animated: true, completion: nil)
+                              return true
                            } else {
                               println("error age")
                            }
@@ -516,9 +561,11 @@ class RegisterViewController: UIViewController, FBLoginViewDelegate, UITextField
          wrongEmailPwLabel.hidden = false
       }
 
+      return false
    }
    
    func loginViewShowingLoggedOutUser(loginView: FBLoginView!) {
+      FBSession.activeSession().closeAndClearTokenInformation()
       println("User Logged Out")
    }
    
