@@ -344,10 +344,6 @@ class PostRideViewController: UIViewController, UITextFieldDelegate, UIPickerVie
       startingSearchBarConstraints["Search"] = NSLayoutConstraint(item: startingSearchBar, attribute: .Top, relatedBy: .Equal, toItem: self.view, attribute: .Top, multiplier: 1, constant: 70)
       endingSearchBarConstraints["Search"] = NSLayoutConstraint(item: endingSearchBar, attribute: .Top, relatedBy: .Equal, toItem: self.view, attribute: .Top, multiplier: 1, constant: 70)
       
-//      self.view.layoutIfNeeded()
-//      
-//      startingSearchBarConstraints["Top"] = NSLayoutConstraint(item: startingSearchBar, attribute: .Top, relatedBy: .Equal, toItem: seekOfferSegment, attribute: .Bottom, multiplier: 1, constant: (endingSearchBar.frame.origin.y - tripSectionButton.frame.origin.y - tripSectionButton.frame.height - seekOfferSegment.frame.height - startingSearchBar.frame.height)/3.0)
-      
       self.view.addConstraint(tripSectionConstraints["Top"]!)
       self.view.addConstraint(seekOfferSegmentConstraints["CenterY"]!)
       self.view.addConstraint(startingSearchBarConstraints["CenterY"]!)
@@ -457,11 +453,6 @@ class PostRideViewController: UIViewController, UITextFieldDelegate, UIPickerVie
    }
    
    func selectedLocationInSearchBar() {
-      if activeSearchBar == self.startingSearchBar {
-         println("selectedLocationInSearchBar... active searchBar == startingSearchBar")
-      } else {
-         println("selectedLocationInSearchBar... active searchBar == endingSearchBar")
-      }
       if tripSectionButton.hidden {
          if activeSearchBar == self.startingSearchBar {
             startingSearchBarConstraints["Top"] = NSLayoutConstraint(item: startingSearchBar, attribute: .Top, relatedBy: .Equal, toItem: seekOfferSegment, attribute: .Bottom, multiplier: 1, constant: (endingSearchBar.frame.origin.y - tripSectionButton.frame.origin.y - tripSectionButton.frame.height - seekOfferSegment.frame.height - startingSearchBar.frame.height)/3.0)
@@ -492,7 +483,6 @@ class PostRideViewController: UIViewController, UITextFieldDelegate, UIPickerVie
                      }, completion: {
                         (value: Bool) in
                         self.searchBarsVisible = false
-                        println("selectedLocationInSearchBar... activeSearchBar set to endingSearchBar")
                   })
             })
          } else if activeSearchBar == self.endingSearchBar {
@@ -517,7 +507,6 @@ class PostRideViewController: UIViewController, UITextFieldDelegate, UIPickerVie
          }
       } else {
          if activeSearchBar == startingSearchBar {
-            println("selectedLocationInSearchBar... active searchBar == startingSearchBar")
             self.view.removeConstraint(self.startingSearchBarConstraints["Search"]!)
             
             UIView.animateWithDuration(0.25, animations: {
@@ -554,16 +543,13 @@ class PostRideViewController: UIViewController, UITextFieldDelegate, UIPickerVie
                         }, completion: {
                            (value: Bool) in
                            self.searchBarsVisible = false
-                           println("selectedLocationInSearchBar... activeSearchBar set to endingSearchBar")
                      })
                   } else {
                      self.searchBarsVisible = true
                   }
             })
-//            self.startingSearchBar.resignFirstResponder()
          }
          else if activeSearchBar == endingSearchBar {
-            println("selectedLocationInSearchBar... active searchBar == endingSearchBar")
             self.view.removeConstraint(self.endingSearchBarConstraints["Search"]!)
             
             UIView.animateWithDuration(0.25, animations: {
@@ -581,7 +567,6 @@ class PostRideViewController: UIViewController, UITextFieldDelegate, UIPickerVie
                   (value: Bool) in
                   self.searchBarsVisible = true
             })
-//            self.endingSearchBar.resignFirstResponder()
          }
       }
    }
@@ -1292,12 +1277,6 @@ class PostRideViewController: UIViewController, UITextFieldDelegate, UIPickerVie
       self.view.endEditing(true)
       
       if activeSearchBar == startingSearchBar && !searchBarsVisible {
-         println("touchesBegan... active searchBar == startingSearchBar")
-      } else if activeSearchBar == endingSearchBar && !searchBarsVisible {
-         println("touchesBegan... active searchBar == endingSearchBar")
-      }
-      
-      if activeSearchBar == startingSearchBar && !searchBarsVisible {
          self.view.removeConstraint(self.startingSearchBarConstraints["Search"]!)
          
          UIView.animateWithDuration(0.25, animations: {
@@ -1351,11 +1330,6 @@ class PostRideViewController: UIViewController, UITextFieldDelegate, UIPickerVie
       if searchBarsVisible {
          self.activeSearchBar = searchBar
       }
-      if searchBar == startingSearchBar {
-         println("activeSearchBar set to startingSearchBar")
-      } else if searchBar == endingSearchBar {
-         println("activeSearchBar set to endingSearchBar")
-      }
       
       if searchBar == startingSearchBar && searchBarsVisible {
          self.searchBarsVisible = false
@@ -1402,11 +1376,6 @@ class PostRideViewController: UIViewController, UITextFieldDelegate, UIPickerVie
    }
    
    func searchBar(searchBar: UISearchBar, textDidChange searchText: String) {
-      if self.activeSearchBar == startingSearchBar {
-         println("searchBar textDidChange... active searchBar == startingSearchBar")
-      } else if self.activeSearchBar == endingSearchBar {
-         println("searchBar textDidChange... active searchBar == endingSearchBar")
-      }
       if (searchText == "") {
          if (self.activeSearchBar == startingSearchBar) {
             startingVC.places = []

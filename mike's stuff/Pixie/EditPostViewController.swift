@@ -590,7 +590,7 @@ class EditPostViewController: UIViewController, UITextFieldDelegate, UIPickerVie
       
       var reqText = ["start_name": currentPost.start.name, "start_lat": currentPost.start.latitude, "start_lon": currentPost.start.longitude, "end_name": currentPost.end.name, "end_lat": currentPost.end.latitude, "end_lon": currentPost.end.longitude, "day": currentPost.dayFormatStr, "driver_enum": currentPost.driverEnum, "time": currentPost.timeFormatStr, "userId": currentPost.userId]
       
-      println("\nreqText...\(reqText)")
+//      println("\nreqText...\(reqText)")
       
       
       // TO-DO: FIX THIS API CALL SHIT
