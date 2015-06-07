@@ -75,15 +75,17 @@ class MessagesViewContoller: UITableViewController {
             toViewController.presentingView = self
         }
         if segue.identifier == "presentConvo" {
-            if let destVC = segue.destinationViewController as? ConversationViewController {
-                let cell = sender as! MessageCell
-                let selfID = self.user["userId"] as! String
-                let id1 = cell.convo!["user1Id"] as! String
-                let id2 = cell.convo!["user2Id"] as! String
-                destVC.recipientName = cell.nameLabel.text
-                destVC.recipientId = selfID == id1 ? id2 : id1
-                destVC.convoId = cell.convoID
-                destVC.convo = cell.convo
+            if let navVC = segue.destinationViewController as? UINavigationController {
+                if let destVC = navVC.topViewController as? ConversationViewController {
+                    let cell = sender as! MessageCell
+                    let selfID = self.user["userId"] as! String
+                    let id1 = cell.convo!["user1Id"] as! String
+                    let id2 = cell.convo!["user2Id"] as! String
+                    destVC.recipientName = cell.nameLabel.text
+                    destVC.recipientId = selfID == id1 ? id2 : id1
+                    destVC.convoId = cell.convoID
+                    destVC.convo = cell.convo
+                }
             }
         }
     }

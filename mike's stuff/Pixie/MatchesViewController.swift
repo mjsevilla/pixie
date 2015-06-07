@@ -344,13 +344,15 @@ class MatchesViewController: UIViewController, UICollectionViewDelegateFlowLayou
             toViewController.presentingView = self
         }
         else if segue.identifier == "presentConvo" {
-            if let destVC = segue.destinationViewController as? ConversationViewController {
-                let btn = sender as! SenderButton
-                
-                destVC.recipientName = btn.recipientName
-                destVC.recipientId = btn.recipientId
-                destVC.convoId = btn.convoId
-                destVC.convo = btn.parseConvo!
+            if let navVC = segue.destinationViewController as? UINavigationController {
+                if let destVC = navVC.topViewController as? ConversationViewController {
+                    let btn = sender as! SenderButton
+                    
+                    destVC.recipientName = btn.recipientName
+                    destVC.recipientId = btn.recipientId
+                    destVC.convoId = btn.convoId
+                    destVC.convo = btn.parseConvo!
+                }
             }
         }
     }

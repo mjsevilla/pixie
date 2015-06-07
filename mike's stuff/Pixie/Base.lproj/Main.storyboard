@@ -361,7 +361,7 @@
                     <connections>
                         <segue destination="lG3-sQ-OM6" kind="custom" identifier="showUserBio" customClass="CustomSegueClass" customModule="Pixie" customModuleProvider="target" id="Vnq-Mo-Toq"/>
                         <segue destination="1al-ph-uIg" kind="unwind" identifier="unwindToSearchView" unwindAction="unwindToSearchView:" id="koV-I8-kk0"/>
-                        <segue destination="keS-XJ-ehL" kind="show" identifier="presentConvo" id="Ntf-EL-NHY"/>
+                        <segue destination="cdA-4l-mhf" kind="show" identifier="presentConvo" id="Ntf-EL-NHY"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="ak2-py-XIn" userLabel="First Responder" sceneMemberID="firstResponder"/>
@@ -502,8 +502,8 @@
                         <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <label opaque="NO" userInteractionEnabled="NO" contentMode="top" horizontalHuggingPriority="251" verticalHuggingPriority="251" misplaced="YES" text="PIXIe" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="B2k-LN-2YF">
-                                <rect key="frame" x="184" y="91" width="235" height="73"/>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="top" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="PIXIe" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="B2k-LN-2YF">
+                                <rect key="frame" x="183" y="91" width="234.5" height="73"/>
                                 <fontDescription key="fontDescription" name="Syncopate-Regular" family="Syncopate" pointSize="75"/>
                                 <color key="textColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                 <nil key="highlightedColor"/>
@@ -717,8 +717,8 @@
                                     <constraint firstItem="Jkr-VY-dVR" firstAttribute="top" secondItem="FMm-05-EMQ" secondAttribute="top" id="yXR-mO-vk0"/>
                                 </constraints>
                             </view>
-                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" misplaced="YES" usesAttributedText="YES" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="OtV-uL-Xdv">
-                                <rect key="frame" x="194" y="286" width="215" height="17"/>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" usesAttributedText="YES" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="OtV-uL-Xdv">
+                                <rect key="frame" x="193" y="286" width="214.5" height="17"/>
                                 <attributedString key="attributedText">
                                     <fragment content="Ruh roh, wrong email and password.">
                                         <attributes>
@@ -1268,7 +1268,7 @@
                                 <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="gCG-7T-HmQ" id="wnk-WU-xoH">
                                     <autoresizingMask key="autoresizingMask"/>
                                     <subviews>
-                                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" misplaced="YES" text="Name" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="4OS-UI-cmU">
+                                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Name" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="4OS-UI-cmU">
                                             <rect key="frame" x="8" y="8" width="322" height="16"/>
                                             <constraints>
                                                 <constraint firstAttribute="width" constant="322" id="gWr-tt-OiO"/>
@@ -1277,7 +1277,7 @@
                                             <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
                                             <nil key="highlightedColor"/>
                                         </label>
-                                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" misplaced="YES" text="Last Message" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Fzq-3v-Kt4">
+                                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Last Message" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Fzq-3v-Kt4">
                                             <rect key="frame" x="8" y="29" width="349" height="17"/>
                                             <constraints>
                                                 <constraint firstAttribute="width" constant="349" id="4ff-gv-nRd"/>
@@ -1329,7 +1329,7 @@
                         </barButtonItem>
                     </navigationItem>
                     <connections>
-                        <segue destination="keS-XJ-ehL" kind="show" identifier="presentConvo" id="zPx-fe-Ar7"/>
+                        <segue destination="cdA-4l-mhf" kind="show" identifier="presentConvo" id="zPx-fe-Ar7"/>
                     </connections>
                 </tableViewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="kdn-po-miP" userLabel="First Responder" sceneMemberID="firstResponder"/>
@@ -1391,10 +1391,11 @@
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                     </view>
+                    <navigationItem key="navigationItem" id="Efg-3o-aYN"/>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="gqs-V4-bFd" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="3325" y="1757"/>
+            <point key="canvasLocation" x="4137" y="1757"/>
         </scene>
         <!--MessagesNav-->
         <scene sceneID="6sb-ut-W7s">
@@ -1420,6 +1421,30 @@
             </objects>
             <point key="canvasLocation" x="1715" y="1757"/>
         </scene>
+        <!--ConvoNavVC-->
+        <scene sceneID="EJn-OP-pPa">
+            <objects>
+                <navigationController title="ConvoNavVC" automaticallyAdjustsScrollViewInsets="NO" id="cdA-4l-mhf" sceneMemberID="viewController">
+                    <toolbarItems/>
+                    <navigationBar key="navigationBar" contentMode="scaleToFill" id="ImJ-AB-M5g">
+                        <rect key="frame" x="0.0" y="0.0" width="320" height="44"/>
+                        <autoresizingMask key="autoresizingMask"/>
+                        <color key="barTintColor" red="0.0" green="0.73725490199999999" blue="0.81960784310000001" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                        <textAttributes key="titleTextAttributes">
+                            <fontDescription key="fontDescription" name="HelveticaNeue-Thin" family="Helvetica Neue" pointSize="22"/>
+                            <color key="textColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
+                            <color key="textShadowColor" white="0.66666666666666663" alpha="1" colorSpace="calibratedWhite"/>
+                        </textAttributes>
+                    </navigationBar>
+                    <nil name="viewControllers"/>
+                    <connections>
+                        <segue destination="keS-XJ-ehL" kind="relationship" relationship="rootViewController" id="CiZ-vA-tgN"/>
+                    </connections>
+                </navigationController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="mqM-OY-Q1n" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="3325" y="1757"/>
+        </scene>
     </scenes>
     <resources>
         <image name="add" width="30" height="30"/>
@@ -1428,8 +1453,8 @@
     </resources>
     <inferredMetricsTieBreakers>
         <segue reference="DAt-Tu-EYX"/>
-        <segue reference="Ntf-EL-NHY"/>
-        <segue reference="LGl-cG-deb"/>
         <segue reference="kq3-ie-xHz"/>
+        <segue reference="LGl-cG-deb"/>
+        <segue reference="zPx-fe-Ar7"/>
     </inferredMetricsTieBreakers>
 </document>
