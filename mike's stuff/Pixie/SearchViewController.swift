@@ -104,14 +104,14 @@ class SearchViewController: AutocompleteViewController, CLLocationManagerDelegat
     func keyboardWillShow(sender: NSNotification) {
         self.kbIsHidden = false
         self.pixieLabel.hidden = true
-        self.seachBarTopConstraint.constant -= 150
+        self.seachBarTopConstraint.constant -= 175
         self.searchBar.layoutIfNeeded()
     }
     func keyboardWillHide(sender: NSNotification) {
         if self.kbIsHidden == false {
             self.kbIsHidden = true
             self.pixieLabel.hidden = false
-            self.seachBarTopConstraint.constant += 150
+            self.seachBarTopConstraint.constant += 175
             self.searchBar.layoutIfNeeded()
         }
     }
