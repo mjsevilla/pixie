@@ -21,7 +21,7 @@ class RegisterViewController: UIViewController, FBLoginViewDelegate, UITextField
    @IBOutlet weak var nameHeading: UIView!
    @IBOutlet weak var emailHeading: UIView!
    @IBOutlet weak var pwHeading: UIView!
-   @IBOutlet weak var wrongEmailPwLabel: UILabel!
+   @IBOutlet weak var noLastNameLabel: UILabel!
    var user: PFUser?
    var shouldAttempt = true
    var didComplete = false
@@ -51,7 +51,7 @@ class RegisterViewController: UIViewController, FBLoginViewDelegate, UITextField
       nameField.delegate = self
       emailField.delegate = self
       pwField.delegate = self
-      wrongEmailPwLabel.hidden = true
+      noLastNameLabel.hidden = true
    }
    
    override func viewWillAppear(animated: Bool) {
@@ -108,6 +108,7 @@ class RegisterViewController: UIViewController, FBLoginViewDelegate, UITextField
    func loginViewFetchedUserInfo(loginView: FBLoginView!, user: FBGraphUser!) {
 //      println("in loginViewFetchedUserInfo")
       //      println("user...\(user)")
+      noLastNameLabel.hidden = true
       self.view.endEditing(true)
       if nameField.isFirstResponder() { nameField.resignFirstResponder() }
       if emailField.isFirstResponder() { emailField.resignFirstResponder() }
@@ -154,7 +155,6 @@ class RegisterViewController: UIViewController, FBLoginViewDelegate, UITextField
          if(err != nil) {
             self.shouldAttempt = true
             println(err!.localizedDescription)
-            self.wrongEmailPwLabel.hidden = false
          }
          else {
             var parseError : NSError?
@@ -230,7 +230,6 @@ class RegisterViewController: UIViewController, FBLoginViewDelegate, UITextField
                   }
                } else {
                   self.shouldAttempt = true
-                  self.wrongEmailPwLabel.hidden = false
                   println("error userID")
                }
             }
@@ -282,9 +281,9 @@ class RegisterViewController: UIViewController, FBLoginViewDelegate, UITextField
                            let user_bio = resp_bio == "NULL" ? "No bio :(" : resp_bio
                            if let resp_age = json["age"] as? String {
                               
-                              let alertController = UIAlertController(title: "Account already exists.", message: "Would you like to sign in?", preferredStyle: .Alert)
+                              let alertController = UIAlertController(title: "Account already exists.", message: nil, preferredStyle: .Alert)
                               
-                              let registerNewUserAction = UIAlertAction(title: "Register New User", style: .Default) { (action) in
+                              let registerNewUserAction = UIAlertAction(title: "Cancel", style: .Cancel) { (action) in
                                  self.nameField.text = ""
                                  self.emailField.text = ""
                                  self.pwField.text = ""
@@ -314,7 +313,6 @@ class RegisterViewController: UIViewController, FBLoginViewDelegate, UITextField
                                  Keychain.set(true, forKey: "loggedIn")
                                  NSUserDefaults.standardUserDefaults().synchronize()
                                  println("signed in userId: \(userId.toInt()!), first_name: \(first_name), last_name: \(last_name), email: \(resp_email), age: \(age!), bio: \(user_bio), hasFB: true")
-                                 self.wrongEmailPwLabel.hidden = true
                                  println("User Logged In with existing account")
                                  self.performSegueWithIdentifier("presentSearch", sender: self)
                               }
@@ -342,12 +340,10 @@ class RegisterViewController: UIViewController, FBLoginViewDelegate, UITextField
                println("error first_name")
             }
          } else {
-            wrongEmailPwLabel.hidden = false
             println("error userID")
          }
       } else {
          println("error json")
-         wrongEmailPwLabel.hidden = false
       }
 
       return false
@@ -376,13 +372,19 @@ class RegisterViewController: UIViewController, FBLoginViewDelegate, UITextField
    }
    
    @IBAction func attemptRegisterUser(sender: AnyObject) {
+      var fullNameArr = correctNameCase(nameField.text!)
+      if fullNameArr.count == 1 {
+         noLastNameLabel.hidden = false
+         self.view.endEditing(true)
+         return
+      }
+      let firstName = getFirstName(fullNameArr)
+      let lastName = fullNameArr[fullNameArr.count-1]
+      
       if checkIfUserExists() {
          return
       }
       
-      var fullNameArr = correctNameCase(nameField.text!)
-      let firstName = getFirstName(fullNameArr)
-      let lastName = fullNameArr.count == 1 ? "" : fullNameArr[fullNameArr.count-1]
       
       var urlString = "http://ec2-54-69-253-12.us-west-2.compute.amazonaws.com/pixie/users"
       var request = NSMutableURLRequest(URL: NSURL(string: urlString)!)
@@ -444,7 +446,6 @@ class RegisterViewController: UIViewController, FBLoginViewDelegate, UITextField
                                  Keychain.set(true, forKey: "loggedIn")
                               }
                               println("created userId: \(userId.toInt()!), first_name: \(first_name), last_name: \(last_name), email: \(resp_email), password: \(resp_password), age: \(resp_age), bio: \(user_bio), hasFB: false")
-                              self.wrongEmailPwLabel.hidden = true
                               self.performSegueWithIdentifier("presentSearch", sender: self)
                            } else {
                               println("error age")
@@ -465,11 +466,9 @@ class RegisterViewController: UIViewController, FBLoginViewDelegate, UITextField
                println("error first_name")
             }
          } else {
-            wrongEmailPwLabel.hidden = false
             println("error userID")
          }
       } else {
-         wrongEmailPwLabel.hidden = false
          println("error json")
       }
    }
@@ -486,7 +485,8 @@ class RegisterViewController: UIViewController, FBLoginViewDelegate, UITextField
       var data =  NSURLConnection.sendSynchronousRequest(request, returningResponse: &response, error:nil)! as NSData
       
       if let json = NSJSONSerialization.JSONObjectWithData(data, options: NSJSONReadingOptions.MutableContainers, error: nil) as? NSDictionary {
-         if let userId = json["userId"] as? String {
+         if let userIdStr = json["userId"] as? String {
+            let userId = userIdStr.toInt()
             if let first_name = json["first_name"] as? String {
                if let last_name = json["last_name"] as? String {
                   if let resp_email = json["email"] as? String {
@@ -495,9 +495,9 @@ class RegisterViewController: UIViewController, FBLoginViewDelegate, UITextField
                            let user_bio = resp_bio == "NULL" ? "No bio :(" : resp_bio
                            if let resp_age = json["age"] as? String {
                               
-                              let alertController = UIAlertController(title: "Account already exists.", message: "Would you like to sign in?", preferredStyle: .Alert)
+                              let alertController = UIAlertController(title: "Account already exists.", message: nil, preferredStyle: .Alert)
                               
-                              let registerNewUserAction = UIAlertAction(title: "Register New User", style: .Default) { (action) in
+                              let registerNewUserAction = UIAlertAction(title: "Cancel", style: .Cancel) { (action) in
                                  self.nameField.becomeFirstResponder()
                                  self.nameField.text = ""
                                  self.emailField.text = ""
@@ -505,7 +505,7 @@ class RegisterViewController: UIViewController, FBLoginViewDelegate, UITextField
                               }
                               
                               let signInAction = UIAlertAction(title: "Sign In", style: .Default) { (action) in
-                                 self.defaults.setObject(userId.toInt(), forKey: "PixieUserId")
+                                 self.defaults.setObject(userId, forKey: "PixieUserId")
                                  self.defaults.setObject(first_name, forKey: "PixieUserFirstName")
                                  self.defaults.setObject(last_name, forKey: "PixieUserLastName")
                                  self.defaults.setObject(resp_email, forKey: "PixieUserEmail")
@@ -515,7 +515,7 @@ class RegisterViewController: UIViewController, FBLoginViewDelegate, UITextField
                                     self.defaults.setObject(resp_age.toInt(), forKey: "PixieUserAge")
                                  }
                                  self.defaults.setObject(false, forKey: "PixieUserHasFB")
-                                 let username = first_name + last_name + userId
+                                 let username = first_name + last_name + userIdStr
                                  PFUser.logInWithUsernameInBackground(username, password: resp_password) {
                                     [unowned self] (user: PFUser?, error: NSError?) -> Void in
                                     if user != nil {
@@ -526,8 +526,7 @@ class RegisterViewController: UIViewController, FBLoginViewDelegate, UITextField
                                  }
                                  Keychain.set(true, forKey: "loggedIn")
                                  NSUserDefaults.standardUserDefaults().synchronize()
-                                 println("signed in userId: \(userId.toInt()!), first_name: \(first_name), last_name: \(last_name), email: \(resp_email), password: \(resp_password), age: \(resp_age), bio: \(user_bio), hasFB: false")
-                                 self.wrongEmailPwLabel.hidden = true
+                                 println("signed in userId: \(userId), first_name: \(first_name), last_name: \(last_name), email: \(resp_email), password: \(resp_password), age: \(resp_age), bio: \(user_bio), hasFB: false")
                                  self.performSegueWithIdentifier("presentSearch", sender: self)
                               }
                               
@@ -554,12 +553,10 @@ class RegisterViewController: UIViewController, FBLoginViewDelegate, UITextField
                println("error first_name")
             }
          } else {
-            wrongEmailPwLabel.hidden = false
             println("error userID")
          }
       } else {
          println("error json")
-         wrongEmailPwLabel.hidden = false
       }
 
       return false
@@ -575,6 +572,7 @@ class RegisterViewController: UIViewController, FBLoginViewDelegate, UITextField
    }
    
    override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {
+      noLastNameLabel.hidden = true
       if segue.identifier == "presentSearch" {
          if let navVC = segue.destinationViewController as? UINavigationController {
             if let searchVC = navVC.topViewController as? SearchViewController {

@@ -548,31 +548,23 @@ class EditPostViewController: UIViewController, UITextFieldDelegate, UIPickerVie
    }
    
    func okToSave() -> Bool {
-      if startingSearchBar.text.isEmpty && endingSearchBar.text.isEmpty {
-         let alertController = UIAlertController(title: "Oops!", message:
-            "Please enter both a starting location and an ending location.", preferredStyle: UIAlertControllerStyle.Alert)
-         alertController.addAction(UIAlertAction(title: "Dismiss", style: UIAlertActionStyle.Default,handler: nil))
-         
-         self.presentViewController(alertController, animated: true, completion: nil)
-         return false
-      }
+      var ret: Bool = true
+      
       if startingSearchBar.text.isEmpty {
-         let alertController = UIAlertController(title: "Oops!", message:
-            "Please enter a starting location.", preferredStyle: UIAlertControllerStyle.Alert)
-         alertController.addAction(UIAlertAction(title: "Dismiss", style: UIAlertActionStyle.Default,handler: nil))
-         
-         self.presentViewController(alertController, animated: true, completion: nil)
-         return false
+         startingSearchBar.layer.borderColor = UIColor.redColor().CGColor
+         ret = false
       }
       if endingSearchBar.text.isEmpty {
-         let alertController = UIAlertController(title: "Oops!", message:
-            "Please enter an ending location.", preferredStyle: UIAlertControllerStyle.Alert)
-         alertController.addAction(UIAlertAction(title: "Dismiss", style: UIAlertActionStyle.Default,handler: nil))
-         
-         self.presentViewController(alertController, animated: true, completion: nil)
-         return false
+         endingSearchBar.layer.borderColor = UIColor.redColor().CGColor
+         ret = false
       }
-      return true
+      if startingSearchBar.text == endingSearchBar.text {
+         startingSearchBar.layer.borderColor = UIColor.redColor().CGColor
+         endingSearchBar.layer.borderColor = UIColor.redColor().CGColor
+         ret = false
+      }
+      
+      return ret
    }
    
    func save(sender: UIButton) {
@@ -581,6 +573,8 @@ class EditPostViewController: UIViewController, UITextFieldDelegate, UIPickerVie
       if !okToSave() {
          return
       }
+      startingSearchBar.layer.borderColor = UIColor(red:0.0, green:0.74, blue:0.82, alpha:1.0).CGColor
+      endingSearchBar.layer.borderColor = UIColor(red:0.0, green:0.74, blue:0.82, alpha:1.0).CGColor
       
       let urlString = "http://ec2-54-69-253-12.us-west-2.compute.amazonaws.com/pixie/posts";
       var request = NSMutableURLRequest(URL: NSURL(string: urlString)!);

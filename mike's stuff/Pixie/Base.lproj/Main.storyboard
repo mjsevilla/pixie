@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="7706" systemVersion="14D136" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" initialViewController="WGR-7L-PRe">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="7702" systemVersion="14D136" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" initialViewController="WGR-7L-PRe">
     <dependencies>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="7703"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="7701"/>
         <capability name="Aspect ratio constraints" minToolsVersion="5.1"/>
         <capability name="Constraints to layout margins" minToolsVersion="6.0"/>
     </dependencies>
@@ -170,7 +170,7 @@
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" usesAttributedText="YES" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="9ko-Op-Qra">
                                 <rect key="frame" x="16" y="341" width="568" height="17"/>
                                 <attributedString key="attributedText">
-                                    <fragment content="Ruh roh, wrong email and password.">
+                                    <fragment content="Whoops, you didn't enter a last name.">
                                         <attributes>
                                             <color key="NSColor" red="0.83529418706893921" green="0.090196080505847931" blue="0.12941177189350128" alpha="1" colorSpace="deviceRGB"/>
                                             <font key="NSFont" size="14" name="HelveticaNeue-Thin"/>
@@ -221,10 +221,10 @@
                         <outlet property="inputBG" destination="YYp-Lu-jru" id="Bw3-rw-aAs"/>
                         <outlet property="nameField" destination="jyI-Jb-6zF" id="2JH-B7-UNe"/>
                         <outlet property="nameHeading" destination="ExF-1v-CZA" id="J5c-Z8-Al5"/>
+                        <outlet property="noLastNameLabel" destination="9ko-Op-Qra" id="IhB-7v-IFE"/>
                         <outlet property="pwField" destination="qJQ-om-phK" id="HZh-0e-VSM"/>
                         <outlet property="pwHeading" destination="fZb-nK-Ez4" id="Xt4-uF-Pme"/>
                         <outlet property="registerBtn" destination="M2k-Q1-TKM" id="DzI-L6-Gin"/>
-                        <outlet property="wrongEmailPwLabel" destination="9ko-Op-Qra" id="Lce-eP-Wdu"/>
                         <segue destination="vXZ-lx-hvc" kind="show" identifier="presentSearch" id="dLk-Tp-hyc"/>
                     </connections>
                 </viewController>
@@ -274,7 +274,7 @@
                                     <outlet property="delegate" destination="vXZ-lx-hvc" id="S4g-3V-9hp"/>
                                 </connections>
                             </searchBar>
-                            <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="44" sectionHeaderHeight="22" sectionFooterHeight="22" translatesAutoresizingMaskIntoConstraints="NO" id="m9q-h8-tBS">
+                            <tableView clipsSubviews="YES" contentMode="scaleToFill" misplaced="YES" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="44" sectionHeaderHeight="22" sectionFooterHeight="22" translatesAutoresizingMaskIntoConstraints="NO" id="m9q-h8-tBS">
                                 <rect key="frame" x="0.0" y="322" width="600" height="278"/>
                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                             </tableView>
@@ -1466,9 +1466,9 @@
         <image name="menu" width="22" height="22"/>
     </resources>
     <inferredMetricsTieBreakers>
-        <segue reference="RxF-GS-MFy"/>
-        <segue reference="vwa-0O-sBD"/>
+        <segue reference="dLk-Tp-hyc"/>
         <segue reference="Ntf-EL-NHY"/>
+        <segue reference="RxF-GS-MFy"/>
         <segue reference="JV8-1D-th0"/>
     </inferredMetricsTieBreakers>
 </document>

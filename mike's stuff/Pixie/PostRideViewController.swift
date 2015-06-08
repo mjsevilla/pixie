@@ -94,20 +94,11 @@ class PostRideViewController: UIViewController, UITextFieldDelegate, UIPickerVie
       nextButton.setTranslatesAutoresizingMaskIntoConstraints(false)
       view.addSubview(nextButton)
       
-      backButton = UIButton(frame: CGRectMake(10, 28, 22, 22))
-      UIGraphicsBeginImageContext(backButton.frame.size)
-      let cntx = UIGraphicsGetCurrentContext()
-      CGContextSetStrokeColorWithColor(cntx, UIColor(red:0.0, green:0.74, blue:0.82, alpha:1.0).CGColor)
-      CGContextSetLineWidth(cntx, 1.0)
-      CGContextMoveToPoint(cntx, backButton.frame.width/2.0, 0)
-      CGContextAddLineToPoint(cntx, 0, backButton.frame.height/2.0)
-      CGContextAddLineToPoint(cntx, backButton.frame.width/2.0, backButton.frame.height)
-      CGContextStrokePath(cntx)
-      let arrow = UIImageView(frame: CGRectMake(0, 0, backButton.frame.width, backButton.frame.height))
-      arrow.image = UIGraphicsGetImageFromCurrentImageContext()
-      backButton.addSubview(arrow)
-      UIGraphicsEndImageContext()
+      let image = UIImage(named: "back") as UIImage?
+      backButton = UIButton.buttonWithType(UIButtonType.System) as! UIButton
+      backButton.setImage(image, forState: .Normal)
       backButton.userInteractionEnabled = true
+      backButton.setTranslatesAutoresizingMaskIntoConstraints(false)
       backButton.addTarget(self, action: "goBack:", forControlEvents: .TouchUpInside)
       view.addSubview(backButton)
       
@@ -318,15 +309,17 @@ class PostRideViewController: UIViewController, UITextFieldDelegate, UIPickerVie
    }
    
    func loadTripSectionContraints() {
-      let viewsDict = ["nextButton":nextButton, "tripSectionButton":tripSectionButton, "seekOfferSegment":seekOfferSegment, "startingSearchBar":startingSearchBar, "endingSearchBar":endingSearchBar, "blurEffectView":blurEffectView, "startTable":startingTableView, "endTable":endingTableView]
+      let viewsDict = ["backButton":backButton, "nextButton":nextButton, "tripSectionButton":tripSectionButton, "seekOfferSegment":seekOfferSegment, "startingSearchBar":startingSearchBar, "endingSearchBar":endingSearchBar, "blurEffectView":blurEffectView, "startTable":startingTableView, "endTable":endingTableView]
       
       self.view.addConstraints(NSLayoutConstraint.constraintsWithVisualFormat("V:|[blurEffectView]|", options: NSLayoutFormatOptions(0), metrics: nil, views: viewsDict))
+      self.view.addConstraints(NSLayoutConstraint.constraintsWithVisualFormat("V:|-30-[backButton(22)]", options: NSLayoutFormatOptions(0), metrics: nil, views: viewsDict))
       self.view.addConstraints(NSLayoutConstraint.constraintsWithVisualFormat("V:[tripSectionButton(40)]", options: NSLayoutFormatOptions(0), metrics: nil, views: viewsDict))
       self.view.addConstraints(NSLayoutConstraint.constraintsWithVisualFormat("V:[seekOfferSegment(40)]", options: NSLayoutFormatOptions(0), metrics: nil, views: viewsDict))
       self.view.addConstraints(NSLayoutConstraint.constraintsWithVisualFormat("V:[startingSearchBar(30)]-1-[startTable]-|", options: NSLayoutFormatOptions(0), metrics: nil, views: viewsDict))
       self.view.addConstraints(NSLayoutConstraint.constraintsWithVisualFormat("V:[endingSearchBar(30)]-1-[endTable]-|", options: NSLayoutFormatOptions(0), metrics: nil, views: viewsDict))
       
       self.view.addConstraints(NSLayoutConstraint.constraintsWithVisualFormat("H:|[blurEffectView]|", options: NSLayoutFormatOptions(0), metrics: nil, views: viewsDict))
+      self.view.addConstraints(NSLayoutConstraint.constraintsWithVisualFormat("H:|-16-[backButton(22)]", options: NSLayoutFormatOptions(0), metrics: nil, views: viewsDict))
       self.view.addConstraints(NSLayoutConstraint.constraintsWithVisualFormat("H:|[tripSectionButton]|", options: NSLayoutFormatOptions(0), metrics: nil, views: viewsDict))
       self.view.addConstraints(NSLayoutConstraint.constraintsWithVisualFormat("H:|-10-[seekOfferSegment]-10-|", options: NSLayoutFormatOptions(0), metrics: nil, views: viewsDict))
       self.view.addConstraints(NSLayoutConstraint.constraintsWithVisualFormat("H:|-10-[startingSearchBar]-10-|", options: NSLayoutFormatOptions(0), metrics: nil, views: viewsDict))
@@ -651,6 +644,8 @@ class PostRideViewController: UIViewController, UITextFieldDelegate, UIPickerVie
       if self.section == 0 && !locationsEntered() {
          return
       }
+      startingSearchBar.layer.borderColor = UIColor(red:0.0, green:0.74, blue:0.82, alpha:1.0).CGColor
+      endingSearchBar.layer.borderColor = UIColor(red:0.0, green:0.74, blue:0.82, alpha:1.0).CGColor
       
       if self.section == 0 || self.section == 3 {
          dateButton.hidden = false
@@ -708,6 +703,8 @@ class PostRideViewController: UIViewController, UITextFieldDelegate, UIPickerVie
       if self.section == 0 && !locationsEntered() {
          return
       }
+      startingSearchBar.layer.borderColor = UIColor(red:0.0, green:0.74, blue:0.82, alpha:1.0).CGColor
+      endingSearchBar.layer.borderColor = UIColor(red:0.0, green:0.74, blue:0.82, alpha:1.0).CGColor
       
       if self.section == 0 || self.section == 1 {
          nextButton.hidden = true
@@ -790,6 +787,9 @@ class PostRideViewController: UIViewController, UITextFieldDelegate, UIPickerVie
          if !locationsEntered() {
             return
          }
+         startingSearchBar.layer.borderColor = UIColor(red:0.0, green:0.74, blue:0.82, alpha:1.0).CGColor
+         endingSearchBar.layer.borderColor = UIColor(red:0.0, green:0.74, blue:0.82, alpha:1.0).CGColor
+         
          self.setDateTimeString()
          seekOfferSegment.hidden = true
          startingSearchBar.hidden = true
@@ -1121,31 +1121,23 @@ class PostRideViewController: UIViewController, UITextFieldDelegate, UIPickerVie
    }
    
    func locationsEntered() -> Bool {
-      if startingSearchBar.text.isEmpty && endingSearchBar.text.isEmpty {
-         let alertController = UIAlertController(title: "Oops!", message:
-            "Please enter both a starting location and an ending location.", preferredStyle: UIAlertControllerStyle.Alert)
-         alertController.addAction(UIAlertAction(title: "Dismiss", style: UIAlertActionStyle.Default,handler: nil))
-         
-         self.presentViewController(alertController, animated: true, completion: nil)
-         return false
-      }
+      var ret: Bool = true
+      
       if startingSearchBar.text.isEmpty {
-         let alertController = UIAlertController(title: "Oops!", message:
-            "Please enter a starting location.", preferredStyle: UIAlertControllerStyle.Alert)
-         alertController.addAction(UIAlertAction(title: "Dismiss", style: UIAlertActionStyle.Default,handler: nil))
-         
-         self.presentViewController(alertController, animated: true, completion: nil)
-         return false
+         startingSearchBar.layer.borderColor = UIColor.redColor().CGColor
+         ret = false
       }
       if endingSearchBar.text.isEmpty {
-         let alertController = UIAlertController(title: "Oops!", message:
-            "Please enter an ending location.", preferredStyle: UIAlertControllerStyle.Alert)
-         alertController.addAction(UIAlertAction(title: "Dismiss", style: UIAlertActionStyle.Default,handler: nil))
-         
-         self.presentViewController(alertController, animated: true, completion: nil)
-         return false
+         endingSearchBar.layer.borderColor = UIColor.redColor().CGColor
+         ret = false
       }
-      return true
+      if startingSearchBar.text == endingSearchBar.text {
+         startingSearchBar.layer.borderColor = UIColor.redColor().CGColor
+         endingSearchBar.layer.borderColor = UIColor.redColor().CGColor
+         ret = false
+      }
+      
+      return ret
    }
    
    func postRide(sender: UIButton) {
