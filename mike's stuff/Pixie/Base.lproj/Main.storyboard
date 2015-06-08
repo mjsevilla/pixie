@@ -1073,13 +1073,13 @@
                                         <barButtonItem key="leftBarButtonItem" image="back" id="aEa-0O-RUZ">
                                             <color key="tintColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                             <connections>
-                                                <segue destination="ErU-E2-YDN" kind="unwind" identifier="presentProfile" unwindAction="unwindToMyProf:" id="okK-sy-jig"/>
+                                                <segue destination="ErU-E2-YDN" kind="unwind" identifier="presentMyProfile" unwindAction="unwindToMyProf:" id="okK-sy-jig"/>
                                             </connections>
                                         </barButtonItem>
                                         <barButtonItem key="rightBarButtonItem" enabled="NO" title="Save" id="A2m-8O-S9y">
                                             <color key="tintColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                             <connections>
-                                                <action selector="saveBtnTapped:" destination="9HI-6j-g6Y" id="l43-bQ-jdJ"/>
+                                                <action selector="saveBtnTapped:" destination="9HI-6j-g6Y" id="4OZ-pf-4u3"/>
                                             </connections>
                                         </barButtonItem>
                                     </navigationItem>
@@ -1137,6 +1137,7 @@
                         <outlet property="password" destination="II1-We-ws9" id="Hs1-Br-ghu"/>
                         <outlet property="profPic" destination="x1h-bI-CD8" id="twf-HN-lmn"/>
                         <outlet property="saveBtn" destination="A2m-8O-S9y" id="ZNN-WS-4B3"/>
+                        <segue destination="kQ1-0w-jNs" kind="custom" identifier="presentProfile" customClass="CustomSegueClass" customModule="Pixie" id="JV8-1D-th0"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="uSD-ex-pPU" userLabel="First Responder" sceneMemberID="firstResponder"/>
@@ -1465,8 +1466,9 @@
         <image name="menu" width="22" height="22"/>
     </resources>
     <inferredMetricsTieBreakers>
+        <segue reference="RxF-GS-MFy"/>
         <segue reference="vwa-0O-sBD"/>
-        <segue reference="ndH-hG-Xoc"/>
         <segue reference="Ntf-EL-NHY"/>
+        <segue reference="JV8-1D-th0"/>
     </inferredMetricsTieBreakers>
 </document>

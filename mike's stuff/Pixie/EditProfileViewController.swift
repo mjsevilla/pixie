@@ -373,11 +373,16 @@ class EditProfileViewController: UIViewController, UITextViewDelegate, UITextFie
 		if (!bioField.text.isEmpty || bioField.text != "Tell us about yourself!") {
 			defaults.setObject(bioField.text, forKey: "PixieUserBio")
 		}
-		/*if (changePic == true) {
+		if (changePic == true) {
+			println("picture changed in EditProfile")
 			defaults.setObject(UIImagePNGRepresentation(profPic.image), forKey: "PixieUserProfPic")
-			sendUserPicToAPI()
-		}*/
-		
+			defaults.setObject(1, forKey: "PicChange")
+			//sendUserPicToAPI()
+		}
+		else {
+			defaults.setObject(0, forKey: "PicChange")
+		}
+				
 		performSegueWithIdentifier("presentProfile", sender: self)
 	}
 	

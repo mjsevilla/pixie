@@ -28,31 +28,62 @@ class MyProfileViewController: UIViewController {
         super.loadView()
         
         //let croppedImage = cropToSquare(image: UIImage(named: "sloth.jpg")!)
-        
-        loadUserPicFromAPI()
-        
-        var tempData = defaults.dataForKey("PixieUserProfPic")
-        
-        if (!(tempData!.isEqual(UIImagePNGRepresentation(profPic)))) {
-            println("picture is changed")
-            Check.didInitialize = false
-        }
-        
-        if (Check.didInitialize == false) {
-            
-            dispatch_async(dispatch_get_main_queue(), {
-                var gaussianFilter = GPUImageGaussianBlurFilter()
-                gaussianFilter.blurRadiusInPixels = 10
-                gaussianFilter.blurPasses = 2
-                let blurredImage = gaussianFilter.imageByFilteringImage(self.profPic)
-                self.defaults.setObject(UIImagePNGRepresentation(blurredImage), forKey: "PixieUserBlurredProfPic")
-                Check.didInitialize = true
-            })
-        }
-        
+		
+		/*if (Check.didInitialize == false) {
+			println("load user pic")
+			Check.didInitialize = true
+		}*/
+		
+		
+		/*if (tempData == nil && Check.didInitialize == false) {
+			dispatch_async(dispatch_get_main_queue(), {
+				println("picture didn't change")
+				self.loadUserPicFromAPI()
+				var gaussianFilter = GPUImageGaussianBlurFilter()
+				gaussianFilter.blurRadiusInPixels = 10
+				gaussianFilter.blurPasses = 2
+				let blurredImage = gaussianFilter.imageByFilteringImage(self.profPic)
+				self.defaults.setObject(UIImagePNGRepresentation(blurredImage), forKey: "PixieUserBlurredProfPic")
+				self.defaults.setObject(UIImagePNGRepresentation(self.profPic), forKey: "PixieUserProfPic")
+				Check.didInitialize = true
+			})
+		}
+		else if (!(tempData!.isEqual(UIImagePNGRepresentation(profPic)))) {
+			//dispatch_async(dispatch_get_main_queue(), {
+				println("picture changed")
+				var tempData = self.defaults.dataForKey("PixieUserProfPic")
+				var gaussianFilter = GPUImageGaussianBlurFilter()
+				gaussianFilter.blurRadiusInPixels = 10
+				gaussianFilter.blurPasses = 2
+				self.profPic = self.cropToSquare(image: UIImage(data: tempData!)!)
+				self.defaults.setObject(UIImagePNGRepresentation(self.profPic), forKey: "PixieUserProfPic")
+				let blurredImage = gaussianFilter.imageByFilteringImage(UIImage(data: tempData!))
+				self.defaults.setObject(UIImagePNGRepresentation(blurredImage), forKey: "PixieUserBlurredProfPic")
+				//Check.didInitialize = true
+			//})
+		}*/
+		
+		println("loadView")
+		
+		var didChange = defaults.integerForKey("PicChange")
+		
+		if (didChange == 1) {
+			//dispatch_async(dispatch_get_main_queue(), {
+			println("picture changed")
+			var tempData = self.defaults.dataForKey("PixieUserProfPic")
+			var gaussianFilter = GPUImageGaussianBlurFilter()
+			gaussianFilter.blurRadiusInPixels = 10
+			gaussianFilter.blurPasses = 2
+			self.profPic = self.cropToSquare(image: UIImage(data: tempData!)!)
+			self.defaults.setObject(UIImagePNGRepresentation(self.profPic), forKey: "PixieUserProfPic")
+			let blurredImage = gaussianFilter.imageByFilteringImage(UIImage(data: tempData!))
+			self.defaults.setObject(UIImagePNGRepresentation(blurredImage), forKey: "PixieUserBlurredProfPic")
+			//})
+		}
+		
         var imageData = defaults.dataForKey("PixieUserBlurredProfPic")
         var blurredImage = UIImage(data: imageData!)
-        defaults.setObject(UIImagePNGRepresentation(profPic), forKey: "PixieUserProfPic")
+        //defaults.setObject(UIImagePNGRepresentation(profPic), forKey: "PixieUserProfPic")
         
         profilePicBlurred = UIImageView(image: blurredImage)
         profilePicBlurred.setTranslatesAutoresizingMaskIntoConstraints(false)
@@ -60,7 +91,7 @@ class MyProfileViewController: UIViewController {
         blurView.setTranslatesAutoresizingMaskIntoConstraints(false)
         view.addSubview(profilePicBlurred)
         
-        profilePic = UIImageView(image: profPic)
+		profilePic = UIImageView(image: UIImage(data: defaults.dataForKey("PixieUserProfPic")!))
         profilePic.setTranslatesAutoresizingMaskIntoConstraints(false)
         view.addSubview(profilePic)
         
@@ -122,6 +153,8 @@ class MyProfileViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
+		
+		println("viewDidLoad")
         
         self.editBtn.setTitleTextAttributes([NSFontAttributeName: UIFont(name: "HelveticaNeue-Thin", size: 18)!], forState: UIControlState.Normal)
         profilePic.layer.cornerRadius = self.profilePic.frame.size.width / 2;
