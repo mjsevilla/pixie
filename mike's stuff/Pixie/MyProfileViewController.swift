@@ -129,9 +129,11 @@ class MyProfileViewController: UIViewController {
         
         let first = defaults.stringForKey("PixieUserFirstName")!
         let last = defaults.stringForKey("PixieUserLastName")!
-        let age = defaults.stringForKey("PixieUserAge")!
-        
-        nameLabel.text = "\(first) \(last), \(age)"
+		if let age = defaults.stringForKey("PixieUserAge") {
+			nameLabel.text = "\(first) \(last), \(age)"
+		} else {
+			nameLabel.text = "\(first) \(last)"
+		}
         bioLabel.text = defaults.stringForKey("PixieUserBio")
     }
     

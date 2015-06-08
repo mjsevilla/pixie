@@ -300,6 +300,7 @@ class EditProfileViewController: UIViewController, UITextViewDelegate, UITextFie
 		profPic.image = UIImage(data: data)
 	}*/
 	
+	
 	@IBAction func saveBtnTapped(sender: AnyObject) {
 		var urlString = "http://ec2-54-69-253-12.us-west-2.compute.amazonaws.com/pixie/users"
 		var request = NSMutableURLRequest(URL: NSURL(string: urlString)!)
@@ -372,10 +373,10 @@ class EditProfileViewController: UIViewController, UITextViewDelegate, UITextFie
 		if (!bioField.text.isEmpty || bioField.text != "Tell us about yourself!") {
 			defaults.setObject(bioField.text, forKey: "PixieUserBio")
 		}
-		if (changePic == true) {
+		/*if (changePic == true) {
 			defaults.setObject(UIImagePNGRepresentation(profPic.image), forKey: "PixieUserProfPic")
 			sendUserPicToAPI()
-		}
+		}*/
 		
 		performSegueWithIdentifier("presentProfile", sender: self)
 	}
