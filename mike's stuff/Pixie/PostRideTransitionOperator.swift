@@ -20,20 +20,18 @@ class PostRideTransitionOperator: NSObject, UIViewControllerAnimatedTransitionin
       // get reference to our fromView, toView and the container view that we should perform the transition in
       let container = transitionContext.containerView()
       
-      let homeVC = (self.presenting ? transitionContext.viewControllerForKey(UITransitionContextFromViewControllerKey)! : transitionContext.viewControllerForKey(UITransitionContextToViewControllerKey)!) as UIViewController
-      let postRideVC = (self.presenting ? transitionContext.viewControllerForKey(UITransitionContextToViewControllerKey)! : transitionContext.viewControllerForKey(UITransitionContextFromViewControllerKey)!) as UIViewController
+      let searchVC = (self.presenting ? transitionContext.viewControllerForKey(UITransitionContextFromViewControllerKey)! : transitionContext.viewControllerForKey(UITransitionContextToViewControllerKey)!) as! SearchViewController
+      let postRideVC = (self.presenting ? transitionContext.viewControllerForKey(UITransitionContextToViewControllerKey)! : transitionContext.viewControllerForKey(UITransitionContextFromViewControllerKey)!) as! PostRideViewController
       
-      let homeView = homeVC.view
+      let searchView = searchVC.view
       let postRideView = postRideVC.view
       
       // add the both views to our view controller
-      container.addSubview(homeView)
+      container.addSubview(searchView)
       container.addSubview(postRideView)
       
       if self.presenting {
          postRideView.transform = CGAffineTransformMakeTranslation(postRideView.frame.width, 0)
-      } else {
-         homeView.transform = CGAffineTransformMakeTranslation(-homeView.frame.width, 0)
       }
       
       // get the duration of the animation
@@ -42,19 +40,24 @@ class PostRideTransitionOperator: NSObject, UIViewControllerAnimatedTransitionin
       // perform the animation!
       UIView.animateWithDuration(duration, delay: 0.0, usingSpringWithDamping: 1.0, initialSpringVelocity: 0.5, options:nil, animations: {
          if self.presenting {
-            homeView.transform = CGAffineTransformMakeTranslation(-homeView.frame.width, 0)
             postRideView.transform = CGAffineTransformIdentity
+            searchVC.pixieLabel.hidden = true
+            searchVC.searchBar.hidden = true
+            searchVC.toolBar.hidden = true
          } else {
-            homeView.transform = CGAffineTransformIdentity
             postRideView.transform = CGAffineTransformMakeTranslation(postRideView.frame.width, 0)
+            searchVC.pixieLabel.hidden = false
+            searchVC.searchBar.hidden = false
+            searchVC.toolBar.hidden = false
          }
          }, completion: { finished in
             // tell our transitionContext object that we've finished animating
             
             transitionContext.completeTransition(true)
-            if !self.presenting {
-               //postRideView.removeFromSuperview()
-               UIApplication.sharedApplication().keyWindow?.addSubview(homeView)
+            
+            UIApplication.sharedApplication().keyWindow?.addSubview(searchView)
+            if self.presenting {
+               UIApplication.sharedApplication().keyWindow?.addSubview(postRideView)
             }
       })
       

@@ -248,10 +248,11 @@ class SearchViewController: AutocompleteViewController, CLLocationManagerDelegat
     }
     
     @IBAction func presentPostRide(sender: AnyObject) {
-        performSegueWithIdentifier("postRideSegue", sender: self)
+        performSegueWithIdentifier("postRideSegue", sender: nil)
     }
-    
+   
     override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {
+      println("in prepareForSegue with segue.identifier: \(segue.identifier!)")
         if segue.identifier == "presentNav" {
             let toViewController = segue.destinationViewController as! NavigationViewController
             self.modalPresentationStyle = UIModalPresentationStyle.Custom
@@ -260,7 +261,7 @@ class SearchViewController: AutocompleteViewController, CLLocationManagerDelegat
             
         } else if segue.identifier == "postRideSegue" {
             if let destinationVC = segue.destinationViewController as? PostRideViewController {
-                destinationVC.transitioningDelegate = self.postRideTransitionOperator
+                destinationVC.transitioningDelegate = postRideTransitionOperator
                 destinationVC.modalPresentationStyle = UIModalPresentationStyle.Custom
             }
         } else if segue.identifier == "showMatches" {

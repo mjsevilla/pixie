@@ -11,6 +11,7 @@ import UIKit
 class PostRideViewController: UIViewController, UITextFieldDelegate, UIPickerViewDataSource, UIPickerViewDelegate, UITableViewDataSource, UITableViewDelegate, UISearchBarDelegate {
    
    var post: Post = Post()
+   let postRideTransitionOperator = PostRideTransitionOperator()
    
    var startingVC = GooglePlacesAutocompleteContainer(apiKey: "AIzaSyB6Gv8uuTNh_ZN-Hk8H3S5RARpQot_6I-k", placeType: .All)
    var startingTableView: UITableView!
@@ -28,6 +29,7 @@ class PostRideViewController: UIViewController, UITextFieldDelegate, UIPickerVie
    var endingLocTextField: UITextField!
    var edgeInsets = UIEdgeInsets(top: 0, left: 16, bottom: 0, right: 16)
    var searchBarsVisible = true
+   var sameStartEnd = false
    
    var dateTimeSectionButton: UIButton!
    var dateButton: UIButton!
@@ -83,6 +85,7 @@ class PostRideViewController: UIViewController, UITextFieldDelegate, UIPickerVie
       loadTripSectionView()
       loadDateTimeSectionView()
       loadReviewSectionView()
+      self.view.layoutIfNeeded()
       
       nextButton = UIButton()
       let nextString = NSAttributedString(string: "NEXT", attributes: [NSForegroundColorAttributeName: UIColor(red:0.0, green:0.74, blue:0.82, alpha:1.0), NSFontAttributeName: UIFont(name: "Syncopate-Regular", size: 20.0)!])
@@ -93,10 +96,12 @@ class PostRideViewController: UIViewController, UITextFieldDelegate, UIPickerVie
       nextButton.setTranslatesAutoresizingMaskIntoConstraints(false)
       view.addSubview(nextButton)
       
-      let image = UIImage(named: "back") as UIImage?
-      backButton = UIButton.buttonWithType(UIButtonType.System) as! UIButton
-      backButton.setImage(image, forState: .Normal)
-      backButton.userInteractionEnabled = true
+      backButton = UIButton.buttonWithType(UIButtonType.Custom) as! UIButton
+      if let image = UIImage(named: "back.png") {
+         backButton.setImage(image, forState: .Normal)
+      } else {
+         println("didn't find back.png")
+      }
       backButton.setTranslatesAutoresizingMaskIntoConstraints(false)
       backButton.addTarget(self, action: "goBack:", forControlEvents: .TouchUpInside)
       view.addSubview(backButton)
@@ -118,6 +123,8 @@ class PostRideViewController: UIViewController, UITextFieldDelegate, UIPickerVie
       endingSearchBar.delegate = self
       endingVC.searchBar = self.endingSearchBar
       endingVC.tableView = self.endingTableView
+      
+      self.view.layoutIfNeeded()
    }
    
    func loadTripSectionView() {
@@ -311,7 +318,7 @@ class PostRideViewController: UIViewController, UITextFieldDelegate, UIPickerVie
       let viewsDict = ["backButton":backButton, "nextButton":nextButton, "tripSectionButton":tripSectionButton, "seekOfferSegment":seekOfferSegment, "startingSearchBar":startingSearchBar, "endingSearchBar":endingSearchBar, "blurEffectView":blurEffectView, "startTable":startingTableView, "endTable":endingTableView]
       
       self.view.addConstraints(NSLayoutConstraint.constraintsWithVisualFormat("V:|[blurEffectView]|", options: NSLayoutFormatOptions(0), metrics: nil, views: viewsDict))
-      self.view.addConstraints(NSLayoutConstraint.constraintsWithVisualFormat("V:|-30-[backButton(22)]", options: NSLayoutFormatOptions(0), metrics: nil, views: viewsDict))
+      self.view.addConstraints(NSLayoutConstraint.constraintsWithVisualFormat("V:|-40-[backButton(22)]", options: NSLayoutFormatOptions(0), metrics: nil, views: viewsDict))
       self.view.addConstraints(NSLayoutConstraint.constraintsWithVisualFormat("V:[tripSectionButton(40)]", options: NSLayoutFormatOptions(0), metrics: nil, views: viewsDict))
       self.view.addConstraints(NSLayoutConstraint.constraintsWithVisualFormat("V:[seekOfferSegment(40)]", options: NSLayoutFormatOptions(0), metrics: nil, views: viewsDict))
       self.view.addConstraints(NSLayoutConstraint.constraintsWithVisualFormat("V:[startingSearchBar(30)]-1-[startTable]-|", options: NSLayoutFormatOptions(0), metrics: nil, views: viewsDict))
@@ -327,6 +334,8 @@ class PostRideViewController: UIViewController, UITextFieldDelegate, UIPickerVie
       self.view.addConstraints(NSLayoutConstraint.constraintsWithVisualFormat("H:|[startTable]|", options: NSLayoutFormatOptions(0), metrics: nil, views: viewsDict))
       self.view.addConstraints(NSLayoutConstraint.constraintsWithVisualFormat("H:|[endTable]|", options: NSLayoutFormatOptions(0), metrics: nil, views: viewsDict))
       
+      self.view.layoutIfNeeded()
+      
       tripSectionConstraints["Top"] = NSLayoutConstraint(item: tripSectionButton, attribute: .Top, relatedBy: .Equal, toItem: backButton, attribute: .Bottom, multiplier: 1, constant: 15.0)
       seekOfferSegmentConstraints["CenterY"] = NSLayoutConstraint(item: seekOfferSegment, attribute: .CenterY, relatedBy: .Equal, toItem: self.view, attribute: .CenterY, multiplier: 1, constant: 0)
       startingSearchBarConstraints["CenterY"] = NSLayoutConstraint(item: startingSearchBar, attribute: .CenterY, relatedBy: .Equal, toItem: self.view, attribute: .CenterY, multiplier: 1, constant: 0)
@@ -340,6 +349,7 @@ class PostRideViewController: UIViewController, UITextFieldDelegate, UIPickerVie
       self.view.addConstraint(seekOfferSegmentConstraints["CenterY"]!)
       self.view.addConstraint(startingSearchBarConstraints["CenterY"]!)
       self.view.addConstraint(endingSearchBarConstraints["CenterY"]!)
+      
       self.view.layoutIfNeeded()
    }
    
@@ -356,6 +366,8 @@ class PostRideViewController: UIViewController, UITextFieldDelegate, UIPickerVie
       self.view.addConstraints(NSLayoutConstraint.constraintsWithVisualFormat("H:|-10-[timeButton]-10-|", options: NSLayoutFormatOptions(0), metrics: nil, views: viewsDict))
       self.view.addConstraints(NSLayoutConstraint.constraintsWithVisualFormat("H:|[timePicker]|", options: NSLayoutFormatOptions(0), metrics: nil, views: viewsDict))
       
+      self.view.layoutIfNeeded()
+      
       dateTimeSectionConstraints["Top"] = NSLayoutConstraint(item: dateTimeSectionButton, attribute: .Top, relatedBy: .Equal, toItem: tripSectionButton, attribute: .Bottom, multiplier: 1.0, constant: 1)
       dateTimeSectionConstraints["Bottom"] = NSLayoutConstraint(item: dateTimeSectionButton, attribute: .Bottom, relatedBy: .Equal, toItem: self.view, attribute: .Bottom, multiplier: 1.0, constant: 0)
       dateButtonConstraints["Top"] = NSLayoutConstraint(item: dateButton, attribute: .Top, relatedBy: .Equal, toItem: self.view, attribute: .Top, multiplier: 1, constant: self.view.center.y - dateButton.frame.height - 0.5 * timeButton.frame.height)
@@ -370,6 +382,7 @@ class PostRideViewController: UIViewController, UITextFieldDelegate, UIPickerVie
       self.view.addConstraint(datePickerConstraints["Top"]!)
       self.view.addConstraint(timeButtonConstraints["Top"]!)
       self.view.addConstraint(timePickerConstraints["Top"]!)
+      
       self.view.layoutIfNeeded()
    }
    
@@ -392,6 +405,8 @@ class PostRideViewController: UIViewController, UITextFieldDelegate, UIPickerVie
       self.view.addConstraints(NSLayoutConstraint.constraintsWithVisualFormat("H:|[postRideButton]|", options: NSLayoutFormatOptions(0), metrics: nil, views: viewsDict))
       self.view.addConstraints(NSLayoutConstraint.constraintsWithVisualFormat("H:|[ridePostedView]|", options: NSLayoutFormatOptions(0), metrics: nil, views: viewsDict))
       
+      self.view.layoutIfNeeded()
+      
       reviewSectionConstraints["Top"] = NSLayoutConstraint(item: reviewSectionButton, attribute: .Top, relatedBy: .Equal, toItem: dateTimeSectionButton, attribute: .Bottom, multiplier: 1.0, constant: 1)
       reviewSectionConstraints["Bottom"] = NSLayoutConstraint(item: reviewSectionButton, attribute: .Bottom, relatedBy: .Equal, toItem: self.view, attribute: .Bottom, multiplier: 1.0, constant: 0)
       seekOfferLabelConstraints["Bottom"] = NSLayoutConstraint(item: seekOfferLabel, attribute: .Bottom, relatedBy: .Equal, toItem: tripLabel, attribute: .Top, multiplier: 1, constant: 0)
@@ -405,6 +420,7 @@ class PostRideViewController: UIViewController, UITextFieldDelegate, UIPickerVie
       self.view.addConstraint(tripLabelConstraints["Bottom"]!)
       self.view.addConstraint(dateLabelConstraints["Bottom"]!)
       self.view.addConstraint(postRideButtonConstraints["Top"]!)
+      
       self.view.layoutIfNeeded()
    }
    
@@ -445,8 +461,17 @@ class PostRideViewController: UIViewController, UITextFieldDelegate, UIPickerVie
    }
    
    func selectedLocationInSearchBar() {
+      if sameStartEnd && startingSearchBar.text != endingSearchBar.text {
+         startingSearchBar.layer.borderColor = UIColor(red:0.0, green:0.74, blue:0.82, alpha:1.0).CGColor
+         endingSearchBar.layer.borderColor = UIColor(red:0.0, green:0.74, blue:0.82, alpha:1.0).CGColor
+         sameStartEnd = false
+      } else if !sameStartEnd {
+         activeSearchBar.layer.borderColor = UIColor(red:0.0, green:0.74, blue:0.82, alpha:1.0).CGColor
+      }
+      
       if tripSectionButton.hidden {
          if activeSearchBar == self.startingSearchBar {
+            
             startingSearchBarConstraints["Top"] = NSLayoutConstraint(item: startingSearchBar, attribute: .Top, relatedBy: .Equal, toItem: seekOfferSegment, attribute: .Bottom, multiplier: 1, constant: (endingSearchBar.frame.origin.y - tripSectionButton.frame.origin.y - tripSectionButton.frame.height - seekOfferSegment.frame.height - startingSearchBar.frame.height)/3.0)
             self.view.removeConstraint(self.startingSearchBarConstraints["Search"]!)
             
@@ -1133,6 +1158,7 @@ class PostRideViewController: UIViewController, UITextFieldDelegate, UIPickerVie
       if startingSearchBar.text == endingSearchBar.text {
          startingSearchBar.layer.borderColor = UIColor.redColor().CGColor
          endingSearchBar.layer.borderColor = UIColor.redColor().CGColor
+         sameStartEnd = true
          ret = false
       }
       
