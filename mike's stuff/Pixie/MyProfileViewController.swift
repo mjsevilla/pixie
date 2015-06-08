@@ -20,71 +20,15 @@ class MyProfileViewController: UIViewController {
     var userId: Int! = -1
     let defaults = NSUserDefaults.standardUserDefaults()
     var navTransitionOperator = NavigationTransitionOperator()
-    struct Check {
-        static var didInitialize = false
-    }
-    
+	
     override func loadView() {
         super.loadView()
-        
-        //let croppedImage = cropToSquare(image: UIImage(named: "sloth.jpg")!)
 		
-		/*if (Check.didInitialize == false) {
-			println("load user pic")
-			Check.didInitialize = true
-		}*/
-		
-		
-		/*if (tempData == nil && Check.didInitialize == false) {
-			dispatch_async(dispatch_get_main_queue(), {
-				println("picture didn't change")
-				self.loadUserPicFromAPI()
-				var gaussianFilter = GPUImageGaussianBlurFilter()
-				gaussianFilter.blurRadiusInPixels = 10
-				gaussianFilter.blurPasses = 2
-				let blurredImage = gaussianFilter.imageByFilteringImage(self.profPic)
-				self.defaults.setObject(UIImagePNGRepresentation(blurredImage), forKey: "PixieUserBlurredProfPic")
-				self.defaults.setObject(UIImagePNGRepresentation(self.profPic), forKey: "PixieUserProfPic")
-				Check.didInitialize = true
-			})
-		}
-		else if (!(tempData!.isEqual(UIImagePNGRepresentation(profPic)))) {
-			//dispatch_async(dispatch_get_main_queue(), {
-				println("picture changed")
-				var tempData = self.defaults.dataForKey("PixieUserProfPic")
-				var gaussianFilter = GPUImageGaussianBlurFilter()
-				gaussianFilter.blurRadiusInPixels = 10
-				gaussianFilter.blurPasses = 2
-				self.profPic = self.cropToSquare(image: UIImage(data: tempData!)!)
-				self.defaults.setObject(UIImagePNGRepresentation(self.profPic), forKey: "PixieUserProfPic")
-				let blurredImage = gaussianFilter.imageByFilteringImage(UIImage(data: tempData!))
-				self.defaults.setObject(UIImagePNGRepresentation(blurredImage), forKey: "PixieUserBlurredProfPic")
-				//Check.didInitialize = true
-			//})
-		}*/
-		
-		println("loadView")
-		
-		var didChange = defaults.integerForKey("PicChange")
-		
-		if (didChange == 1) {
-			//dispatch_async(dispatch_get_main_queue(), {
-			println("picture changed")
-			var tempData = self.defaults.dataForKey("PixieUserProfPic")
-			var gaussianFilter = GPUImageGaussianBlurFilter()
-			gaussianFilter.blurRadiusInPixels = 10
-			gaussianFilter.blurPasses = 2
-			self.profPic = self.cropToSquare(image: UIImage(data: tempData!)!)
-			self.defaults.setObject(UIImagePNGRepresentation(self.profPic), forKey: "PixieUserProfPic")
-			let blurredImage = gaussianFilter.imageByFilteringImage(UIImage(data: tempData!))
-			self.defaults.setObject(UIImagePNGRepresentation(blurredImage), forKey: "PixieUserBlurredProfPic")
-			//})
-		}
+		//loadUserPicFromAPI()
 		
         var imageData = defaults.dataForKey("PixieUserBlurredProfPic")
         var blurredImage = UIImage(data: imageData!)
-        //defaults.setObject(UIImagePNGRepresentation(profPic), forKey: "PixieUserProfPic")
-        
+		
         profilePicBlurred = UIImageView(image: blurredImage)
         profilePicBlurred.setTranslatesAutoresizingMaskIntoConstraints(false)
         blurView = UIVisualEffectView(effect: UIBlurEffect(style: .ExtraLight))
@@ -138,13 +82,54 @@ class MyProfileViewController: UIViewController {
         self.view.layoutIfNeeded()
     }
     
-    override func viewDidAppear(animated: Bool) {
-        super.viewDidAppear(animated)
+    override func viewWillAppear(animated: Bool) {
+        super.viewWillAppear(animated)
+		
         var rightSwipe = UISwipeGestureRecognizer(target: self, action: Selector("handleSwipes:"))
         rightSwipe.direction = .Right
         self.view.addGestureRecognizer(rightSwipe)
-    }
-    
+		
+		var didChange = defaults.integerForKey("PicChange")
+		
+		if (didChange == 1) {
+			var tempData = self.defaults.dataForKey("PixieUserProfPic")
+			var gaussianFilter = GPUImageGaussianBlurFilter()
+			gaussianFilter.blurRadiusInPixels = 10
+			gaussianFilter.blurPasses = 2
+			self.profPic = self.cropToSquare(image: UIImage(data: tempData!)!)
+			self.defaults.setObject(UIImagePNGRepresentation(self.profPic), forKey: "PixieUserProfPic")
+			let blurredImage = gaussianFilter.imageByFilteringImage(UIImage(data: tempData!))
+			self.defaults.setObject(UIImagePNGRepresentation(blurredImage), forKey: "PixieUserBlurredProfPic")
+			self.defaults.setObject(0, forKey: "PicChange")
+		}
+
+			
+		var imageData = self.defaults.dataForKey("PixieUserBlurredProfPic")
+		var blurredImage = UIImage(data: imageData!)
+			
+		self.profilePicBlurred.image = blurredImage
+		self.profilePicBlurred.setTranslatesAutoresizingMaskIntoConstraints(false)
+		self.blurView = UIVisualEffectView(effect: UIBlurEffect(style: .ExtraLight))
+		self.blurView.setTranslatesAutoresizingMaskIntoConstraints(false)
+			
+		self.profilePic.image = UIImage(data: self.defaults.dataForKey("PixieUserProfPic")!)
+		self.profilePic.setTranslatesAutoresizingMaskIntoConstraints(false)
+		
+		let first = defaults.stringForKey("PixieUserFirstName")!
+		let last = defaults.stringForKey("PixieUserLastName")!
+		let age = defaults.integerForKey("PixieUserAge")
+		
+		if age != 0 {
+			nameLabel.text = "\(first) \(last), \(age)"
+		} else {
+			nameLabel.text = "\(first) \(last)"
+		}
+		bioLabel.text = defaults.stringForKey("PixieUserBio")
+		if (bioLabel.text!.isEmpty || bioLabel.text == "NULL" || bioLabel.text == "Tell us about yourself!") {
+			bioLabel.text = "No bio :("
+		}
+	}
+	
     func handleSwipes(sender: UISwipeGestureRecognizer) {
         if sender.direction == .Right {
             self.performSegueWithIdentifier("presentNav", sender: self)
@@ -154,20 +139,9 @@ class MyProfileViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
 		
-		println("viewDidLoad")
-        
         self.editBtn.setTitleTextAttributes([NSFontAttributeName: UIFont(name: "HelveticaNeue-Thin", size: 18)!], forState: UIControlState.Normal)
         profilePic.layer.cornerRadius = self.profilePic.frame.size.width / 2;
         profilePic.clipsToBounds = true
-        
-        let first = defaults.stringForKey("PixieUserFirstName")!
-        let last = defaults.stringForKey("PixieUserLastName")!
-		if let age = defaults.stringForKey("PixieUserAge") {
-			nameLabel.text = "\(first) \(last), \(age)"
-		} else {
-			nameLabel.text = "\(first) \(last)"
-		}
-        bioLabel.text = defaults.stringForKey("PixieUserBio")
     }
     
     @IBAction func unwindToMyProf(sender: UIStoryboardSegue) {}

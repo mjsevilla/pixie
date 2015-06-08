@@ -47,14 +47,14 @@ class EditProfileViewController: UIViewController, UITextViewDelegate, UITextFie
 		saveBtn.setTitleTextAttributes([NSFontAttributeName: UIFont(name: "HelveticaNeue-Thin", size: 18)!], forState: UIControlState.Normal)
 		
 		bioField.delegate = self
-		if (bioField.text == "NULL") {
+		if (bioField.text.isEmpty || bioField.text == "NULL") {
 			bioField.text = "Tell us about yourself!"
+			bioField.textColor = UIColor.lightGrayColor()
 		}
 		bioField.layer.cornerRadius = 8.0
 		bioField.layer.masksToBounds = true
 		bioField.layer.borderColor = UIColor(red:0.0, green:0.74, blue:0.82, alpha:1.0).CGColor
 		bioField.layer.borderWidth = 1.0
-        bioField.textColor = UIColor.lightGrayColor()
 		
 		firstName.delegate = self
 		firstName.layer.cornerRadius = 8.0
@@ -90,16 +90,6 @@ class EditProfileViewController: UIViewController, UITextViewDelegate, UITextFie
 		password.layer.borderWidth = 1.0
 		password.secureTextEntry = true
 		
-		//loadUserPicFromAPI()
-		
-		/*if (profPic.image == nil && defaults.objectForKey("PixieUserProfPic") ==  nil) {
-			profPic.image = UIImage(named: "default.png")
-		}
-		else {
-			var imageData = defaults.dataForKey("PixieUserProfPic")
-	        var profImage = UIImage(data: imageData!)
-			profPic.image = profImage
-		}*/
 		var imageData = defaults.dataForKey("PixieUserProfPic")
 		var profImage = UIImage(data: imageData!)
 		profPic.image = profImage
@@ -285,23 +275,9 @@ class EditProfileViewController: UIViewController, UITextViewDelegate, UITextFie
 		}
 	}
 	
-	/*func loadUserPicFromAPI() {
-		if let savedId = defaults.stringForKey("PixieUserId") {
-			userId = savedId.toInt()
-		}
-		
-		var urlString = "http://ec2-54-69-253-12.us-west-2.compute.amazonaws.com/pixie/userPic/\(userId)"
-		let url = NSURL(string: urlString)
-		var request = NSURLRequest(URL: url!)
-		var response: NSURLResponse?
-		var error: NSErrorPointer = nil
-		var data =  NSURLConnection.sendSynchronousRequest(request, returningResponse: &response, error:nil)! as NSData
-		
-		profPic.image = UIImage(data: data)
-	}*/
-	
-	
 	@IBAction func saveBtnTapped(sender: AnyObject) {
+		self.saveBtn.enabled = false
+
 		var urlString = "http://ec2-54-69-253-12.us-west-2.compute.amazonaws.com/pixie/users"
 		var request = NSMutableURLRequest(URL: NSURL(string: urlString)!)
 		request.HTTPMethod = "PUT"
@@ -330,6 +306,7 @@ class EditProfileViewController: UIViewController, UITextViewDelegate, UITextFie
 						}
 						if let ageInt = json ["age"] as? Int {
 							var ageStr = String(ageInt)
+							defaults.setObject(ageInt, forKey: "PixieUserAge")
 							if ageStr != age.text {
 								println("age doesn't match")
 							}
@@ -374,7 +351,6 @@ class EditProfileViewController: UIViewController, UITextViewDelegate, UITextFie
 			defaults.setObject(bioField.text, forKey: "PixieUserBio")
 		}
 		if (changePic == true) {
-			println("picture changed in EditProfile")
 			defaults.setObject(UIImagePNGRepresentation(profPic.image), forKey: "PixieUserProfPic")
 			defaults.setObject(1, forKey: "PicChange")
 			//sendUserPicToAPI()
@@ -382,8 +358,8 @@ class EditProfileViewController: UIViewController, UITextViewDelegate, UITextFie
 		else {
 			defaults.setObject(0, forKey: "PicChange")
 		}
-				
-		performSegueWithIdentifier("presentProfile", sender: self)
+			
+		self.performSegueWithIdentifier("presentMyProfile", sender: self)
 	}
 	
 	func sendUserPicToAPI() {
