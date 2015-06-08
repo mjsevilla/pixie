@@ -123,8 +123,8 @@ class EditProfileViewController: UIViewController, UITextViewDelegate, UITextFie
 	}
     
     func keyboardWillShow(sender: NSNotification) {
-        self.kbIsHidden = false
         if bioField.isFirstResponder() {
+            self.kbIsHidden = false
             self.profPic.hidden = true
             self.firstName.hidden = true
             self.lastName.hidden = true
