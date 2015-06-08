@@ -188,6 +188,7 @@ class RegisterViewController: UIViewController, FBLoginViewDelegate, UITextField
                                        _user.email = resp_email
                                        _user["name"] = "\(first_name) \(last_name)"
                                        _user["userId"] = userId
+                                       _user["age"] = age
                                        _user.signUpInBackgroundWithBlock {
                                           (succeeded: Bool, error: NSError?) -> Void in
                                           if let error = error {
@@ -302,7 +303,6 @@ class RegisterViewController: UIViewController, FBLoginViewDelegate, UITextField
                                  self.defaults.setObject(age, forKey: "PixieUserAge")
                                  self.defaults.setObject(true, forKey: "PixieUserHasFB")
                                  let username = first_name + last_name + userId
-                                 self.user = PFUser()
                                  PFUser.logInWithUsernameInBackground(username, password: resp_password) {
                                     [unowned self] (user: PFUser?, error: NSError?) -> Void in
                                     if user != nil {
@@ -429,6 +429,7 @@ class RegisterViewController: UIViewController, FBLoginViewDelegate, UITextField
                                  _user.email = resp_email
                                  _user["name"] = "\(first_name) \(last_name)"
                                  _user["userId"] = userId
+                                 _user["age"] = resp_age.toInt()
                                  _user.signUpInBackgroundWithBlock {
                                     (succeeded: Bool, error: NSError?) -> Void in
                                     if let error = error {

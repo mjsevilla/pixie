@@ -1,5 +1,5 @@
 //
-//  ProfileViewController.swift
+//  EditProfileViewController.swift
 //  Pixie
 //
 //  Created by Mike Sevilla on 3/9/15.
@@ -9,8 +9,8 @@
 import Foundation
 import UIKit
 
-class ProfileViewController: UIViewController, UITextViewDelegate, UITextFieldDelegate, UIImagePickerControllerDelegate, UINavigationControllerDelegate {
-	
+class EditProfileViewController: UIViewController, UITextViewDelegate, UITextFieldDelegate, UIImagePickerControllerDelegate, UINavigationControllerDelegate {
+
 	@IBOutlet weak var charCount: UILabel!
 	@IBOutlet weak var saveBtn: UIBarButtonItem!
 	@IBOutlet weak var profPic: UIImageView!
@@ -19,27 +19,31 @@ class ProfileViewController: UIViewController, UITextViewDelegate, UITextFieldDe
 	@IBOutlet weak var age: UITextField!
 	@IBOutlet weak var email: UITextField!
 	@IBOutlet weak var password: UITextField!
+    @IBOutlet weak var bioLabel: UILabel!
 	@IBOutlet weak var bioField: UITextView!
+    @IBOutlet weak var bioLabelTC: NSLayoutConstraint!
+    @IBOutlet weak var bioCountTC: NSLayoutConstraint!
+    
 	var changePic = false
 	var userId: Int! = -1
 	var navTransitionOperator = NavigationTransitionOperator()
 	//var newMedia: Bool?
 	let imagePicker = UIImagePickerController()
 	let defaults = NSUserDefaults.standardUserDefaults()
-	
-    override func viewDidAppear(animated: Bool) {
-        super.viewDidAppear(animated)
-        var rightSwipe = UISwipeGestureRecognizer(target: self, action: Selector("handleSwipes:"))
-        rightSwipe.direction = .Right
-        self.view.addGestureRecognizer(rightSwipe)
-    }
+    var tapGest: UITapGestureRecognizer!
+    var kbIsHidden = true
     
 	override func viewDidLoad() {
 		super.viewDidLoad()
+		self.loadUsersFromAPI()
 		
-		loadUsersFromAPI()
-		
-		// Do any additional setup after loading the view, typically from a nib.
+        NSNotificationCenter.defaultCenter().addObserver(self, selector: Selector("keyboardWillShow:"), name:UIKeyboardWillShowNotification, object: nil)
+        NSNotificationCenter.defaultCenter().addObserver(self, selector: Selector("keyboardWillHide:"), name:UIKeyboardWillHideNotification, object: nil)
+        
+        tapGest = UITapGestureRecognizer(target: self, action: "loadImageTapped:")
+        tapGest.numberOfTapsRequired = 1
+        profPic.addGestureRecognizer(tapGest)
+        
 		saveBtn.setTitleTextAttributes([NSFontAttributeName: UIFont(name: "HelveticaNeue-Thin", size: 18)!], forState: UIControlState.Normal)
 		
 		bioField.delegate = self
@@ -50,6 +54,7 @@ class ProfileViewController: UIViewController, UITextViewDelegate, UITextFieldDe
 		bioField.layer.masksToBounds = true
 		bioField.layer.borderColor = UIColor(red:0.0, green:0.74, blue:0.82, alpha:1.0).CGColor
 		bioField.layer.borderWidth = 1.0
+        bioField.textColor = UIColor.lightGrayColor()
 		
 		firstName.delegate = self
 		firstName.layer.cornerRadius = 8.0
@@ -104,19 +109,9 @@ class ProfileViewController: UIViewController, UITextViewDelegate, UITextFieldDe
 		profPic.layer.borderWidth = 1.0
 		
 		imagePicker.delegate = self
-		
-		var rightSwipe = UISwipeGestureRecognizer(target: self, action: Selector("handleSwipes:"))
-		rightSwipe.direction = .Right
-		view.addGestureRecognizer(rightSwipe)
 	}
-    
-    func handleSwipes(sender: UISwipeGestureRecognizer) {
-        if sender.direction == .Right {
-            self.performSegueWithIdentifier("presentNav", sender: self)
-        }
-    }
 	
-	// limit input to 300 characters
+	// limit input to 500 characters
 	func textView(textView: UITextView, shouldChangeTextInRange range: NSRange, replacementText text: String) -> Bool {
 		if (range.length + range.location > count(bioField.text)) {
 			return false
@@ -124,29 +119,48 @@ class ProfileViewController: UIViewController, UITextViewDelegate, UITextFieldDe
 		var newLength = NSInteger()
 		newLength = count(bioField.text) + count(text) - range.length
 		
-		return newLength <= 300
+		return newLength <= 500
 	}
-	
-	// mimic having a placeholder for the bioField
-	func textViewDidBeginEditing(textView: UITextView) {
-		if bioField.text.isEmpty || bioField.text == "Tell us about yourself!" {
-			bioField.text = nil
-			bioField.textColor = UIColor.blackColor()
-		}
-	}
-	
-	func textViewDidEndEditing(textView: UITextView) {
-		if bioField.text.isEmpty {
-			bioField.text = "Tell us about yourself!"
-			bioField.textColor = UIColor.lightGrayColor()
-		}
-	}
+    
+    func keyboardWillShow(sender: NSNotification) {
+        self.kbIsHidden = false
+        if bioField.isFirstResponder() {
+            self.profPic.hidden = true
+            self.firstName.hidden = true
+            self.lastName.hidden = true
+            self.age.hidden = true
+            self.email.hidden = true
+            self.password.hidden = true
+            self.bioLabelTC.constant -= 225
+            self.bioCountTC.constant -= 225
+            self.bioLabel.layoutIfNeeded()
+            self.charCount.layoutIfNeeded()
+            self.bioField.layoutIfNeeded()
+        }
+    }
+    
+    func keyboardWillHide(sender: NSNotification) {
+        if self.kbIsHidden == false {
+            self.kbIsHidden = true
+            self.profPic.hidden = false
+            self.firstName.hidden = false
+            self.lastName.hidden = false
+            self.age.hidden = false
+            self.email.hidden = false
+            self.password.hidden = false
+            self.bioLabelTC.constant += 225
+            self.bioCountTC.constant += 225
+            self.bioLabel.layoutIfNeeded()
+            self.charCount.layoutIfNeeded()
+            self.bioField.layoutIfNeeded()
+        }
+    }
 	
 	@IBAction func textFieldsDidChange(sender: AnyObject) {
 		saveBtn.enabled = true
 	}
 	
-	@IBAction func loadImageTapped(sender: UIButton) {
+    func loadImageTapped(gesture: UITapGestureRecognizer) {
 		imagePicker.allowsEditing = false
 		imagePicker.sourceType = .PhotoLibrary
 		
@@ -167,10 +181,47 @@ class ProfileViewController: UIViewController, UITextViewDelegate, UITextFieldDe
 	func imagePickerControllerDidCancel(picker: UIImagePickerController) {
 		dismissViewControllerAnimated(true, completion: nil)
 	}
+    
+    func textFieldShouldReturn(textField: UITextField) -> Bool {
+        switch (textField) {
+        case firstName:
+            self.lastName.becomeFirstResponder()
+            return true
+        case lastName:
+            self.age.becomeFirstResponder()
+            return true
+        case age:
+            self.email.becomeFirstResponder()
+            return true
+        case email:
+            self.password.becomeFirstResponder()
+            return true
+        case password:
+            self.bioField.becomeFirstResponder()
+            return true
+        default:
+            return false
+        }
+    }
+    
+    // mimic having a placeholder for the bioField
+    func textViewDidBeginEditing(textView: UITextView) {
+        if bioField.text.isEmpty || bioField.text == "Tell us about yourself!" {
+            bioField.text = nil
+            bioField.textColor = UIColor.blackColor()
+        }
+    }
+    
+    func textViewDidEndEditing(textView: UITextView) {
+        if bioField.text.isEmpty {
+            bioField.text = "Tell us about yourself!"
+            bioField.textColor = UIColor.lightGrayColor()
+        }
+    }
 	
 	func textViewDidChange(textView: UITextView) {
 		// update character count
-		charCount.text = NSString(format: "%d", 300 - count(bioField.text)) as String
+		charCount.text = NSString(format: "%d", 500 - count(bioField.text)) as String
 		
 		saveBtn.enabled = true
 	}
