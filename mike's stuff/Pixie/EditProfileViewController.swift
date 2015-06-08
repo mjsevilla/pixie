@@ -27,6 +27,13 @@ class ProfileViewController: UIViewController, UITextViewDelegate, UITextFieldDe
 	let imagePicker = UIImagePickerController()
 	let defaults = NSUserDefaults.standardUserDefaults()
 	
+    override func viewDidAppear(animated: Bool) {
+        super.viewDidAppear(animated)
+        var rightSwipe = UISwipeGestureRecognizer(target: self, action: Selector("handleSwipes:"))
+        rightSwipe.direction = .Right
+        self.view.addGestureRecognizer(rightSwipe)
+    }
+    
 	override func viewDidLoad() {
 		super.viewDidLoad()
 		
@@ -102,6 +109,12 @@ class ProfileViewController: UIViewController, UITextViewDelegate, UITextFieldDe
 		rightSwipe.direction = .Right
 		view.addGestureRecognizer(rightSwipe)
 	}
+    
+    func handleSwipes(sender: UISwipeGestureRecognizer) {
+        if sender.direction == .Right {
+            self.performSegueWithIdentifier("presentNav", sender: self)
+        }
+    }
 	
 	// limit input to 300 characters
 	func textView(textView: UITextView, shouldChangeTextInRange range: NSRange, replacementText text: String) -> Bool {
@@ -335,21 +348,12 @@ class ProfileViewController: UIViewController, UITextViewDelegate, UITextFieldDe
 		println("API Response: \(results)")
 	}
 	
-	@IBAction func backBtnTapped(sender: AnyObject) {
-		performSegueWithIdentifier("presentProfile", sender: self)
-	}
-	
 	override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {
 		if segue.identifier == "presentProfile" {
 			if let profVC = segue.destinationViewController as? MyProfileViewController {
 				self.modalPresentationStyle = UIModalPresentationStyle.Custom
 			}
 		}
-	}
-	
-	override func didReceiveMemoryWarning() {
-		super.didReceiveMemoryWarning()
-		// Dispose of any resources that can be recreated.
 	}
 	
 	override func preferredStatusBarStyle() -> UIStatusBarStyle {
