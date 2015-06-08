@@ -41,26 +41,21 @@ class SearchViewController: AutocompleteViewController, CLLocationManagerDelegat
         NSNotificationCenter.defaultCenter().addObserver(self, selector: Selector("keyboardWillShow:"), name:UIKeyboardWillShowNotification, object: nil)
         NSNotificationCenter.defaultCenter().addObserver(self, selector: Selector("keyboardWillHide:"), name:UIKeyboardWillHideNotification, object: nil)
         
-        toolBar.setBackgroundImage(UIImage(), forToolbarPosition: UIBarPosition.Any,
-            barMetrics: UIBarMetrics.Default)
+        toolBar.setBackgroundImage(UIImage(), forToolbarPosition: UIBarPosition.Any, barMetrics: UIBarMetrics.Default)
         toolBar.setShadowImage(UIImage(), forToolbarPosition: UIBarPosition.Any)
         toolBar.tintColor = UIColor.whiteColor()
         
         activeSearchBar = searchBar
-        
         searchBar.layer.cornerRadius = 8.0
         searchBar.layer.masksToBounds = true
         searchBar.layer.borderColor = UIColor.clearColor().CGColor
-        searchBar.backgroundColor = UIColor.clearColor()
         searchBar.layer.borderWidth = 1.0
         searchBar.hidden = false
-        searchBar.setTranslatesAutoresizingMaskIntoConstraints(false)
         
-        //startingTableView = UITableView()
+
         startingTableView.backgroundColor = UIColor.clearColor()
         startingTableView.delegate = self
         startingTableView.dataSource = self
-        startingTableView.setTranslatesAutoresizingMaskIntoConstraints(false)
         startingTableView.registerClass(ACTableViewCell.self, forCellReuseIdentifier: "cell")
         startingTableView.hidden = true
         startingTableView.rowHeight = UITableViewAutomaticDimension

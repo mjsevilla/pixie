@@ -246,7 +246,7 @@
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="top" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="PIXIe" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="PE2-lx-b7n">
-                                <rect key="frame" x="183" y="106" width="235" height="73"/>
+                                <rect key="frame" x="183" y="106" width="234.5" height="73"/>
                                 <fontDescription key="fontDescription" name="Syncopate-Regular" family="Syncopate" pointSize="75"/>
                                 <color key="textColor" red="1" green="1" blue="1" alpha="1" colorSpace="calibratedRGB"/>
                                 <nil key="highlightedColor"/>
@@ -267,9 +267,9 @@
                                     </barButtonItem>
                                 </items>
                             </toolbar>
-                            <searchBar contentMode="redraw" translatesAutoresizingMaskIntoConstraints="NO" id="eff-Jk-XnX">
+                            <searchBar contentMode="redraw" placeholder="Where are you headed?" translatesAutoresizingMaskIntoConstraints="NO" id="eff-Jk-XnX">
                                 <rect key="frame" x="0.0" y="278" width="600" height="44"/>
-                                <textInputTraits key="textInputTraits"/>
+                                <textInputTraits key="textInputTraits" autocapitalizationType="words"/>
                                 <connections>
                                     <outlet property="delegate" destination="vXZ-lx-hvc" id="S4g-3V-9hp"/>
                                 </connections>
@@ -1465,7 +1465,7 @@
         <image name="menu" width="22" height="22"/>
     </resources>
     <inferredMetricsTieBreakers>
-        <segue reference="LGl-cG-deb"/>
+        <segue reference="ndH-hG-Xoc"/>
         <segue reference="vwa-0O-sBD"/>
         <segue reference="Ntf-EL-NHY"/>
     </inferredMetricsTieBreakers>
