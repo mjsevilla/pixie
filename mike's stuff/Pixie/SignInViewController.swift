@@ -66,7 +66,7 @@ class SignInViewController: UIViewController, UITextFieldDelegate, FBLoginViewDe
    func loginViewShowingLoggedInUser(loginView: FBLoginView!) {
       if didComplete {
       	println("User Logged In")
-         performSegueWithIdentifier("presentSearch", sender: self)
+//         performSegueWithIdentifier("presentSearch", sender: self)
       }
       didComplete = false
    }
@@ -139,6 +139,7 @@ class SignInViewController: UIViewController, UITextFieldDelegate, FBLoginViewDe
                               println("signed in userId: \(userId.toInt()!), first_name: \(first_name), last_name: \(last_name), email: \(resp_email), age: \(age!), bio: \(user_bio), hasFB: true")
                               self.wrongEmailPwLabel.hidden = true
                               didComplete = true
+                              performSegueWithIdentifier("presentSearch", sender: self)
                            } else {
                               shouldAttempt = true
                               println("error age")

@@ -284,9 +284,6 @@ class RegisterViewController: UIViewController, FBLoginViewDelegate, UITextField
                               let alertController = UIAlertController(title: "Account already exists.", message: nil, preferredStyle: .Alert)
                               
                               let registerNewUserAction = UIAlertAction(title: "Cancel", style: .Cancel) { (action) in
-                                 self.nameField.text = ""
-                                 self.emailField.text = ""
-                                 self.pwField.text = ""
                                  FBSession.activeSession().closeAndClearTokenInformation()
                                  self.shouldAttempt = true
                               }
@@ -404,7 +401,7 @@ class RegisterViewController: UIViewController, FBLoginViewDelegate, UITextField
       var data =  NSURLConnection.sendSynchronousRequest(request, returningResponse: &response, error:nil)! as NSData
       
       if let json = NSJSONSerialization.JSONObjectWithData(data, options: NSJSONReadingOptions.AllowFragments, error: nil) as? NSDictionary {
-         //         println("json after post request...\njson.count: \(json.count)\n\(json)")
+         println("json after attemptRegisterUser...\njson.count: \(json.count)\n\(json)")
          if let userId = json["userId"] as? String {
             if let first_name = json["first_name"] as? String {
                if let last_name = json["last_name"] as? String {
@@ -431,7 +428,7 @@ class RegisterViewController: UIViewController, FBLoginViewDelegate, UITextField
                                  _user.email = resp_email
                                  _user["name"] = "\(first_name) \(last_name)"
                                  _user["userId"] = userId
-                                 _user["age"] = resp_age.toInt()
+                                 _user["age"] = resp_age == "NULL" ? NSNull() : resp_age.toInt()
                                  _user.signUpInBackgroundWithBlock {
                                     (succeeded: Bool, error: NSError?) -> Void in
                                     if let error = error {
@@ -485,6 +482,7 @@ class RegisterViewController: UIViewController, FBLoginViewDelegate, UITextField
       var data =  NSURLConnection.sendSynchronousRequest(request, returningResponse: &response, error:nil)! as NSData
       
       if let json = NSJSONSerialization.JSONObjectWithData(data, options: NSJSONReadingOptions.MutableContainers, error: nil) as? NSDictionary {
+         println("json after checkIfUserExists...\njson.count: \(json.count)\n\(json)")
          if let userIdStr = json["userId"] as? String {
             let userId = userIdStr.toInt()
             if let first_name = json["first_name"] as? String {
@@ -498,10 +496,6 @@ class RegisterViewController: UIViewController, FBLoginViewDelegate, UITextField
                               let alertController = UIAlertController(title: "Account already exists.", message: nil, preferredStyle: .Alert)
                               
                               let registerNewUserAction = UIAlertAction(title: "Cancel", style: .Cancel) { (action) in
-                                 self.nameField.becomeFirstResponder()
-                                 self.nameField.text = ""
-                                 self.emailField.text = ""
-                                 self.pwField.text = ""
                               }
                               
                               let signInAction = UIAlertAction(title: "Sign In", style: .Default) { (action) in

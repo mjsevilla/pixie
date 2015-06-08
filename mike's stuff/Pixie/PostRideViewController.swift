@@ -16,7 +16,6 @@ class PostRideViewController: UIViewController, UITextFieldDelegate, UIPickerVie
    var startingTableView: UITableView!
    var endingVC = GooglePlacesAutocompleteContainer(apiKey: "AIzaSyB6Gv8uuTNh_ZN-Hk8H3S5RARpQot_6I-k", placeType: .All)
    var endingTableView: UITableView!
-   
    var activeSearchBar: UISearchBar!
    
    var blurEffectView: UIVisualEffectView!
