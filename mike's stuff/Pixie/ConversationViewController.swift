@@ -10,7 +10,7 @@ import Foundation
 import UIKit
 
 class ConversationViewController: JSQMessagesViewController {
-    var messages: [JSQMessage] = []
+    var messages: [JSQMessage]!
     let user = PFUser.currentUser()!
     var recipientName: String?
     var recipientId: String?
@@ -34,6 +34,7 @@ class ConversationViewController: JSQMessagesViewController {
         
         showTypingIndicator = true
         showLoadEarlierMessagesHeader = true
+        messages = []
         self.collectionView.loadEarlierMessagesHeaderTextColor = UIColor(red: 0/256, green: 188/256, blue: 209/256, alpha: 1.0)
         self.collectionView.typingIndicatorMessageBubbleColor = UIColor.jsq_messageBubbleLightGrayColor()
         navigationItem.title = recipientName!
@@ -55,7 +56,7 @@ class ConversationViewController: JSQMessagesViewController {
         bubbleImageOutgoing = bubbleFactory.outgoingMessagesBubbleImageWithColor(uicolorFromHex(0x00BCD1))
         bubbleImageIncoming = bubbleFactory.incomingMessagesBubbleImageWithColor(UIColor.jsq_messageBubbleLightGrayColor())
         
-        self.loadMessages()
+        self.loadMessages(false)
     }
     
     func callUnwindMatches(sender: UIBarButtonItem) {
@@ -76,14 +77,14 @@ class ConversationViewController: JSQMessagesViewController {
     }
     
     // load previous messages of a convo
-    func loadMessages() {
+    func loadMessages(new: Bool) {
         var lastMsg = messages.last
         var query = PFQuery(className: "Message")
         
         // sort w/ newest at bottom
         query.whereKey("convoId", equalTo: convoId!)
         if lastMsg != nil {
-            query.whereKey("createdAt", greaterThanOrEqualTo: lastMsg!.date)
+            query.whereKey("createdAt", greaterThan: lastMsg!.date)
         }
         query.limit = 20
         query.orderByDescending("createdAt")
@@ -91,7 +92,7 @@ class ConversationViewController: JSQMessagesViewController {
             [unowned self] (objects, error) -> Void in
             if error == nil {
                 for object in objects! {
-                    self.newMessage(object as! PFObject, ndx: 0)
+                    self.newMessage(object as! PFObject, new: new)
                 }
                 if self.messages.count != 0 {
                     self.automaticallyScrollsToMostRecentMessage = true
@@ -120,7 +121,7 @@ class ConversationViewController: JSQMessagesViewController {
             [unowned self] (objects, error) -> Void in
             if error == nil {
                 for object in objects! {
-                    self.newMessage(object as! PFObject, ndx: 0)
+                    self.newMessage(object as! PFObject, new: false)
                 }
                 if self.messages.count != 0 {
                     self.automaticallyScrollsToMostRecentMessage = false
@@ -138,17 +139,22 @@ class ConversationViewController: JSQMessagesViewController {
     }
     
     // add message to message array
-    func newMessage(object: PFObject, ndx: Int) {
+    func newMessage(object: PFObject, new: Bool) {
         var senderId = object["userId"] as! String
         var senderName = object["userName"] as! String
         var text = object["message"] as! String
         var message = JSQMessage(senderId: senderId, senderDisplayName: senderName, date: object.createdAt, text: text)
         
-        messages.insert(message, atIndex: ndx)
+        if new == true {
+            messages.append(message)
+        }
+        else {
+            messages.insert(message, atIndex: 0)
+        }
     }
     
     // send message to parse
-    func sendMessage(text: String) {
+    func sendMessage(text: String, new: Bool) {
         var parseMsg = PFObject(className: "Message")
         
         parseMsg["userId"] = self.user["userId"] as! String
@@ -162,7 +168,7 @@ class ConversationViewController: JSQMessagesViewController {
                 JSQSystemSoundPlayer.jsq_playMessageSentSound()
                 self.convo!["lastMessage"] = parseMsg
                 self.convo!.saveInBackground()
-                self.loadMessages()
+                self.loadMessages(new)
             }
             else {
                 println("Error: Message could not send")
@@ -171,7 +177,7 @@ class ConversationViewController: JSQMessagesViewController {
     }
     
     override func didPressSendButton(button: UIButton!, withMessageText text: String!, senderId: String!, senderDisplayName: String!, date: NSDate!) {
-        self.sendMessage(text)
+        self.sendMessage(text, new: true)
         self.finishSendingMessage()
         let userQuery = PFUser.query()
         userQuery?.whereKey("userId", equalTo: recipientId!)
@@ -232,6 +238,7 @@ class ConversationViewController: JSQMessagesViewController {
     }
     
     override func collectionView(collectionView: JSQMessagesCollectionView!, messageDataForItemAtIndexPath indexPath: NSIndexPath!) -> JSQMessageData! {
+        println("\(indexPath.row): \(messages[indexPath.item])")
         return messages[indexPath.item]
     }
     
