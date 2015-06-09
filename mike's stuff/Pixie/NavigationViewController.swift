@@ -19,6 +19,7 @@ class NavigationViewController: UIViewController, UITableViewDelegate, UITableVi
     var presentingView: UIViewController!
     var defaults = NSUserDefaults.standardUserDefaults()
     let currentInstallation = PFInstallation.currentInstallation()
+    let spinner = UIActivityIndicatorView(activityIndicatorStyle: .WhiteLarge)
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -29,6 +30,8 @@ class NavigationViewController: UIViewController, UITableViewDelegate, UITableVi
         tableView.backgroundColor = UIColor.clearColor()
         bgImageView.image = UIImage(named: "nav-bg")
         dimmerView.backgroundColor = UIColor(white: 0.0, alpha: 0.3)
+        spinner.center = CGPointMake(self.view.frame.midX, self.view.frame.midY)
+        self.view.addSubview(spinner)
         
         let id = defaults.stringForKey("PixieUserId")
         var fullName = ""
@@ -97,7 +100,17 @@ class NavigationViewController: UIViewController, UITableViewDelegate, UITableVi
                 dismissViewControllerAnimated(true, completion: nil)
             }
             else {
-                self.performSegueWithIdentifier("presentProfile", sender: self)
+                dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_BACKGROUND, 0), {
+                    dispatch_async(dispatch_get_main_queue(), {
+                        self.spinner.startAnimating()
+                    })
+                    
+                    self.performSegueWithIdentifier("presentProfile", sender: self)
+                    
+                    dispatch_async(dispatch_get_main_queue(), {
+                        self.spinner.stopAnimating()
+                    })
+                })
             }
         case 2:
             if let pView = presentingView as? MessagesViewContoller {
