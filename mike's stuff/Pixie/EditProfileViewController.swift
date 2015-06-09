@@ -10,7 +10,7 @@ import Foundation
 import UIKit
 
 class EditProfileViewController: UIViewController, UITextViewDelegate, UITextFieldDelegate, UIImagePickerControllerDelegate, UINavigationControllerDelegate {
-
+    @IBOutlet weak var spinner: UIActivityIndicatorView!
 	@IBOutlet weak var charCount: UILabel!
 	@IBOutlet weak var saveBtn: UIBarButtonItem!
 	@IBOutlet weak var profPic: UIImageView!
@@ -27,7 +27,6 @@ class EditProfileViewController: UIViewController, UITextViewDelegate, UITextFie
 	var changePic = false
 	var userId: Int! = -1
 	var navTransitionOperator = NavigationTransitionOperator()
-	//var newMedia: Bool?
 	let imagePicker = UIImagePickerController()
 	let defaults = NSUserDefaults.standardUserDefaults()
     var tapGest: UITapGestureRecognizer!
@@ -43,7 +42,7 @@ class EditProfileViewController: UIViewController, UITextViewDelegate, UITextFie
         tapGest = UITapGestureRecognizer(target: self, action: "loadImageTapped:")
         tapGest.numberOfTapsRequired = 1
         profPic.addGestureRecognizer(tapGest)
-        
+        spinner.center = CGPointMake(self.view.frame.midX, self.view.frame.midY)
 		saveBtn.setTitleTextAttributes([NSFontAttributeName: UIFont(name: "HelveticaNeue-Thin", size: 18)!], forState: UIControlState.Normal)
 		
 		bioField.delegate = self
@@ -274,92 +273,104 @@ class EditProfileViewController: UIViewController, UITextViewDelegate, UITextFie
 			println("error: json object with userId: \(userId)")
 		}
 	}
+    
+    func saveProfile() {
+        var urlString = "http://ec2-54-69-253-12.us-west-2.compute.amazonaws.com/pixie/users"
+        var request = NSMutableURLRequest(URL: NSURL(string: urlString)!)
+        request.HTTPMethod = "PUT"
+        var err: NSError?
+        var reqText = ["userId": "\(userId)", "first_name": "\(firstName.text)", "last_name": "\(lastName.text)", "age": "\(age.text)", "email": "\(email.text)", "password": "\(password.text)", "bio": "\(bioField.text)"]
+        //println("reqText...\n\(reqText)")
+        
+        //This Line fills the web service with required parameters.
+        request.HTTPBody = NSJSONSerialization.dataWithJSONObject(reqText, options: nil, error: &err)
+        request.addValue("application/json", forHTTPHeaderField: "Content-Type")
+        request.addValue("application/json", forHTTPHeaderField: "Accept")
+        var response: NSURLResponse?
+        
+        var data =  NSURLConnection.sendSynchronousRequest(request, returningResponse: &response, error:nil)! as NSData
+        
+        if let json = NSJSONSerialization.JSONObjectWithData(data, options: NSJSONReadingOptions.AllowFragments, error: nil) as? NSDictionary {
+            //   println("json after put request...\njson.count: \(json.count)\n\(json)")
+            if let userIdStr = json["userId"] as? Int {
+                if let first_name = json ["first_name"] as? String {
+                    if first_name != firstName.text {
+                        println("first name doesn't match")
+                    }
+                    if let last_name = json ["last_name"] as? String {
+                        if last_name != lastName.text {
+                            println("last name doesn't match")
+                        }
+                        if let ageInt = json ["age"] as? Int {
+                            var ageStr = String(ageInt)
+                            defaults.setObject(ageInt, forKey: "PixieUserAge")
+                            if ageStr != age.text {
+                                println("age doesn't match")
+                            }
+                            if let emailStr = json ["email"] as? String {
+                                if emailStr != email.text {
+                                    println("email doesn't match")
+                                }
+                                if let pwStr = json ["password"] as? String {
+                                    if pwStr != password.text {
+                                        println("password doesn't match")
+                                    }
+                                    if let bio = json ["bio"] as? String {
+                                        if bio != bioField.text {
+                                            println("bio doesn't match")
+                                        }
+                                    } else {
+                                        println("error bio")
+                                    }
+                                } else {
+                                    println("error password")
+                                }
+                            } else {
+                                println("error email")
+                            }
+                        } else {
+                            println("error age")
+                        }
+                    } else {
+                        println("error last_name")
+                    }
+                } else {
+                    println("error first_name")
+                }
+            } else {
+                println("error userID")
+            }
+        } else {
+            println("error json")
+        }
+        
+        if (!bioField.text.isEmpty || bioField.text != "Tell us about yourself!") {
+            defaults.setObject(bioField.text, forKey: "PixieUserBio")
+        }
+        if (changePic == true) {
+            defaults.setObject(UIImagePNGRepresentation(profPic.image), forKey: "PixieUserProfPic")
+            defaults.setObject(1, forKey: "PicChange")
+            //sendUserPicToAPI()
+        }
+        else {
+            defaults.setObject(0, forKey: "PicChange")
+        }
+    }
 	
 	@IBAction func saveBtnTapped(sender: AnyObject) {
-		self.saveBtn.enabled = false
-
-		var urlString = "http://ec2-54-69-253-12.us-west-2.compute.amazonaws.com/pixie/users"
-		var request = NSMutableURLRequest(URL: NSURL(string: urlString)!)
-		request.HTTPMethod = "PUT"
-		var err: NSError?
-		var reqText = ["userId": "\(userId)", "first_name": "\(firstName.text)", "last_name": "\(lastName.text)", "age": "\(age.text)", "email": "\(email.text)", "password": "\(password.text)", "bio": "\(bioField.text)"]
-		//println("reqText...\n\(reqText)")
-		
-		//This Line fills the web service with required parameters.
-		request.HTTPBody = NSJSONSerialization.dataWithJSONObject(reqText, options: nil, error: &err)
-		request.addValue("application/json", forHTTPHeaderField: "Content-Type")
-		request.addValue("application/json", forHTTPHeaderField: "Accept")
-		var response: NSURLResponse?
-		
-		var data =  NSURLConnection.sendSynchronousRequest(request, returningResponse: &response, error:nil)! as NSData
-		
-		if let json = NSJSONSerialization.JSONObjectWithData(data, options: NSJSONReadingOptions.AllowFragments, error: nil) as? NSDictionary {
-			//   println("json after put request...\njson.count: \(json.count)\n\(json)")
-			if let userIdStr = json["userId"] as? Int {
-				if let first_name = json ["first_name"] as? String {
-					if first_name != firstName.text {
-						println("first name doesn't match")
-					}
-					if let last_name = json ["last_name"] as? String {
-						if last_name != lastName.text {
-							println("last name doesn't match")
-						}
-						if let ageInt = json ["age"] as? Int {
-							var ageStr = String(ageInt)
-							defaults.setObject(ageInt, forKey: "PixieUserAge")
-							if ageStr != age.text {
-								println("age doesn't match")
-							}
-							if let emailStr = json ["email"] as? String {
-								if emailStr != email.text {
-									println("email doesn't match")
-								}
-								if let pwStr = json ["password"] as? String {
-									if pwStr != password.text {
-										println("password doesn't match")
-									}
-									if let bio = json ["bio"] as? String {
-										if bio != bioField.text {
-											println("bio doesn't match")
-										}
-									} else {
-										println("error bio")
-									}
-								} else {
-									println("error password")
-								}
-							} else {
-								println("error email")
-							}
-						} else {
-							println("error age")
-						}
-					} else {
-						println("error last_name")
-					}
-				} else {
-					println("error first_name")
-				}
-			} else {
-				println("error userID")
-			}
-		} else {
-			println("error json")
-		}
-		
-		if (!bioField.text.isEmpty || bioField.text != "Tell us about yourself!") {
-			defaults.setObject(bioField.text, forKey: "PixieUserBio")
-		}
-		if (changePic == true) {
-			defaults.setObject(UIImagePNGRepresentation(profPic.image), forKey: "PixieUserProfPic")
-			defaults.setObject(1, forKey: "PicChange")
-			//sendUserPicToAPI()
-		}
-		else {
-			defaults.setObject(0, forKey: "PicChange")
-		}
-			
-		self.performSegueWithIdentifier("presentMyProfile", sender: self)
+        dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_BACKGROUND, 0), {
+            dispatch_async(dispatch_get_main_queue(), {
+                self.spinner.startAnimating()
+            })
+            
+            self.saveBtn.enabled = false
+            self.saveProfile()
+            
+            dispatch_async(dispatch_get_main_queue(), {
+                self.spinner.stopAnimating()
+                self.performSegueWithIdentifier("presentMyProfile", sender: sender)
+            })
+        })
 	}
 	
 	func sendUserPicToAPI() {

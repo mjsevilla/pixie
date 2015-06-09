@@ -21,21 +21,19 @@ class MyProfileViewController: UIViewController {
     let defaults = NSUserDefaults.standardUserDefaults()
     var navTransitionOperator = NavigationTransitionOperator()
 	
-    override func loadView() {
-        super.loadView()
-		
-		//loadUserPicFromAPI()
-		
+    override func viewDidLoad() {
+        super.viewDidLoad()
+        
         var imageData = defaults.dataForKey("PixieUserBlurredProfPic")
         var blurredImage = UIImage(data: imageData!)
-		
+        
         profilePicBlurred = UIImageView(image: blurredImage)
         profilePicBlurred.setTranslatesAutoresizingMaskIntoConstraints(false)
         blurView = UIVisualEffectView(effect: UIBlurEffect(style: .ExtraLight))
         blurView.setTranslatesAutoresizingMaskIntoConstraints(false)
         view.addSubview(profilePicBlurred)
         
-		profilePic = UIImageView(image: UIImage(data: defaults.dataForKey("PixieUserProfPic")!))
+        profilePic = UIImageView(image: UIImage(data: defaults.dataForKey("PixieUserProfPic")!))
         profilePic.setTranslatesAutoresizingMaskIntoConstraints(false)
         view.addSubview(profilePic)
         
@@ -58,28 +56,22 @@ class MyProfileViewController: UIViewController {
         view.addSubview(bioLabel)
         
         setConstraints()
+        
+        self.editBtn.setTitleTextAttributes([NSFontAttributeName: UIFont(name: "HelveticaNeue-Thin", size: 18)!], forState: UIControlState.Normal)
+        profilePic.layer.cornerRadius = self.profilePic.frame.size.width / 2;
+        profilePic.clipsToBounds = true
+    }
+    
+    override func loadView() {
+        super.loadView()
+		
+		//loadUserPicFromAPI()
+		
+        
     }
     
     required init(coder aDecoder: NSCoder) {
         super.init(coder: aDecoder)
-    }
-    
-    func setConstraints() {
-        let viewsDict = ["profilePic":profilePic, "profilePicBlurred":profilePicBlurred, "nameLabel":nameLabel, "bioLabel":bioLabel]
-        let metrics = ["blurHeight":self.view.frame.width, "profPicSize":self.view.frame.width*(3.0/5.0)]
-        
-        self.view.addConstraints(NSLayoutConstraint.constraintsWithVisualFormat("V:|-64-[profilePicBlurred(blurHeight)]-10-[bioLabel]", options: NSLayoutFormatOptions(0), metrics: metrics, views: viewsDict))
-        self.view.addConstraints(NSLayoutConstraint.constraintsWithVisualFormat("V:[profilePic(profPicSize)]-5-[nameLabel]", options: NSLayoutFormatOptions(0), metrics: metrics, views: viewsDict))
-        
-        self.view.addConstraints(NSLayoutConstraint.constraintsWithVisualFormat("H:|[profilePicBlurred]|", options: NSLayoutFormatOptions(0), metrics: nil, views: viewsDict))
-        self.view.addConstraints(NSLayoutConstraint.constraintsWithVisualFormat("H:[profilePic(profPicSize)]", options: NSLayoutFormatOptions(0), metrics: metrics, views: viewsDict))
-        self.view.addConstraints(NSLayoutConstraint.constraintsWithVisualFormat("H:|-5-[bioLabel]-5-|", options: NSLayoutFormatOptions(0), metrics: nil, views: viewsDict))
-        
-        self.view.addConstraint(NSLayoutConstraint(item: profilePic, attribute: .CenterX, relatedBy: .Equal, toItem: profilePicBlurred, attribute: .CenterX, multiplier: 1, constant: 0))
-        self.view.addConstraint(NSLayoutConstraint(item: profilePic, attribute: .CenterY, relatedBy: .Equal, toItem: profilePicBlurred, attribute: .CenterY, multiplier: 1, constant: 0))
-        self.view.addConstraint(NSLayoutConstraint(item: nameLabel, attribute: .CenterX, relatedBy: .Equal, toItem: profilePic, attribute: .CenterX, multiplier: 1, constant: 0))
-        
-        self.view.layoutIfNeeded()
     }
     
     override func viewWillAppear(animated: Bool) {
@@ -94,7 +86,7 @@ class MyProfileViewController: UIViewController {
 		if (didChange == 1) {
 			var tempData = self.defaults.dataForKey("PixieUserProfPic")
 			var gaussianFilter = GPUImageGaussianBlurFilter()
-			gaussianFilter.blurRadiusInPixels = 10
+			gaussianFilter.blurRadiusInPixels = 9
 			gaussianFilter.blurPasses = 2
 			self.profPic = self.cropToSquare(image: UIImage(data: tempData!)!)
 			self.defaults.setObject(UIImagePNGRepresentation(self.profPic), forKey: "PixieUserProfPic")
@@ -129,19 +121,29 @@ class MyProfileViewController: UIViewController {
 			bioLabel.text = "No bio :("
 		}
 	}
-	
+    
+    func setConstraints() {
+        let viewsDict = ["profilePic":profilePic, "profilePicBlurred":profilePicBlurred, "nameLabel":nameLabel, "bioLabel":bioLabel]
+        let metrics = ["blurHeight":self.view.frame.width, "profPicSize":self.view.frame.width*(3.0/5.0)]
+        
+        self.view.addConstraints(NSLayoutConstraint.constraintsWithVisualFormat("V:|-64-[profilePicBlurred(blurHeight)]-10-[bioLabel]", options: NSLayoutFormatOptions(0), metrics: metrics, views: viewsDict))
+        self.view.addConstraints(NSLayoutConstraint.constraintsWithVisualFormat("V:[profilePic(profPicSize)]-5-[nameLabel]", options: NSLayoutFormatOptions(0), metrics: metrics, views: viewsDict))
+        
+        self.view.addConstraints(NSLayoutConstraint.constraintsWithVisualFormat("H:|[profilePicBlurred]|", options: NSLayoutFormatOptions(0), metrics: nil, views: viewsDict))
+        self.view.addConstraints(NSLayoutConstraint.constraintsWithVisualFormat("H:[profilePic(profPicSize)]", options: NSLayoutFormatOptions(0), metrics: metrics, views: viewsDict))
+        self.view.addConstraints(NSLayoutConstraint.constraintsWithVisualFormat("H:|-5-[bioLabel]-5-|", options: NSLayoutFormatOptions(0), metrics: nil, views: viewsDict))
+        
+        self.view.addConstraint(NSLayoutConstraint(item: profilePic, attribute: .CenterX, relatedBy: .Equal, toItem: profilePicBlurred, attribute: .CenterX, multiplier: 1, constant: 0))
+        self.view.addConstraint(NSLayoutConstraint(item: profilePic, attribute: .CenterY, relatedBy: .Equal, toItem: profilePicBlurred, attribute: .CenterY, multiplier: 1, constant: 0))
+        self.view.addConstraint(NSLayoutConstraint(item: nameLabel, attribute: .CenterX, relatedBy: .Equal, toItem: profilePic, attribute: .CenterX, multiplier: 1, constant: 0))
+        
+        self.view.layoutIfNeeded()
+    }
+    
     func handleSwipes(sender: UISwipeGestureRecognizer) {
         if sender.direction == .Right {
             self.performSegueWithIdentifier("presentNav", sender: self)
         }
-    }
-    
-    override func viewDidLoad() {
-        super.viewDidLoad()
-		
-        self.editBtn.setTitleTextAttributes([NSFontAttributeName: UIFont(name: "HelveticaNeue-Thin", size: 18)!], forState: UIControlState.Normal)
-        profilePic.layer.cornerRadius = self.profilePic.frame.size.width / 2;
-        profilePic.clipsToBounds = true
     }
     
     @IBAction func unwindToMyProf(sender: UIStoryboardSegue) {}
@@ -194,10 +196,6 @@ class MyProfileViewController: UIViewController {
                 self.modalPresentationStyle = UIModalPresentationStyle.Custom
             }
         }
-    }
-    
-    @IBAction func editBtnTapped(sender: AnyObject) {
-        performSegueWithIdentifier("presentEditProf", sender: self)
     }
     
     func loadUserPicFromAPI() {

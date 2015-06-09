@@ -246,7 +246,7 @@
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="top" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="PIXIe" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="PE2-lx-b7n">
-                                <rect key="frame" x="183" y="106" width="235" height="73"/>
+                                <rect key="frame" x="183" y="106" width="234.5" height="73"/>
                                 <fontDescription key="fontDescription" name="Syncopate-Regular" family="Syncopate" pointSize="75"/>
                                 <color key="textColor" red="1" green="1" blue="1" alpha="1" colorSpace="calibratedRGB"/>
                                 <nil key="highlightedColor"/>
@@ -274,8 +274,8 @@
                                     <outlet property="delegate" destination="vXZ-lx-hvc" id="S4g-3V-9hp"/>
                                 </connections>
                             </searchBar>
-                            <tableView clipsSubviews="YES" contentMode="scaleToFill" misplaced="YES" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="44" sectionHeaderHeight="22" sectionFooterHeight="22" translatesAutoresizingMaskIntoConstraints="NO" id="m9q-h8-tBS">
-                                <rect key="frame" x="0.0" y="322" width="600" height="278"/>
+                            <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="44" sectionHeaderHeight="22" sectionFooterHeight="22" translatesAutoresizingMaskIntoConstraints="NO" id="m9q-h8-tBS">
+                                <rect key="frame" x="0.0" y="322" width="600" height="229"/>
                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                             </tableView>
                         </subviews>
@@ -1085,11 +1085,16 @@
                                     </navigationItem>
                                 </items>
                             </navigationBar>
+                            <activityIndicatorView hidden="YES" opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" hidesWhenStopped="YES" style="whiteLarge" translatesAutoresizingMaskIntoConstraints="NO" id="xkf-iz-2mF">
+                                <rect key="frame" x="282" y="282" width="37" height="37"/>
+                                <color key="color" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
+                            </activityIndicatorView>
                         </subviews>
                         <color key="backgroundColor" red="0.98039215686274506" green="0.98039215686274506" blue="0.98039215686274506" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                         <constraints>
                             <constraint firstItem="x1h-bI-CD8" firstAttribute="leading" secondItem="08D-s2-7pD" secondAttribute="leading" id="0rd-V1-qAV"/>
                             <constraint firstItem="eqK-Fd-G4a" firstAttribute="top" secondItem="y7q-1K-eFR" secondAttribute="bottom" constant="294" id="1yF-IK-7wJ"/>
+                            <constraint firstAttribute="centerX" secondItem="xkf-iz-2mF" secondAttribute="centerX" id="4Uo-mK-2NV"/>
                             <constraint firstItem="x1h-bI-CD8" firstAttribute="leading" secondItem="Fs0-ky-Va8" secondAttribute="leadingMargin" id="7Hh-on-dP0"/>
                             <constraint firstItem="x1h-bI-CD8" firstAttribute="leading" secondItem="ggK-Wt-6Rh" secondAttribute="leading" id="8sE-uF-qyH"/>
                             <constraint firstItem="k7r-VZ-DKx" firstAttribute="trailing" secondItem="Fs0-ky-Va8" secondAttribute="trailingMargin" id="CWI-20-sC2"/>
@@ -1097,6 +1102,7 @@
                             <constraint firstItem="x1h-bI-CD8" firstAttribute="leading" secondItem="k7r-VZ-DKx" secondAttribute="leading" id="GhZ-ds-ZKC"/>
                             <constraint firstItem="ggK-Wt-6Rh" firstAttribute="top" secondItem="y7q-1K-eFR" secondAttribute="bottom" constant="197" id="I2B-t1-EKc"/>
                             <constraint firstItem="ggK-Wt-6Rh" firstAttribute="trailing" secondItem="Fs0-ky-Va8" secondAttribute="trailingMargin" id="JjT-zh-b6F"/>
+                            <constraint firstAttribute="centerY" secondItem="xkf-iz-2mF" secondAttribute="centerY" id="KWZ-Qs-VpE"/>
                             <constraint firstItem="k7r-VZ-DKx" firstAttribute="top" secondItem="eqK-Fd-G4a" secondAttribute="bottom" constant="7" id="Pgz-XE-XMg"/>
                             <constraint firstItem="rjD-9y-R3V" firstAttribute="top" secondItem="y7q-1K-eFR" secondAttribute="bottom" constant="62" id="Pod-yr-SqA"/>
                             <constraint firstItem="x1h-bI-CD8" firstAttribute="top" secondItem="8LT-0M-kaw" secondAttribute="bottom" constant="18" id="TFk-M7-vhI"/>
@@ -1137,6 +1143,7 @@
                         <outlet property="password" destination="II1-We-ws9" id="Hs1-Br-ghu"/>
                         <outlet property="profPic" destination="x1h-bI-CD8" id="twf-HN-lmn"/>
                         <outlet property="saveBtn" destination="A2m-8O-S9y" id="ZNN-WS-4B3"/>
+                        <outlet property="spinner" destination="xkf-iz-2mF" id="CLV-YD-x6c"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="uSD-ex-pPU" userLabel="First Responder" sceneMemberID="firstResponder"/>
@@ -1179,7 +1186,7 @@
                                         <barButtonItem key="rightBarButtonItem" title="Edit" id="tR9-2D-Rbv">
                                             <color key="tintColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                             <connections>
-                                                <action selector="editBtnTapped:" destination="kQ1-0w-jNs" id="AfL-Eu-RoY"/>
+                                                <segue destination="9HI-6j-g6Y" kind="show" identifier="presentEditProf" id="ZAh-v3-25p"/>
                                             </connections>
                                         </barButtonItem>
                                     </navigationItem>
@@ -1199,7 +1206,6 @@
                     </view>
                     <connections>
                         <outlet property="editBtn" destination="tR9-2D-Rbv" id="MKi-uO-C2H"/>
-                        <segue destination="9HI-6j-g6Y" kind="show" identifier="presentEditProf" id="I4v-uf-04T"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="omF-rJ-Tt1" userLabel="First Responder" sceneMemberID="firstResponder"/>
@@ -1276,7 +1282,7 @@
                                 <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="gCG-7T-HmQ" id="wnk-WU-xoH">
                                     <autoresizingMask key="autoresizingMask"/>
                                     <subviews>
-                                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" misplaced="YES" text="Name" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="4OS-UI-cmU">
+                                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Name" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="4OS-UI-cmU">
                                             <rect key="frame" x="8" y="8" width="322" height="16"/>
                                             <constraints>
                                                 <constraint firstAttribute="width" constant="322" id="gWr-tt-OiO"/>
@@ -1285,7 +1291,7 @@
                                             <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
                                             <nil key="highlightedColor"/>
                                         </label>
-                                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" misplaced="YES" text="Last Message" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Fzq-3v-Kt4">
+                                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Last Message" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Fzq-3v-Kt4">
                                             <rect key="frame" x="8" y="29" width="349" height="17"/>
                                             <constraints>
                                                 <constraint firstAttribute="width" constant="349" id="4ff-gv-nRd"/>
@@ -1465,7 +1471,7 @@
         <image name="menu" width="22" height="22"/>
     </resources>
     <inferredMetricsTieBreakers>
-        <segue reference="ELl-Ug-DNN"/>
+        <segue reference="LGl-cG-deb"/>
         <segue reference="dLk-Tp-hyc"/>
         <segue reference="Ntf-EL-NHY"/>
     </inferredMetricsTieBreakers>

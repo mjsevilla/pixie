@@ -46,28 +46,28 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         }
         
         // Extract the notification data
-        if let notificationPayload = launchOptions?[UIApplicationLaunchOptionsRemoteNotificationKey] as? NSDictionary {
-            
-            // Create pointers to payload objects
-            let recipientName = notificationPayload["rName"] as? String
-            let recipientId = notificationPayload["rID"] as? String
-            let convoId = notificationPayload["cID"] as? String
-            let convo = notificationPayload["convo"] as? PFObject
-            
-            // Fetch convo object
-            convo!.fetchIfNeededInBackgroundWithBlock {
-                (object: PFObject?, error: NSError?) -> Void in
-                if error == nil {
-                    // Show conversationVC
-                    let convoVC = ConversationViewController()
-                    convoVC.convo = convo!
-                    convoVC.convoId = convoId
-                    convoVC.recipientId = recipientId!
-                    convoVC.recipientName = recipientName
-                    self.window?.rootViewController?.navigationController?.pushViewController(convoVC, animated: true)
-                }
-            }
-        }
+//        if let notificationPayload = launchOptions?[UIApplicationLaunchOptionsRemoteNotificationKey] as? NSDictionary {
+//            
+//            // Create pointers to payload objects
+//            let recipientName = notificationPayload["rName"] as? String
+//            let recipientId = notificationPayload["rID"] as? String
+//            let convoId = notificationPayload["cID"] as? String
+//            let convo = notificationPayload["convo"] as? PFObject
+//            
+//            // Fetch convo object
+//            convo!.fetchIfNeededInBackgroundWithBlock {
+//                (object: PFObject?, error: NSError?) -> Void in
+//                if error == nil {
+//                    // Show conversationVC
+//                    let convoVC = ConversationViewController()
+//                    convoVC.convo = convo!
+//                    convoVC.convoId = convoId
+//                    convoVC.recipientId = recipientId!
+//                    convoVC.recipientName = recipientName
+//                    self.window?.rootViewController?.navigationController?.pushViewController(convoVC, animated: true)
+//                }
+//            }
+//        }
         
         // Facebook stuff
         FBLoginView.self
@@ -125,33 +125,33 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     }
     
     func application(application: UIApplication, didReceiveRemoteNotification userInfo: [NSObject : AnyObject], fetchCompletionHandler completionHandler: (UIBackgroundFetchResult) -> Void) {
-        if let convo = userInfo["convo"] as? PFObject {
-            // Create pointers to payload objects
-            let recipientName = userInfo["rName"] as? String
-            let recipientId = userInfo["rID"] as? String
-            let convoId = userInfo["cID"] as? String
-            
-            // Fetch convo object
-            convo.fetchIfNeededInBackgroundWithBlock {
-                (object: PFObject?, error: NSError?) -> Void in
-                if error != nil {
-                    completionHandler(UIBackgroundFetchResult.Failed)
-                }
-                else if PFUser.currentUser() != nil {
-                    // Show conversationVC
-                    let convoVC = ConversationViewController()
-                    convoVC.convo = convo
-                    convoVC.convoId = convoId
-                    convoVC.recipientId = recipientId!
-                    convoVC.recipientName = recipientName
-                    self.window?.rootViewController?.navigationController?.pushViewController(convoVC, animated: true)
-                }
-                else {
-                    completionHandler(UIBackgroundFetchResult.NoData)
-                }
-            }
-        }
-        completionHandler(UIBackgroundFetchResult.NoData)
+//        if let convo = userInfo["convo"] as? PFObject {
+//            // Create pointers to payload objects
+//            let recipientName = userInfo["rName"] as? String
+//            let recipientId = userInfo["rID"] as? String
+//            let convoId = userInfo["cID"] as? String
+//            
+//            // Fetch convo object
+//            convo.fetchIfNeededInBackgroundWithBlock {
+//                (object: PFObject?, error: NSError?) -> Void in
+//                if error != nil {
+//                    completionHandler(UIBackgroundFetchResult.Failed)
+//                }
+//                else if PFUser.currentUser() != nil {
+//                    // Show conversationVC
+//                    let convoVC = ConversationViewController()
+//                    convoVC.convo = convo
+//                    convoVC.convoId = convoId
+//                    convoVC.recipientId = recipientId!
+//                    convoVC.recipientName = recipientName
+//                    self.window?.rootViewController?.navigationController?.pushViewController(convoVC, animated: true)
+//                }
+//                else {
+//                    completionHandler(UIBackgroundFetchResult.NoData)
+//                }
+//            }
+//        }
+//        completionHandler(UIBackgroundFetchResult.NoData)
     }
     
     func application(application: UIApplication, didReceiveRemoteNotification userInfo: [NSObject : AnyObject]) {
