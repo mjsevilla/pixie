@@ -85,7 +85,6 @@ class PostRideViewController: UIViewController, UITextFieldDelegate, UIPickerVie
       loadTripSectionView()
       loadDateTimeSectionView()
       loadReviewSectionView()
-      self.view.layoutIfNeeded()
       
       nextButton = UIButton()
       let nextString = NSAttributedString(string: "NEXT", attributes: [NSForegroundColorAttributeName: UIColor(red:0.0, green:0.74, blue:0.82, alpha:1.0), NSFontAttributeName: UIFont(name: "Syncopate-Regular", size: 20.0)!])
@@ -209,7 +208,7 @@ class PostRideViewController: UIViewController, UITextFieldDelegate, UIPickerVie
    
    func loadDateTimeSectionView() {
       getCurrentDates()
-      post.dayFormatStr = post.getDayFormatStr("Friday, January 1")
+      post.dayFormatStr = post.getDayFormatStr(currentDates[0])
       post.timeFormatStr = post.getTimeFormatStr("ANYTIME")
       
       dateTimeSectionButton = UIButton()
