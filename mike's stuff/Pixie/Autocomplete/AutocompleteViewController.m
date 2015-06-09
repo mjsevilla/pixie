@@ -8,9 +8,6 @@
 @end
 
 @implementation AutocompleteViewController
-@synthesize county;
-//@synthesize postal;
-//@synthesize latlong;
 @synthesize mapView;
 
 - (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil {
@@ -27,19 +24,7 @@
 		searchQuery = [[SPGooglePlacesAutocompleteQuery alloc] initWithApiKey:@"AIzaSyB6Gv8uuTNh_ZN-Hk8H3S5RARpQot_6I-k"];
 	}
 	
-	//searchResultsController = [[UITableViewController alloc] init];
-	
-	//self.searchController = [[UISearchController alloc] initWithSearchResultsController:searchResultsController];
-	
     self.searchController.searchBar.placeholder = @"Search or Address";
-	
-	//self.searchController = [[UISearchController alloc] initWithSearchResultsController:nil];
-	//self.searchController.searchResultsUpdater = self;
-	//self.searchController.dimsBackgroundDuringPresentation = NO;
-	//self.searchController.searchBar.scopeButtonTitles = @[NSLocalizedString(@"ScopeButtonCountry",@"Country"), NSLocalizedString(@"ScopeButtonCapital",@"Capital")];
-	//self.searchController.searchBar.delegate = self;
-	
-	//self.tableView.tableHeaderView = self.searchController.searchBar;
 }
 
 - (void)viewDidUnload {
@@ -92,11 +77,6 @@
     selectedPlaceAnnotation.coordinate = placemark.location.coordinate;
     selectedPlaceAnnotation.title = address;
     [self.mapView addAnnotation:selectedPlaceAnnotation];
-	//county.text = @"workkkk";
-	county.text = placemark.subAdministrativeArea;
-	//postal.text = placemark.locality;
-	//latlong.text = [NSString stringWithFormat:@"%@", placemark.location];
-	//[NSString stringWithFormat:@"region: %@", placemark.locality];
 }
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
@@ -114,7 +94,6 @@
             [self recenterMapToPlacemark:placemark];
             // ref: https://github.com/chenyuan/SPGooglePlacesAutocomplete/issues/10
             [self.searchController setActive:NO];
-            //[self.searchDisplayController.searchResultsTableView deselectRowAtIndexPath:indexPath animated:NO];
 			[searchResultsController.tableView deselectRowAtIndexPath:indexPath animated:NO];
 			self.searchController.searchBar.text = searchResultsController.tableView.indexPathForSelectedRow.description;
         }
@@ -125,7 +104,6 @@
 #pragma mark UISearchDisplayDelegate
 
 - (void)handleSearchForSearchString:(NSString *)searchString {
-    //searchQuery.location = self.mapView.userLocation.coordinate;
     searchQuery.input = searchString;
     [searchQuery fetchPlaces:^(NSArray *places, NSError *error) {
         if (error) {
@@ -175,12 +153,6 @@
     BOOL boolToReturn = shouldBeginEditing;
     shouldBeginEditing = YES;
     return boolToReturn;
-}
-
-- (void)updateSearchResultsForSearchController:(UISearchController *)searchController
-{
-	//NSString *searchString = searchController.searchBar.text;
-	[searchResultsController.tableView reloadData];
 }
 
 @end

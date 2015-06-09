@@ -15,14 +15,6 @@
 
 @property (strong, nonatomic) UISearchController *searchController;
 
-@property (weak, nonatomic) IBOutlet UITextField *county;
-
-/*@property (weak, nonatomic) IBOutlet UISearchBar *county;
-
-@property (weak, nonatomic) IBOutlet UITextField *postal;
-
-@property (weak, nonatomic) IBOutlet UITextField *latlong;*/
-
 @property (strong, nonatomic) IBOutlet MKMapView *mapView;
 
 @end
