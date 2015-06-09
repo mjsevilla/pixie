@@ -54,7 +54,7 @@
                                 </items>
                             </navigationBar>
                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="YYp-Lu-jru">
-                                <rect key="frame" x="16" y="166" width="568" height="167"/>
+                                <rect key="frame" x="16" y="160" width="568" height="167"/>
                                 <subviews>
                                     <view contentMode="scaleToFill" verticalHuggingPriority="248" translatesAutoresizingMaskIntoConstraints="NO" id="ExF-1v-CZA">
                                         <rect key="frame" x="8" y="8" width="454" height="45"/>
@@ -162,13 +162,13 @@
                                 </constraints>
                             </view>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="or" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="WHS-j4-FwO">
-                                <rect key="frame" x="291" y="127" width="18" height="31"/>
+                                <rect key="frame" x="291" y="121" width="18" height="31"/>
                                 <fontDescription key="fontDescription" name="HelveticaNeue-ThinItalic" family="Helvetica Neue" pointSize="22"/>
                                 <color key="textColor" white="0.33333333333333331" alpha="1" colorSpace="calibratedWhite"/>
                                 <nil key="highlightedColor"/>
                             </label>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" usesAttributedText="YES" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="9ko-Op-Qra">
-                                <rect key="frame" x="16" y="341" width="568" height="17"/>
+                                <rect key="frame" x="16" y="335" width="568" height="17"/>
                                 <attributedString key="attributedText">
                                     <fragment content="Whoops, you didn't enter a last name.">
                                         <attributes>
@@ -181,7 +181,7 @@
                                 <nil key="highlightedColor"/>
                             </label>
                             <view opaque="NO" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="qkr-qy-mfN" customClass="FBLoginView">
-                                <rect key="frame" x="16" y="87" width="568" height="38"/>
+                                <rect key="frame" x="16" y="81" width="568" height="38"/>
                                 <color key="backgroundColor" white="0.66666666666666663" alpha="1" colorSpace="calibratedWhite"/>
                                 <constraints>
                                     <constraint firstAttribute="height" constant="38" id="pVU-vC-u7O"/>
@@ -195,10 +195,10 @@
                             <constraint firstItem="qkr-qy-mfN" firstAttribute="trailing" secondItem="YYp-Lu-jru" secondAttribute="trailing" id="1fE-b4-f27"/>
                             <constraint firstItem="SOD-hV-vIi" firstAttribute="trailing" secondItem="ONk-Ab-8F6" secondAttribute="trailing" id="29k-iN-WHU"/>
                             <constraint firstItem="9ko-Op-Qra" firstAttribute="trailing" secondItem="M0v-4D-W7E" secondAttribute="trailingMargin" id="3QJ-qd-QGZ"/>
+                            <constraint firstItem="qkr-qy-mfN" firstAttribute="top" secondItem="ONk-Ab-8F6" secondAttribute="bottom" constant="17" id="5DD-qT-k5Y"/>
                             <constraint firstItem="YYp-Lu-jru" firstAttribute="top" secondItem="qkr-qy-mfN" secondAttribute="bottom" constant="41" id="8IB-xS-8I1"/>
                             <constraint firstItem="9ko-Op-Qra" firstAttribute="top" secondItem="YYp-Lu-jru" secondAttribute="bottom" constant="8" id="8Nn-BZ-Vfq"/>
                             <constraint firstItem="ONk-Ab-8F6" firstAttribute="top" secondItem="lJ6-kK-nHk" secondAttribute="bottom" id="CDv-ox-imY"/>
-                            <constraint firstItem="qkr-qy-mfN" firstAttribute="top" secondItem="lJ6-kK-nHk" secondAttribute="bottom" constant="67" id="Jay-Jx-zva"/>
                             <constraint firstItem="YYp-Lu-jru" firstAttribute="top" secondItem="WHS-j4-FwO" secondAttribute="bottom" constant="8" id="Lnj-bO-MRe"/>
                             <constraint firstItem="SOD-hV-vIi" firstAttribute="leading" secondItem="ONk-Ab-8F6" secondAttribute="leading" id="NIt-qq-bgl"/>
                             <constraint firstAttribute="centerX" secondItem="YYp-Lu-jru" secondAttribute="centerX" id="NX1-HV-e0t"/>
