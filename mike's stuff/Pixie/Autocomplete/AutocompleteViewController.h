@@ -2,11 +2,11 @@
 
 #import <MapKit/MapKit.h>
 
-@class SPGooglePlacesAutocompleteQuery;
+@class AutocompleteQuery;
 
 @interface AutocompleteViewController : UIViewController <UITableViewDataSource, UITableViewDelegate, UISearchControllerDelegate, UISearchBarDelegate, MKMapViewDelegate> {
     NSArray *searchResultPlaces;
-    SPGooglePlacesAutocompleteQuery *searchQuery;
+    AutocompleteQuery *searchQuery;
     MKPointAnnotation *selectedPlaceAnnotation;
 	UITableViewController *searchResultsController;
     

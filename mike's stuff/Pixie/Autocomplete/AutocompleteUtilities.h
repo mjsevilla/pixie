@@ -6,7 +6,7 @@
 
 @class CLPlacemark;
 
-typedef NS_ENUM(NSInteger, SPGooglePlacesAutocompletePlaceType) {
+typedef NS_ENUM(NSInteger, AutocompletePlaceType) {
     SPPlaceTypeAll,
     SPPlaceTypeGeocode,
     SPPlaceTypeEstablishment,
@@ -14,13 +14,13 @@ typedef NS_ENUM(NSInteger, SPGooglePlacesAutocompletePlaceType) {
     SPPlaceTypeCities
 };
 
-typedef void (^SPGooglePlacesPlacemarkResultBlock)(CLPlacemark *placemark, NSString *addressString, NSError *error);
-typedef void (^SPGooglePlacesAutocompleteResultBlock)(NSArray *places, NSError *error);
-typedef void (^SPGooglePlacesPlaceDetailResultBlock)(NSDictionary *placeDictionary, NSError *error);
+typedef void (^PlacemarkResultBlock)(CLPlacemark *placemark, NSString *addressString, NSError *error);
+typedef void (^AutocompleteResultBlock)(NSArray *places, NSError *error);
+typedef void (^PlaceDetailResultBlock)(NSDictionary *placeDictionary, NSError *error);
 
-extern SPGooglePlacesAutocompletePlaceType SPPlaceTypeFromDictionary(NSDictionary *placeDictionary);
+extern AutocompletePlaceType SPPlaceTypeFromDictionary(NSDictionary *placeDictionary);
 extern NSString *SPBooleanStringForBool(BOOL boolean);
-extern NSString *SPPlaceTypeStringForPlaceType(SPGooglePlacesAutocompletePlaceType type);
+extern NSString *SPPlaceTypeStringForPlaceType(AutocompletePlaceType type);
 extern BOOL SPIsEmptyString(NSString *string);
 
 @interface NSArray(SPFoundationAdditions)

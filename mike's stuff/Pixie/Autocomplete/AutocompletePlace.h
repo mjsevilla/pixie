@@ -4,11 +4,11 @@
 
 #import "AutocompleteUtilities.h"
 
-@interface SPGooglePlacesAutocompletePlace : NSObject {
+@interface AutocompletePlace : NSObject {
     CLGeocoder *geocoder;
 }
 
-+ (SPGooglePlacesAutocompletePlace *)placeFromDictionary:(NSDictionary *)placeDictionary apiKey:(NSString *)apiKey;
++ (AutocompletePlace *)placeFromDictionary:(NSDictionary *)placeDictionary apiKey:(NSString *)apiKey;
 
 /*!
  Contains the human-readable name for the returned result. For establishment results, this is usually the business name.
@@ -18,7 +18,7 @@
 /*!
  Contains the primary 'type' of this place (i.e. "establishment" or "gecode").
  */
-@property (nonatomic, readonly) SPGooglePlacesAutocompletePlaceType type;
+@property (nonatomic, readonly) AutocompletePlaceType type;
 
 /*!
  Contains a unique token that you can use to retrieve additional information about this place in a Place Details request. You can store this token and use it at any time in future to refresh cached data about this Place, but the same token is not guaranteed to be returned for any given Place across different searches.
@@ -38,6 +38,6 @@
 /*!
  Resolves the place to a CLPlacemark, issuing  Google Place Details request if needed.
  */
-- (void)resolveToPlacemark:(SPGooglePlacesPlacemarkResultBlock)block;
+- (void)resolveToPlacemark:(PlacemarkResultBlock)block;
 
 @end

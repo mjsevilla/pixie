@@ -8,7 +8,7 @@
 }
 @end
 
-NSArray *SPGooglePlacesAutocompletePlaceTypeNames(void)
+NSArray *AutocompletePlaceTypeNames(void)
 {
     static NSMutableArray *names = nil;
     static dispatch_once_t onceToken;
@@ -26,14 +26,14 @@ NSArray *SPGooglePlacesAutocompletePlaceTypeNames(void)
     return names;
 }
 
-SPGooglePlacesAutocompletePlaceType SPPlaceTypeFromDictionary(NSDictionary *placeDictionary) {
+AutocompletePlaceType SPPlaceTypeFromDictionary(NSDictionary *placeDictionary) {
     NSUInteger index;
     
     for (NSString *type in placeDictionary[@"types"]) {
-        index = [SPGooglePlacesAutocompletePlaceTypeNames() indexOfObject:type];
+        index = [AutocompletePlaceTypeNames() indexOfObject:type];
         
         if (index != NSNotFound) {
-            return (SPGooglePlacesAutocompletePlaceType)index;
+            return (AutocompletePlaceType)index;
         }
     }
     
@@ -44,8 +44,8 @@ NSString *SPBooleanStringForBool(BOOL boolean) {
     return boolean ? @"true" : @"false";
 }
 
-NSString *SPPlaceTypeStringForPlaceType(SPGooglePlacesAutocompletePlaceType type) {
-    return [SPGooglePlacesAutocompletePlaceTypeNames() objectAtIndex:type];
+NSString *SPPlaceTypeStringForPlaceType(AutocompletePlaceType type) {
+    return [AutocompletePlaceTypeNames() objectAtIndex:type];
 }
 
 extern BOOL SPIsEmptyString(NSString *string) {

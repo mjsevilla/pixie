@@ -13,7 +13,7 @@
 - (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil {
     self = [super initWithNibName:nibNameOrNil bundle:nibBundleOrNil];
     if (self) {
-        searchQuery = [[SPGooglePlacesAutocompleteQuery alloc] initWithApiKey:@"AIzaSyB6Gv8uuTNh_ZN-Hk8H3S5RARpQot_6I-k"];
+        searchQuery = [[AutocompleteQuery alloc] initWithApiKey:@"AIzaSyB6Gv8uuTNh_ZN-Hk8H3S5RARpQot_6I-k"];
         shouldBeginEditing = YES;
     }
     return self;
@@ -21,7 +21,7 @@
 
 - (void)viewDidLoad {
 	if (searchQuery == nil) {
-		searchQuery = [[SPGooglePlacesAutocompleteQuery alloc] initWithApiKey:@"AIzaSyB6Gv8uuTNh_ZN-Hk8H3S5RARpQot_6I-k"];
+		searchQuery = [[AutocompleteQuery alloc] initWithApiKey:@"AIzaSyB6Gv8uuTNh_ZN-Hk8H3S5RARpQot_6I-k"];
 	}
 	
     self.searchController.searchBar.placeholder = @"Search or Address";
@@ -38,7 +38,7 @@
     return [searchResultPlaces count];
 }
 
-- (SPGooglePlacesAutocompletePlace *)placeAtIndexPath:(NSIndexPath *)indexPath {
+- (AutocompletePlace *)placeAtIndexPath:(NSIndexPath *)indexPath {
     return searchResultPlaces[indexPath.row];
 }
 
@@ -80,7 +80,7 @@
 }
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
-    SPGooglePlacesAutocompletePlace *place = [self placeAtIndexPath:indexPath];
+    AutocompletePlace *place = [self placeAtIndexPath:indexPath];
     [place resolveToPlacemark:^(CLPlacemark *placemark, NSString *addressString, NSError *error) {
         if (error) {
             UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Could not map selected Place"
@@ -92,7 +92,6 @@
         } else if (placemark) {
             [self addPlacemarkAnnotationToMap:placemark addressString:addressString];
             [self recenterMapToPlacemark:placemark];
-            // ref: https://github.com/chenyuan/SPGooglePlacesAutocomplete/issues/10
             [self.searchController setActive:NO];
 			[searchResultsController.tableView deselectRowAtIndexPath:indexPath animated:NO];
 			self.searchController.searchBar.text = searchResultsController.tableView.indexPathForSelectedRow.description;

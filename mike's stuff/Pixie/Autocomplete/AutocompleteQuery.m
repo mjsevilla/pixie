@@ -3,11 +3,11 @@
 #import "AutocompleteQuery.h"
 #import "AutocompletePlace.h"
 
-@interface SPGooglePlacesAutocompleteQuery()
-@property (nonatomic, copy) SPGooglePlacesAutocompleteResultBlock resultBlock;
+@interface AutocompleteQuery()
+@property (nonatomic, copy) AutocompleteResultBlock resultBlock;
 @end
 
-@implementation SPGooglePlacesAutocompleteQuery
+@implementation AutocompleteQuery
 
 - (id)initWithApiKey:(NSString *)apiKey {
     self = [super init];
@@ -63,7 +63,7 @@
     [self cleanup];
 }
 
-- (void)fetchPlaces:(SPGooglePlacesAutocompleteResultBlock)block {
+- (void)fetchPlaces:(AutocompleteResultBlock)block {
     if (!self.key) {
         return;
     }
@@ -95,7 +95,7 @@
 - (void)succeedWithPlaces:(NSArray *)places {
     NSMutableArray *parsedPlaces = [NSMutableArray array];
     for (NSDictionary *place in places) {
-        [parsedPlaces addObject:[SPGooglePlacesAutocompletePlace placeFromDictionary:place apiKey:self.key]];
+        [parsedPlaces addObject:[AutocompletePlace placeFromDictionary:place apiKey:self.key]];
     }
     if (self.resultBlock != nil) {
         self.resultBlock(parsedPlaces, nil);

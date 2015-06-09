@@ -3,18 +3,18 @@
 #import "AutocompletePlace.h"
 #import "PlaceDetailQuery.h"
 
-@interface SPGooglePlacesAutocompletePlace()
+@interface AutocompletePlace()
 @property (nonatomic, strong) NSString *name;
 @property (nonatomic, strong) NSString *reference;
 @property (nonatomic, strong) NSString *identifier;
-@property (nonatomic) SPGooglePlacesAutocompletePlaceType type;
+@property (nonatomic) AutocompletePlaceType type;
 @end
 
-@implementation SPGooglePlacesAutocompletePlace
+@implementation AutocompletePlace
 
-+ (SPGooglePlacesAutocompletePlace *)placeFromDictionary:(NSDictionary *)placeDictionary apiKey:(NSString *)apiKey
++ (AutocompletePlace *)placeFromDictionary:(NSDictionary *)placeDictionary apiKey:(NSString *)apiKey
 {
-    SPGooglePlacesAutocompletePlace *place = [[self alloc] init];
+    AutocompletePlace *place = [[self alloc] init];
     place.name = placeDictionary[@"description"];
     place.reference = placeDictionary[@"reference"];
     place.identifier = placeDictionary[@"id"];
@@ -35,8 +35,8 @@
     return geocoder;
 }
 
-- (void)resolveEstablishmentPlaceToPlacemark:(SPGooglePlacesPlacemarkResultBlock)block {
-    SPGooglePlacesPlaceDetailQuery *query = [[SPGooglePlacesPlaceDetailQuery alloc] initWithApiKey:self.key];
+- (void)resolveEstablishmentPlaceToPlacemark:(PlacemarkResultBlock)block {
+    PlaceDetailQuery *query = [[PlaceDetailQuery alloc] initWithApiKey:self.key];
     query.reference = self.reference;
     [query fetchPlaceDetail:^(NSDictionary *placeDictionary, NSError *error) {
         if (error) {
@@ -45,8 +45,6 @@
             NSString *addressString = placeDictionary[@"formatted_address"];
             [[self geocoder] geocodeAddressString:addressString completionHandler:^(NSArray *placemarks, NSError *error) {
                 if (error) {
-                    // Sometimes establishment has address, which location cannot be retrieved
-                    // ref: https://github.com/chenyuan/SPGooglePlacesAutocomplete/issues/9
                     [self resolveGecodePlaceToPlacemark:block];
                 } else {
                     CLPlacemark *placemark = [placemarks onlyObject];
@@ -57,7 +55,7 @@
     }];
 }
 
-- (void)resolveGecodePlaceToPlacemark:(SPGooglePlacesPlacemarkResultBlock)block {
+- (void)resolveGecodePlaceToPlacemark:(PlacemarkResultBlock)block {
     [[self geocoder] geocodeAddressString:self.name completionHandler:^(NSArray *placemarks, NSError *error) {
         if (error) {
             block(nil, nil, error);
@@ -68,9 +66,8 @@
     }];
 }
 
-- (void)resolveToPlacemark:(SPGooglePlacesPlacemarkResultBlock)block {
+- (void)resolveToPlacemark:(PlacemarkResultBlock)block {
     if (self.type == SPPlaceTypeGeocode) {
-        // Geocode places already have their address stored in the 'name' field.
         [self resolveGecodePlaceToPlacemark:block];
     } else {
         [self resolveEstablishmentPlaceToPlacemark:block];

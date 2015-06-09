@@ -2,11 +2,11 @@
 
 #import "PlaceDetailQuery.h"
 
-@interface SPGooglePlacesPlaceDetailQuery()
-@property (nonatomic, copy) SPGooglePlacesPlaceDetailResultBlock resultBlock;
+@interface PlaceDetailQuery()
+@property (nonatomic, copy) PlaceDetailResultBlock resultBlock;
 @end
 
-@implementation SPGooglePlacesPlaceDetailQuery
+@implementation PlaceDetailQuery
 
 - (id)initWithApiKey:(NSString *)apiKey
 {
@@ -44,7 +44,7 @@
     [self cleanup];
 }
 
-- (void)fetchPlaceDetail:(SPGooglePlacesPlaceDetailResultBlock)block {
+- (void)fetchPlaceDetail:(PlaceDetailResultBlock)block {
     if (!self.key) {
         return;
     }

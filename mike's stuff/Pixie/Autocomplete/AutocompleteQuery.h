@@ -4,12 +4,12 @@
 
 #import "AutocompleteUtilities.h"
 
-@interface SPGooglePlacesAutocompleteQuery : NSObject {
+@interface AutocompleteQuery : NSObject {
     NSURLConnection *googleConnection;
     NSMutableData *responseData;
 }
 
-@property (nonatomic, copy, readonly) SPGooglePlacesAutocompleteResultBlock resultBlock;
+@property (nonatomic, copy, readonly) AutocompleteResultBlock resultBlock;
 
 /*
  * Designated initializer
@@ -20,7 +20,7 @@
 /*!
  Pulls down places that match the query. If -fetchPlaces is called twice, the first request will be cancelled and the request will be re-issued using the current property values.
  */
-- (void)fetchPlaces:(SPGooglePlacesAutocompleteResultBlock)block;
+- (void)fetchPlaces:(AutocompleteResultBlock)block;
 
 #pragma mark -
 #pragma mark Required parameters
@@ -66,7 +66,7 @@
 /*!
  The types of Place results to return. If no type is specified, all types will be returned.
  */
-@property (nonatomic) SPGooglePlacesAutocompletePlaceType types;
+@property (nonatomic) AutocompletePlaceType types;
 
 /*!
  The country code (ISO 3166-1 Alpha-2) to restrict the results to a certain country. Details https://developers.google.com/places/documentation/autocomplete

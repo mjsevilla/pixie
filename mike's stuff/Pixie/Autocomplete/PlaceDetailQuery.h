@@ -2,12 +2,12 @@
 
 #import "AutocompleteUtilities.h"
 
-@interface SPGooglePlacesPlaceDetailQuery : NSObject {
+@interface PlaceDetailQuery : NSObject {
     NSURLConnection *googleConnection;
     NSMutableData *responseData;
 }
 
-@property (nonatomic, copy, readonly) SPGooglePlacesPlaceDetailResultBlock resultBlock;
+@property (nonatomic, copy, readonly) PlaceDetailResultBlock resultBlock;
 
 /*
  * Designated initializer
@@ -18,7 +18,7 @@
 /*!
  Issues a Place Details request and pulls down the results. If called twice, the first request will be cancelled and the request will be re-issued using the current property values.
  */
-- (void)fetchPlaceDetail:(SPGooglePlacesPlaceDetailResultBlock)block;
+- (void)fetchPlaceDetail:(PlaceDetailResultBlock)block;
 
 #pragma mark -
 #pragma mark Required parameters
