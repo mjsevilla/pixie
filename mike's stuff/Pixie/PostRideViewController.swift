@@ -1197,7 +1197,7 @@ class PostRideViewController: UIViewController, UITextFieldDelegate, UIPickerVie
          }, completion: {
             (value: Bool) in
             self.delay(0.5) {
-               self.performSegueWithIdentifier("showMatches", sender: self)
+               self.performSegueWithIdentifier("unwindFromPostRide", sender: self)
             }
       })
    }
@@ -1404,7 +1404,7 @@ class PostRideViewController: UIViewController, UITextFieldDelegate, UIPickerVie
    }
    
    override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {
-      if segue.identifier == "showMatches" {
+      if segue.identifier == "unwindFromPostRide" {
          if let destinationVC = segue.destinationViewController as? MatchesViewController {
             destinationVC.transitioningDelegate = self.matchesTransitionOperator
             destinationVC.modalPresentationStyle = UIModalPresentationStyle.Custom

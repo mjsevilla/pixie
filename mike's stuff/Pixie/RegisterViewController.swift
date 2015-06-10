@@ -198,7 +198,9 @@ class RegisterViewController: UIViewController, FBLoginViewDelegate, UITextField
                                     }
                                     Keychain.set(true, forKey: "loggedIn")
                                     println("created userId: \(userId), first_name: \(first_name), last_name: \(last_name), email: \(resp_email), password: \(resp_password), age: \(age!), bio: \(user_bio), hasFB: true")
-                                    self.performSegueWithIdentifier("presentSearch", sender: self.self)
+                                    dispatch_sync(dispatch_get_main_queue()) {
+                                       self.performSegueWithIdentifier("presentSearch", sender: self.self)
+                                    }
                                  } else {
                                     self.shouldAttempt = true
                                     println("error age")
@@ -306,9 +308,7 @@ class RegisterViewController: UIViewController, FBLoginViewDelegate, UITextField
                                  NSUserDefaults.standardUserDefaults().synchronize()
                                  println("signed in userId: \(userId.toInt()!), first_name: \(first_name), last_name: \(last_name), email: \(resp_email), age: \(age!), bio: \(user_bio), hasFB: true")
                                  println("User Logged In with existing account")
-                                 dispatch_sync(dispatch_get_main_queue()) {
-                                    self.performSegueWithIdentifier("presentSearch", sender: self.self)
-                                 }
+                                 self.performSegueWithIdentifier("presentSearch", sender: self.self)
                               }
                               
                               alertController.addAction(signInAction)
