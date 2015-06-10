@@ -20,6 +20,7 @@ class ConversationViewController: JSQMessagesViewController {
     var bubbleImageOutgoing: JSQMessagesBubbleImage!
     var bubbleImageIncoming: JSQMessagesBubbleImage!
     let spinner = UIActivityIndicatorView(activityIndicatorStyle: .Gray)
+    var timer: NSTimer?
     
     override func viewWillAppear(animated: Bool) {
         super.viewWillAppear(animated)
@@ -74,10 +75,14 @@ class ConversationViewController: JSQMessagesViewController {
     override func viewDidAppear(animated: Bool) {
         super.viewDidAppear(animated)
         self.collectionView.collectionViewLayout.springinessEnabled = true
+        self.timer = NSTimer.scheduledTimerWithTimeInterval(5.0, target: self, selector: Selector("callLoadMessages"), userInfo: nil, repeats: true)
+        println("self timer is ");
+        println(self.timer);
     }
     
     // load previous messages of a convo
     func loadMessages(new: Bool) {
+        println("load messages")
         var lastMsg = messages.last
         var query = PFQuery(className: "Message")
         
@@ -106,7 +111,7 @@ class ConversationViewController: JSQMessagesViewController {
             else {
                 println("Error retrieving messages: \(error)")
             }}
-    }
+   }
     
     // load earlier messages when button is hit
     func loadEarlierMessages() {
@@ -264,6 +269,10 @@ class ConversationViewController: JSQMessagesViewController {
         }
         
         return kJSQMessagesCollectionViewCellLabelHeightDefault
+    }
+    
+    func callLoadMessages() {
+        loadMessages(true)
     }
     
     override func collectionView(collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
