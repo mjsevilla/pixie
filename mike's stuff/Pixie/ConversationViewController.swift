@@ -186,10 +186,9 @@ class ConversationViewController: JSQMessagesViewController {
         let pushNot = PFPush()
         pushNot.setQuery(pushQuery)
         pushNot.setData([
-            "sound"   : "alert.caf",
             "alert"   : "\(senderDisplayName) sent you a message",
             "badge"   : "Increment",
-            "convoId" : convoId!
+            "sounds"  : "alert.caf"
             ])
         pushNot.sendPushInBackgroundWithBlock({ (succeeded, e) -> Void in
             if succeeded {

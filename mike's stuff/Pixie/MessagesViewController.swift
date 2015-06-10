@@ -14,7 +14,6 @@ class MessagesViewContoller: UITableViewController {
     let user = PFUser.currentUser()!
     let currentInstallation = PFInstallation.currentInstallation()
     var convos: [PFObject]?
-    var unreadConvoId: String?
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -99,7 +98,10 @@ class MessagesViewContoller: UITableViewController {
     
     override func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
         let cell = tableView.cellForRowAtIndexPath(indexPath) as! MessageCell
+        
         cell.convo = convos![indexPath.row]
+        cell.convo!.setObject(false, forKey: "unread")
+        cell.convo!.saveInBackground()
         performSegueWithIdentifier("presentConvo", sender: cell)
     }
     
