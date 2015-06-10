@@ -130,6 +130,8 @@ class SignInViewController: UIViewController, UITextFieldDelegate, FBLoginViewDe
                                  [unowned self] (user: PFUser?, error: NSError?) -> Void in
                                  if user != nil {
                                     println("Parse user successfully logged in")
+                                    PFInstallation.currentInstallation().setObject(user!, forKey: "user")
+                                    PFInstallation.currentInstallation().saveInBackground()
                                  } else {
                                     println("Parse log in error: \(error!)")
                                  }
@@ -211,6 +213,8 @@ class SignInViewController: UIViewController, UITextFieldDelegate, FBLoginViewDe
                                  [unowned self] (user: PFUser?, error: NSError?) -> Void in
                                  if user != nil {
                                     println("Parse user successfully logged in")
+                                    PFInstallation.currentInstallation().setObject(user!, forKey: "user")
+                                    PFInstallation.currentInstallation().saveInBackground()
                                  } else {
                                     println("Parse log in error: \(error!)")
                                  }
