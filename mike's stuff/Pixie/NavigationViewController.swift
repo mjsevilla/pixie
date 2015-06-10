@@ -50,11 +50,11 @@ class NavigationViewController: UIViewController, UITableViewDelegate, UITableVi
         
         let search = NavigationModel(title: "Search", icon: "location")
         let myProfile = NavigationModel(title: "My Profile", icon: "user")
-        let myRides = NavigationModel(title: "My Rides", icon: "car")
+        let myPosts = NavigationModel(title: "My Posts", icon: "car")
         let about = NavigationModel(title: "About", icon: "icon-info")
         let signOut = NavigationModel(title: "Sign Out", icon: "door")
         
-        items = [search, myProfile, messages, myRides, about, signOut]
+        items = [search, myProfile, messages, myPosts, about, signOut]
         
         var leftSwipe = UISwipeGestureRecognizer(target: self, action: Selector("handleSwipes:"))
         leftSwipe.direction = .Left

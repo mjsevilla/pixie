@@ -13,8 +13,7 @@ import Parse
 class AppDelegate: UIResponder, UIApplicationDelegate {
 
     var window: UIWindow?
-
-
+    
     func application(application: UIApplication, didFinishLaunchingWithOptions launchOptions: [NSObject: AnyObject]?) -> Bool {
         // Override point for customization after application launch.
         // Parse stuff
@@ -46,57 +45,43 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         }
         
         // Extract the notification data
-//        if let notificationPayload = launchOptions?[UIApplicationLaunchOptionsRemoteNotificationKey] as? NSDictionary {
-//            
-//            // Create pointers to payload objects
-//            let recipientName = notificationPayload["rName"] as? String
-//            let recipientId = notificationPayload["rID"] as? String
-//            let convoId = notificationPayload["cID"] as? String
-//            let convo = notificationPayload["convo"] as? PFObject
-//            
-//            // Fetch convo object
-//            convo!.fetchIfNeededInBackgroundWithBlock {
-//                (object: PFObject?, error: NSError?) -> Void in
-//                if error == nil {
-//                    // Show conversationVC
-//                    let convoVC = ConversationViewController()
-//                    convoVC.convo = convo!
-//                    convoVC.convoId = convoId
-//                    convoVC.recipientId = recipientId!
-//                    convoVC.recipientName = recipientName
-//                    self.window?.rootViewController?.navigationController?.pushViewController(convoVC, animated: true)
-//                }
-//            }
-//        }
+        if let notificationPayload = launchOptions?[UIApplicationLaunchOptionsRemoteNotificationKey] as? NSDictionary {
+            if PFUser.currentUser() == nil {
+                window?.rootViewController?.navigationController?.pushViewController(InitialViewController(), animated: true)
+            }
+            else {
+                window?.rootViewController?.navigationController?.pushViewController(SearchViewController(), animated: true)
+            }
+        }
         
         // Facebook stuff
         FBLoginView.self
         FBProfilePictureView.self
         return true
     }
-   
-   func application(application: UIApplication, openURL url: NSURL, sourceApplication: String?, annotation: AnyObject?) -> Bool {
-      var wasHandled: Bool = FBAppCall.handleOpenURL(url, sourceApplication: sourceApplication, withSession: PFFacebookUtils.session())
-      return wasHandled
-   }
-
+    
+    func application(application: UIApplication, openURL url: NSURL, sourceApplication: String?, annotation: AnyObject?) -> Bool {
+        var wasHandled: Bool = FBAppCall.handleOpenURL(url, sourceApplication: sourceApplication, withSession: PFFacebookUtils.session())
+        return wasHandled
+    }
+    
     func applicationWillResignActive(application: UIApplication) {
         // Sent when the application is about to move from active to inactive state. This can occur for certain types of temporary interruptions (such as an incoming phone call or SMS message) or when the user quits the application and it begins the transition to the background state.
         // Use this method to pause ongoing tasks, disable timers, and throttle down OpenGL ES frame rates. Games should use this method to pause the game.
     }
-
+    
     func applicationDidEnterBackground(application: UIApplication) {
         // Use this method to release shared resources, save user data, invalidate timers, and store enough application state information to restore your application to its current state in case it is terminated later.
         // If your application supports background execution, this method is called instead of applicationWillTerminate: when the user quits.
     }
-
+    
     func applicationWillEnterForeground(application: UIApplication) {
         // Called as part of the transition from the background to the inactive state; here you can undo many of the changes made on entering the background.
     }
-
+    
     func applicationDidBecomeActive(application: UIApplication) {
         // Restart any tasks that were paused (or not yet started) while the application was inactive. If the application was previously in the background, optionally refresh the user interface.
-
+        
         if let initVC = self.window?.rootViewController as? InitialViewController {
             initVC.moviePlayer?.play()
         }
@@ -104,11 +89,11 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
             searchVC.moviePlayer?.play()
         }
     }
-
+    
     func applicationWillTerminate(application: UIApplication) {
         // Called when the application is about to terminate. Save data if appropriate. See also applicationDidEnterBackground:.
     }
-
+    
     func application(application: UIApplication, didRegisterForRemoteNotificationsWithDeviceToken deviceToken: NSData) {
         let installation = PFInstallation.currentInstallation()
         installation.setDeviceTokenFromData(deviceToken)
@@ -125,33 +110,33 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     }
     
     func application(application: UIApplication, didReceiveRemoteNotification userInfo: [NSObject : AnyObject], fetchCompletionHandler completionHandler: (UIBackgroundFetchResult) -> Void) {
-//        if let convo = userInfo["convo"] as? PFObject {
-//            // Create pointers to payload objects
-//            let recipientName = userInfo["rName"] as? String
-//            let recipientId = userInfo["rID"] as? String
-//            let convoId = userInfo["cID"] as? String
-//            
-//            // Fetch convo object
-//            convo.fetchIfNeededInBackgroundWithBlock {
-//                (object: PFObject?, error: NSError?) -> Void in
-//                if error != nil {
-//                    completionHandler(UIBackgroundFetchResult.Failed)
-//                }
-//                else if PFUser.currentUser() != nil {
-//                    // Show conversationVC
-//                    let convoVC = ConversationViewController()
-//                    convoVC.convo = convo
-//                    convoVC.convoId = convoId
-//                    convoVC.recipientId = recipientId!
-//                    convoVC.recipientName = recipientName
-//                    self.window?.rootViewController?.navigationController?.pushViewController(convoVC, animated: true)
-//                }
-//                else {
-//                    completionHandler(UIBackgroundFetchResult.NoData)
-//                }
-//            }
-//        }
-//        completionHandler(UIBackgroundFetchResult.NoData)
+        //        if let convo = userInfo["convo"] as? PFObject {
+        //            // Create pointers to payload objects
+        //            let recipientName = userInfo["rName"] as? String
+        //            let recipientId = userInfo["rID"] as? String
+        //            let convoId = userInfo["cID"] as? String
+        //
+        //            // Fetch convo object
+        //            convo.fetchIfNeededInBackgroundWithBlock {
+        //                (object: PFObject?, error: NSError?) -> Void in
+        //                if error != nil {
+        //                    completionHandler(UIBackgroundFetchResult.Failed)
+        //                }
+        //                else if PFUser.currentUser() != nil {
+        //                    // Show conversationVC
+        //                    let convoVC = ConversationViewController()
+        //                    convoVC.convo = convo
+        //                    convoVC.convoId = convoId
+        //                    convoVC.recipientId = recipientId!
+        //                    convoVC.recipientName = recipientName
+        //                    self.window?.rootViewController?.navigationController?.pushViewController(convoVC, animated: true)
+        //                }
+        //                else {
+        //                    completionHandler(UIBackgroundFetchResult.NoData)
+        //                }
+        //            }
+        //        }
+        //        completionHandler(UIBackgroundFetchResult.NoData)
     }
     
     func application(application: UIApplication, didReceiveRemoteNotification userInfo: [NSObject : AnyObject]) {
@@ -160,6 +145,6 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
             PFAnalytics.trackAppOpenedWithRemoteNotificationPayload(userInfo)
         }
     }
-
+    
 }
 
