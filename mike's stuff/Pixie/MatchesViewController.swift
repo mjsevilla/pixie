@@ -128,7 +128,6 @@ class MatchesViewController: UIViewController, UICollectionViewDelegateFlowLayou
             fullName += " \(savedLastName)"
          }
       }
-      //      println("MatchesViewController found userId: \(userId), name: \(fullName)")
    }
    
    func loadPostsFromAPI() {
