@@ -135,7 +135,11 @@ class NavigationViewController: UIViewController, UITableViewDelegate, UITableVi
             NSUserDefaults.standardUserDefaults().removeObjectForKey("PixieUserAge")
             NSUserDefaults.standardUserDefaults().removeObjectForKey("PixieUserBio")
             NSUserDefaults.standardUserDefaults().removeObjectForKey("PixieUserHasFB")
-            Keychain.set(false, forKey: "loggedIn")
+			NSUserDefaults.standardUserDefaults().removeObjectForKey("PixieUserProfPic")
+			NSUserDefaults.standardUserDefaults().removeObjectForKey("PixieUserBlurredProfPic")
+			NSUserDefaults.standardUserDefaults().removeObjectForKey("PicChange")
+			
+			Keychain.set(false, forKey: "loggedIn")
             PFUser.logOutInBackground()
             FBSession.activeSession().closeAndClearTokenInformation()
         default:

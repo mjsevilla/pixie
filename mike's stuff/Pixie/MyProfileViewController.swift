@@ -23,8 +23,22 @@ class MyProfileViewController: UIViewController {
 	
     override func viewDidLoad() {
         super.viewDidLoad()
-        
-        var imageData = defaults.dataForKey("PixieUserBlurredProfPic")
+		
+		if (defaults.dataForKey("PixieUserProfPic") == nil) {
+			println("viewdidload load")
+
+			loadUserPicFromAPI()
+			var gaussianFilter = GPUImageGaussianBlurFilter()
+			gaussianFilter.blurRadiusInPixels = 9
+			gaussianFilter.blurPasses = 2
+			self.profPic = self.cropToSquare(image: profPic)
+			self.defaults.setObject(UIImagePNGRepresentation(self.profPic), forKey: "PixieUserProfPic")
+			let blurredImage = gaussianFilter.imageByFilteringImage(profPic)
+			self.defaults.setObject(UIImagePNGRepresentation(blurredImage), forKey: "PixieUserBlurredProfPic")
+			self.defaults.setObject(0, forKey: "PicChange")
+		}
+		
+		var imageData = defaults.dataForKey("PixieUserBlurredProfPic")
         var blurredImage = UIImage(data: imageData!)
         
         profilePicBlurred = UIImageView(image: blurredImage)
@@ -62,14 +76,6 @@ class MyProfileViewController: UIViewController {
         profilePic.clipsToBounds = true
     }
     
-    override func loadView() {
-        super.loadView()
-		
-		//loadUserPicFromAPI()
-		
-        
-    }
-    
     required init(coder aDecoder: NSCoder) {
         super.init(coder: aDecoder)
     }
@@ -94,7 +100,6 @@ class MyProfileViewController: UIViewController {
 			self.defaults.setObject(UIImagePNGRepresentation(blurredImage), forKey: "PixieUserBlurredProfPic")
 			self.defaults.setObject(0, forKey: "PicChange")
 		}
-
 			
 		var imageData = self.defaults.dataForKey("PixieUserBlurredProfPic")
 		var blurredImage = UIImage(data: imageData!)

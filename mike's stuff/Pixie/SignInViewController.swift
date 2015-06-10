@@ -141,7 +141,9 @@ class SignInViewController: UIViewController, UITextFieldDelegate, FBLoginViewDe
                               println("signed in userId: \(userId.toInt()!), first_name: \(first_name), last_name: \(last_name), email: \(resp_email), age: \(age!), bio: \(user_bio), hasFB: true")
                               self.wrongEmailPwLabel.hidden = true
                               didComplete = true
-                              performSegueWithIdentifier("presentSearch", sender: self)
+                              dispatch_sync(dispatch_get_main_queue()) {
+                                 self.performSegueWithIdentifier("presentSearch", sender: self.self)
+                              }
                            } else {
                               shouldAttempt = true
                               println("error age")
@@ -223,7 +225,9 @@ class SignInViewController: UIViewController, UITextFieldDelegate, FBLoginViewDe
                               NSUserDefaults.standardUserDefaults().synchronize()
                               println("signed in userId: \(userId.toInt()!), first_name: \(first_name), last_name: \(last_name), email: \(resp_email), password: \(resp_password), age: \(resp_age), bio: \(user_bio), hasFB: false")
                               self.wrongEmailPwLabel.hidden = true
-                              self.performSegueWithIdentifier("presentSearch", sender: self)
+                              dispatch_sync(dispatch_get_main_queue()) {
+                                 self.performSegueWithIdentifier("presentSearch", sender: self.self)
+                              }
                            } else {
                               println("error age")
                            }
