@@ -565,7 +565,6 @@ class RegisterViewController: UIViewController, FBLoginViewDelegate, UITextField
    }
    
    override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {
-      println("in prepareForSegue with identifier \(segue.identifier!)")
       noLastNameLabel.hidden = true
       if segue.identifier == "presentSearch" {
          if let navVC = segue.destinationViewController as? UINavigationController {
