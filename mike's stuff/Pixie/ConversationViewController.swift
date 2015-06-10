@@ -76,13 +76,10 @@ class ConversationViewController: JSQMessagesViewController {
         super.viewDidAppear(animated)
         self.collectionView.collectionViewLayout.springinessEnabled = true
         self.timer = NSTimer.scheduledTimerWithTimeInterval(5.0, target: self, selector: Selector("callLoadMessages"), userInfo: nil, repeats: true)
-        println("self timer is ");
-        println(self.timer);
     }
     
     // load previous messages of a convo
     func loadMessages(new: Bool) {
-        println("load messages")
         var lastMsg = messages.last
         var query = PFQuery(className: "Message")
         
@@ -239,7 +236,6 @@ class ConversationViewController: JSQMessagesViewController {
     }
     
     override func collectionView(collectionView: JSQMessagesCollectionView!, messageDataForItemAtIndexPath indexPath: NSIndexPath!) -> JSQMessageData! {
-        println("\(indexPath.row): \(messages[indexPath.item])")
         return messages[indexPath.item]
     }
     

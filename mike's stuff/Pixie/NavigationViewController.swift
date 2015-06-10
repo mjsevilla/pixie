@@ -121,15 +121,15 @@ class NavigationViewController: UIViewController, UITableViewDelegate, UITableVi
                 self.performSegueWithIdentifier("presentAbout", sender: self)
             }
         case 5:
-            self.performSegueWithIdentifier("unwindInitial", sender: self)
-            self.dismissViewControllerAnimated(true, completion: nil)
-            self.houseKeepingLogout()
+            dismissViewControllerAnimated(true, completion: nil)
+            NSTimer.scheduledTimerWithTimeInterval(0.2, target: self, selector: Selector("houseKeepingLogout"), userInfo: nil, repeats: false)
         default:
             println("uhhh...hai <(._.<)")
         }
     }
     
     func houseKeepingLogout() {
+        self.performSegueWithIdentifier("unwindInitial", sender: self)
         NSUserDefaults.standardUserDefaults().removeObjectForKey("PixieUserId")
         NSUserDefaults.standardUserDefaults().removeObjectForKey("PixieUserFirstName")
         NSUserDefaults.standardUserDefaults().removeObjectForKey("PixieUserLastName")
@@ -158,12 +158,12 @@ class NavigationModel {
     var icon: String!
     var count: String?
     
-    init(title: String, icon : String) {
+    init(title: String, icon: String) {
         self.title = title
         self.icon = icon
     }
     
-    init(title: String, icon : String, count: String) {
+    init(title: String, icon: String, count: String) {
         self.title = title
         self.icon = icon
         self.count = count
