@@ -576,20 +576,38 @@ class EditPostViewController: UIViewController, UITextFieldDelegate, UIPickerVie
       startingSearchBar.layer.borderColor = UIColor(red:0.0, green:0.74, blue:0.82, alpha:1.0).CGColor
       endingSearchBar.layer.borderColor = UIColor(red:0.0, green:0.74, blue:0.82, alpha:1.0).CGColor
       
-      let urlString = "http://ec2-54-69-253-12.us-west-2.compute.amazonaws.com/pixie/posts";
-      var request = NSMutableURLRequest(URL: NSURL(string: urlString)!);
-      var session = NSURLSession.sharedSession();
+      let urlString = "http://ec2-54-69-253-12.us-west-2.compute.amazonaws.com/pixie/posts/\(currentPost.postId)";
+      var request = NSMutableURLRequest(URL: NSURL(string: urlString)!)
       request.HTTPMethod = "PUT"
       var err: NSError?
-      
-      var reqText = ["start_name": currentPost.start.name, "start_lat": currentPost.start.latitude, "start_lon": currentPost.start.longitude, "end_name": currentPost.end.name, "end_lat": currentPost.end.latitude, "end_lon": currentPost.end.longitude, "day": currentPost.dayFormatStr, "driver_enum": currentPost.driverEnum, "time": currentPost.timeFormatStr, "userId": currentPost.userId]
-      
+      var reqText = ["start_name": currentPost.start.name, "start_lat": currentPost.start.latitude, "start_lon": currentPost.start.longitude, "end_name": currentPost.end.name, "end_lat": currentPost.end.latitude, "end_lon": currentPost.end.longitude, "day": currentPost.dayFormatStr, "time": currentPost.timeFormatStr, "driver_enum": currentPost.driverEnum]
 //      println("\nreqText...\(reqText)")
+      request.HTTPBody = NSJSONSerialization.dataWithJSONObject(reqText, options: nil, error: &err)
+      request.addValue("application/json", forHTTPHeaderField: "Content-Type")
+      request.addValue("application/json", forHTTPHeaderField: "Accept")
+      var response: NSURLResponse?
+      
+      var data =  NSURLConnection.sendSynchronousRequest(request, returningResponse: &response, error:nil)! as NSData
+      
+      NSURLConnection.sendAsynchronousRequest(request, queue: NSOperationQueue(), completionHandler:{
+         (response:NSURLResponse!, data: NSData!, error: NSError!) -> Void in
+         if let anError = error {
+            println("error calling DELETE when deleting postId \(self.currentPost.postId)")
+            println(anError)
+         }
+      })
       
       
       // TO-DO: FIX THIS API CALL SHIT
       
-      //      currentPost = Post(isDriver: driverEnum, start: start, end: end, date: day!, time: time!, userId: currentPost.userId)
+//      var data =  NSURLConnection.sendSynchronousRequest(request, returningResponse: &response, error:nil)! as NSData
+      
+      if let json = NSJSONSerialization.JSONObjectWithData(data, options: NSJSONReadingOptions.AllowFragments, error: nil) as? NSDictionary {
+         //   println("json after put request...\njson.count: \(json.count)\n\(json)")
+      }
+
+      
+      
       shouldSavePost = true
       self.performSegueWithIdentifier("unwindToMyPosts", sender: self)
    }

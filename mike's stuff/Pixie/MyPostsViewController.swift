@@ -161,10 +161,32 @@ class MyPostsViewController: UIViewController, UITableViewDelegate, UITableViewD
       
       var deleteAction = UITableViewRowAction(style: UITableViewRowActionStyle.Default, title: "Delete" , handler: { (action:UITableViewRowAction!, indexPath:NSIndexPath!) -> Void in
          
-         self.posts.removeAtIndex(indexPath.row)
-         tableView.deleteRowsAtIndexPaths([indexPath], withRowAnimation: UITableViewRowAnimation.Automatic)
+         let alertController = UIAlertController(title: "Are you sure you want to delete this post?", message: nil, preferredStyle: .Alert)
          
-         //         To-do add api call to delete post from database
+         let cancelAction = UIAlertAction(title: "Cancel", style: .Cancel) { (action) in }
+         alertController.addAction(cancelAction)
+         
+         let deleteAction = UIAlertAction(title: "Delete", style: .Destructive) { (action) in
+            let post = self.posts[indexPath.row]
+            self.posts.removeAtIndex(indexPath.row)
+            tableView.deleteRowsAtIndexPaths([indexPath], withRowAnimation: UITableViewRowAnimation.Automatic)
+            
+            var urlString = "http://ec2-54-69-253-12.us-west-2.compute.amazonaws.com/pixie/posts/\(post.postId)"
+            var request = NSMutableURLRequest(URL: NSURL(string: urlString)!)
+            request.HTTPMethod = "DELETE"
+            
+            NSURLConnection.sendAsynchronousRequest(request, queue: NSOperationQueue(), completionHandler:{
+               (response:NSURLResponse!, data: NSData!, error: NSError!) -> Void in
+               if let anError = error
+               {
+                  println("error calling DELETE when deleting postId \(post.postId)")
+                  println(anError)
+               }
+            })
+         }
+         alertController.addAction(deleteAction)
+         
+         self.presentViewController(alertController, animated: true, completion: nil)
       })
       
       var editAction = UITableViewRowAction(style: UITableViewRowActionStyle.Normal, title: "Edit" , handler: { (action:UITableViewRowAction!, indexPath:NSIndexPath!) -> Void in
