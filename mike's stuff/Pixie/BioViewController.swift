@@ -146,4 +146,6 @@ class BioViewController: UIViewController, UIGestureRecognizerDelegate, UIScroll
    }
    
    @IBAction func unwindToBio(segue:UIStoryboardSegue) {}
+   
+   @IBAction func unwindFromPostRide(segue:UIStoryboardSegue) {}
 }

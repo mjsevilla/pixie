@@ -12,6 +12,7 @@ class PostRideViewController: UIViewController, UITextFieldDelegate, UIPickerVie
    
    var post: Post = Post()
    let postRideTransitionOperator = PostRideTransitionOperator()
+   let matchesTransitionOperator = MatchesTransitionOperator()
    
    var startingVC = GooglePlacesAutocompleteContainer(apiKey: "AIzaSyB6Gv8uuTNh_ZN-Hk8H3S5RARpQot_6I-k", placeType: .All)
    var startingTableView: UITableView!
@@ -1187,9 +1188,6 @@ class PostRideViewController: UIViewController, UITextFieldDelegate, UIPickerVie
          else {
             println("strData...\n\(strData)")
          }
-//         if let json = NSJSONSerialization.JSONObjectWithData(data, options: NSJSONReadingOptions.MutableContainers, error: nil) as? NSDictionary {
-//            println("postRide json...\n\(json)")
-//         }
       })
       
       task.resume();
@@ -1199,7 +1197,7 @@ class PostRideViewController: UIViewController, UITextFieldDelegate, UIPickerVie
          }, completion: {
             (value: Bool) in
             self.delay(0.5) {
-               self.performSegueWithIdentifier("unwindToSearchView", sender: self)
+               self.performSegueWithIdentifier("showMatches", sender: self)
             }
       })
    }
@@ -1402,6 +1400,21 @@ class PostRideViewController: UIViewController, UITextFieldDelegate, UIPickerVie
          }
       } else {
          getPlaces(searchText)
+      }
+   }
+   
+   override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {
+      if segue.identifier == "showMatches" {
+         if let destinationVC = segue.destinationViewController as? MatchesViewController {
+            destinationVC.transitioningDelegate = self.matchesTransitionOperator
+            destinationVC.modalPresentationStyle = UIModalPresentationStyle.Custom
+            destinationVC.startLat = post.start.latitude
+            destinationVC.startLon = post.start.longitude
+            destinationVC.endLat = post.end.latitude
+            destinationVC.endLon = post.end.longitude
+            destinationVC.searchDate = post.dayFormatStr
+            destinationVC.searchTime = post.timeFormatStr
+         }
       }
    }
    

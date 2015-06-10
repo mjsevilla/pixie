@@ -1,5 +1,5 @@
 //
-//  SearchToMatchesTransitionOperator.swift
+//  MatchesTransitionOperator.swift
 //  Pixie
 //
 //  Created by Nicole on 3/9/15.
@@ -8,7 +8,7 @@
 
 import UIKit
 
-class SearchToMatchesTransitionOperator: NSObject, UIViewControllerAnimatedTransitioning, UIViewControllerTransitioningDelegate  {
+class MatchesTransitionOperator: NSObject, UIViewControllerAnimatedTransitioning, UIViewControllerTransitioningDelegate  {
    
    private var presenting = true
    
@@ -20,20 +20,20 @@ class SearchToMatchesTransitionOperator: NSObject, UIViewControllerAnimatedTrans
       // get reference to our fromView, toView and the container view that we should perform the transition in
       let container = transitionContext.containerView()
       
-      let searchVC = (self.presenting ? transitionContext.viewControllerForKey(UITransitionContextFromViewControllerKey)! : transitionContext.viewControllerForKey(UITransitionContextToViewControllerKey)!) as UIViewController
+      let presentingVC = (self.presenting ? transitionContext.viewControllerForKey(UITransitionContextFromViewControllerKey)! : transitionContext.viewControllerForKey(UITransitionContextToViewControllerKey)!) as UIViewController
       let matchesVC = (self.presenting ? transitionContext.viewControllerForKey(UITransitionContextToViewControllerKey)! : transitionContext.viewControllerForKey(UITransitionContextFromViewControllerKey)!) as UIViewController
       
-      let searchView = searchVC.view
+      let presentingView = presentingVC.view
       let matchesView = matchesVC.view
       
       // add the both views to our view controller
-      container.addSubview(searchView)
+      container.addSubview(presentingView)
       container.addSubview(matchesView)
       
       if self.presenting {
          matchesView.transform = CGAffineTransformMakeTranslation(0, matchesView.frame.height)
       } else {
-         searchView.transform = CGAffineTransformMakeTranslation(0, -searchView.frame.height)
+         presentingView.transform = CGAffineTransformMakeTranslation(0, -presentingView.frame.height)
       }
       
       // get the duration of the animation
@@ -42,10 +42,10 @@ class SearchToMatchesTransitionOperator: NSObject, UIViewControllerAnimatedTrans
       // perform the animation!
       UIView.animateWithDuration(duration, delay: 0.0, usingSpringWithDamping: 1.0, initialSpringVelocity: 0.5, options:nil, animations: {
          if self.presenting {
-            searchView.transform = CGAffineTransformMakeTranslation(0, -searchView.frame.height)
+            presentingView.transform = CGAffineTransformMakeTranslation(0, -presentingView.frame.height)
             matchesView.transform = CGAffineTransformIdentity
          } else {
-            searchView.transform = CGAffineTransformIdentity
+            presentingView.transform = CGAffineTransformIdentity
             matchesView.transform = CGAffineTransformMakeTranslation(0, matchesView.frame.height)
          }
          }, completion: { finished in
@@ -54,7 +54,7 @@ class SearchToMatchesTransitionOperator: NSObject, UIViewControllerAnimatedTrans
             transitionContext.completeTransition(true)
             if !self.presenting {
                //postRideView.removeFromSuperview()
-               UIApplication.sharedApplication().keyWindow?.addSubview(searchView)
+               UIApplication.sharedApplication().keyWindow?.addSubview(presentingView)
             }
       })
       

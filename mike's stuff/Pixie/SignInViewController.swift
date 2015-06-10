@@ -22,7 +22,6 @@ class SignInViewController: UIViewController, UITextFieldDelegate, FBLoginViewDe
    var user: PFUser?
    let defaults = NSUserDefaults.standardUserDefaults()
    var shouldAttempt = true
-   var didComplete = false
    
    override func viewDidLoad() {
       super.viewDidLoad()
@@ -64,11 +63,7 @@ class SignInViewController: UIViewController, UITextFieldDelegate, FBLoginViewDe
    
    // Facebook delegate methods
    func loginViewShowingLoggedInUser(loginView: FBLoginView!) {
-      if didComplete {
-      	println("User Logged In")
-//         performSegueWithIdentifier("presentSearch", sender: self)
-      }
-      didComplete = false
+      println("User Logged In")
    }
    
    func loginViewShowingLoggedOutUser(loginView: FBLoginView!) {
@@ -140,10 +135,7 @@ class SignInViewController: UIViewController, UITextFieldDelegate, FBLoginViewDe
                               NSUserDefaults.standardUserDefaults().synchronize()
                               println("signed in userId: \(userId.toInt()!), first_name: \(first_name), last_name: \(last_name), email: \(resp_email), age: \(age!), bio: \(user_bio), hasFB: true")
                               self.wrongEmailPwLabel.hidden = true
-                              didComplete = true
-                              dispatch_sync(dispatch_get_main_queue()) {
-                                 self.performSegueWithIdentifier("presentSearch", sender: self.self)
-                              }
+                              self.performSegueWithIdentifier("presentSearch", sender: self.self)
                            } else {
                               shouldAttempt = true
                               println("error age")
@@ -225,9 +217,7 @@ class SignInViewController: UIViewController, UITextFieldDelegate, FBLoginViewDe
                               NSUserDefaults.standardUserDefaults().synchronize()
                               println("signed in userId: \(userId.toInt()!), first_name: \(first_name), last_name: \(last_name), email: \(resp_email), password: \(resp_password), age: \(resp_age), bio: \(user_bio), hasFB: false")
                               self.wrongEmailPwLabel.hidden = true
-                              dispatch_sync(dispatch_get_main_queue()) {
-                                 self.performSegueWithIdentifier("presentSearch", sender: self.self)
-                              }
+                              self.performSegueWithIdentifier("presentSearch", sender: self.self)
                            } else {
                               println("error age")
                            }

@@ -33,7 +33,7 @@
 		52414C871AAE037600417481 /* Review.swift in Sources */ = {isa = PBXBuildFile; fileRef = 52414C861AAE037600417481 /* Review.swift */; };
 		52414C891AAE04EF00417481 /* chat-bubble32.png in Resources */ = {isa = PBXBuildFile; fileRef = 52414C881AAE04EF00417481 /* chat-bubble32.png */; };
 		52414C8B1AAE050000417481 /* star.png in Resources */ = {isa = PBXBuildFile; fileRef = 52414C8A1AAE050000417481 /* star.png */; };
-		52414C8D1AAE061A00417481 /* SearchToMatchesTransitionOperator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 52414C8C1AAE061A00417481 /* SearchToMatchesTransitionOperator.swift */; };
+		52414C8D1AAE061A00417481 /* MatchesTransitionOperator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 52414C8C1AAE061A00417481 /* MatchesTransitionOperator.swift */; };
 		52CB3C681AA85C1100FAE10A /* PostRideViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 52CB3C671AA85C1100FAE10A /* PostRideViewController.swift */; };
 		52CB3C6A1AA85C8B00FAE10A /* PostRideTransitionOperator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 52CB3C691AA85C8B00FAE10A /* PostRideTransitionOperator.swift */; };
 		52CF2BD91AEE591200172812 /* EditPostViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 52CF2BD81AEE591200172812 /* EditPostViewController.swift */; };
@@ -180,7 +180,7 @@
 		52414C861AAE037600417481 /* Review.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Review.swift; sourceTree = "<group>"; };
 		52414C881AAE04EF00417481 /* chat-bubble32.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "chat-bubble32.png"; sourceTree = "<group>"; };
 		52414C8A1AAE050000417481 /* star.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = star.png; sourceTree = "<group>"; };
-		52414C8C1AAE061A00417481 /* SearchToMatchesTransitionOperator.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SearchToMatchesTransitionOperator.swift; sourceTree = "<group>"; };
+		52414C8C1AAE061A00417481 /* MatchesTransitionOperator.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MatchesTransitionOperator.swift; sourceTree = "<group>"; };
 		52C9684E1B15BB6E00BE193F /* MapKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = MapKit.framework; path = System/Library/Frameworks/MapKit.framework; sourceTree = SDKROOT; };
 		52CB3C671AA85C1100FAE10A /* PostRideViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PostRideViewController.swift; sourceTree = "<group>"; };
 		52CB3C691AA85C8B00FAE10A /* PostRideTransitionOperator.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PostRideTransitionOperator.swift; sourceTree = "<group>"; };
@@ -767,7 +767,7 @@
 				52414C7C1AAE008800417481 /* MatchesToBioTransitionOperator.swift */,
 				6123E3DF1A9AF59600AB776F /* NavigationTransitionOperator.swift */,
 				52CB3C691AA85C8B00FAE10A /* PostRideTransitionOperator.swift */,
-				52414C8C1AAE061A00417481 /* SearchToMatchesTransitionOperator.swift */,
+				52414C8C1AAE061A00417481 /* MatchesTransitionOperator.swift */,
 			);
 			name = "Transition Operators";
 			sourceTree = "<group>";
@@ -1005,7 +1005,7 @@
 				612095D11B02BE9C00336D1C /* JSQMessagesCollectionViewLayoutAttributes.m in Sources */,
 				61BCE4BC1B09598600F1A681 /* GPUImageMovieWriter.m in Sources */,
 				52FFF7D11AEDFA350054A803 /* MyPostsTableViewCell.swift in Sources */,
-				52414C8D1AAE061A00417481 /* SearchToMatchesTransitionOperator.swift in Sources */,
+				52414C8D1AAE061A00417481 /* MatchesTransitionOperator.swift in Sources */,
 				612095B51B02BE5400336D1C /* JSQMessagesViewController.m in Sources */,
 				2CC475E81AFE9D6A00864116 /* AutocompleteViewController.m in Sources */,
 				6123E3E21A9AF80A00AB776F /* NavigationCell.swift in Sources */,

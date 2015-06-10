@@ -24,7 +24,7 @@ class SearchViewController: AutocompleteViewController, CLLocationManagerDelegat
     
     let navTransitionOperator = NavigationTransitionOperator()
     let postRideTransitionOperator = PostRideTransitionOperator()
-    let matchesTransitionOperator = SearchToMatchesTransitionOperator()
+    let matchesTransitionOperator = MatchesTransitionOperator()
     var moviePlayer: MPMoviePlayerController?
     let locationManager = CLLocationManager()
     var startLat: Double!
@@ -35,7 +35,6 @@ class SearchViewController: AutocompleteViewController, CLLocationManagerDelegat
 	
     override func viewDidLoad() {
         super.viewDidLoad()
-        // Do any additional setup after loading the view, typically from a nib.
         self.playVideo()
         
         NSNotificationCenter.defaultCenter().addObserver(self, selector: Selector("keyboardWillShow:"), name:UIKeyboardWillShowNotification, object: nil)
@@ -51,7 +50,6 @@ class SearchViewController: AutocompleteViewController, CLLocationManagerDelegat
         searchBar.layer.borderColor = UIColor.clearColor().CGColor
         searchBar.layer.borderWidth = 1.0
         searchBar.hidden = false
-        
 
         startingTableView.backgroundColor = UIColor.clearColor()
         startingTableView.delegate = self
@@ -72,23 +70,6 @@ class SearchViewController: AutocompleteViewController, CLLocationManagerDelegat
         self.locationManager.requestAlwaysAuthorization()
         self.locationManager.requestWhenInUseAuthorization()
         self.locationManager.startUpdatingLocation()
-		
-//        let defaults = NSUserDefaults.standardUserDefaults()
-//        if let savedId = defaults.stringForKey("PixieUserId") {
-//            if let savedFirstName = defaults.stringForKey("PixieUserFirstName") {
-//                if let savedLastName = defaults.stringForKey("PixieUserLastName") {
-//                    println("userId found: \(savedId)")
-//                    println("firstName found: \(savedFirstName)")
-//                    println("lastName found: \(savedLastName)")
-//                } else {
-//                    println("lastName not found")
-//                }
-//            } else {
-//                println("firstName not found")
-//            }
-//        } else {
-//            println("userId not found")
-//        }
     }
     
     override func viewDidAppear(animated: Bool) {
@@ -252,7 +233,6 @@ class SearchViewController: AutocompleteViewController, CLLocationManagerDelegat
     }
    
     override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {
-      println("in prepareForSegue with segue.identifier: \(segue.identifier!)")
         if segue.identifier == "presentNav" {
             let toViewController = segue.destinationViewController as! NavigationViewController
             self.modalPresentationStyle = UIModalPresentationStyle.Custom
