@@ -1185,9 +1185,6 @@ class PostRideViewController: UIViewController, UITextFieldDelegate, UIPickerVie
          if(err != nil) {
             println(err!.localizedDescription)
          }
-         else {
-            println("strData...\n\(strData)")
-         }
       })
       
       task.resume();
@@ -1197,7 +1194,7 @@ class PostRideViewController: UIViewController, UITextFieldDelegate, UIPickerVie
          }, completion: {
             (value: Bool) in
             self.delay(0.5) {
-               self.performSegueWithIdentifier("unwindFromPostRide", sender: self)
+               self.performSegueWithIdentifier("unwindToSearchView", sender: self)
             }
       })
    }
@@ -1404,7 +1401,7 @@ class PostRideViewController: UIViewController, UITextFieldDelegate, UIPickerVie
    }
    
    override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {
-      if segue.identifier == "unwindFromPostRide" {
+      if segue.identifier == "unwindToSearchView" {
          if let destinationVC = segue.destinationViewController as? MatchesViewController {
             destinationVC.transitioningDelegate = self.matchesTransitionOperator
             destinationVC.modalPresentationStyle = UIModalPresentationStyle.Custom
