@@ -126,7 +126,7 @@ class MatchesViewController: UIViewController, UICollectionViewDelegateFlowLayou
    }
    
    func loadPostsFromAPI() {
-      var urlString = "http://ec2-54-69-253-12.us-west-2.compute.amazonaws.com/pixie/posts?startLat=\(startLat)&startLon=\(startLon)&endLat=\(endLat)&endLon=\(endLon)&day=\(searchDate)&time=\(searchTime)&driverEnum=DRIVER"
+      var urlString = "http://ec2-54-69-253-12.us-west-2.compute.amazonaws.com/pixie/posts?startLat=\(startLat)&startLon=\(startLon)&endLat=\(endLat)&endLon=\(endLon)&day=\(searchDate)&time=\(searchTime)&driverEnum=RIDER"
       let url = NSURL(string: urlString)
       var request = NSURLRequest(URL: url!)
       var response: NSURLResponse?
@@ -184,7 +184,7 @@ class MatchesViewController: UIViewController, UICollectionViewDelegateFlowLayou
             self.matches.append(Match(author: currUser, post: p))
          } else {
             var user = User()
-            var urlString = "http://ec2-54-69-253-12.us-west-2.compute.amazonaws.com/pixie/users/\(124)"
+            var urlString = "http://ec2-54-69-253-12.us-west-2.compute.amazonaws.com/pixie/users/\(p.userId)"
             let url = NSURL(string: urlString)
             var request = NSURLRequest(URL: url!)
             var response: NSURLResponse?
@@ -235,7 +235,18 @@ class MatchesViewController: UIViewController, UICollectionViewDelegateFlowLayou
          }
       }
    }
-   
+	
+	func loadUserPicFromAPI(userId: Int) -> NSData {
+		var urlString = "http://ec2-54-69-253-12.us-west-2.compute.amazonaws.com/pixie/userPic/\(userId)"
+		let url = NSURL(string: urlString)
+		var request = NSURLRequest(URL: url!)
+		var response: NSURLResponse?
+		var error: NSErrorPointer = nil
+		var data =  NSURLConnection.sendSynchronousRequest(request, returningResponse: &response, error:nil)! as NSData
+		
+		return data
+	}
+	
    func numberOfSectionsInCollectionView(collectionView: UICollectionView) -> Int {
       return matches.count
    }
@@ -256,7 +267,8 @@ class MatchesViewController: UIViewController, UICollectionViewDelegateFlowLayou
       cell.messageIcon.addTarget(self, action: "sendMessage:", forControlEvents: UIControlEvents.TouchUpInside)
       
       cell.profilePic.addGestureRecognizer(tap)
-      cell.profilePic.image = currentMatch.author.useDefaultImage ? currentMatch.author.defaultImage : UIImage(data: currentMatch.author.profilePicData)
+      //cell.profilePic.image = currentMatch.author.useDefaultImage ? currentMatch.author.defaultImage : UIImage(data: currentMatch.author.profilePicData)
+	  cell.profilePic.image = UIImage(data: loadUserPicFromAPI(currentMatch.author.userId))
       if currentMatch.author.age > 0 {
          cell.userNameLabel.attributedText = createAttributedNameString(currentMatch.author.fullName, age: currentMatch.author.age)
       } else {

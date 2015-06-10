@@ -25,8 +25,6 @@ class MyProfileViewController: UIViewController {
         super.viewDidLoad()
 		
 		if (defaults.dataForKey("PixieUserProfPic") == nil) {
-			println("viewdidload load")
-
 			loadUserPicFromAPI()
 			var gaussianFilter = GPUImageGaussianBlurFilter()
 			gaussianFilter.blurRadiusInPixels = 9
@@ -101,20 +99,20 @@ class MyProfileViewController: UIViewController {
 			self.defaults.setObject(0, forKey: "PicChange")
 		}
       
-      var gaussianFilter = GPUImageGaussianBlurFilter()
-      gaussianFilter.blurRadiusInPixels = 8
-      gaussianFilter.blurPasses = 2
+      //var gaussianFilter = GPUImageGaussianBlurFilter()
+      //gaussianFilter.blurRadiusInPixels = 8
+      //gaussianFilter.blurPasses = 2
 			
 		var imageData = self.defaults.dataForKey("PixieUserBlurredProfPic")
-//		var blurredImage = UIImage(data: imageData!)
-      var blurredImage = gaussianFilter.imageByFilteringImage(UIImage(named: "sloth.jpg")!)
+		var blurredImage = UIImage(data: imageData!)
+      //var blurredImage = gaussianFilter.imageByFilteringImage(UIImage(named: "sloth.jpg")!)
 			
 		self.profilePicBlurred.image = blurredImage
 		self.profilePicBlurred.setTranslatesAutoresizingMaskIntoConstraints(false)
 		self.blurView = UIVisualEffectView(effect: UIBlurEffect(style: .ExtraLight))
 		self.blurView.setTranslatesAutoresizingMaskIntoConstraints(false)
 			
-		self.profilePic.image = UIImage(named: "sloth.jpg")!// UIImage(data: self.defaults.dataForKey("PixieUserProfPic")!)
+		self.profilePic.image = UIImage(data: self.defaults.dataForKey("PixieUserProfPic")!)
 		self.profilePic.setTranslatesAutoresizingMaskIntoConstraints(false)
 		
 		let first = defaults.stringForKey("PixieUserFirstName")!
