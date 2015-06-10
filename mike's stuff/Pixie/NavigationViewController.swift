@@ -122,6 +122,7 @@ class NavigationViewController: UIViewController, UITableViewDelegate, UITableVi
             }
         case 5:
             self.performSegueWithIdentifier("unwindInitial", sender: self)
+            self.dismissViewControllerAnimated(true, completion: nil)
             //            if (defaults.stringForKey("PixieUserFirstName") == true) {
             //               println("closing fb session")
             //               FBSession.activeSession().closeAndClearTokenInformation()

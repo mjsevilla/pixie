@@ -548,7 +548,6 @@
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="Rod-uQ-vPG" sceneMemberID="firstResponder"/>
-                <exit id="YSt-SD-BMQ" userLabel="Exit" sceneMemberID="exit"/>
             </objects>
             <point key="canvasLocation" x="973" y="-235"/>
         </scene>
@@ -877,11 +876,12 @@
                         <segue destination="GCW-6Z-dMB" kind="show" identifier="presentAbout" id="YDc-Zs-ygh"/>
                         <segue destination="dzH-Kb-FUl" kind="show" identifier="presentMyPosts" id="hQN-2J-Iwr"/>
                         <segue destination="uUn-Vq-NVl" kind="show" identifier="presentMessages" id="eAZ-5T-K8L"/>
-                        <segue destination="YSt-SD-BMQ" kind="unwind" identifier="unwindInitial" unwindAction="unwindToInitialVC:" id="kJ6-Kd-g8Q"/>
                         <segue destination="kQ1-0w-jNs" kind="show" identifier="presentProfile" id="h5T-Ck-x9x"/>
+                        <segue destination="DeI-CR-g4A" kind="unwind" identifier="unwindInitial" unwindAction="unwindToInitialVC:" id="Emk-U3-aaJ"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="gBX-1g-wYc" userLabel="First Responder" sceneMemberID="firstResponder"/>
+                <exit id="DeI-CR-g4A" userLabel="Exit" sceneMemberID="exit"/>
             </objects>
             <point key="canvasLocation" x="3814" y="148"/>
         </scene>
@@ -1467,6 +1467,7 @@
         <!--InitialNavVC-->
         <scene sceneID="NWu-SK-7Pm">
             <objects>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="Dpw-8d-BDx" userLabel="First Responder" sceneMemberID="firstResponder"/>
                 <navigationController title="InitialNavVC" automaticallyAdjustsScrollViewInsets="NO" navigationBarHidden="YES" id="Gxg-AY-BeM" sceneMemberID="viewController">
                     <toolbarItems/>
                     <nil key="simulatedStatusBarMetrics"/>
@@ -1480,7 +1481,6 @@
                         <segue destination="WGR-7L-PRe" kind="relationship" relationship="rootViewController" id="DLJ-e7-xj0"/>
                     </connections>
                 </navigationController>
-                <placeholder placeholderIdentifier="IBFirstResponder" id="Dpw-8d-BDx" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
             <point key="canvasLocation" x="161" y="-235"/>
         </scene>
@@ -1491,8 +1491,8 @@
         <image name="menu" width="22" height="22"/>
     </resources>
     <inferredMetricsTieBreakers>
-        <segue reference="UQr-E0-E95"/>
         <segue reference="zPx-fe-Ar7"/>
-        <segue reference="DAt-Tu-EYX"/>
+        <segue reference="UQr-E0-E95"/>
+        <segue reference="QXm-KY-6G3"/>
     </inferredMetricsTieBreakers>
 </document>
