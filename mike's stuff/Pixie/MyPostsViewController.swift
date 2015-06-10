@@ -94,7 +94,7 @@ class MyPostsViewController: UIViewController, UITableViewDelegate, UITableViewD
                                                 let start = Location(name: start, lat: startLat, long: startLon)
                                                 let end = Location(name: end, lat: endLat, long: endLon)
                                                 self.posts.append(Post(isDriver: isDriver, start: start, end: end, day: day, time: time, postId: postId, userId: userId))
-                                                posts[posts.count-1].toString()
+//                                                posts[posts.count-1].toString()
                                              } else {
                                                 println("error: driver_enum")
                                              }

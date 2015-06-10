@@ -24,7 +24,6 @@ class RegisterViewController: UIViewController, FBLoginViewDelegate, UITextField
    @IBOutlet weak var noLastNameLabel: UILabel!
    var user: PFUser?
    var shouldAttempt = true
-   var didComplete = false
    
    let defaults = NSUserDefaults.standardUserDefaults()
    
@@ -98,11 +97,7 @@ class RegisterViewController: UIViewController, FBLoginViewDelegate, UITextField
    
    // Facebook delegate methods
    func loginViewShowingLoggedInUser(loginView: FBLoginView!) {
-      if didComplete {
-         println("User Logged In")
-         performSegueWithIdentifier("presentSearch", sender: self)
-      }
-      didComplete = false
+      println("User Logged In")
    }
    
    func loginViewFetchedUserInfo(loginView: FBLoginView!, user: FBGraphUser!) {
@@ -203,7 +198,7 @@ class RegisterViewController: UIViewController, FBLoginViewDelegate, UITextField
                                     }
                                     Keychain.set(true, forKey: "loggedIn")
                                     println("created userId: \(userId), first_name: \(first_name), last_name: \(last_name), email: \(resp_email), password: \(resp_password), age: \(age!), bio: \(user_bio), hasFB: true")
-                                    self.didComplete = true
+                                    self.performSegueWithIdentifier("presentSearch", sender: self.self)
                                  } else {
                                     self.shouldAttempt = true
                                     println("error age")
@@ -566,6 +561,7 @@ class RegisterViewController: UIViewController, FBLoginViewDelegate, UITextField
    }
    
    override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {
+      println("in prepareForSegue with identifier \(segue.identifier!)")
       noLastNameLabel.hidden = true
       if segue.identifier == "presentSearch" {
          if let navVC = segue.destinationViewController as? UINavigationController {

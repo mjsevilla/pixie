@@ -25,6 +25,7 @@ class EditPostViewController: UIViewController, UITextFieldDelegate, UIPickerVie
    var startingLocTextField: UITextField!
    var endingLocTextField: UITextField!
    var searchBarsVisible = true
+   var sameStartEnd = false
    
    var dateButton: UIButton!
    var datePicker: UIPickerView!
@@ -561,6 +562,7 @@ class EditPostViewController: UIViewController, UITextFieldDelegate, UIPickerVie
       if startingSearchBar.text == endingSearchBar.text {
          startingSearchBar.layer.borderColor = UIColor.redColor().CGColor
          endingSearchBar.layer.borderColor = UIColor.redColor().CGColor
+         sameStartEnd = true
          ret = false
       }
       
@@ -586,27 +588,18 @@ class EditPostViewController: UIViewController, UITextFieldDelegate, UIPickerVie
       request.addValue("application/json", forHTTPHeaderField: "Content-Type")
       request.addValue("application/json", forHTTPHeaderField: "Accept")
       var response: NSURLResponse?
-      
-      var data =  NSURLConnection.sendSynchronousRequest(request, returningResponse: &response, error:nil)! as NSData
-      
+
       NSURLConnection.sendAsynchronousRequest(request, queue: NSOperationQueue(), completionHandler:{
          (response:NSURLResponse!, data: NSData!, error: NSError!) -> Void in
          if let anError = error {
             println("error calling DELETE when deleting postId \(self.currentPost.postId)")
             println(anError)
+         } else {
+            if let json = NSJSONSerialization.JSONObjectWithData(data, options: NSJSONReadingOptions.AllowFragments, error: nil) as? NSDictionary {
+               println("json after put request...\n\(json)")
+            }
          }
       })
-      
-      
-      // TO-DO: FIX THIS API CALL SHIT
-      
-//      var data =  NSURLConnection.sendSynchronousRequest(request, returningResponse: &response, error:nil)! as NSData
-      
-      if let json = NSJSONSerialization.JSONObjectWithData(data, options: NSJSONReadingOptions.AllowFragments, error: nil) as? NSDictionary {
-         //   println("json after put request...\njson.count: \(json.count)\n\(json)")
-      }
-
-      
       
       shouldSavePost = true
       self.performSegueWithIdentifier("unwindToMyPosts", sender: self)
@@ -699,6 +692,13 @@ class EditPostViewController: UIViewController, UITextFieldDelegate, UIPickerVie
    }
    
    func selectedLocationInSearchBar() {
+      if sameStartEnd && startingSearchBar.text != endingSearchBar.text {
+         startingSearchBar.layer.borderColor = UIColor(red:0.0, green:0.74, blue:0.82, alpha:1.0).CGColor
+         endingSearchBar.layer.borderColor = UIColor(red:0.0, green:0.74, blue:0.82, alpha:1.0).CGColor
+         sameStartEnd = false
+      } else if !sameStartEnd {
+         activeSearchBar.layer.borderColor = UIColor(red:0.0, green:0.74, blue:0.82, alpha:1.0).CGColor
+      }
       let isStarting = activeSearchBar == startingSearchBar
       
       
