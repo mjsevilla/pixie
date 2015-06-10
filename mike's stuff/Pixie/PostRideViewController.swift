@@ -31,6 +31,8 @@ class PostRideViewController: UIViewController, UITextFieldDelegate, UIPickerVie
    var edgeInsets = UIEdgeInsets(top: 0, left: 16, bottom: 0, right: 16)
    var searchBarsVisible = true
    var sameStartEnd = false
+   var selectedStart = false
+   var selectedEnd = false
    
    var dateTimeSectionButton: UIButton!
    var dateButton: UIButton!
@@ -471,6 +473,7 @@ class PostRideViewController: UIViewController, UITextFieldDelegate, UIPickerVie
       
       if tripSectionButton.hidden {
          if activeSearchBar == self.startingSearchBar {
+            selectedStart = true
             
             startingSearchBarConstraints["Top"] = NSLayoutConstraint(item: startingSearchBar, attribute: .Top, relatedBy: .Equal, toItem: seekOfferSegment, attribute: .Bottom, multiplier: 1, constant: (endingSearchBar.frame.origin.y - tripSectionButton.frame.origin.y - tripSectionButton.frame.height - seekOfferSegment.frame.height - startingSearchBar.frame.height)/3.0)
             self.view.removeConstraint(self.startingSearchBarConstraints["Search"]!)
@@ -503,6 +506,7 @@ class PostRideViewController: UIViewController, UITextFieldDelegate, UIPickerVie
                   })
             })
          } else if activeSearchBar == self.endingSearchBar {
+            selectedEnd = true
             self.view.removeConstraint(self.endingSearchBarConstraints["Search"]!)
             
             UIView.animateWithDuration(0.4, animations: {
@@ -524,6 +528,7 @@ class PostRideViewController: UIViewController, UITextFieldDelegate, UIPickerVie
          }
       } else {
          if activeSearchBar == startingSearchBar {
+            selectedStart = true
             self.view.removeConstraint(self.startingSearchBarConstraints["Search"]!)
             
             UIView.animateWithDuration(0.25, animations: {
@@ -567,6 +572,7 @@ class PostRideViewController: UIViewController, UITextFieldDelegate, UIPickerVie
             })
          }
          else if activeSearchBar == endingSearchBar {
+            selectedEnd = true
             self.view.removeConstraint(self.endingSearchBarConstraints["Search"]!)
             
             UIView.animateWithDuration(0.25, animations: {
@@ -1161,6 +1167,11 @@ class PostRideViewController: UIViewController, UITextFieldDelegate, UIPickerVie
          sameStartEnd = true
          ret = false
       }
+      if !(selectedStart && selectedEnd) {
+         if !selectedStart { startingSearchBar.layer.borderColor = UIColor.redColor().CGColor }
+         if !selectedEnd { endingSearchBar.layer.borderColor = UIColor.redColor().CGColor }
+         ret = false
+      }
       
       return ret
    }
@@ -1236,6 +1247,7 @@ class PostRideViewController: UIViewController, UITextFieldDelegate, UIPickerVie
       let place = activeSearchBar == startingSearchBar ? startingVC.places[indexPath.row] : endingVC.places[indexPath.row]
       
       cell.placeLabel.text = place.description
+      cell.backgroundColor = UIColor.whiteColor().colorWithAlphaComponent(0.6)
       
       return cell
    }
@@ -1289,6 +1301,7 @@ class PostRideViewController: UIViewController, UITextFieldDelegate, UIPickerVie
       
       if activeSearchBar == startingSearchBar && !searchBarsVisible {
          self.view.removeConstraint(self.startingSearchBarConstraints["Search"]!)
+         self.startingTableView.hidden = true
          
          UIView.animateWithDuration(0.25, animations: {
             if self.endingSearchBar.hidden {
@@ -1315,6 +1328,7 @@ class PostRideViewController: UIViewController, UITextFieldDelegate, UIPickerVie
       }
       else if activeSearchBar == endingSearchBar && !searchBarsVisible {
          self.view.removeConstraint(self.endingSearchBarConstraints["Search"]!)
+         self.endingTableView.hidden = true
          
          UIView.animateWithDuration(0.25, animations: {
             self.view.addConstraint(self.endingSearchBarConstraints["CenterY"]!)
@@ -1341,6 +1355,18 @@ class PostRideViewController: UIViewController, UITextFieldDelegate, UIPickerVie
       if searchBarsVisible {
          self.activeSearchBar = searchBar
       }
+      if searchBar == startingSearchBar {
+         selectedStart = false
+         if startingSearchBar.text.isEmpty {
+            tripSectionButton.setTitle("\u{2192} " + self.endingSearchBar.text, forState: .Normal)
+         }
+      } else if searchBar == endingSearchBar {
+         selectedEnd = false
+         if endingSearchBar.text.isEmpty {
+            tripSectionButton.setTitle(self.startingSearchBar.text + " \u{2192}", forState: .Normal)
+         }
+      }
+   
       
       if searchBar == startingSearchBar && searchBarsVisible {
          self.searchBarsVisible = false
@@ -1387,7 +1413,7 @@ class PostRideViewController: UIViewController, UITextFieldDelegate, UIPickerVie
    }
    
    func searchBar(searchBar: UISearchBar, textDidChange searchText: String) {
-      if (searchText == "") {
+      if (searchText == "") {         
          if (self.activeSearchBar == startingSearchBar) {
             startingVC.places = []
             startingTableView.hidden = true

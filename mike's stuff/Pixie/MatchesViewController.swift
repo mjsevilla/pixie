@@ -126,7 +126,7 @@ class MatchesViewController: UIViewController, UICollectionViewDelegateFlowLayou
    }
    
    func loadPostsFromAPI() {
-      var urlString = "http://ec2-54-69-253-12.us-west-2.compute.amazonaws.com/pixie/posts?startLat=\(startLat)&startLon=\(startLon)&endLat=\(endLat)&endLon=\(endLon)&day=\(searchDate)&time=\(searchTime)&driverEnum=RIDER"
+      var urlString = "http://ec2-54-69-253-12.us-west-2.compute.amazonaws.com/pixie/posts?startLat=\(startLat)&startLon=\(startLon)&endLat=\(endLat)&endLon=\(endLon)&day=\(searchDate)&time=\(searchTime)&driverEnum=DRIVER"
       let url = NSURL(string: urlString)
       var request = NSURLRequest(URL: url!)
       var response: NSURLResponse?
@@ -184,7 +184,7 @@ class MatchesViewController: UIViewController, UICollectionViewDelegateFlowLayou
             self.matches.append(Match(author: currUser, post: p))
          } else {
             var user = User()
-            var urlString = "http://ec2-54-69-253-12.us-west-2.compute.amazonaws.com/pixie/users/\(p.userId)"
+            var urlString = "http://ec2-54-69-253-12.us-west-2.compute.amazonaws.com/pixie/users/\(124)"
             let url = NSURL(string: urlString)
             var request = NSURLRequest(URL: url!)
             var response: NSURLResponse?

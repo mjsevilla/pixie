@@ -100,16 +100,21 @@ class MyProfileViewController: UIViewController {
 			self.defaults.setObject(UIImagePNGRepresentation(blurredImage), forKey: "PixieUserBlurredProfPic")
 			self.defaults.setObject(0, forKey: "PicChange")
 		}
+      
+      var gaussianFilter = GPUImageGaussianBlurFilter()
+      gaussianFilter.blurRadiusInPixels = 8
+      gaussianFilter.blurPasses = 2
 			
 		var imageData = self.defaults.dataForKey("PixieUserBlurredProfPic")
-		var blurredImage = UIImage(data: imageData!)
+//		var blurredImage = UIImage(data: imageData!)
+      var blurredImage = gaussianFilter.imageByFilteringImage(UIImage(named: "sloth.jpg")!)
 			
 		self.profilePicBlurred.image = blurredImage
 		self.profilePicBlurred.setTranslatesAutoresizingMaskIntoConstraints(false)
 		self.blurView = UIVisualEffectView(effect: UIBlurEffect(style: .ExtraLight))
 		self.blurView.setTranslatesAutoresizingMaskIntoConstraints(false)
 			
-		self.profilePic.image = UIImage(data: self.defaults.dataForKey("PixieUserProfPic")!)
+		self.profilePic.image = UIImage(named: "sloth.jpg")!// UIImage(data: self.defaults.dataForKey("PixieUserProfPic")!)
 		self.profilePic.setTranslatesAutoresizingMaskIntoConstraints(false)
 		
 		let first = defaults.stringForKey("PixieUserFirstName")!
@@ -132,11 +137,11 @@ class MyProfileViewController: UIViewController {
         let metrics = ["blurHeight":self.view.frame.width, "profPicSize":self.view.frame.width*(3.0/5.0)]
         
         self.view.addConstraints(NSLayoutConstraint.constraintsWithVisualFormat("V:|-64-[profilePicBlurred(blurHeight)]-10-[bioLabel]", options: NSLayoutFormatOptions(0), metrics: metrics, views: viewsDict))
-        self.view.addConstraints(NSLayoutConstraint.constraintsWithVisualFormat("V:[profilePic(profPicSize)]-5-[nameLabel]", options: NSLayoutFormatOptions(0), metrics: metrics, views: viewsDict))
+        self.view.addConstraints(NSLayoutConstraint.constraintsWithVisualFormat("V:[profilePic(profPicSize)]-8-[nameLabel]", options: NSLayoutFormatOptions(0), metrics: metrics, views: viewsDict))
         
         self.view.addConstraints(NSLayoutConstraint.constraintsWithVisualFormat("H:|[profilePicBlurred]|", options: NSLayoutFormatOptions(0), metrics: nil, views: viewsDict))
         self.view.addConstraints(NSLayoutConstraint.constraintsWithVisualFormat("H:[profilePic(profPicSize)]", options: NSLayoutFormatOptions(0), metrics: metrics, views: viewsDict))
-        self.view.addConstraints(NSLayoutConstraint.constraintsWithVisualFormat("H:|-5-[bioLabel]-5-|", options: NSLayoutFormatOptions(0), metrics: nil, views: viewsDict))
+        self.view.addConstraints(NSLayoutConstraint.constraintsWithVisualFormat("H:|-16-[bioLabel]-16-|", options: NSLayoutFormatOptions(0), metrics: nil, views: viewsDict))
         
         self.view.addConstraint(NSLayoutConstraint(item: profilePic, attribute: .CenterX, relatedBy: .Equal, toItem: profilePicBlurred, attribute: .CenterX, multiplier: 1, constant: 0))
         self.view.addConstraint(NSLayoutConstraint(item: profilePic, attribute: .CenterY, relatedBy: .Equal, toItem: profilePicBlurred, attribute: .CenterY, multiplier: 1, constant: 0))

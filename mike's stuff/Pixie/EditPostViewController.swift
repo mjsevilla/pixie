@@ -26,6 +26,8 @@ class EditPostViewController: UIViewController, UITextFieldDelegate, UIPickerVie
    var endingLocTextField: UITextField!
    var searchBarsVisible = true
    var sameStartEnd = false
+   var selectedStart = false
+   var selectedEnd = false
    
    var dateButton: UIButton!
    var datePicker: UIPickerView!
@@ -199,7 +201,6 @@ class EditPostViewController: UIViewController, UITextFieldDelegate, UIPickerVie
       let metrics = ["tableHeight":38*5]
       
       self.view.addConstraints(NSLayoutConstraint.constraintsWithVisualFormat("V:|[blurEffectView]|", options: NSLayoutFormatOptions(0), metrics: nil, views: viewsDict))
-//      self.view.addConstraints(NSLayoutConstraint.constraintsWithVisualFormat("V:[seekOfferSegment(40)]-20-[startingSearchBar(30)]-10-[endingSearchBar(30)]-10-[dateButton]", options: .AlignAllCenterX, metrics: nil, views: viewsDict))
       self.view.addConstraints(NSLayoutConstraint.constraintsWithVisualFormat("V:[seekOfferSegment(40)]-100-[dateButton]", options: .AlignAllCenterX, metrics: nil, views: viewsDict))
       self.view.addConstraints(NSLayoutConstraint.constraintsWithVisualFormat("V:[startingSearchBar(30)]", options: .AlignAllCenterX, metrics: nil, views: viewsDict))
       self.view.addConstraints(NSLayoutConstraint.constraintsWithVisualFormat("V:[endingSearchBar(30)]", options: .AlignAllCenterX, metrics: nil, views: viewsDict))
@@ -238,38 +239,6 @@ class EditPostViewController: UIViewController, UITextFieldDelegate, UIPickerVie
       self.view.addConstraint(timeButtonConstraints["Top"]!)
       self.view.addConstraint(NSLayoutConstraint(item: timePicker, attribute: .Top, relatedBy: .Equal, toItem: timeButton, attribute: .Bottom, multiplier: 1, constant: 0))
       self.view.layoutIfNeeded()
-      
-      //      let viewsDict = ["blurEffectView":blurEffectView, "seekOfferSegment":seekOfferSegment, "startingSearchBar":startingSearchBar, "endingSearchBar":endingSearchBar, "dateButton":dateButton, "datePicker":datePicker, "timeButton":timeButton, "timePicker":timePicker, "cancelButton":cancelButton, "saveButton":saveButton]
-      //
-      //      self.view.addConstraints(NSLayoutConstraint.constraintsWithVisualFormat("V:|[blurEffectView]|", options: NSLayoutFormatOptions(0), metrics: nil, views: viewsDict))
-      //      self.view.addConstraints(NSLayoutConstraint.constraintsWithVisualFormat("V:[datePicker(162)]", options: NSLayoutFormatOptions(0), metrics: nil, views: viewsDict))
-      //      self.view.addConstraints(NSLayoutConstraint.constraintsWithVisualFormat("V:[timePicker(162)]", options: NSLayoutFormatOptions(0), metrics: nil, views: viewsDict))
-      //      self.view.addConstraints(NSLayoutConstraint.constraintsWithVisualFormat("V:|-70-[seekOfferSegment(40)]-[startingSearchBar(>=20,<=40)]-[endingSearchBar(==startingSearchBar)]-[dateButton]", options: NSLayoutFormatOptions.AlignAllCenterX | NSLayoutFormatOptions.AlignAllLeading | NSLayoutFormatOptions.AlignAllTrailing, metrics: nil, views: viewsDict))
-      //      //      self.view.addConstraints(NSLayoutConstraint.constraintsWithVisualFormat("V:|-70-[seekOfferSegment(40)]-[startingSearchBar(>=20,<= 40)]-10-[endingSearchBar(==startingSearchBar)]-[dateButton]-[timeButton]", options: NSLayoutFormatOptions.AlignAllCenterX | NSLayoutFormatOptions.AlignAllLeading | NSLayoutFormatOptions.AlignAllTrailing, metrics: nil, views: viewsDict))
-      //
-      //
-      //      self.view.addConstraints(NSLayoutConstraint.constraintsWithVisualFormat("V:[cancelButton(>=40,<=80)]|", options: NSLayoutFormatOptions(0), metrics: nil, views: viewsDict))
-      //      self.view.addConstraints(NSLayoutConstraint.constraintsWithVisualFormat("V:[saveButton(>=40,<=80)]|", options: NSLayoutFormatOptions(0), metrics: nil, views: viewsDict))
-      //      //
-      //      self.view.addConstraints(NSLayoutConstraint.constraintsWithVisualFormat("H:|[blurEffectView]|", options: NSLayoutFormatOptions(0), metrics: nil, views: viewsDict))
-      //      self.view.addConstraints(NSLayoutConstraint.constraintsWithVisualFormat("H:|-10-[seekOfferSegment]-10-|", options: NSLayoutFormatOptions(0), metrics: nil, views: viewsDict))
-      //      //      self.view.addConstraints(NSLayoutConstraint.constraintsWithVisualFormat("H:|-10-[startingSearchBar]-10-|", options: NSLayoutFormatOptions(0), metrics: nil, views: viewsDict))
-      //      //      self.view.addConstraints(NSLayoutConstraint.constraintsWithVisualFormat("H:|-10-[endingSearchBar]-10-|", options: NSLayoutFormatOptions(0), metrics: nil, views: viewsDict))
-      //      //      self.view.addConstraints(NSLayoutConstraint.constraintsWithVisualFormat("H:|-10-[dateButton]-10-|", options: NSLayoutFormatOptions(0), metrics: nil, views: viewsDict))
-      //      //      self.view.addConstraints(NSLayoutConstraint.constraintsWithVisualFormat("H:|[datePicker]|", options: NSLayoutFormatOptions(0), metrics: nil, views: viewsDict))
-      //      //      self.view.addConstraints(NSLayoutConstraint.constraintsWithVisualFormat("H:|-10-[timeButton]-10-|", options: NSLayoutFormatOptions(0), metrics: nil, views: viewsDict))
-      //      //      self.view.addConstraints(NSLayoutConstraint.constraintsWithVisualFormat("H:|[timePicker]|", options: NSLayoutFormatOptions(0), metrics: nil, views: viewsDict))
-      //      self.view.addConstraints(NSLayoutConstraint.constraintsWithVisualFormat("H:|[cancelButton]-0-[saveButton(==cancelButton)]|", options: NSLayoutFormatOptions(0), metrics: nil, views: viewsDict))
-      //      //
-      //      //      self.view.layoutIfNeeded()
-      //      //
-      //      //      timeButtonConstraints["Top"] = NSLayoutConstraint(item: timeButton, attribute: .Top, relatedBy: .Equal, toItem: dateButton, attribute: .Bottom, multiplier: 1, constant: 0)
-      //      //      timeButtonConstraints["TopExpanded"] = NSLayoutConstraint(item: timeButton, attribute: .Top, relatedBy: .Equal, toItem: dateButton, attribute: .Bottom, multiplier: 1, constant: datePicker.frame.height)
-      //      //
-      //      self.view.addConstraint(NSLayoutConstraint(item: dateButton, attribute: .CenterY, relatedBy: .Equal, toItem: self.view, attribute: .CenterY, multiplier: 1, constant: /*hasSmallHeight! ? -dateButton.frame.height*0.75 :*/ 0))
-      //      //      self.view.addConstraint(NSLayoutConstraint(item: datePicker, attribute: .Top, relatedBy: .Equal, toItem: dateButton, attribute: .Bottom, multiplier: 1, constant: 0))
-      //      //      self.view.addConstraint(timeButtonConstraints["Top"]!)
-      //      //      self.view.addConstraint(NSLayoutConstraint(item: timePicker, attribute: .Top, relatedBy: .Equal, toItem: timeButton, attribute: .Bottom, multiplier: 1, constant: 0))
    }
    
    func setValues() {
@@ -565,13 +534,16 @@ class EditPostViewController: UIViewController, UITextFieldDelegate, UIPickerVie
          sameStartEnd = true
          ret = false
       }
+      if !(selectedStart && selectedEnd) {
+         if !selectedStart { startingSearchBar.layer.borderColor = UIColor.redColor().CGColor }
+         if !selectedEnd { endingSearchBar.layer.borderColor = UIColor.redColor().CGColor }
+         ret = false
+      }
       
       return ret
    }
    
    func save(sender: UIButton) {
-      //      currentPost.toString()
-      
       if !okToSave() {
          return
       }
@@ -708,8 +680,10 @@ class EditPostViewController: UIViewController, UITextFieldDelegate, UIPickerVie
          self.view.addConstraint(isStarting ? self.startingSearchBarConstraints["Top"]! : self.endingSearchBarConstraints["Top"]!)
          self.seekOfferSegment.alpha = 1
          if isStarting {
+            self.selectedStart = true
             self.endingSearchBar.alpha = 1
          } else {
+            self.selectedEnd = true
             self.startingSearchBar.alpha = 1
          }
          self.dateButton.alpha = 1
@@ -750,6 +724,8 @@ class EditPostViewController: UIViewController, UITextFieldDelegate, UIPickerVie
       if !searchBarsVisible {
          let isStarting = activeSearchBar == startingSearchBar
          self.view.removeConstraint(isStarting ? self.startingSearchBarConstraints["Search"]! : self.endingSearchBarConstraints["Search"]!)
+         if isStarting { self.startingTableView.hidden = true }
+         else { self.endingTableView.hidden = true }
          
          UIView.animateWithDuration(0.25, animations: {
             self.view.addConstraint(isStarting ? self.startingSearchBarConstraints["Top"]! : self.endingSearchBarConstraints["Top"]!)
