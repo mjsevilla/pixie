@@ -81,14 +81,6 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     
     func applicationDidBecomeActive(application: UIApplication) {
         // Restart any tasks that were paused (or not yet started) while the application was inactive. If the application was previously in the background, optionally refresh the user interface.
-//        let rootVC = self.window?.rootViewController as! UINavigationController
-//        
-//        if let initVC = rootVC.topViewController as? InitialViewController {
-//            initVC.moviePlayer?.play()
-//        }
-//        if let searchVC = rootVC.topViewController as? SearchViewController {
-//            searchVC.moviePlayer?.play()
-//        }
         if let initVC = window?.rootViewController as? InitialViewController {
             println("a")
             initVC.moviePlayer?.play()
@@ -119,19 +111,39 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     }
     
     func application(application: UIApplication, didReceiveRemoteNotification userInfo: [NSObject : AnyObject]) {
-        PFPush.handlePush(userInfo)
         if application.applicationState == UIApplicationState.Inactive {
             PFAnalytics.trackAppOpenedWithRemoteNotificationPayload(userInfo)
         }
-        println(userInfo)
-        if var topController = UIApplication.sharedApplication().keyWindow?.rootViewController {
-            while let presentedViewController = topController.presentedViewController {
-                topController = presentedViewController
-//                println(topController.presentingViewController)
-            }
-            
-            // topController should now be your topmost view controller
+        let vc = UIApplication.topViewController(base: window?.rootViewController)
+        if vc!.isKindOfClass(MessagesViewContoller) {
+            let msgVC = vc as! MessagesViewContoller
+            msgVC.unreadConvoId = userInfo["convoId"] as? String
+            println(msgVC.unreadConvoId)
+            msgVC.callLoadConversations()
+        }
+        else if vc!.isKindOfClass(ConversationViewController) {
+            let convoVC = vc as! ConversationViewController
+            convoVC.callLoadMessages()
+        }
+        else {
+            PFPush.handlePush(userInfo)
         }
     }
-    
+}
+
+extension UIApplication {
+    class func topViewController(base: UIViewController? = UIApplication.sharedApplication().keyWindow?.rootViewController) -> UIViewController? {
+        if let nav = base as? UINavigationController {
+            return topViewController(base: nav.visibleViewController)
+        }
+        if let tab = base as? UITabBarController {
+            if let selected = tab.selectedViewController {
+                return topViewController(base: selected)
+            }
+        }
+        if let presented = base?.presentedViewController {
+            return topViewController(base: presented)
+        }
+        return base
+    }
 }

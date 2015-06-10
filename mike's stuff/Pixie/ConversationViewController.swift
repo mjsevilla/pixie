@@ -20,7 +20,6 @@ class ConversationViewController: JSQMessagesViewController {
     var bubbleImageOutgoing: JSQMessagesBubbleImage!
     var bubbleImageIncoming: JSQMessagesBubbleImage!
     let spinner = UIActivityIndicatorView(activityIndicatorStyle: .Gray)
-    var timer: NSTimer?
     
     override func viewWillAppear(animated: Bool) {
         super.viewWillAppear(animated)
@@ -75,7 +74,6 @@ class ConversationViewController: JSQMessagesViewController {
     override func viewDidAppear(animated: Bool) {
         super.viewDidAppear(animated)
         self.collectionView.collectionViewLayout.springinessEnabled = true
-        self.timer = NSTimer.scheduledTimerWithTimeInterval(5.0, target: self, selector: Selector("callLoadMessages"), userInfo: nil, repeats: true)
     }
     
     // load previous messages of a convo
@@ -188,9 +186,10 @@ class ConversationViewController: JSQMessagesViewController {
         let pushNot = PFPush()
         pushNot.setQuery(pushQuery)
         pushNot.setData([
-            "sound" : "alert.caf",
-            "alert" : "\(senderDisplayName) sent you a message",
-            "badge" : "Increment"
+            "sound"   : "alert.caf",
+            "alert"   : "\(senderDisplayName) sent you a message",
+            "badge"   : "Increment",
+            "convoId" : convoId!
             ])
         pushNot.sendPushInBackgroundWithBlock({ (succeeded, e) -> Void in
             if succeeded {

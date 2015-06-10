@@ -14,7 +14,7 @@ class MessagesViewContoller: UITableViewController {
     let user = PFUser.currentUser()!
     let currentInstallation = PFInstallation.currentInstallation()
     var convos: [PFObject]?
-    var timer: NSTimer?
+    var unreadConvoId: String?
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -166,13 +166,8 @@ class MessagesViewContoller: UITableViewController {
         return time
     }
     
-    override func viewDidAppear(animated: Bool) {
-        super.viewDidAppear(animated)
-        self.timer = NSTimer.scheduledTimerWithTimeInterval(5.0, target: self, selector: Selector("callLoadConversations"), userInfo: nil, repeats: true)
-    }
     func callLoadConversations() {
-        print("callLoadMessages")
-        loadConversations()
+        self.loadConversations()
     }
 
 }
