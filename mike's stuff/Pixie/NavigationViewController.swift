@@ -121,8 +121,6 @@ class NavigationViewController: UIViewController, UITableViewDelegate, UITableVi
                 self.performSegueWithIdentifier("presentAbout", sender: self)
             }
         case 5:
-            self.performSegueWithIdentifier("unwindInitial", sender: self)
-            self.dismissViewControllerAnimated(true, completion: nil)
             //            if (defaults.stringForKey("PixieUserFirstName") == true) {
             //               println("closing fb session")
             //               FBSession.activeSession().closeAndClearTokenInformation()
@@ -142,6 +140,8 @@ class NavigationViewController: UIViewController, UITableViewDelegate, UITableVi
 			Keychain.set(false, forKey: "loggedIn")
             PFUser.logOutInBackground()
             FBSession.activeSession().closeAndClearTokenInformation()
+            self.performSegueWithIdentifier("unwindInitial", sender: self)
+            self.dismissViewControllerAnimated(true, completion: nil)
         default:
             println("uhhh...hai <(._.<)")
         }
