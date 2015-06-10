@@ -82,11 +82,9 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     func applicationDidBecomeActive(application: UIApplication) {
         // Restart any tasks that were paused (or not yet started) while the application was inactive. If the application was previously in the background, optionally refresh the user interface.
         if let initVC = window?.rootViewController as? InitialViewController {
-            println("a")
             initVC.moviePlayer?.play()
         }
         if let searchVC = window?.rootViewController?.presentedViewController as? SearchViewController {
-            println("b")
             searchVC.moviePlayer?.play()
         }
     }
@@ -115,18 +113,23 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
             PFAnalytics.trackAppOpenedWithRemoteNotificationPayload(userInfo)
         }
         let vc = UIApplication.topViewController(base: window?.rootViewController)
+        
+        // update Messages View
         if vc!.isKindOfClass(MessagesViewContoller) {
             let msgVC = vc as! MessagesViewContoller
-            msgVC.unreadConvoId = userInfo["convoId"] as? String
-            println(msgVC.unreadConvoId)
+            JSQSystemSoundPlayer.jsq_playMessageReceivedAlert()
             msgVC.callLoadConversations()
         }
+        // update Conversation View
         else if vc!.isKindOfClass(ConversationViewController) {
             let convoVC = vc as! ConversationViewController
+            JSQSystemSoundPlayer.jsq_playMessageReceivedSound()
             convoVC.callLoadMessages()
         }
+        // pop up alert on any other screen
         else {
             PFPush.handlePush(userInfo)
+            JSQSystemSoundPlayer.jsq_playMessageReceivedAlert()
         }
     }
 }
