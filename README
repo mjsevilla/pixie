@@ -31,5 +31,6 @@ There are several features of the matches feature that you should be aware of. T
 
 Important To Note
 - Right now, once you register a user in the app through Facebook, clicking "Register" will automatically login through that Facebook if you sign out. To log in with a different Facebook User, click "Reset Content and Settings" in IoS Simulator Menu.
+- If you run the application on your computer, the location services will automatically infer that your start location is the Apple Headquarters in Cupertino
 
 
