@@ -121,30 +121,30 @@ class NavigationViewController: UIViewController, UITableViewDelegate, UITableVi
                 self.performSegueWithIdentifier("presentAbout", sender: self)
             }
         case 5:
-            //            if (defaults.stringForKey("PixieUserFirstName") == true) {
-            //               println("closing fb session")
-            //               FBSession.activeSession().closeAndClearTokenInformation()
-            //            }
-            NSUserDefaults.standardUserDefaults().removeObjectForKey("PixieUserId")
-            NSUserDefaults.standardUserDefaults().removeObjectForKey("PixieUserFirstName")
-            NSUserDefaults.standardUserDefaults().removeObjectForKey("PixieUserLastName")
-            NSUserDefaults.standardUserDefaults().removeObjectForKey("PixieUserEmail")
-            NSUserDefaults.standardUserDefaults().removeObjectForKey("PixieUserPassword")
-            NSUserDefaults.standardUserDefaults().removeObjectForKey("PixieUserAge")
-            NSUserDefaults.standardUserDefaults().removeObjectForKey("PixieUserBio")
-            NSUserDefaults.standardUserDefaults().removeObjectForKey("PixieUserHasFB")
-			NSUserDefaults.standardUserDefaults().removeObjectForKey("PixieUserProfPic")
-			NSUserDefaults.standardUserDefaults().removeObjectForKey("PixieUserBlurredProfPic")
-			NSUserDefaults.standardUserDefaults().removeObjectForKey("PicChange")
-			
-			Keychain.set(false, forKey: "loggedIn")
-            PFUser.logOutInBackground()
-            FBSession.activeSession().closeAndClearTokenInformation()
             self.performSegueWithIdentifier("unwindInitial", sender: self)
             self.dismissViewControllerAnimated(true, completion: nil)
+            self.houseKeepingLogout()
         default:
             println("uhhh...hai <(._.<)")
         }
+    }
+    
+    func houseKeepingLogout() {
+        NSUserDefaults.standardUserDefaults().removeObjectForKey("PixieUserId")
+        NSUserDefaults.standardUserDefaults().removeObjectForKey("PixieUserFirstName")
+        NSUserDefaults.standardUserDefaults().removeObjectForKey("PixieUserLastName")
+        NSUserDefaults.standardUserDefaults().removeObjectForKey("PixieUserEmail")
+        NSUserDefaults.standardUserDefaults().removeObjectForKey("PixieUserPassword")
+        NSUserDefaults.standardUserDefaults().removeObjectForKey("PixieUserAge")
+        NSUserDefaults.standardUserDefaults().removeObjectForKey("PixieUserBio")
+        NSUserDefaults.standardUserDefaults().removeObjectForKey("PixieUserHasFB")
+        NSUserDefaults.standardUserDefaults().removeObjectForKey("PixieUserProfPic")
+        NSUserDefaults.standardUserDefaults().removeObjectForKey("PixieUserBlurredProfPic")
+        NSUserDefaults.standardUserDefaults().removeObjectForKey("PicChange")
+        
+        Keychain.set(false, forKey: "loggedIn")
+        PFUser.logOutInBackground()
+        FBSession.activeSession().closeAndClearTokenInformation()
     }
     
     override func preferredStatusBarStyle() -> UIStatusBarStyle {
