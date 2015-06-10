@@ -44,11 +44,7 @@ class MatchesViewController: UIViewController, UICollectionViewDelegateFlowLayou
    override func loadView() {
       super.loadView()
       view.backgroundColor = self.uicolorFromHex(0xFAFAFA)
-      
-      // Do any additional setup after loading the view, typically from a nib.
       var layout: UICollectionViewFlowLayout = UICollectionViewFlowLayout()
-      // view.frame.width/7.0*6.0 = width & height of picture
-      // 114 = height of text area below picture
       itemSize = CGSize(width: view.frame.width/7.0*6.0, height: view.frame.width/7.0*6.0+114.0)
       layout.itemSize = itemSize
       layout.scrollDirection = UICollectionViewScrollDirection.Horizontal
@@ -58,7 +54,6 @@ class MatchesViewController: UIViewController, UICollectionViewDelegateFlowLayou
       layout.sectionInset = viewInsets
       
       topMargin = (view.frame.height - itemSize.height - 64.0)/2.0
-      //      println("topMargin: \(topMargin)")
       
       collectionView = UICollectionView(frame: CGRectZero, collectionViewLayout: layout)
       collectionView.dataSource = self
@@ -128,12 +123,10 @@ class MatchesViewController: UIViewController, UICollectionViewDelegateFlowLayou
             fullName += " \(savedLastName)"
          }
       }
-      //      println("MatchesViewController found userId: \(userId), name: \(fullName)")
    }
    
    func loadPostsFromAPI() {
       var urlString = "http://ec2-54-69-253-12.us-west-2.compute.amazonaws.com/pixie/posts?startLat=\(startLat)&startLon=\(startLon)&endLat=\(endLat)&endLon=\(endLon)&day=\(searchDate)&time=\(searchTime)&driverEnum=RIDER"
-      //      println("urlString: \(urlString)")
       let url = NSURL(string: urlString)
       var request = NSURLRequest(URL: url!)
       var response: NSURLResponse?
@@ -301,22 +294,7 @@ class MatchesViewController: UIViewController, UICollectionViewDelegateFlowLayou
          self.performSegueWithIdentifier("unwindToSearchView", sender: self)
       }
    }
-   
-   /*
-   *
-   * <---------------------------------------------------------------- MIKE THIS IS FO U FO MESSAGING !!!!!!!!!!
-   *
-   * You might be wondering....
-   *
-   * Q; "Where da fuq is ma current user id and name stored at????"
-   * A: - in "userId"-> a global variable; initialized in viewDidLoad() starting at line 102
-   *    - in "fullName" -> a global variable; initialized in viewDidLoad() starting at line 98/100
-   *
-   * Q: "Where da fuq is ma user name and id for da user I vant to message????"
-   * A: - in "currentMatch.author.name" and "currentMatch.author.userId"-> also a global variable;
-   *      initialized at line 218 which loads the view for the current cell in view
-   *
-   */
+
    func sendMessage(sender: SenderButton!) {
       var newConvo = PFObject(className: "Conversation")
       
